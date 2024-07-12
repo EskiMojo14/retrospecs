@@ -1,0 +1,95 @@
+@use "sass:list";
+@use "sass:map";
+
+@import "normalize.css";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
+@font-face {
+  font-family: "Super Dream";
+  font-display: swap;
+  src: local("Super Dream"),
+    url("./assets/fonts/Super\ Dream.ttf") format("truetype");
+}
+
+@mixin gradient($name, $stops) {
+  :root {
+    $shadow: "";
+    @each $stop in $stops {
+      $index: list.index($stops, $stop);
+      --#{$name}#{$index}: #{$stop};
+      $shadow: #{$shadow},
+        0 0 0 calc(var(--border-width) * #{$index}) var(--#{$name}#{$index});
+    }
+    --#{$name}-shadow: #{$shadow};
+  }
+  .#{$name}-border {
+    box-shadow: var(--#{$name}-shadow);
+    border-radius: 2px;
+    margin: calc(var(--border-width) * list.length($stops));
+    padding: 8px;
+  }
+}
+
+:root {
+  --border-width: 0.25rem;
+
+  --beige: #e9d8a6;
+  --brown: #5a3d2b;
+}
+
+$gradients: (
+  "green": (
+    #1d5434,
+    #38663f,
+    #9cb45c,
+    #ccd5aa,
+  ),
+  "blue": (
+    #001219,
+    #005f73,
+    #0a9396,
+    #94d2bd,
+  ),
+  "orange": (
+    #9b2226,
+    #ae2012,
+    #bb3e03,
+    #ca6702,
+    #ee9b00,
+  ),
+);
+
+@each $name, $stops in $gradients {
+  @include gradient($name, $stops);
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  background-color: var(--beige);
+  color: var(--brown);
+  font-weight: 500;
+}
+
+h1 {
+  font-family: "Super Dream", sans-serif;
+}
+
+.header {
+  background-color: var(--brown);
+  color: var(--beige);
+  box-shadow: var(--orange-shadow);
+  padding: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  img {
+    height: 192px * 0.25;
+    width: auto;
+  }
+  h1 {
+    margin: 0;
+  }
+  margin-bottom: calc(
+    var(--border-width) * list.length(map.get($gradients, "orange"))
+  );
+}
