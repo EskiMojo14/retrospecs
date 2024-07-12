@@ -1,5 +1,6 @@
 @use "sass:list";
 @use "sass:map";
+@use "sass:math";
 
 @import "normalize.css";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
@@ -12,28 +13,45 @@
 }
 
 @mixin gradient($name, $stops) {
+  $length: list.length($stops);
   :root {
-    $shadow: "";
+    --#{$name}-length: #{$length};
     @each $stop in $stops {
       $index: list.index($stops, $stop);
       --#{$name}#{$index}: #{$stop};
+    }
+    --#{$name}-dark: var(--#{$name}1);
+    --#{$name}-light: var(--#{$name}#{$length});
+    $shadow: "";
+    $start: math.max(1, $length - 3);
+    @for $i from 0 to 4 {
       $shadow: #{$shadow},
-        0 0 0 calc(var(--border-width) * #{$index}) var(--#{$name}#{$index});
+        0
+          0
+          0
+          calc(var(--border-width) * #{$i + 1})
+          var(--#{$name}#{$i + $start});
     }
     --#{$name}-shadow: #{$shadow};
+    @if $length > 4 {
+      $full-shadow: "";
+      @for $i from 1 through $length {
+        $full-shadow: #{$full-shadow},
+          0 0 0 calc(var(--border-width) * #{$i}) var(--#{$name}#{$i});
+      }
+      --full-#{$name}-shadow: #{$full-shadow};
+    }
   }
-  .#{$name}-border {
+  .#{$name}-card {
     box-shadow: var(--#{$name}-shadow);
-    border-radius: 2px;
-    margin: calc(var(--border-width) * list.length($stops));
-    padding: 8px;
+    background-color: var(--#{$name}-light);
+    color: var(--#{$name}-dark);
   }
 }
 
 :root {
   --border-width: 0.25rem;
-
-  --beige: #e9d8a6;
+  --off-white: #e7e6df;
   --brown: #5a3d2b;
 }
 
@@ -46,6 +64,7 @@ $gradients: (
   ),
   "blue": (
     #001219,
+    #084055,
     #005f73,
     #0a9396,
     #94d2bd,
@@ -56,6 +75,14 @@ $gradients: (
     #bb3e03,
     #ca6702,
     #ee9b00,
+    #e9d8a6,
+  ),
+  "red": (
+    #422418,
+    #c44d2f,
+    #e58165,
+    #f0b49c,
+    #f6d4bb,
   ),
 );
 
@@ -65,19 +92,15 @@ $gradients: (
 
 body {
   font-family: "Raleway", sans-serif;
-  background-color: var(--beige);
+  background-color: var(--off-white);
   color: var(--brown);
   font-weight: 500;
 }
 
-h1 {
-  font-family: "Super Dream", sans-serif;
-}
-
 .header {
   background-color: var(--brown);
-  color: var(--beige);
-  box-shadow: var(--orange-shadow);
+  color: var(--off-white);
+  box-shadow: var(--full-orange-shadow);
   padding: 0.5rem;
   display: flex;
   gap: 1rem;
@@ -85,11 +108,23 @@ h1 {
   img {
     height: 192px * 0.25;
     width: auto;
+    image-rendering: high-quality;
   }
   h1 {
     margin: 0;
+    font-family: "Super Dream", sans-serif;
+    font-weight: 400;
   }
-  margin-bottom: calc(
-    var(--border-width) * list.length(map.get($gradients, "orange"))
-  );
+  margin-bottom: calc(var(--border-width) * var(--orange-length));
+}
+
+.card-demo {
+  display: grid;
+  padding: 2rem;
+  gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  div {
+    border-radius: 4px;
+    padding: 1rem;
+  }
 }
