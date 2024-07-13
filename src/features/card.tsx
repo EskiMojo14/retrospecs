@@ -28,9 +28,7 @@ export function Card({
           onChange={onCheck}
         >
           <span className={styles.bg} aria-hidden />
-          <span className={styles.content}>
-            <span className={styles.title}>{children}</span>
-          </span>
+          <span className={styles.content}>{children}</span>
         </Checkbox>
       ) : (
         <div className={clsx(styles.section, styles.text)}>

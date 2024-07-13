@@ -9,7 +9,6 @@ $hover-time: 200ms;
   display: flex;
   background-color: var(--darkest);
   color: var(--text);
-  text-align: center;
   font-weight: 600;
   position: relative;
   border-radius: 12px;
@@ -30,8 +29,6 @@ $hover-time: 200ms;
     border-radius: 12px;
     transition: background-color $hover-time, color $hover-time;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     &::before {
       content: "";
       position: absolute;
@@ -45,13 +42,12 @@ $hover-time: 200ms;
     }
     .content {
       position: relative;
-      display: flex;
       gap: 8px;
-      align-items: center;
+      display: flex;
     }
   }
   .text {
-    padding: 16px 32px;
+    padding: 16px 24px;
     flex-grow: 1;
     &.checkbox {
       cursor: pointer;
@@ -77,5 +73,8 @@ $hover-time: 200ms;
     padding: 4px 20px;
     flex-wrap: wrap;
     flex-shrink: 1;
+    .content {
+      align-items: center;
+    }
   }
 }
