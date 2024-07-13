@@ -29,22 +29,13 @@ export function FeedbackCard({
           isReadOnly={!onCheck}
           onChange={onCheck}
         >
-          <span className={styles.bg} aria-hidden />
-          <span className={styles.content}>{children}</span>
+          {children}
         </Card>
       ) : (
-        <Card className={clsx(styles.section, styles.text)}>
-          <span className={styles.bg} aria-hidden />
-          <span className={styles.content}>
-            <span className={styles.title}>{children}</span>
-          </span>
-        </Card>
+        <Card className={clsx(styles.section, styles.text)}>{children}</Card>
       )}
       {actions && (
-        <Card className={clsx(styles.section, styles.actions)}>
-          <span className={styles.bg} aria-hidden />
-          <span className={styles.content}>{actions}</span>
-        </Card>
+        <Card className={clsx(styles.section, styles.actions)}>{actions}</Card>
       )}
     </div>
   );

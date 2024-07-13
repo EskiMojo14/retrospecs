@@ -37,6 +37,7 @@ $hover-time: 200ms;
     flex-wrap: wrap;
     flex-shrink: 1;
     :global(.card__content) {
+      display: flex;
       align-items: center;
     }
     :global(.icon-button) {
