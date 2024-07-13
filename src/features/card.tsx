@@ -1,53 +1,49 @@
 import styles from "./card.module.scss";
 import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { IconButton } from "../components/icon-button";
 import { Checkbox } from "react-aria-components";
+import { ReactNode } from "react";
 
 interface CardProps {
-  message: string;
+  children: ReactNode;
+  actions?: ReactNode;
   checked?: boolean;
   onCheck?: (checked: boolean) => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  checkable?: boolean;
 }
 
 export function Card({
-  message,
+  children,
+  actions,
   checked,
   onCheck,
-  onEdit,
-  onDelete,
+  checkable = !!onCheck,
 }: CardProps) {
   return (
     <div className={styles.card}>
-      <Checkbox
-        className={clsx(styles.section, styles.text)}
-        isSelected={checked}
-        isReadOnly={!onCheck}
-        onChange={onCheck}
-      >
-        <span className={styles.bg} aria-hidden />
-        <span className={styles.content}>
-          <span className={styles.title}>{message}</span>
-        </span>
-      </Checkbox>
-      {(onEdit ?? onDelete) && (
-        <div className={clsx(styles.section, styles.actions)}>
+      {checkable ? (
+        <Checkbox
+          className={clsx(styles.section, styles.text, styles.checkbox)}
+          isSelected={checked}
+          isReadOnly={!onCheck}
+          onChange={onCheck}
+        >
           <span className={styles.bg} aria-hidden />
           <span className={styles.content}>
-            {onEdit && (
-              <IconButton onPress={onEdit} aria-label="Edit message">
-                <FontAwesomeIcon icon={faPen} />
-              </IconButton>
-            )}
-            {onDelete && (
-              <IconButton onPress={onDelete} aria-label="Delete feedback">
-                <FontAwesomeIcon icon={faTrash} />
-              </IconButton>
-            )}
+            <span className={styles.title}>{children}</span>
           </span>
+        </Checkbox>
+      ) : (
+        <div className={clsx(styles.section, styles.text)}>
+          <span className={styles.bg} aria-hidden />
+          <span className={styles.content}>
+            <span className={styles.title}>{children}</span>
+          </span>
+        </div>
+      )}
+      {actions && (
+        <div className={clsx(styles.section, styles.actions)}>
+          <span className={styles.bg} aria-hidden />
+          <span className={styles.content}>{actions}</span>
         </div>
       )}
     </div>

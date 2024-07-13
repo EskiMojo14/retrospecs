@@ -9,6 +9,9 @@ import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "../pretyped";
 import { Card } from "./card";
 import styles from "./category.module.scss";
+import { IconButton } from "../components/icon-button";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CategoryProps {
   category: Category;
@@ -42,7 +45,6 @@ export function CategoryCard({ category }: CategoryProps) {
       {feedback.map((f) => (
         <Card
           key={f.id}
-          message={f.comment}
           checked={f.addressed}
           onCheck={
             category === "carry"
@@ -50,9 +52,20 @@ export function CategoryCard({ category }: CategoryProps) {
               : (checked) =>
                   dispatch(feedbackAddressed({ id: f.id, addressed: checked }))
           }
-          onEdit={console.log}
-          onDelete={() => dispatch(feedbackRemoved(f.id))}
-        />
+          actions={
+            <>
+              <IconButton onPress={console.log}>
+                <FontAwesomeIcon icon={faPen} />
+              </IconButton>
+              <IconButton onPress={() => dispatch(feedbackRemoved(f.id))}>
+                <FontAwesomeIcon icon={faTrash} />
+              </IconButton>
+            </>
+          }
+          checkable={category !== "carry"}
+        >
+          {f.comment}
+        </Card>
       ))}
     </div>
   );

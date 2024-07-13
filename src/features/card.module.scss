@@ -51,24 +51,26 @@ $hover-time: 200ms;
     }
   }
   .text {
-    cursor: pointer;
-    color: var(--text);
     padding: 16px 32px;
-    border: none;
-    outline: none;
     flex-grow: 1;
-    &[data-hovered],
-    &[data-focused],
-    &[data-pressed] {
-      --darkest: #f61303;
-      --mid: #ff6002;
-      --lightest: #ff9801;
-    }
-    &[data-selected] {
-      text-decoration: line-through;
-    }
-    &[data-readonly] {
-      cursor: default;
+    &.checkbox {
+      cursor: pointer;
+      color: var(--text);
+      border: none;
+      outline: none;
+      &[data-hovered],
+      &[data-focused],
+      &[data-pressed] {
+        --darkest: #f61303;
+        --mid: #ff6002;
+        --lightest: #ff9801;
+      }
+      &[data-selected] {
+        text-decoration: line-through;
+      }
+      &[data-readonly] {
+        cursor: default;
+      }
     }
   }
   .actions {

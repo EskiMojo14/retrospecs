@@ -17,7 +17,7 @@ $color-map: (
   flex-direction: column;
   gap: 0.5rem;
   border-radius: 4px;
-  padding: 0.75rem;
+  padding: 0.5rem;
   @each $name, $color in $color-map {
     &.#{$name} {
       box-shadow: var(--#{$color}-shadow);
