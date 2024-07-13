@@ -26,7 +26,9 @@
     @include color-var(#{$name}#{$index}, $stop);
   }
   --#{$name}-dark: var(--#{$name}1);
+  --#{$name}-dark-rgb: var(--#{$name}1-rgb);
   --#{$name}-light: var(--#{$name}#{$length});
+  --#{$name}-light-rgb: var(--#{$name}#{$length}-rgb);
   $shadow: "";
   $start: math.max(1, $length - 3);
   @for $i from 0 to 4 {
@@ -78,6 +80,12 @@ $gradients: (
     #b17929,
     #fcc83f,
     #f4f7c6,
+  ),
+  "yellow-hover": (
+    #3d0501,
+    #f61303,
+    #ff6002,
+    #ff9801,
   ),
 );
 

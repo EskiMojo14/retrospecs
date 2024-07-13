@@ -5,31 +5,21 @@ $hover-time: 200ms;
   --darkest: var(--yellow2);
   --mid: var(--yellow3);
   --lightest: var(--yellow4);
-  --text: black;
+  --text: var(--yellow-dark);
 
   display: flex;
   background-color: var(--darkest);
-  color: var(--text);
   font-weight: 600;
   position: relative;
   border-radius: 12px;
   max-width: 480px;
-  .bg {
-    background-color: var(--lightest);
-    position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: 16px;
-    right: 16px;
-    border-radius: 16px;
-    transition: background-color $hover-time;
-  }
   .section {
     background-color: var(--darkest);
     position: relative;
     border-radius: 12px;
     transition: background-color $hover-time, color $hover-time;
     display: flex;
+    color: var(--text);
     &::before {
       content: "";
       position: absolute;
@@ -39,6 +29,16 @@ $hover-time: 200ms;
       left: 8px;
       right: 8px;
       border-radius: 14px;
+      transition: background-color $hover-time;
+    }
+    .bg {
+      background-color: var(--lightest);
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 16px;
+      right: 16px;
+      border-radius: 16px;
       transition: background-color $hover-time;
     }
     .content {
@@ -57,9 +57,10 @@ $hover-time: 200ms;
       &[data-hovered],
       &[data-focused],
       &[data-pressed] {
-        --darkest: #f61303;
-        --mid: #ff6002;
-        --lightest: #ff9801;
+        --darkest: var(--yellow-hover2);
+        --mid: var(--yellow-hover3);
+        --lightest: var(--yellow-hover4);
+        --text: var(--yellow-hover-dark);
       }
       &[data-selected] {
         text-decoration: line-through;
@@ -74,7 +75,7 @@ $hover-time: 200ms;
       align-items: center;
     }
     :global(.icon-button) {
-      @include icon-button.ink("yellow1");
+      @include icon-button.ink("yellow-dark");
     }
   }
 }
