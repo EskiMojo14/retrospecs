@@ -8,6 +8,12 @@ export function assert(
     throw new Error(message);
   }
 }
+
 export const bemHelper = BEMHelper.withDefaults({
   outputIsString: true,
 });
+
+export const safeAssign: <T extends object>(
+  target: T,
+  ...sources: Partial<T>[]
+) => T = Object.assign;

@@ -76,6 +76,24 @@ export type Database = {
           },
         ];
       };
+      orgs: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          name: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string;
+        };
+        Relationships: [];
+      };
       sprints: {
         Row: {
           created_at: string;
@@ -120,18 +138,29 @@ export type Database = {
           created_at: string;
           id: number;
           name: string;
+          org_id: number;
         };
         Insert: {
           created_at?: string;
           id?: number;
           name: string;
+          org_id: number;
         };
         Update: {
           created_at?: string;
           id?: number;
           name?: string;
+          org_id?: number;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "teams_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {

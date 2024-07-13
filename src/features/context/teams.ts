@@ -4,6 +4,7 @@ import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
 import { supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
+import { Org } from "./orgs";
 
 export type Team = Tables<"teams">;
 
@@ -21,11 +22,14 @@ export const teamsApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Team"] })
   .injectEndpoints({
     endpoints: (build) => ({
-      getTeams: build.query<EntityState<Team, Team["id"]>, void>({
-        queryFn: supabaseQuery(() => supabase.from("teams").select("*"), {
-          transformResponse: (teams) =>
-            teamAdapter.getInitialState(undefined, teams),
-        }),
+      getTeamsByOrg: build.query<EntityState<Team, Team["id"]>, Org["id"]>({
+        queryFn: supabaseQuery(
+          (orgId) => supabase.from("teams").select("*").eq("org_id", orgId),
+          {
+            transformResponse: (teams) =>
+              teamAdapter.getInitialState(undefined, teams),
+          },
+        ),
         providesTags: (result) =>
           result ? result.ids.map((id) => ({ type: "Team", id })) : [],
       }),
@@ -52,7 +56,7 @@ export const teamsApi = emptyApi
   });
 
 export const {
-  useGetTeamsQuery,
+  useGetTeamsByOrgQuery,
   useAddTeamMutation,
   useUpdateTeamMutation,
   useDeleteTeamMutation,

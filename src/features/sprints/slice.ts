@@ -4,7 +4,7 @@ import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
 import { supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
-import { Team } from "@/features/teams/slice";
+import { Team } from "@/features/context/teams";
 import { buildRealtimeHandler } from "@/db/realtime";
 
 export type Sprint = Tables<"sprints">;
