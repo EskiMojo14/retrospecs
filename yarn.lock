@@ -5245,6 +5245,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-bem-helper@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "react-bem-helper@npm:1.4.1"
+  dependencies:
+    object-assign: "npm:^4.1.1"
+  checksum: 10c0/149b0e8c8d41a89acb22ed928275cf91c38e03692a84400d77fc7e866f7e10312b9b6d650c360db2bea626a6e45721fac40f38e87d045872a028c57f0e04ce62
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
@@ -5449,6 +5458,7 @@ __metadata:
     prettier: "npm:^3.3.3"
     react: "npm:^18.3.1"
     react-aria-components: "npm:^1.2.1"
+    react-bem-helper: "npm:^1.4.1"
     react-dom: "npm:^18.3.1"
     react-redux: "npm:^9.1.2"
     sass: "npm:^1.77.8"

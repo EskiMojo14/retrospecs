@@ -1,13 +1,17 @@
 import { forwardRef, ReactNode } from "react";
 import { Button, ButtonProps } from "react-aria-components";
-import clsx from "clsx";
 import { Card } from "@/components/card";
 import "./floating-button.scss";
+import { bemHelper } from "@/util";
 
-interface FloatingButtonProps extends Omit<ButtonProps, "children"> {
+interface FloatingButtonProps
+  extends Omit<ButtonProps, "children" | "className"> {
   label?: ReactNode;
   children: ReactNode;
+  className?: string;
 }
+
+const cls = bemHelper("floating-button");
 
 export const FloatingButton = forwardRef<
   HTMLButtonElement,
@@ -19,14 +23,16 @@ export const FloatingButton = forwardRef<
       ref={ref}
       {...props}
       type="inverse"
-      className={clsx(
-        "floating-button",
-        label && "floating-button--extended",
+      className={cls(
+        undefined,
+        {
+          extended: !!label,
+        },
         className,
       )}
     >
       {children}
-      {label && <span className="floating-button__label">{label}</span>}
+      {label && <span className={cls("label")}>{label}</span>}
     </Card>
   );
 });

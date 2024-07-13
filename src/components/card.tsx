@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import { createGenericComponent } from "@/components/generic";
 import { ReactNode } from "react";
 import "./card.scss";
+import { bemHelper } from "@/util";
 
 type CardType =
   | "default"
@@ -22,6 +22,8 @@ interface CardPassedProps {
   children: ReactNode;
 }
 
+const cls = bemHelper("card");
+
 export const Card = createGenericComponent<"div", CardProps, CardPassedProps>(
   "div",
   ({ children, type = "default", as: As, className, ...props }, ref) => {
@@ -29,16 +31,16 @@ export const Card = createGenericComponent<"div", CardProps, CardPassedProps>(
       <As
         ref={ref}
         {...props}
-        className={clsx(
-          "card",
+        className={cls(
+          undefined,
           {
-            [`card--${type}`]: type !== "default",
+            [type]: type !== "default",
           },
           className,
         )}
       >
-        <span className="card__bg" aria-hidden />
-        <div className="card__content">{children}</div>
+        <span className={cls("bg")} aria-hidden />
+        <div className={cls("content")}>{children}</div>
       </As>
     );
   },
