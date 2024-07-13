@@ -21,7 +21,6 @@ const categoryTitles: Record<Category, string> = {
   good: "Good",
   improvement: "Needs improvement",
   neutral: "Neutral",
-  carry: "Carry forward",
 };
 
 export function Categories() {
@@ -46,11 +45,8 @@ export function CategoryCard({ category }: CategoryProps) {
         <FeedbackCard
           key={f.id}
           checked={f.addressed}
-          onCheck={
-            category === "carry"
-              ? undefined
-              : (checked) =>
-                  dispatch(feedbackAddressed({ id: f.id, addressed: checked }))
+          onCheck={(checked) =>
+            dispatch(feedbackAddressed({ id: f.id, addressed: checked }))
           }
           actions={
             <>
@@ -62,7 +58,6 @@ export function CategoryCard({ category }: CategoryProps) {
               </IconButton>
             </>
           }
-          checkable={category !== "carry"}
         >
           {f.comment}
         </FeedbackCard>

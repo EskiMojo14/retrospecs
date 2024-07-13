@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { createAppSlice } from "../../pretyped";
 
-export const categories = ["good", "improvement", "neutral", "carry"] as const;
+export const categories = ["good", "improvement", "neutral"] as const;
 
 export type Category = (typeof categories)[number];
 
@@ -43,13 +43,6 @@ const examples: Feedback[] = [
     comment: "Neutral comment",
     addressed: false,
   },
-  {
-    id: "5",
-    sprintId: "2",
-    category: "carry",
-    comment: "Carry forward",
-    addressed: false,
-  },
 ];
 
 const feedbackAdapter = createEntityAdapter<Feedback>();
@@ -58,20 +51,7 @@ const localSelectors = feedbackAdapter.getSelectors();
 
 export const feedbackSlice = createAppSlice({
   name: "feedback",
-  initialState: feedbackAdapter.getInitialState(
-    {
-      carried: feedbackAdapter.getInitialState(undefined, [
-        {
-          id: "6",
-          sprintId: "1",
-          category: "carry",
-          comment: "Carried forward",
-          addressed: false,
-        },
-      ]),
-    },
-    examples
-  ),
+  initialState: feedbackAdapter.getInitialState(undefined, examples),
   reducers: (create) => ({
     feedbackAdded: create.reducer(feedbackAdapter.addOne),
     feedbackRemoved: create.reducer(feedbackAdapter.removeOne),
@@ -91,7 +71,6 @@ export const feedbackSlice = createAppSlice({
       [localSelectors.selectAll, (_: unknown, category: Category) => category],
       (feedback, category) => feedback.filter((f) => f.category === category)
     ),
-    selectCarriedFeedback: (state) => localSelectors.selectAll(state.carried),
   },
 });
 
@@ -109,5 +88,4 @@ export const {
   selectEntities: selectFeedbackEntities,
   selectTotal: selectTotalFeedback,
   selectFeedbackByCategory,
-  selectCarriedFeedback,
 } = feedbackSlice.selectors;
