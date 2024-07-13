@@ -7,7 +7,7 @@ import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
 import { Team } from "@/features/teams/slice";
 
-type Sprint = Tables<"sprints">;
+export type Sprint = Tables<"sprints">;
 
 const sprintAdapter = createEntityAdapter<Sprint>();
 
