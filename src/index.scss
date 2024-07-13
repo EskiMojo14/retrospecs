@@ -1,6 +1,7 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
+@use "./util/theme";
 
 @import "normalize.css";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
@@ -12,48 +13,35 @@
     url("./assets/fonts/Super\ Dream.ttf") format("truetype");
 }
 
-@mixin gradient($name, $stops) {
-  $length: list.length($stops);
-  :root {
-    --#{$name}-length: #{$length};
-    @each $stop in $stops {
-      $index: list.index($stops, $stop);
-      --#{$name}#{$index}: #{$stop};
-    }
-    --#{$name}-dark: var(--#{$name}1);
-    --#{$name}-light: var(--#{$name}#{$length});
-    $shadow: "";
-    $start: math.max(1, $length - 3);
-    @for $i from 0 to 4 {
-      $shadow: #{$shadow},
-        0
-          0
-          0
-          calc(var(--border-width) * #{$i + 1})
-          var(--#{$name}#{$i + $start});
-    }
-    --#{$name}-shadow: #{$shadow};
-    @if $length > 4 {
-      $full-shadow: "";
-      @for $i from 1 through $length {
-        $full-shadow: #{$full-shadow},
-          0 0 0 calc(var(--border-width) * #{$i}) var(--#{$name}#{$i});
-      }
-      --full-#{$name}-shadow: #{$full-shadow};
-    }
-  }
-  .#{$name}-card {
-    box-shadow: var(--#{$name}-shadow);
-    background-color: var(--#{$name}-light);
-    color: var(--#{$name}-dark);
-  }
+@mixin color-var($name, $color) {
+  --#{$name}-rgb: #{theme.get-rgb($color)};
+  --#{$name}: rgb(var(--#{$name}-rgb));
 }
 
-:root {
-  --border-width: 0.25rem;
-  --off-white: #e7e6df;
-  --brown: #5a3d2b;
-  --focus-ring-color: var(--blue3);
+@mixin gradient($name, $stops) {
+  $length: list.length($stops);
+  --#{$name}-length: #{$length};
+  @each $stop in $stops {
+    $index: list.index($stops, $stop);
+    @include color-var(#{$name}#{$index}, $stop);
+  }
+  --#{$name}-dark: var(--#{$name}1);
+  --#{$name}-light: var(--#{$name}#{$length});
+  $shadow: "";
+  $start: math.max(1, $length - 3);
+  @for $i from 0 to 4 {
+    $shadow: #{$shadow},
+      0 0 0 calc(var(--border-width) * #{$i + 1}) var(--#{$name}#{$i + $start});
+  }
+  --#{$name}-shadow: #{$shadow};
+  @if $length > 4 {
+    $full-shadow: "";
+    @for $i from 1 through $length {
+      $full-shadow: #{$full-shadow},
+        0 0 0 calc(var(--border-width) * #{$i}) var(--#{$name}#{$i});
+    }
+    --full-#{$name}-shadow: #{$full-shadow};
+  }
 }
 
 $gradients: (
@@ -93,8 +81,14 @@ $gradients: (
   ),
 );
 
-@each $name, $stops in $gradients {
-  @include gradient($name, $stops);
+:root {
+  --border-width: 0.25rem;
+  @include color-var("off-white", #e7e6df);
+  @include color-var("brown", #5a3d2b);
+
+  @each $name, $stops in $gradients {
+    @include gradient($name, $stops);
+  }
 }
 
 body {
@@ -122,19 +116,5 @@ body {
     margin: 0;
     font-family: "Super Dream", sans-serif;
     font-weight: 400;
-  }
-}
-
-.card-demo {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 2rem;
-  gap: calc((var(--border-width) * 8) + 0.5rem);
-  justify-content: space-between;
-  > div {
-    border-radius: 4px;
-    padding: 1rem;
-    font-weight: 900;
-    flex-basis: 25%;
   }
 }

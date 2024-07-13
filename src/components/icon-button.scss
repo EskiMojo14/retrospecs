@@ -1,8 +1,30 @@
+@use "sass:map";
+@use "sass:meta";
+
+@mixin states($color, $state-opacities) {
+  @each $state, $opacity in $state-opacities {
+    --#{$state}-color: #{if(
+        meta.type-of($color) == "color",
+        #{rgba($color, $opacity)},
+        rgba(var(--#{$color}-rgb), #{$opacity})
+      )};
+  }
+}
+
+$default-state-opacities: (
+  hover: 0.1,
+  focus: 0.2,
+  pressed: 0.25,
+);
+
+@mixin ink($color, $state-opacities: ()) {
+  $state-opacities: map.merge($default-state-opacities, $state-opacities);
+  color: if(meta.type-of($color) == "color", $color, var(--#{$color}));
+  @include states($color, $state-opacities);
+}
+
 .icon-button {
-  color: var(--yellow1);
-  --hover-color: #{rgba(#24211c, 0.1)};
-  --focus-color: #{rgba(#24211c, 0.2)};
-  --pressed-color: #{rgba(#24211c, 0.25)};
+  @include ink(black);
   background: none;
   border: none;
   padding: 8px;

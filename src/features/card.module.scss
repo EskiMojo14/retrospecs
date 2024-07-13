@@ -1,4 +1,5 @@
 $hover-time: 200ms;
+@use "../components/icon-button.scss";
 
 .card {
   --darkest: var(--yellow2);
@@ -71,6 +72,9 @@ $hover-time: 200ms;
     flex-shrink: 1;
     .content {
       align-items: center;
+    }
+    :global(.icon-button) {
+      @include icon-button.ink("yellow1");
     }
   }
 }
