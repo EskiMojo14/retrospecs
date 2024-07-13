@@ -94,12 +94,18 @@ $gradients: (
 
 :root {
   --border-width: 0.25rem;
+  --header-height: 64px;
+  --header-margin: calc(var(--border-width) * var(--orange-length));
   @include color-var("off-white", #e7e6df);
   @include color-var("brown", #5a3d2b);
 
   @each $name, $stops in $gradients {
     @include gradient($name, $stops);
   }
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -117,7 +123,8 @@ body {
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin-bottom: calc(var(--border-width) * var(--orange-length));
+  margin-bottom: var(--header-margin);
+  height: var(--header-height);
   img {
     height: 192px * 0.25;
     width: auto;
