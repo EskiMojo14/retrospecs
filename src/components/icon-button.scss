@@ -1,6 +1,7 @@
 .icon-button {
   color: var(--yellow1);
   --hover-color: #{rgba(#24211c, 0.1)};
+  --focus-color: #{rgba(#24211c, 0.2)};
   --pressed-color: #{rgba(#24211c, 0.25)};
   background: none;
   border: none;
@@ -14,6 +15,10 @@
   align-items: center;
   &[data-hovered] {
     background: var(--hover-color);
+  }
+  &[data-focused] {
+    background: var(--focus-color);
+    outline: none;
   }
   &[data-pressed] {
     background: var(--pressed-color);
