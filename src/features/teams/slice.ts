@@ -1,3 +1,4 @@
+import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { supabase } from "../../db";
 import { Tables, TablesInsert, TablesUpdate } from "../../db/supabase";
 import { supabaseQuery } from "../../util/supabase-query";
@@ -6,14 +7,27 @@ import { emptyApi } from "../api";
 
 export type Team = Tables<"teams">;
 
+const teamAdapter = createEntityAdapter<Team>();
+
+export const {
+  selectAll: selectAllTeams,
+  selectById: selectTeamById,
+  selectIds: selectTeamIds,
+  selectEntities: selectTeamEntities,
+  selectTotal: selectTotalTeams,
+} = teamAdapter.getSelectors();
+
 export const teamsApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Team"] })
   .injectEndpoints({
     endpoints: (build) => ({
-      getTeams: build.query<Team[], void>({
-        queryFn: supabaseQuery(() => supabase.from("teams").select("*")),
+      getTeams: build.query<EntityState<Team, Team["id"]>, void>({
+        queryFn: supabaseQuery(() => supabase.from("teams").select("*"), {
+          transformResponse: (teams) =>
+            teamAdapter.getInitialState(undefined, teams),
+        }),
         providesTags: (result) =>
-          result ? result.map(({ id }) => ({ type: "Team", id })) : [],
+          result ? result.ids.map((id) => ({ type: "Team", id })) : [],
       }),
       addTeam: build.mutation<null, TablesInsert<"teams">>({
         queryFn: supabaseQuery((team) => supabase.from("teams").insert(team)),
