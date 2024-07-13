@@ -13,12 +13,7 @@ export const teamsApi = emptyApi
       getTeams: build.query<Team[], void>({
         queryFn: supabaseQuery(() => supabase.from("teams").select("*")),
         providesTags: (result) =>
-          result
-            ? [
-                ...result.map(({ id }) => ({ type: "Team" as const, id })),
-                { type: "Team", id: "LIST" },
-              ]
-            : [],
+          result ? result.map(({ id }) => ({ type: "Team", id })) : [],
       }),
       addTeam: build.mutation<null, TablesInsert<"teams">>({
         queryFn: supabaseQuery((team) => supabase.from("teams").insert(team)),
@@ -42,4 +37,9 @@ export const teamsApi = emptyApi
     }),
   });
 
-export const { useGetTeamsQuery } = teamsApi;
+export const {
+  useGetTeamsQuery,
+  useAddTeamMutation,
+  useUpdateTeamMutation,
+  useDeleteTeamMutation,
+} = teamsApi;

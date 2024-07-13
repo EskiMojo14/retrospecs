@@ -4,7 +4,7 @@ import {
   feedbackAddressed,
   feedbackRemoved,
   selectFeedbackByCategory,
-} from "./slice";
+} from "./slice-old";
 import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "../../pretyped";
 import { FeedbackCard } from "./card";
