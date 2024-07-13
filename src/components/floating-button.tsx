@@ -1,7 +1,7 @@
 import { forwardRef, ReactNode } from "react";
 import { Button, ButtonProps } from "react-aria-components";
 import clsx from "clsx";
-import { Card } from "./card";
+import { Card } from "@/components/card";
 import "./floating-button.scss";
 
 interface FloatingButtonProps extends Omit<ButtonProps, "children"> {
@@ -22,7 +22,7 @@ export const FloatingButton = forwardRef<
       className={clsx(
         "floating-button",
         label && "floating-button--extended",
-        className
+        className,
       )}
     >
       {children}

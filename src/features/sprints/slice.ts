@@ -1,11 +1,11 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
-import { supabase } from "../../db";
-import { Tables, TablesInsert, TablesUpdate } from "../../db/supabase";
-import { AppDispatch } from "../../store";
-import { supabaseQuery } from "../../util/supabase-query";
-import { PickRequired } from "../../util/types";
-import { emptyApi } from "../api";
-import { Team } from "../teams/slice";
+import { supabase } from "@/db";
+import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
+import { AppDispatch } from "@/store";
+import { supabaseQuery } from "@/util/supabase-query";
+import { PickRequired } from "@/util/types";
+import { emptyApi } from "@/features/api";
+import { Team } from "@/features/teams/slice";
 
 type Sprint = Tables<"sprints">;
 
@@ -33,7 +33,7 @@ export const sprintsApi = emptyApi
           {
             transformResponse: (sprints) =>
               sprintAdapter.getInitialState(undefined, sprints),
-          }
+          },
         ),
         providesTags: (result, _err, teamId) =>
           result
@@ -41,11 +41,11 @@ export const sprintsApi = emptyApi
                 ...result.ids.map((id) => ({ type: "Sprint" as const, id })),
                 { type: "Team" as const, id: teamId },
               ]
-            : [{ type: "Team", id: teamId }],
+            : [{ type: "Team" as const, id: teamId }],
       }),
       addSprint: build.mutation<null, TablesInsert<"sprints">>({
         queryFn: supabaseQuery((sprint) =>
-          supabase.from("sprints").insert(sprint)
+          supabase.from("sprints").insert(sprint),
         ),
         invalidatesTags: ["Sprint"],
       }),
@@ -54,13 +54,13 @@ export const sprintsApi = emptyApi
         PickRequired<TablesUpdate<"sprints">, "id">
       >({
         queryFn: supabaseQuery(({ id, ...sprint }) =>
-          supabase.from("sprints").update(sprint).eq("id", id)
+          supabase.from("sprints").update(sprint).eq("id", id),
         ),
         invalidatesTags: (_res, _err, { id }) => [{ type: "Sprint", id }],
       }),
       deleteSprint: build.mutation<null, Sprint["id"]>({
         queryFn: supabaseQuery((id) =>
-          supabase.from("sprints").delete().eq("id", id)
+          supabase.from("sprints").delete().eq("id", id),
         ),
         invalidatesTags: (_res, _err, id) => [{ type: "Sprint", id }],
       }),
@@ -89,8 +89,8 @@ export const setupSprintsRealtime = (dispatch: AppDispatch) =>
             sprintsApi.util.updateQueryData(
               "getSprintsForTeam",
               payload.new.team_id,
-              (data) => sprintAdapter.addOne(data, payload.new)
-            )
+              (data) => sprintAdapter.addOne(data, payload.new),
+            ),
           );
           break;
         case "UPDATE":
@@ -98,8 +98,8 @@ export const setupSprintsRealtime = (dispatch: AppDispatch) =>
             sprintsApi.util.updateQueryData(
               "getSprintsForTeam",
               payload.new.team_id,
-              (data) => sprintAdapter.setOne(data, payload.new)
-            )
+              (data) => sprintAdapter.setOne(data, payload.new),
+            ),
           );
           break;
         case "DELETE": {
@@ -111,11 +111,11 @@ export const setupSprintsRealtime = (dispatch: AppDispatch) =>
             sprintsApi.util.updateQueryData(
               "getSprintsForTeam",
               teamId,
-              (data) => sprintAdapter.removeOne(data, sprintId)
-            )
+              (data) => sprintAdapter.removeOne(data, sprintId),
+            ),
           );
           break;
         }
       }
-    }
+    },
   );

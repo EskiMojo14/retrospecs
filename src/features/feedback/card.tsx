@@ -2,7 +2,7 @@ import styles from "./card.module.scss";
 import clsx from "clsx";
 import { Checkbox } from "react-aria-components";
 import { ReactNode } from "react";
-import { Card } from "../../components/card";
+import { Card } from "@/components/card";
 
 interface FeedbackCardProps {
   children: ReactNode;

@@ -1,6 +1,6 @@
 import { ThunkAction, UnknownAction, configureStore } from "@reduxjs/toolkit";
-import { rootReducer } from "./reducers";
-import { emptyApi } from "./features/api";
+import { rootReducer } from "@/reducers";
+import { emptyApi } from "@/features/api";
 
 export const makeStore = () =>
   configureStore({

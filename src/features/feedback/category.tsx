@@ -6,10 +6,10 @@ import {
   selectFeedbackByCategory,
 } from "./slice-old";
 import clsx from "clsx";
-import { useAppDispatch, useAppSelector } from "../../pretyped";
+import { useAppDispatch, useAppSelector } from "@/pretyped";
 import { FeedbackCard } from "./card";
 import styles from "./category.module.scss";
-import { IconButton } from "../../components/icon-button";
+import { IconButton } from "@/components/icon-button";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -36,7 +36,7 @@ export function Categories() {
 export function CategoryCard({ category }: CategoryProps) {
   const dispatch = useAppDispatch();
   const feedback = useAppSelector((state) =>
-    selectFeedbackByCategory(state, category)
+    selectFeedbackByCategory(state, category),
   );
   return (
     <div className={clsx(styles.category, styles[category])}>

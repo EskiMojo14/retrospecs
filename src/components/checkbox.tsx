@@ -25,7 +25,7 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
         </>
       )}
     </AriaCheckbox>
-  )
+  ),
 );
 
 Checkbox.displayName = "Checkbox";

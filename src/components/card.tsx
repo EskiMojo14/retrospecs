@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { createGenericComponent } from "./generic";
+import { createGenericComponent } from "@/components/generic";
 import { ReactNode } from "react";
 import "./card.scss";
 
@@ -34,14 +34,14 @@ export const Card = createGenericComponent<"div", CardProps, CardPassedProps>(
           {
             [`card--${type}`]: type !== "default",
           },
-          className
+          className,
         )}
       >
         <span className="card__bg" aria-hidden />
         <div className="card__content">{children}</div>
       </As>
     );
-  }
+  },
 );
 
 Card.displayName = "Card";

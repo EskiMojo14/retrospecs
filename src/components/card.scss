@@ -23,7 +23,9 @@ $hover-time: 0.2s;
   color: var(--text);
   border-radius: 12px;
   padding: 4px 16px;
-  transition: background-color $hover-time, color $hover-time;
+  transition:
+    background-color $hover-time,
+    color $hover-time;
   &::before {
     content: "";
     position: absolute;

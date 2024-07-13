@@ -31,7 +31,10 @@ $default-state-opacities: (
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  transition: background 200ms, outline 200ms, outline-offset 200ms;
+  transition:
+    background 200ms,
+    outline 200ms,
+    outline-offset 200ms;
   display: flex;
   justify-content: center;
   align-items: center;

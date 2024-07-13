@@ -10,7 +10,7 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       className={clsx("icon-button", props.className)}
     />
-  )
+  ),
 );
 
 IconButton.displayName = "IconButton";

@@ -11,25 +11,25 @@ interface SupabaseQueryConfig<Intermediate, QueryArg, QueryReturn> {
   transformResponse?: (
     returnValue: Intermediate,
     meta: PostgrestMeta,
-    arg: QueryArg
+    arg: QueryArg,
   ) => QueryReturn | Promise<QueryReturn>;
 }
 
 export function supabaseQuery<
   Intermediate,
   QueryArg,
-  QueryReturn = Intermediate
+  QueryReturn = Intermediate,
 >(
   queryFn: (
     arg: QueryArg,
-    api: BaseQueryApi
+    api: BaseQueryApi,
   ) => PromiseLike<PostgrestSingleResponse<Intermediate>>,
   {
     transformResponse = (data) => data as never,
-  }: SupabaseQueryConfig<Intermediate, QueryArg, QueryReturn> = {}
+  }: SupabaseQueryConfig<Intermediate, QueryArg, QueryReturn> = {},
 ): (
   arg: QueryArg,
-  api: BaseQueryApi
+  api: BaseQueryApi,
 ) => Promise<
   | {
       data: NoInfer<QueryReturn>;

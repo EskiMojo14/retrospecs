@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
-import { createAppSlice } from "../../pretyped";
+import { createAppSlice } from "@/pretyped";
 
 export const categories = ["good", "improvement", "neutral"] as const;
 
@@ -62,14 +62,14 @@ export const feedbackSlice = createAppSlice({
         if (feedback) {
           feedback.addressed = action.payload.addressed;
         }
-      }
+      },
     ),
   }),
   selectors: {
     ...localSelectors,
     selectFeedbackByCategory: createSelector(
       [localSelectors.selectAll, (_: unknown, category: Category) => category],
-      (feedback, category) => feedback.filter((f) => f.category === category)
+      (feedback, category) => feedback.filter((f) => f.category === category),
     ),
   },
 });

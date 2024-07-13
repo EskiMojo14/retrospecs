@@ -9,7 +9,8 @@
 @font-face {
   font-family: "Super Dream";
   font-display: swap;
-  src: local("Super Dream"),
+  src:
+    local("Super Dream"),
     url("./assets/fonts/Super\ Dream.ttf") format("truetype");
 }
 
@@ -32,14 +33,16 @@
   $shadow: "";
   $start: math.max(1, $length - 3);
   @for $i from 0 to 4 {
-    $shadow: #{$shadow},
+    $shadow:
+      #{$shadow},
       0 0 0 calc(var(--border-width) * #{$i + 1}) var(--#{$name}#{$i + $start});
   }
   --#{$name}-shadow: #{$shadow};
   @if $length > 4 {
     $full-shadow: "";
     @for $i from 1 through $length {
-      $full-shadow: #{$full-shadow},
+      $full-shadow:
+        #{$full-shadow},
         0 0 0 calc(var(--border-width) * #{$i}) var(--#{$name}#{$i});
     }
     --full-#{$name}-shadow: #{$full-shadow};
