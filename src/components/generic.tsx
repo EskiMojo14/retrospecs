@@ -27,7 +27,12 @@ export interface GenericComponent<
   ReceivedProps,
   PassedProps = {}
 > {
-  (props: { as?: never } & Overwrite<ReceivedProps, PassedProps>): JSX.Element;
+  (
+    props: { as?: never } & Overwrite<
+      ComponentPropsWithRef<DefaultComponent>,
+      ReceivedProps
+    >
+  ): JSX.Element;
   <Component extends ElementType<PassedProps> = DefaultComponent>(
     props: { as: Component } & Overwrite<
       ComponentPropsWithRef<Component>,
