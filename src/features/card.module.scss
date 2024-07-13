@@ -50,7 +50,6 @@ $hover-time: 200ms;
     padding: 16px 24px;
     flex-grow: 1;
     &.checkbox {
-      cursor: pointer;
       color: var(--text);
       border: none;
       outline: none;
@@ -63,9 +62,6 @@ $hover-time: 200ms;
       }
       &[data-selected] {
         text-decoration: line-through;
-      }
-      &[data-readonly] {
-        cursor: default;
       }
     }
   }
