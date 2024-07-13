@@ -7,13 +7,13 @@ $hover-time: 200ms;
   --text: black;
 
   display: flex;
-  flex-wrap: wrap;
   background-color: var(--darkest);
   color: var(--text);
   text-align: center;
-  font-weight: 800;
+  font-weight: 600;
   position: relative;
   border-radius: 12px;
+  max-width: 480px;
   .bg {
     background-color: var(--lightest);
     position: absolute;
@@ -29,11 +29,9 @@ $hover-time: 200ms;
     position: relative;
     border-radius: 12px;
     transition: background-color $hover-time, color $hover-time;
-    padding: 16px 32px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    flex-grow: 1;
     &::before {
       content: "";
       position: absolute;
@@ -62,23 +60,32 @@ $hover-time: 200ms;
       --darkest: #f61303;
       --mid: #ff6002;
       --lightest: #ff9801;
-      --text: var(--yellow4);
     }
     :global(.checkbox-container[data-focus-visible] .checkbox) {
       outline: none;
     }
   }
   .text {
+    padding: 16px 32px;
     border: none;
     outline: none;
+    flex-grow: 1;
     &.checked {
       text-decoration: line-through;
     }
     .content {
+      display: flex;
       gap: 12px;
+      flex-grow: 1;
+    }
+    .title {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
     }
   }
   .actions {
-    padding: 16px 16px;
+    padding: 4px 20px;
   }
 }

@@ -1,0 +1,24 @@
+.icon-button {
+  color: var(--yellow1);
+  --hover-color: #{rgba(#24211c, 0.1)};
+  --pressed-color: #{rgba(#24211c, 0.25)};
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background 200ms;
+  &[data-hovered] {
+    background: var(--hover-color);
+  }
+  &[data-pressed] {
+    background: var(--pressed-color);
+  }
+  &:focus-visible,
+  &[data-focus-visible] {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}

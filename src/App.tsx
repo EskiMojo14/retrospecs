@@ -12,6 +12,9 @@ function App() {
         <div className="green-card">
           Good
           <Card>An example</Card>
+          <Card>
+            Something very long but very positive that goes on and on and on
+          </Card>
         </div>
         <div className="red-card">Needs improvement</div>
         <div className="blue-card">Neutral</div>

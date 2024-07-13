@@ -2,9 +2,9 @@ import { ReactNode, useState } from "react";
 import styles from "./card.module.scss";
 import clsx from "clsx";
 import { Checkbox } from "../components/checkbox";
-import { Button } from "react-aria-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { IconButton } from "../components/icon-button";
 
 interface CardProps {
   children: ReactNode;
@@ -20,18 +20,18 @@ export function Card({ children }: CardProps) {
         <span className={styles.bg} />
         <span className={styles.content}>
           <Checkbox isSelected={checked} onChange={setChecked} />
-          {children}
+          <span className={styles.title}>{children}</span>
         </span>
       </label>
       <div className={clsx(styles.section, styles.actions)}>
         <span className={styles.bg} />
         <span className={styles.content}>
-          <Button>
+          <IconButton>
             <FontAwesomeIcon icon={faPen} />
-          </Button>
-          <Button>
+          </IconButton>
+          <IconButton>
             <FontAwesomeIcon icon={faTrash} />
-          </Button>
+          </IconButton>
         </span>
       </div>
     </div>
