@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
-import { createAppSlice } from "../pretyped";
+import { createAppSlice } from "../../pretyped";
 
 export const categories = ["good", "improvement", "neutral", "carry"] as const;
 

@@ -6,10 +6,10 @@ import {
   selectFeedbackByCategory,
 } from "./slice";
 import clsx from "clsx";
-import { useAppDispatch, useAppSelector } from "../pretyped";
-import { Card } from "./card";
+import { useAppDispatch, useAppSelector } from "../../pretyped";
+import { FeedbackCard } from "./card";
 import styles from "./category.module.scss";
-import { IconButton } from "../components/icon-button";
+import { IconButton } from "../../components/icon-button";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -43,7 +43,7 @@ export function CategoryCard({ category }: CategoryProps) {
     <div className={clsx(styles.category, styles[category])}>
       <h2>{categoryTitles[category]}</h2>
       {feedback.map((f) => (
-        <Card
+        <FeedbackCard
           key={f.id}
           checked={f.addressed}
           onCheck={
@@ -65,7 +65,7 @@ export function CategoryCard({ category }: CategoryProps) {
           checkable={category !== "carry"}
         >
           {f.comment}
-        </Card>
+        </FeedbackCard>
       ))}
     </div>
   );

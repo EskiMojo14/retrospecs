@@ -2,8 +2,9 @@ import styles from "./card.module.scss";
 import clsx from "clsx";
 import { Checkbox } from "react-aria-components";
 import { ReactNode } from "react";
+import { Card } from "../../components/card";
 
-interface CardProps {
+interface FeedbackCardProps {
   children: ReactNode;
   actions?: ReactNode;
   checked?: boolean;
@@ -11,17 +12,18 @@ interface CardProps {
   checkable?: boolean;
 }
 
-export function Card({
+export function FeedbackCard({
   children,
   actions,
   checked,
   onCheck,
   checkable = !!onCheck,
-}: CardProps) {
+}: FeedbackCardProps) {
   return (
-    <div className={styles.card}>
+    <div className={styles.feedbackCard}>
       {checkable ? (
-        <Checkbox
+        <Card
+          as={Checkbox}
           className={clsx(styles.section, styles.text, styles.checkbox)}
           isSelected={checked}
           isReadOnly={!onCheck}
@@ -29,20 +31,20 @@ export function Card({
         >
           <span className={styles.bg} aria-hidden />
           <span className={styles.content}>{children}</span>
-        </Checkbox>
+        </Card>
       ) : (
-        <div className={clsx(styles.section, styles.text)}>
+        <Card className={clsx(styles.section, styles.text)}>
           <span className={styles.bg} aria-hidden />
           <span className={styles.content}>
             <span className={styles.title}>{children}</span>
           </span>
-        </div>
+        </Card>
       )}
       {actions && (
-        <div className={clsx(styles.section, styles.actions)}>
+        <Card className={clsx(styles.section, styles.actions)}>
           <span className={styles.bg} aria-hidden />
           <span className={styles.content}>{actions}</span>
-        </div>
+        </Card>
       )}
     </div>
   );

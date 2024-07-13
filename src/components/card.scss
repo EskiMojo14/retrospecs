@@ -1,0 +1,57 @@
+@mixin hover {
+  --outer: var(--yellow-hover2);
+  --mid: var(--yellow-hover3);
+  --bg: var(--yellow-hover4);
+  --text: var(--yellow-hover-dark);
+  &.card--inverse {
+    --outer: var(--yellow-hover4);
+    --mid: var(--yellow-hover2);
+    --bg: var(--yellow-hover1);
+    --text: var(--yellow-hover-light);
+  }
+}
+
+$hover-time: 0.2s;
+
+.card {
+  --outer: var(--yellow2);
+  --mid: var(--yellow3);
+  --bg: var(--yellow4);
+  --text: var(--yellow-dark);
+  position: relative;
+  background-color: var(--outer);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 4px 16px;
+  transition: background-color $hover-time, color $hover-time;
+  &::before {
+    content: "";
+    position: absolute;
+    background-color: var(--mid);
+    top: 2px;
+    bottom: 2px;
+    left: 8px;
+    right: 8px;
+    border-radius: 14px;
+    transition: background-color $hover-time;
+  }
+  &--inverse {
+    --outer: var(--yellow4);
+    --mid: var(--yellow2);
+    --bg: var(--yellow1);
+    --text: var(--yellow-light);
+  }
+  &__bg {
+    background-color: var(--bg);
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 16px;
+    right: 16px;
+    border-radius: 16px;
+    transition: background-color $hover-time;
+  }
+  &__content {
+    position: relative;
+  }
+}
