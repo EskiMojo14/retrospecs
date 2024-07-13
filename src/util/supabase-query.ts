@@ -7,6 +7,14 @@ export interface PostgrestMeta {
   statusText: string;
 }
 
+interface SupabaseQueryConfig<Intermediate, QueryArg, QueryReturn> {
+  transformResponse?: (
+    returnValue: Intermediate,
+    meta: PostgrestMeta,
+    arg: QueryArg
+  ) => QueryReturn;
+}
+
 export function supabaseQuery<
   Intermediate,
   QueryArg,
@@ -16,8 +24,9 @@ export function supabaseQuery<
     arg: QueryArg,
     api: BaseQueryApi
   ) => PromiseLike<PostgrestSingleResponse<Intermediate>>,
-  transformResponse: (data: Intermediate) => QueryReturn = (data) =>
-    data as never
+  {
+    transformResponse = (data) => data as never,
+  }: SupabaseQueryConfig<Intermediate, QueryArg, QueryReturn> = {}
 ): (
   arg: QueryArg,
   api: BaseQueryApi
@@ -33,10 +42,11 @@ export function supabaseQuery<
 > {
   return async function query(arg, api) {
     const { data, error, count, status, statusText } = await queryFn(arg, api);
-    if (error) return { error, meta: { count, status, statusText } };
+    const meta: PostgrestMeta = { count, status, statusText };
+    if (error) return { error, meta };
     return {
-      data: transformResponse(data),
-      meta: { count, status, statusText },
+      data: transformResponse(data, meta, arg),
+      meta,
     };
   };
 }
