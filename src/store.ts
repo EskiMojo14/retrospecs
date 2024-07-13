@@ -1,9 +1,11 @@
 import { ThunkAction, UnknownAction, configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "./reducers";
+import { emptyApi } from "./features/api";
 
 export const makeStore = () =>
   configureStore({
     reducer: rootReducer,
+    middleware: (gDM) => gDM().concat(emptyApi.middleware),
   });
 
 export const store = makeStore();

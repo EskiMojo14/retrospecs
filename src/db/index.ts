@@ -1,8 +1,17 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-import * as schema from "./schema";
+import { createClient } from "@supabase/supabase-js";
+import { Database } from "./supabase";
+import { assert } from "../util";
 
-// @ts-expect-error doesn't know about process.env
-// eslint-disable-next-line
-const client = postgres(process.env.DATABASE_URL!);
-export const db = drizzle(client, { schema });
+assert(
+  typeof import.meta.env.VITE_SUPABASE_URL === "string",
+  "Missing SUPABASE_URL"
+);
+assert(
+  typeof import.meta.env.VITE_SUPABASE_KEY === "string",
+  "Missing SUPABASE_KEY"
+);
+
+export const supabase = createClient<Database>(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_KEY
+);
