@@ -12,7 +12,7 @@ interface SupabaseQueryConfig<Intermediate, QueryArg, QueryReturn> {
     returnValue: Intermediate,
     meta: PostgrestMeta,
     arg: QueryArg
-  ) => QueryReturn;
+  ) => QueryReturn | Promise<QueryReturn>;
 }
 
 export function supabaseQuery<
@@ -45,7 +45,7 @@ export function supabaseQuery<
     const meta: PostgrestMeta = { count, status, statusText };
     if (error) return { error, meta };
     return {
-      data: transformResponse(data, meta, arg),
+      data: await transformResponse(data, meta, arg),
       meta,
     };
   };
