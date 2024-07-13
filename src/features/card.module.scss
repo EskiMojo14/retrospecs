@@ -30,7 +30,7 @@ $hover-time: 200ms;
     border-radius: 12px;
     transition: background-color $hover-time, color $hover-time;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     &::before {
       content: "";
@@ -50,42 +50,30 @@ $hover-time: 200ms;
       align-items: center;
     }
   }
-  label.section {
+  .text {
     cursor: pointer;
     color: var(--text);
-    &:hover,
-    &:focus,
-    &:has(:global(.checkbox-container[data-focus-visible])),
-    &:has(:global(.checkbox-container[data-pressed])) {
-      --darkest: #f61303;
-      --mid: #ff6002;
-      --lightest: #ff9801;
-    }
-    :global(.checkbox-container[data-focus-visible] .checkbox) {
-      outline: none;
-    }
-  }
-  .text {
     padding: 16px 32px;
     border: none;
     outline: none;
     flex-grow: 1;
-    &.checked {
+    &[data-hovered],
+    &[data-focused],
+    &[data-pressed] {
+      --darkest: #f61303;
+      --mid: #ff6002;
+      --lightest: #ff9801;
+    }
+    &[data-selected] {
       text-decoration: line-through;
     }
-    .content {
-      display: flex;
-      gap: 12px;
-      flex-grow: 1;
-    }
-    .title {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
+    &[data-readonly] {
+      cursor: default;
     }
   }
   .actions {
     padding: 4px 20px;
+    flex-wrap: wrap;
+    flex-shrink: 1;
   }
 }

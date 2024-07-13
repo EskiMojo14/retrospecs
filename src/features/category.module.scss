@@ -1,0 +1,33 @@
+.categories {
+  display: grid;
+  gap: calc(var(--border-width) * 9);
+  grid-template-columns: repeat(4, 1fr);
+  padding: calc(1rem + var(--border-width));
+}
+
+$color-map: (
+  "good": "green",
+  "improvement": "red",
+  "neutral": "blue",
+  "carry": "orange",
+);
+
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 4px;
+  padding: 0.75rem;
+  @each $name, $color in $color-map {
+    &.#{$name} {
+      box-shadow: var(--#{$color}-shadow);
+      background-color: var(--#{$color}-light);
+      color: var(--#{$color}-dark);
+    }
+  }
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    margin: 0;
+  }
+}

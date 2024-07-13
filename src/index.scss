@@ -126,14 +126,15 @@ body {
 }
 
 .card-demo {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   padding: 2rem;
-  gap: 3rem;
-  flex-wrap: wrap;
+  gap: calc((var(--border-width) * 8) + 0.5rem);
   justify-content: space-between;
   > div {
     border-radius: 4px;
     padding: 1rem;
     font-weight: 900;
+    flex-basis: 25%;
   }
 }

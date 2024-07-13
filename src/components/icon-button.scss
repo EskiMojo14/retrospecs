@@ -10,6 +10,9 @@
   height: 40px;
   border-radius: 50%;
   transition: background 200ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &[data-hovered] {
     background: var(--hover-color);
   }
