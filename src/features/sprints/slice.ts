@@ -6,6 +6,7 @@ import { supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
 import { Team } from "@/features/teams/slice";
+import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 
 export type Sprint = Tables<"sprints">;
 
@@ -74,6 +75,41 @@ export const {
   useDeleteSprintMutation,
 } = sprintsApi;
 
+const realtimeHandlers: {
+  [K in RealtimePostgresChangesPayload<Sprint>["eventType"]]: (
+    payload: Extract<RealtimePostgresChangesPayload<Sprint>, { eventType: K }>,
+    dispatch: AppDispatch,
+  ) => void;
+} = {
+  INSERT: (payload, dispatch) =>
+    dispatch(
+      sprintsApi.util.updateQueryData(
+        "getSprintsForTeam",
+        payload.new.team_id,
+        (data) => sprintAdapter.addOne(data, payload.new),
+      ),
+    ),
+  UPDATE: (payload, dispatch) =>
+    dispatch(
+      sprintsApi.util.updateQueryData(
+        "getSprintsForTeam",
+        payload.new.team_id,
+        (data) => sprintAdapter.setOne(data, payload.new),
+      ),
+    ),
+  DELETE: (payload, dispatch) => {
+    const teamId = payload.old.team_id;
+    const sprintId = payload.old.id;
+    if (typeof teamId === "undefined" || typeof sprintId === "undefined")
+      return;
+    dispatch(
+      sprintsApi.util.updateQueryData("getSprintsForTeam", teamId, (data) =>
+        sprintAdapter.removeOne(data, sprintId),
+      ),
+    );
+  },
+};
+
 export const setupSprintsRealtime = (dispatch: AppDispatch) =>
   supabase.channel("sprints").on<Sprint>(
     "postgres_changes",
@@ -83,39 +119,6 @@ export const setupSprintsRealtime = (dispatch: AppDispatch) =>
       table: "sprints",
     },
     (payload) => {
-      switch (payload.eventType) {
-        case "INSERT":
-          dispatch(
-            sprintsApi.util.updateQueryData(
-              "getSprintsForTeam",
-              payload.new.team_id,
-              (data) => sprintAdapter.addOne(data, payload.new),
-            ),
-          );
-          break;
-        case "UPDATE":
-          dispatch(
-            sprintsApi.util.updateQueryData(
-              "getSprintsForTeam",
-              payload.new.team_id,
-              (data) => sprintAdapter.setOne(data, payload.new),
-            ),
-          );
-          break;
-        case "DELETE": {
-          const teamId = payload.old.team_id;
-          const sprintId = payload.old.id;
-          if (typeof teamId === "undefined" || typeof sprintId === "undefined")
-            return;
-          dispatch(
-            sprintsApi.util.updateQueryData(
-              "getSprintsForTeam",
-              teamId,
-              (data) => sprintAdapter.removeOne(data, sprintId),
-            ),
-          );
-          break;
-        }
-      }
+      realtimeHandlers[payload.eventType](payload as never, dispatch);
     },
   );
