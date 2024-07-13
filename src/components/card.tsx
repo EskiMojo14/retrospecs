@@ -3,8 +3,16 @@ import { createGenericComponent } from "./generic";
 import { ReactNode } from "react";
 import "./card.scss";
 
+type CardType =
+  | "default"
+  | "inverse"
+  | "success"
+  | "warning"
+  | "error"
+  | "info";
+
 interface CardProps {
-  inverse?: boolean;
+  type?: CardType;
   className?: string;
   children?: ReactNode;
 }
@@ -16,12 +24,18 @@ interface CardPassedProps {
 
 export const Card = createGenericComponent<"div", CardProps, CardPassedProps>(
   "div",
-  ({ children, inverse = false, as: As, className, ...props }, ref) => {
+  ({ children, type = "default", as: As, className, ...props }, ref) => {
     return (
       <As
         ref={ref}
         {...props}
-        className={clsx("card", inverse && "card--inverse", className)}
+        className={clsx(
+          "card",
+          {
+            [`card--${type}`]: type !== "default",
+          },
+          className
+        )}
       >
         <span className="card__bg" aria-hidden />
         <div className="card__content">{children}</div>

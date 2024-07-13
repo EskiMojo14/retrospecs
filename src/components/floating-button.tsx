@@ -18,7 +18,7 @@ export const FloatingButton = forwardRef<
       as={Button}
       ref={ref}
       {...props}
-      inverse
+      type="inverse"
       className={clsx(
         "floating-button",
         label && "floating-button--extended",

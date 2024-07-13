@@ -41,6 +41,30 @@ $hover-time: 0.2s;
     --bg: var(--yellow1);
     --text: var(--yellow-light);
   }
+  &--success {
+    --outer: var(--green2);
+    --mid: var(--green3);
+    --bg: var(--green4);
+    --text: var(--green-dark);
+  }
+  &--warning {
+    --outer: var(--orange4);
+    --mid: var(--orange5);
+    --bg: var(--orange6);
+    --text: var(--orange-dark);
+  }
+  &--error {
+    --outer: var(--red2);
+    --mid: var(--red3);
+    --bg: var(--red4);
+    --text: var(--red-dark);
+  }
+  &--info {
+    --outer: var(--blue3);
+    --mid: var(--blue4);
+    --bg: var(--blue5);
+    --text: var(--blue-dark);
+  }
   &__bg {
     background-color: var(--bg);
     position: absolute;
