@@ -53,6 +53,7 @@
   --border-width: 0.25rem;
   --off-white: #e7e6df;
   --brown: #5a3d2b;
+  --focus-ring-color: var(--blue3);
 }
 
 $gradients: (
@@ -83,6 +84,12 @@ $gradients: (
     #e58165,
     #f0b49c,
     #f6d4bb,
+  ),
+  "yellow": (
+    #24211c,
+    #b17929,
+    #fcc83f,
+    #f4f7c6,
   ),
 );
 
@@ -119,12 +126,14 @@ body {
 }
 
 .card-demo {
-  display: grid;
+  display: flex;
   padding: 2rem;
   gap: 3rem;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  div {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  > div {
     border-radius: 4px;
     padding: 1rem;
+    font-weight: 900;
   }
 }

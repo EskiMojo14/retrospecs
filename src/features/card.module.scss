@@ -1,0 +1,84 @@
+$hover-time: 200ms;
+
+.card {
+  --darkest: var(--yellow2);
+  --mid: var(--yellow3);
+  --lightest: var(--yellow4);
+  --text: black;
+
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--darkest);
+  color: var(--text);
+  text-align: center;
+  font-weight: 800;
+  position: relative;
+  border-radius: 12px;
+  .bg {
+    background-color: var(--lightest);
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 16px;
+    right: 16px;
+    border-radius: 16px;
+    transition: background-color $hover-time;
+  }
+  .section {
+    background-color: var(--darkest);
+    position: relative;
+    border-radius: 12px;
+    transition: background-color $hover-time, color $hover-time;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+    &::before {
+      content: "";
+      position: absolute;
+      background-color: var(--mid);
+      top: 2px;
+      bottom: 2px;
+      left: 8px;
+      right: 8px;
+      border-radius: 14px;
+      transition: background-color $hover-time;
+    }
+    .content {
+      position: relative;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+  }
+  label.section {
+    cursor: pointer;
+    color: var(--text);
+    &:hover,
+    &:focus,
+    &:has(:global(.checkbox-container[data-focus-visible])),
+    &:has(:global(.checkbox-container[data-pressed])) {
+      --darkest: #f61303;
+      --mid: #ff6002;
+      --lightest: #ff9801;
+      --text: var(--yellow4);
+    }
+    :global(.checkbox-container[data-focus-visible] .checkbox) {
+      outline: none;
+    }
+  }
+  .text {
+    border: none;
+    outline: none;
+    &.checked {
+      text-decoration: line-through;
+    }
+    .content {
+      gap: 12px;
+    }
+  }
+  .actions {
+    padding: 16px 16px;
+  }
+}
