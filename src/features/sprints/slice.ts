@@ -1,12 +1,11 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { supabase } from "@/db";
 import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
-import { AppDispatch } from "@/store";
 import { supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
 import { Team } from "@/features/teams/slice";
-import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+import { buildRealtimeHandler } from "@/db/realtime";
 
 export type Sprint = Tables<"sprints">;
 
@@ -75,12 +74,7 @@ export const {
   useDeleteSprintMutation,
 } = sprintsApi;
 
-const realtimeHandlers: {
-  [K in RealtimePostgresChangesPayload<Sprint>["eventType"]]: (
-    payload: Extract<RealtimePostgresChangesPayload<Sprint>, { eventType: K }>,
-    dispatch: AppDispatch,
-  ) => void;
-} = {
+export const setupSprintsRealtime = buildRealtimeHandler("sprints", {
   INSERT: (payload, dispatch) =>
     dispatch(
       sprintsApi.util.updateQueryData(
@@ -108,17 +102,4 @@ const realtimeHandlers: {
       ),
     );
   },
-};
-
-export const setupSprintsRealtime = (dispatch: AppDispatch) =>
-  supabase.channel("sprints").on<Sprint>(
-    "postgres_changes",
-    {
-      event: "*",
-      schema: "public",
-      table: "sprints",
-    },
-    (payload) => {
-      realtimeHandlers[payload.eventType](payload as never, dispatch);
-    },
-  );
+});
