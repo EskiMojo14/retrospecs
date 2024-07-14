@@ -29,7 +29,7 @@ export const actionsApi = emptyApi
       >({
         queryFn: supabaseQuery(
           (sprintId) =>
-            supabase.from("actions").select("*").eq("sprint_id", sprintId),
+            supabase.from("actions").select().eq("sprint_id", sprintId),
           {
             transformResponse: (actions) =>
               actionAdapter.getInitialState(undefined, actions),

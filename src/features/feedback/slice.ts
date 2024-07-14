@@ -44,7 +44,7 @@ export const feedbackApi = emptyApi
       >({
         queryFn: supabaseQuery(
           (sprintId) =>
-            supabase.from("feedback").select("*").eq("sprint_id", sprintId),
+            supabase.from("feedback").select().eq("sprint_id", sprintId),
           {
             transformResponse: (feedback) =>
               feedbackAdapter.getInitialState(undefined, feedback),

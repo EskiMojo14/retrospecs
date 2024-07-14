@@ -28,8 +28,7 @@ export const sprintsApi = emptyApi
         Team["id"]
       >({
         queryFn: supabaseQuery(
-          (teamId) =>
-            supabase.from("sprints").select("*").eq("team_id", teamId),
+          (teamId) => supabase.from("sprints").select().eq("team_id", teamId),
           {
             transformResponse: (sprints) =>
               sprintAdapter.getInitialState(undefined, sprints),
@@ -46,7 +45,7 @@ export const sprintsApi = emptyApi
       }),
       getSprintById: build.query<Sprint, Sprint["id"]>({
         queryFn: supabaseQuery((id) =>
-          supabase.from("sprints").select("*").eq("id", id).single(),
+          supabase.from("sprints").select().eq("id", id).single(),
         ),
         providesTags: (_result, _err, id) => [{ type: "Sprint", id }],
       }),

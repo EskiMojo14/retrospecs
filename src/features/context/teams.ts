@@ -24,7 +24,7 @@ export const teamsApi = emptyApi
     endpoints: (build) => ({
       getTeamsByOrg: build.query<EntityState<Team, Team["id"]>, Org["id"]>({
         queryFn: supabaseQuery(
-          (orgId) => supabase.from("teams").select("*").eq("org_id", orgId),
+          (orgId) => supabase.from("teams").select().eq("org_id", orgId),
           {
             transformResponse: (teams) =>
               teamAdapter.getInitialState(undefined, teams),

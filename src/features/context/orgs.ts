@@ -22,7 +22,7 @@ export const orgsApi = emptyApi
   .injectEndpoints({
     endpoints: (build) => ({
       getOrgs: build.query<EntityState<Org, Org["id"]>, void>({
-        queryFn: supabaseQuery(() => supabase.from("orgs").select("*"), {
+        queryFn: supabaseQuery(() => supabase.from("orgs").select(), {
           transformResponse: (orgs) =>
             orgAdapter.getInitialState(undefined, orgs),
         }),
