@@ -1,8 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "/assets/retrospecs.png";
 import { FloatingButton } from "@/components/floating-button";
 import { Categories } from "@/features/feedback/category";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "./components/icon";
 
 function App() {
   return (
@@ -13,7 +12,7 @@ function App() {
       </div>
       <Categories />
       <FloatingButton label="Add feedback">
-        <FontAwesomeIcon icon={faPlus} />
+        <Icon>add_comment</Icon>
       </FloatingButton>
     </>
   );

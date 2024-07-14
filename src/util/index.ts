@@ -23,3 +23,6 @@ export const toLowerCaseTyped = <T extends string>(value: T): Lowercase<T> =>
 
 export const toUpperCaseTyped = <T extends string>(value: T): Uppercase<T> =>
   value.toUpperCase() as Uppercase<T>;
+
+export const clamp = (value: number, min: number, max: number): number =>
+  Math.min(Math.max(value, min), max);

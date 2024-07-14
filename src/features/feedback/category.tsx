@@ -10,8 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/pretyped";
 import { FeedbackCard } from "./card";
 import styles from "./category.module.scss";
 import { IconButton } from "@/components/icon-button";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Icon } from "@/components/icon";
 
 interface CategoryProps {
   category: Category;
@@ -51,10 +50,10 @@ export function CategoryCard({ category }: CategoryProps) {
           actions={
             <>
               <IconButton onPress={console.log}>
-                <FontAwesomeIcon icon={faPen} />
+                <Icon>edit</Icon>
               </IconButton>
               <IconButton onPress={() => dispatch(feedbackRemoved(f.id))}>
-                <FontAwesomeIcon icon={faTrash} />
+                <Icon>delete</Icon>
               </IconButton>
             </>
           }
