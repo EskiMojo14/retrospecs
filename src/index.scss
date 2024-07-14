@@ -11,7 +11,7 @@
   font-display: swap;
   src:
     local("Super Dream"),
-    url("./assets/fonts/Super\ Dream.ttf") format("truetype");
+    url("/assets/fonts/Super\ Dream.ttf") format("truetype");
 }
 
 @mixin color-var($name, $color) {

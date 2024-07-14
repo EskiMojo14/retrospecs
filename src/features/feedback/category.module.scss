@@ -21,21 +21,20 @@ $color-map: (
   background-position: center;
   position: relative;
   background-size: 256px;
+  background-color: var(--dark);
+  color: var(--light);
+  background-image: var(--img);
   @each $name, $color in $color-map {
     &.#{$name} {
-      background-color: var(--#{$color}-dark);
-      color: var(--#{$color}-light);
-      background-image: url("@/assets/#{$color}_bg.svg");
+      --dark: var(--#{$color}-dark);
+      --light: var(--#{$color}-light);
+      --img: url("/assets/#{$color}_bg.svg");
       &::before {
         background: linear-gradient(
           to bottom,
           var(--#{$color}-dark),
           transparent
         );
-      }
-      :global(.no-groove) & {
-        background-color: var(--#{$color}-light);
-        color: var(--#{$color}-dark);
       }
     }
   }
@@ -55,6 +54,8 @@ $color-map: (
   }
   :global(.no-groove) & {
     background-image: none;
+    background-color: var(--light);
+    color: var(--dark);
     &::before {
       content: none;
     }
