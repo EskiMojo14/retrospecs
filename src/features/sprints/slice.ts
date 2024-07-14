@@ -43,6 +43,12 @@ export const sprintsApi = emptyApi
               ]
             : [{ type: "Team" as const, id: teamId }],
       }),
+      getSprintById: build.query<Sprint, Sprint["id"]>({
+        queryFn: supabaseQuery((id) =>
+          supabase.from("sprints").select("*").eq("id", id).single(),
+        ),
+        providesTags: (_result, _err, id) => [{ type: "Sprint", id }],
+      }),
       addSprint: build.mutation<null, TablesInsert<"sprints">>({
         queryFn: supabaseQuery((sprint) =>
           supabase.from("sprints").insert(sprint),
@@ -69,13 +75,14 @@ export const sprintsApi = emptyApi
 
 export const {
   useGetSprintsForTeamQuery,
+  useGetSprintByIdQuery,
   useAddSprintMutation,
   useUpdateSprintMutation,
   useDeleteSprintMutation,
 } = sprintsApi;
 
 export const setupSprintsRealtime = buildRealtimeHandler("sprints", {
-  INSERT: (payload, dispatch) =>
+  insert: (payload, dispatch) =>
     dispatch(
       sprintsApi.util.updateQueryData(
         "getSprintsForTeam",
@@ -83,7 +90,7 @@ export const setupSprintsRealtime = buildRealtimeHandler("sprints", {
         (data) => sprintAdapter.addOne(data, payload.new),
       ),
     ),
-  UPDATE: (payload, dispatch) =>
+  update: (payload, dispatch) =>
     dispatch(
       sprintsApi.util.updateQueryData(
         "getSprintsForTeam",
@@ -91,7 +98,7 @@ export const setupSprintsRealtime = buildRealtimeHandler("sprints", {
         (data) => sprintAdapter.setOne(data, payload.new),
       ),
     ),
-  DELETE: (payload, dispatch) => {
+  delete: (payload, dispatch) => {
     const teamId = payload.old.team_id;
     const sprintId = payload.old.id;
     if (typeof teamId === "undefined" || typeof sprintId === "undefined")
