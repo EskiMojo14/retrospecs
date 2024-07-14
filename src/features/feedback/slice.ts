@@ -4,7 +4,7 @@ import {
   EntityState,
 } from "@reduxjs/toolkit";
 import { supabase } from "@/db";
-import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
+import { Enums, Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
 import { supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
@@ -28,6 +28,11 @@ export const selectFeedbackByCategories = createSelector(
   selectAllFeedback,
   (feedback) => groupBy(feedback, (f) => f.category),
 );
+
+export const selectFeedbackByCategory = (
+  state: EntityState<Feedback, Feedback["id"]>,
+  category: Enums<"category">,
+) => selectFeedbackByCategories(state)[category];
 
 export const feedbackApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Feedback", "Sprint"] })
