@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/pretyped";
 import { FeedbackCard } from "./card";
 import styles from "./category.module.scss";
 import { IconButton } from "@/components/icon-button";
-import { Icon } from "@/components/icon";
+import { Symbol } from "@/components/symbol";
 
 interface CategoryProps {
   category: Category;
@@ -50,10 +50,10 @@ export function CategoryCard({ category }: CategoryProps) {
           actions={
             <>
               <IconButton onPress={console.log}>
-                <Icon>edit</Icon>
+                <Symbol>edit</Symbol>
               </IconButton>
               <IconButton onPress={() => dispatch(feedbackRemoved(f.id))}>
-                <Icon>delete</Icon>
+                <Symbol>delete</Symbol>
               </IconButton>
             </>
           }

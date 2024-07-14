@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import { createGenericComponent } from "./generic";
 import { clamp } from "@/util";
 import clsx from "clsx";
-import "./icon.scss";
+import "./symbol.scss";
 
 interface SymbolSettings {
   fill?: boolean;
@@ -32,19 +32,23 @@ const symbolSettingsToVar = ({
   return `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' ${clamp(grade, -25, 200)}, 'opsz' ${clamp(opticalSize, 20, 48)}`;
 };
 
-export interface IconProps extends SymbolSettings {
+export interface SymbolProps extends SymbolSettings {
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
 }
 
-export interface IconPassedProps {
+export interface SymbolPassedProps {
   className: string;
   style: CSSProperties;
   children: ReactNode;
 }
 
-export const Icon = createGenericComponent<"i", IconProps, IconPassedProps>(
+export const Symbol = createGenericComponent<
+  "i",
+  SymbolProps,
+  SymbolPassedProps
+>(
   "i",
   (
     {
@@ -64,7 +68,7 @@ export const Icon = createGenericComponent<"i", IconProps, IconPassedProps>(
     <As
       ref={ref}
       {...props}
-      className={clsx("material-symbols-sharp icon", className)}
+      className={clsx("material-symbols-sharp symbol", className)}
       style={{
         ...style,
         fontSize: `${size}px`,
@@ -81,4 +85,4 @@ export const Icon = createGenericComponent<"i", IconProps, IconPassedProps>(
   ),
 );
 
-Icon.displayName = "Icon";
+Symbol.displayName = "Symbol";
