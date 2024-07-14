@@ -16,7 +16,7 @@ export type Database = {
           category: Database["public"]["Enums"]["category"];
           created_at: string;
           id: number;
-          sprintId: number;
+          sprint_id: number;
         };
         Insert: {
           action: string;
@@ -24,7 +24,7 @@ export type Database = {
           category: Database["public"]["Enums"]["category"];
           created_at?: string;
           id?: number;
-          sprintId: number;
+          sprint_id: number;
         };
         Update: {
           action?: string;
@@ -32,12 +32,12 @@ export type Database = {
           category?: Database["public"]["Enums"]["category"];
           created_at?: string;
           id?: number;
-          sprintId?: number;
+          sprint_id?: number;
         };
         Relationships: [
           {
             foreignKeyName: "actions_sprintId_fkey";
-            columns: ["sprintId"];
+            columns: ["sprint_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
             referencedColumns: ["id"];
@@ -50,26 +50,26 @@ export type Database = {
           created_at: string;
           feedback: string;
           id: number;
-          sprintId: number;
+          sprint_id: number;
         };
         Insert: {
           addressed?: boolean;
           created_at?: string;
           feedback: string;
           id?: number;
-          sprintId: number;
+          sprint_id: number;
         };
         Update: {
           addressed?: boolean;
           created_at?: string;
           feedback?: string;
           id?: number;
-          sprintId?: number;
+          sprint_id?: number;
         };
         Relationships: [
           {
             foreignKeyName: "feedback_sprintId_fkey";
-            columns: ["sprintId"];
+            columns: ["sprint_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
             referencedColumns: ["id"];

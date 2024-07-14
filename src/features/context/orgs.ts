@@ -48,6 +48,7 @@ export const orgsApi = emptyApi
         invalidatesTags: (_res, _err, id) => [{ type: "Org", id }],
       }),
     }),
+    overrideExisting: true,
   });
 
 export const {

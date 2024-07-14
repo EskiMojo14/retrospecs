@@ -71,6 +71,7 @@ export const sprintsApi = emptyApi
         invalidatesTags: (_res, _err, id) => [{ type: "Sprint", id }],
       }),
     }),
+    overrideExisting: true,
   });
 
 export const {
@@ -95,7 +96,11 @@ export const setupSprintsRealtime = buildRealtimeHandler("sprints", {
       sprintsApi.util.updateQueryData(
         "getSprintsForTeam",
         payload.new.team_id,
-        (data) => sprintAdapter.setOne(data, payload.new),
+        (data) =>
+          sprintAdapter.updateOne(data, {
+            id: payload.old.id ?? payload.new.id,
+            changes: payload.new,
+          }),
       ),
     ),
   delete: (payload, dispatch) => {

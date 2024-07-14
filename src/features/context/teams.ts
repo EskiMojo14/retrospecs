@@ -53,6 +53,7 @@ export const teamsApi = emptyApi
         invalidatesTags: (_res, _err, id) => [{ type: "Team", id }],
       }),
     }),
+    overrideExisting: true,
   });
 
 export const {
