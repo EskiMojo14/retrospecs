@@ -39,6 +39,7 @@ export const sprintsApi = emptyApi
           result
             ? [
                 ...result.ids.map((id) => ({ type: "Sprint" as const, id })),
+                { type: "Sprint" as const, id: `TEAM-${teamId}` },
                 { type: "Team" as const, id: teamId },
               ]
             : [{ type: "Team" as const, id: teamId }],
@@ -53,7 +54,9 @@ export const sprintsApi = emptyApi
         queryFn: supabaseQuery((sprint) =>
           supabase.from("sprints").insert(sprint),
         ),
-        invalidatesTags: ["Sprint"],
+        invalidatesTags: (_res, _err, { team_id }) => [
+          { type: "Sprint", id: `TEAM-${team_id}` },
+        ],
       }),
       updateSprint: build.mutation<
         null,

@@ -29,7 +29,6 @@ const symbolSettingsToVar = ({
   grade = defaultSettings.grade,
   opticalSize = defaultSettings.opticalSize,
 }: Omit<SymbolSettings, "size">) => {
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   return `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' ${clamp(grade, -25, 200)}, 'opsz' ${clamp(opticalSize, 20, 48)}`;
 };
 
@@ -68,7 +67,6 @@ export const Icon = createGenericComponent<"i", IconProps, IconPassedProps>(
       className={clsx("material-symbols-sharp icon", className)}
       style={{
         ...style,
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         fontSize: `${size}px`,
         "--variation-settings": symbolSettingsToVar({
           fill,

@@ -18,6 +18,10 @@ module.exports = {
       { allowConstantExport: true },
     ],
     "react/prop-types": "off",
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      { allowNumber: true },
+    ],
   },
   parserOptions: {
     ecmaVersion: "latest",
