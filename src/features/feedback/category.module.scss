@@ -1,42 +1,64 @@
+@use "sass:map";
+@use "@/util/theme";
+
 .categories {
   display: grid;
-  //gap: calc(var(--border-width) * 9);
   grid-template-columns: repeat(3, 1fr);
-  //padding: calc(1rem + var(--border-width));
 }
 
 $color-map: (
   "good": "green",
-  //"improvement": "red",
+  "improvement": "red",
   "neutral": "blue",
 );
-
 .category {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  //border-radius: 4px;
   padding: 0.5rem;
-  height: 75vh;
+  height: 100vh;
+  background-repeat: repeat;
+  background-position: center;
+  position: relative;
+  background-size: 256px;
   @each $name, $color in $color-map {
     &.#{$name} {
-      //box-shadow: var(--#{$color}-shadow);
-      background-color: var(--#{$color}-light);
-      color: var(--#{$color}-dark);
-    }
-  }
-  &.improvement {
-    background-image: url("@/assets/red_bg.svg");
-    background-size: 128px 128px;
-    background-repeat: repeat;
-    background-position: center;
-    h2 {
-      color: var(--red-light);
+      background-color: var(--#{$color}-dark);
+      color: var(--#{$color}-light);
+      background-image: url("@/assets/#{$color}_bg.svg");
+      &::before {
+        background: linear-gradient(
+          to bottom,
+          var(--#{$color}-dark),
+          transparent
+        );
+      }
     }
   }
   h2 {
     font-size: 1.25rem;
     font-weight: 900;
     margin: 0;
+    position: relative;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: theme.to-rem(72px);
+  }
+  :global(.no-groove) & {
+    background-image: none;
+    &::before {
+      content: none;
+    }
+    @each $name, $color in $color-map {
+      &.#{$name} {
+        background-color: var(--#{$color}-light);
+        color: var(--#{$color}-dark);
+      }
+    }
   }
 }

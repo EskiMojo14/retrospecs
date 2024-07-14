@@ -93,8 +93,8 @@ $gradients: (
 );
 
 :root {
-  --border-width: 0.25rem;
-  --header-height: 64px;
+  --border-width: #{theme.to-rem(4px)};
+  --header-height: #{theme.to-rem(64px)};
   --header-margin: calc(var(--border-width) * var(--orange-length));
   @include color-var("off-white", #e7e6df);
   @include color-var("brown", #5a3d2b);
@@ -126,9 +126,10 @@ body {
   margin-bottom: var(--header-margin);
   height: var(--header-height);
   img {
-    height: 192px * 0.25;
+    height: theme.to-rem(192px * 0.25);
     width: auto;
-    image-rendering: high-quality;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
   h1 {
     margin: 0;
