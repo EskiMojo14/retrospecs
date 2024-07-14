@@ -12,7 +12,7 @@ export type Database = {
       actions: {
         Row: {
           action: string;
-          addressed: boolean;
+          completed: boolean;
           created_at: string;
           id: number;
           sprint_id: number;
@@ -20,7 +20,7 @@ export type Database = {
         };
         Insert: {
           action: string;
-          addressed?: boolean;
+          completed?: boolean;
           created_at?: string;
           id?: number;
           sprint_id: number;
@@ -28,7 +28,7 @@ export type Database = {
         };
         Update: {
           action?: string;
-          addressed?: boolean;
+          completed?: boolean;
           created_at?: string;
           id?: number;
           sprint_id?: number;
@@ -60,9 +60,9 @@ export type Database = {
       };
       feedback: {
         Row: {
-          addressed: boolean;
           category: Database["public"]["Enums"]["category"];
           created_at: string;
+          discussed: boolean;
           feedback: string;
           id: number;
           sprint_id: number;
@@ -70,9 +70,9 @@ export type Database = {
           user_id: string;
         };
         Insert: {
-          addressed?: boolean;
           category: Database["public"]["Enums"]["category"];
           created_at?: string;
+          discussed?: boolean;
           feedback: string;
           id?: number;
           sprint_id: number;
@@ -80,9 +80,9 @@ export type Database = {
           user_id: string;
         };
         Update: {
-          addressed?: boolean;
           category?: Database["public"]["Enums"]["category"];
           created_at?: string;
+          discussed?: boolean;
           feedback?: string;
           id?: number;
           sprint_id?: number;
