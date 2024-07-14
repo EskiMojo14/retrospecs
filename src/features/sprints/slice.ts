@@ -91,18 +91,27 @@ export const setupSprintsRealtime = buildRealtimeHandler("sprints", {
         (data) => sprintAdapter.addOne(data, payload.new),
       ),
     ),
-  update: (payload, dispatch) =>
+  update: (payload, dispatch) => {
+    const sprintId = payload.old.id ?? payload.new.id;
     dispatch(
       sprintsApi.util.updateQueryData(
         "getSprintsForTeam",
         payload.new.team_id,
         (data) =>
           sprintAdapter.updateOne(data, {
-            id: payload.old.id ?? payload.new.id,
+            id: sprintId,
             changes: payload.new,
           }),
       ),
-    ),
+    );
+    dispatch(
+      sprintsApi.util.updateQueryData(
+        "getSprintById",
+        sprintId,
+        () => payload.new,
+      ),
+    );
+  },
   delete: (payload, dispatch) => {
     const teamId = payload.old.team_id;
     const sprintId = payload.old.id;
