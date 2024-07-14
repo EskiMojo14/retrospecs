@@ -1,4 +1,8 @@
-import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
+import {
+  createEntityAdapter,
+  createSelector,
+  EntityState,
+} from "@reduxjs/toolkit";
 import { supabase } from "@/db";
 import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
 import { supabaseQuery } from "@/util/supabase-query";
@@ -6,6 +10,7 @@ import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
 import { buildRealtimeHandler } from "@/db/realtime";
 import { Sprint } from "@/features/sprints/slice";
+import { groupBy } from "@/util";
 
 export type Feedback = Tables<"feedback">;
 
@@ -18,6 +23,11 @@ export const {
   selectEntities: selectFeedbackEntities,
   selectTotal: selectTotalFeedback,
 } = feedbackAdapter.getSelectors();
+
+export const selectFeedbackByCategories = createSelector(
+  selectAllFeedback,
+  (feedback) => groupBy(feedback, (f) => f.category),
+);
 
 export const feedbackApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Feedback", "Sprint"] })

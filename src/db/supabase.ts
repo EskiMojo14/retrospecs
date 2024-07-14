@@ -61,26 +61,32 @@ export type Database = {
       feedback: {
         Row: {
           addressed: boolean;
+          category: Database["public"]["Enums"]["category"];
           created_at: string;
           feedback: string;
           id: number;
           sprint_id: number;
+          title: string | null;
           user_id: string;
         };
         Insert: {
           addressed?: boolean;
+          category: Database["public"]["Enums"]["category"];
           created_at?: string;
           feedback: string;
           id?: number;
           sprint_id: number;
+          title?: string | null;
           user_id: string;
         };
         Update: {
           addressed?: boolean;
+          category?: Database["public"]["Enums"]["category"];
           created_at?: string;
           feedback?: string;
           id?: number;
           sprint_id?: number;
+          title?: string | null;
           user_id?: string;
         };
         Relationships: [
