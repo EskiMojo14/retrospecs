@@ -13,33 +13,47 @@ export type Database = {
         Row: {
           action: string;
           addressed: boolean;
-          category: Database["public"]["Enums"]["category"];
           created_at: string;
           id: number;
           sprint_id: number;
+          user_id: string;
         };
         Insert: {
           action: string;
           addressed?: boolean;
-          category: Database["public"]["Enums"]["category"];
           created_at?: string;
           id?: number;
           sprint_id: number;
+          user_id?: string;
         };
         Update: {
           action?: string;
           addressed?: boolean;
-          category?: Database["public"]["Enums"]["category"];
           created_at?: string;
           id?: number;
           sprint_id?: number;
+          user_id?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "actions_sprint_id_fkey";
+            columns: ["sprint_id"];
+            isOneToOne: false;
+            referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "actions_sprintId_fkey";
             columns: ["sprint_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "actions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
@@ -51,6 +65,7 @@ export type Database = {
           feedback: string;
           id: number;
           sprint_id: number;
+          user_id: string;
         };
         Insert: {
           addressed?: boolean;
@@ -58,6 +73,7 @@ export type Database = {
           feedback: string;
           id?: number;
           sprint_id: number;
+          user_id: string;
         };
         Update: {
           addressed?: boolean;
@@ -65,6 +81,7 @@ export type Database = {
           feedback?: string;
           id?: number;
           sprint_id?: number;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -72,6 +89,13 @@ export type Database = {
             columns: ["sprint_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "feedback_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
@@ -93,6 +117,45 @@ export type Database = {
           name?: string;
         };
         Relationships: [];
+      };
+      reactions: {
+        Row: {
+          created_at: string;
+          feedback_id: number;
+          id: number;
+          reaction: Database["public"]["Enums"]["reaction"];
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          feedback_id: number;
+          id?: number;
+          reaction: Database["public"]["Enums"]["reaction"];
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          feedback_id?: number;
+          id?: number;
+          reaction?: Database["public"]["Enums"]["reaction"];
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reactions_feedback_id_fkey";
+            columns: ["feedback_id"];
+            isOneToOne: false;
+            referencedRelation: "feedback";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reactions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       sprints: {
         Row: {
@@ -171,6 +234,7 @@ export type Database = {
     };
     Enums: {
       category: "good" | "improvement" | "neutral";
+      reaction: "like";
     };
     CompositeTypes: {
       [_ in never]: never;
