@@ -128,21 +128,18 @@ export type Database = {
         Row: {
           created_at: string;
           feedback_id: number;
-          id: number;
           reaction: Database["public"]["Enums"]["reaction"];
           user_id: string;
         };
         Insert: {
           created_at?: string;
           feedback_id: number;
-          id?: number;
           reaction: Database["public"]["Enums"]["reaction"];
           user_id: string;
         };
         Update: {
           created_at?: string;
           feedback_id?: number;
-          id?: number;
           reaction?: Database["public"]["Enums"]["reaction"];
           user_id?: string;
         };
@@ -202,6 +199,42 @@ export type Database = {
           },
         ];
       };
+      team_members: {
+        Row: {
+          created_at: string;
+          role: Database["public"]["Enums"]["member_role"];
+          team_id: number;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          role: Database["public"]["Enums"]["member_role"];
+          team_id: number;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          role?: Database["public"]["Enums"]["member_role"];
+          team_id?: number;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "teams";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "team_members_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       teams: {
         Row: {
           created_at: string;
@@ -240,6 +273,7 @@ export type Database = {
     };
     Enums: {
       category: "good" | "improvement" | "neutral";
+      member_role: "admin" | "member";
       reaction: "like";
     };
     CompositeTypes: {
