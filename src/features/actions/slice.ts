@@ -11,6 +11,14 @@ export type Action = Tables<"actions">;
 
 const actionAdapter = createEntityAdapter<Action>();
 
+export const {
+  selectAll: selectAllActions,
+  selectById: selectActionById,
+  selectIds: selectActionIds,
+  selectEntities: selectActionEntities,
+  selectTotal: selectTotalActions,
+} = actionAdapter.getSelectors();
+
 export const actionsApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Action", "Sprint"] })
   .injectEndpoints({
