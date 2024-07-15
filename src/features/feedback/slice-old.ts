@@ -11,6 +11,7 @@ export interface Feedback {
   category: Category;
   comment: string;
   addressed: boolean;
+  title?: string;
 }
 
 const examples: Feedback[] = [
@@ -18,6 +19,7 @@ const examples: Feedback[] = [
     id: "1",
     sprintId: "2",
     category: "good",
+    title: "Nice work",
     comment: "Great job!",
     addressed: false,
   },

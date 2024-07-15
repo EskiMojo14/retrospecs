@@ -5,14 +5,11 @@ $hover-time: 200ms;
 .feedbackCard {
   display: flex;
   background-color: var(--yellow2);
-  font-weight: 600;
+  font-weight: 500;
   position: relative;
   border-radius: 12px;
   .section {
     display: flex;
-    :global(.card__content) {
-      gap: 8px;
-    }
   }
   .text {
     padding: 16px 24px;
@@ -30,6 +27,12 @@ $hover-time: 200ms;
         text-decoration: line-through;
       }
     }
+    .title {
+      margin: 0;
+      margin-bottom: 8px;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
   }
   .actions {
     padding: 4px 20px;
@@ -38,6 +41,7 @@ $hover-time: 200ms;
     :global(.card__content) {
       display: flex;
       align-items: center;
+      gap: 8px;
     }
     :global(.icon-button) {
       @include icon-button.ink("yellow-dark");
