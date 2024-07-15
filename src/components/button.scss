@@ -1,0 +1,94 @@
+@use "sass:map";
+@use "sass:meta";
+@use "@/util/theme";
+
+@mixin ink($color, $state-opacities: ()) {
+  --text-rgb: #{if(
+      meta.type-of($color) == "color",
+      theme.get-rgb($color),
+      var(--#{$color}-rgb)
+    )};
+  --text: #{rgb(var(--text-rgb))};
+  @include theme.states("text", $state-opacities);
+}
+
+@mixin contained-ink($color, $state-opacities: ()) {
+  --text-rgb: #{if(
+      meta.type-of($color) == "color",
+      theme.get-rgb($color),
+      var(--#{$color}-rgb)
+    )};
+
+  @each $state,
+    $opacity in map.merge(theme.$default-state-opacities, $state-opacities)
+  {
+    --#{$state}-color: #{color-mix(
+        in srgb,
+        if(meta.type-of($color) == "color", $color, rgb(var(--#{$color}-rgb)))
+          calc(#{$opacity} * 100%),
+        var(--background)
+      )};
+  }
+}
+
+.button {
+  --dark-rgb: var(--orange-dark-rgb);
+  --light-rgb: var(--orange-light-rgb);
+  --background-rgb: var(--dark-rgb);
+  --background: #{rgb(var(--background-rgb))};
+  @include ink("dark");
+  --outline: var(--text);
+  --outline-width: 2px;
+  --border-radius: 8px;
+  color: var(--text);
+  appearance: none;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  transition:
+    background 200ms,
+    outline 200ms,
+    outline-offset 200ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--text {
+  }
+  &--outlined,
+  &--contained {
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      top: var(--outline-width);
+      left: var(--outline-width);
+      right: var(--outline-width);
+      bottom: var(--outline-width);
+      border: var(--outline-width) solid var(--outline);
+      border-radius: calc(var(--border-radius) - var(--outline-width));
+      pointer-events: none;
+    }
+  }
+  &--contained {
+    background: var(--background);
+    @include contained-ink("light");
+  }
+  &[data-hovered] {
+    background: var(--hover-color);
+  }
+  &[data-focused] {
+    background: var(--focus-color);
+    outline: none;
+  }
+  &[data-pressed] {
+    background: var(--pressed-color);
+  }
+  &[data-focus-visible] {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}

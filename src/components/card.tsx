@@ -1,9 +1,10 @@
 import { createGenericComponent } from "@/components/generic";
 import { forwardRef, ReactNode } from "react";
 import { bemHelper } from "@/util";
-import { Button, ButtonProps } from "react-aria-components";
-import { IconButton } from "./icon-button";
+import { Button as AriaButton } from "react-aria-components";
+import { IconButton, IconButtonProps } from "./icon-button";
 import "./card.scss";
+import { Button, ButtonProps } from "./button";
 
 type CardType =
   | "default"
@@ -85,10 +86,10 @@ export const CardSection = createGenericComponent<
 CardSection.displayName = "CardSection";
 
 export const CardPrimaryAction = createGenericComponent<
-  typeof Button,
+  typeof AriaButton,
   CardSectionProps,
   CardSectionPassedProps
->(Button, ({ children, className, ...props }, ref) => (
+>(AriaButton, ({ children, className, ...props }, ref) => (
   <CardSection
     ref={ref}
     {...props}
@@ -114,6 +115,40 @@ export const CardActions = createGenericComponent<
 
 CardActions.displayName = "CardActions";
 
+export const CardActionButtons = createGenericComponent<
+  "div",
+  {
+    className?: string;
+    children?: ReactNode;
+  },
+  {
+    className: string;
+    children: ReactNode;
+  }
+>("div", ({ children, className, as: As, ...props }, ref) => (
+  <As
+    ref={ref}
+    {...props}
+    className={cls("action-buttons", undefined, className)}
+  >
+    {children}
+  </As>
+));
+
+CardActionButtons.displayName = "CardActionButtons";
+
+export const CardActionButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, ...props }, ref) => (
+    <Button
+      {...props}
+      ref={ref}
+      className={cls("action", "button", className)}
+    />
+  ),
+);
+
+CardActionButton.displayName = "CardActionButton";
+
 export const CardActionIcons = createGenericComponent<
   "div",
   {
@@ -134,19 +169,14 @@ export const CardActionIcons = createGenericComponent<
   </As>
 ));
 
-interface CardActionIconProps extends Omit<ButtonProps, "className"> {
-  className?: string;
-}
-
-export const CardActionIcon = forwardRef<
-  HTMLButtonElement,
-  CardActionIconProps
->(({ className, ...props }, ref) => (
-  <IconButton
-    {...props}
-    ref={ref}
-    className={cls("action", "icon", className)}
-  />
-));
+export const CardActionIcon = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ className, ...props }, ref) => (
+    <IconButton
+      {...props}
+      ref={ref}
+      className={cls("action", "icon", className)}
+    />
+  ),
+);
 
 CardActionIcon.displayName = "CardActionIcon";

@@ -125,6 +125,7 @@ $hover-time: 0.2s;
     }
     &--actions {
       padding: 8px 16px;
+      gap: 8px;
       .card__section-content {
         display: flex;
         align-items: center;
@@ -139,9 +140,14 @@ $hover-time: 0.2s;
     align-items: center;
     flex-grow: 1;
   }
+  &__action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1;
+  }
   &__action {
     &--icon {
-      @include icon-button.ink-rgb("text");
       margin: theme.to-rem(-6px) 0;
     }
   }
