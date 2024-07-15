@@ -4,7 +4,7 @@ import { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
 import { supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
-import { Team } from "@/features/context/teams";
+import { Team } from "@/features/teams";
 import { buildRealtimeHandler } from "@/db/realtime";
 
 export type Sprint = Tables<"sprints">;
@@ -20,7 +20,7 @@ export const {
 } = sprintAdapter.getSelectors();
 
 export const sprintsApi = emptyApi
-  .enhanceEndpoints({ addTagTypes: ["Sprint", "Team"] })
+  .enhanceEndpoints({ addTagTypes: ["Sprint"] })
   .injectEndpoints({
     endpoints: (build) => ({
       getSprintsForTeam: build.query<
@@ -39,9 +39,8 @@ export const sprintsApi = emptyApi
             ? [
                 ...result.ids.map((id) => ({ type: "Sprint" as const, id })),
                 { type: "Sprint" as const, id: `TEAM-${teamId}` },
-                { type: "Team" as const, id: teamId },
               ]
-            : [{ type: "Team" as const, id: teamId }],
+            : [{ type: "Sprint" as const, id: `TEAM-${teamId}` }],
       }),
       getSprintById: build.query<Sprint, Sprint["id"]>({
         queryFn: supabaseQuery((id) =>

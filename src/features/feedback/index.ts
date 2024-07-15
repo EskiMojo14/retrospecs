@@ -5,14 +5,15 @@ import {
 } from "@reduxjs/toolkit";
 import { supabase } from "@/db";
 import { Enums, Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
-import { supabaseQuery } from "@/util/supabase-query";
+import { compoundKey, supabaseQuery } from "@/util/supabase-query";
 import { PickRequired } from "@/util/types";
 import { emptyApi } from "@/features/api";
 import { buildRealtimeHandler } from "@/db/realtime";
-import { Sprint } from "@/features/sprints/slice";
+import { Sprint } from "@/features/sprints";
 import { groupBy } from "@/util";
 
 export type Feedback = Tables<"feedback">;
+export type Reaction = Tables<"reactions">;
 
 const feedbackAdapter = createEntityAdapter<Feedback>();
 
@@ -34,8 +35,18 @@ export const selectFeedbackByCategory = (
   category: Enums<"category">,
 ) => selectFeedbackByCategories(state)[category];
 
+const selectReactionId = compoundKey<Reaction>()(
+  "feedback_id",
+  "user_id",
+  "reaction",
+);
+
+const reactionAdapter = createEntityAdapter<Reaction, string>({
+  selectId: selectReactionId,
+});
+
 export const feedbackApi = emptyApi
-  .enhanceEndpoints({ addTagTypes: ["Feedback", "Sprint"] })
+  .enhanceEndpoints({ addTagTypes: ["Feedback", "Reaction"] })
   .injectEndpoints({
     endpoints: (build) => ({
       getFeedbackBySprint: build.query<
@@ -54,15 +65,17 @@ export const feedbackApi = emptyApi
           result
             ? [
                 ...result.ids.map((id) => ({ type: "Feedback" as const, id })),
-                { type: "Sprint" as const, id: sprintId },
+                { type: "Feedback" as const, id: `SPRINT-${sprintId}` },
               ]
-            : [{ type: "Sprint" as const, id: sprintId }],
+            : [],
       }),
       addFeedback: build.mutation<null, TablesInsert<"feedback">>({
         queryFn: supabaseQuery((feedback) =>
           supabase.from("feedback").insert(feedback),
         ),
-        invalidatesTags: ["Feedback"],
+        invalidatesTags: (_result, _error, { sprint_id }) => [
+          { type: "Feedback", id: `SPRINT-${sprint_id}` },
+        ],
       }),
       updateFeedback: build.mutation<
         null,
@@ -78,6 +91,54 @@ export const feedbackApi = emptyApi
           supabase.from("feedback").delete().eq("id", id),
         ),
         invalidatesTags: (_res, _err, id) => [{ type: "Feedback", id }],
+      }),
+
+      getReactionsByFeedback: build.query<
+        EntityState<Reaction, string>,
+        Feedback["id"]
+      >({
+        queryFn: supabaseQuery(
+          (feedbackId) =>
+            supabase.from("reactions").select().eq("feedback_id", feedbackId),
+          {
+            transformResponse: (reactions) =>
+              reactionAdapter.getInitialState(undefined, reactions),
+          },
+        ),
+        providesTags: (result, _err, feedbackId) =>
+          result
+            ? [
+                ...result.ids.map((id) => ({
+                  type: "Reaction" as const,
+                  id,
+                })),
+                { type: "Reaction" as const, id: `FEEDBACK-${feedbackId}` },
+              ]
+            : [{ type: "Reaction" as const, id: `FEEDBACK-${feedbackId}` }],
+      }),
+      addReaction: build.mutation<null, TablesInsert<"reactions">>({
+        queryFn: supabaseQuery((reaction) =>
+          supabase.from("reactions").insert(reaction),
+        ),
+        invalidatesTags: (_result, _err, { feedback_id }) => [
+          { type: "Reaction", id: `FEEDBACK-${feedback_id}` },
+        ],
+      }),
+      deleteReaction: build.mutation<
+        null,
+        Parameters<typeof selectReactionId>[0]
+      >({
+        queryFn: supabaseQuery(({ feedback_id, user_id, reaction }) =>
+          supabase
+            .from("reactions")
+            .delete()
+            .eq("feedback_id", feedback_id)
+            .eq("user_id", user_id)
+            .eq("reaction", reaction),
+        ),
+        invalidatesTags: (_result, _err, reaction) => [
+          { type: "Reaction" as const, id: selectReactionId(reaction) },
+        ],
       }),
     }),
     overrideExisting: true,

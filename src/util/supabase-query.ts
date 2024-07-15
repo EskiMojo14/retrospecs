@@ -50,3 +50,9 @@ export function supabaseQuery<
     };
   };
 }
+
+export const compoundKey =
+  <T>() =>
+  <K extends keyof T>(...keys: K[]) =>
+  (obj: Pick<T, K>) =>
+    keys.map((key) => obj[key]).join("---");
