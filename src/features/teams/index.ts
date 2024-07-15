@@ -25,6 +25,14 @@ const teamMemberAdapter = createEntityAdapter<TeamMember, string>({
   selectId: selectTeamMemberId,
 });
 
+export const {
+  selectAll: selectAllTeamMembers,
+  selectById: selectTeamMemberById,
+  selectIds: selectTeamMemberIds,
+  selectEntities: selectTeamMemberEntities,
+  selectTotal: selectTotalTeamMembers,
+} = teamMemberAdapter.getSelectors();
+
 export const teamsApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Team", "TeamMember"] })
   .injectEndpoints({
