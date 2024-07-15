@@ -3,18 +3,20 @@ import { forwardRef, ReactNode } from "react";
 import { bemHelper } from "@/util";
 import { Button as AriaButton } from "react-aria-components";
 import { IconButton, IconButtonProps } from "./icon-button";
-import "./card.scss";
 import { Button, ButtonProps } from "./button";
+import "./card.scss";
 
-type CardType =
-  | "default"
-  | "inverse"
-  | "success"
-  | "warning"
-  | "error"
-  | "info";
+export const cardTypes = [
+  "default",
+  "inverse",
+  "success",
+  "warning",
+  "error",
+  "info",
+] as const;
 
-interface CardProps {
+type CardType = (typeof cardTypes)[number];
+export interface CardProps {
   type?: CardType;
   className?: string;
   children?: ReactNode;
