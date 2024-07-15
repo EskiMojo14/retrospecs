@@ -1,8 +1,17 @@
 @use "sass:map";
 @use "sass:meta";
+@use "@/util/theme";
 
-@mixin states($color, $state-opacities) {
-  @each $state, $opacity in $state-opacities {
+$default-state-opacities: (
+  hover: 0.1,
+  focus: 0.2,
+  pressed: 0.25,
+);
+
+@mixin states($color, $state-opacities: ()) {
+  @each $state,
+    $opacity in map.merge($default-state-opacities, $state-opacities)
+  {
     --#{$state}-color: #{if(
         meta.type-of($color) == "color",
         #{rgba($color, $opacity)},
@@ -11,14 +20,12 @@
   }
 }
 
-$default-state-opacities: (
-  hover: 0.1,
-  focus: 0.2,
-  pressed: 0.25,
-);
+@mixin ink-rgb($var, $state-opacities: ()) {
+  color: rgb(var(--#{$var}-rgb));
+  @include states($var, $state-opacities);
+}
 
 @mixin ink($color, $state-opacities: ()) {
-  $state-opacities: map.merge($default-state-opacities, $state-opacities);
   color: if(meta.type-of($color) == "color", $color, var(--#{$color}));
   @include states($color, $state-opacities);
 }
@@ -27,9 +34,9 @@ $default-state-opacities: (
   @include ink(black);
   background: none;
   border: none;
-  padding: 8px;
-  width: 40px;
-  height: 40px;
+  padding: 14px;
+  width: theme.to-rem(48px);
+  height: theme.to-rem(48px);
   border-radius: 50%;
   transition:
     background 200ms,

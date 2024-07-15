@@ -4,6 +4,7 @@ import {
   ElementType,
   ForwardedRef,
   forwardRef,
+  Ref,
 } from "react";
 import { Overwrite } from "@/util/types";
 
@@ -11,7 +12,7 @@ const propSymbol = Symbol("prop");
 const refSymbol = Symbol("ref");
 
 type PlaceholderComponent<PassedProps> = ComponentType<
-  PassedProps & { [propSymbol]: true; ref: ForwardedRef<typeof refSymbol> }
+  PassedProps & { [propSymbol]: true; ref: Ref<typeof refSymbol> }
 >;
 
 /** To make sure all props and the ref is passed through, we fake some types here */
@@ -28,12 +29,16 @@ export interface GenericComponent<
   PassedProps = {},
 > {
   (
-    props: { as?: never } & Overwrite<
-      ComponentPropsWithRef<DefaultComponent>,
-      ReceivedProps
-    >,
+    props:
+      | ({ as?: never } & Overwrite<
+          ComponentPropsWithRef<DefaultComponent>,
+          ReceivedProps
+        >)
+      | ({ as: PlaceholderComponent<PassedProps> } & ComponentPropsWithRef<
+          PlaceholderComponent<PassedProps>
+        >),
   ): JSX.Element;
-  <Component extends ElementType<PassedProps> = DefaultComponent>(
+  <Component extends ElementType<PassedProps>>(
     props: { as: Component } & Overwrite<
       ComponentPropsWithRef<Component>,
       ReceivedProps

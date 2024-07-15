@@ -1,73 +1,89 @@
-@mixin hover {
+@use "@/util/theme";
+@use "./icon-button";
+
+@mixin action-hover {
   --outer: var(--yellow-hover2);
   --mid: var(--yellow-hover3);
   --bg: var(--yellow-hover4);
   --text: var(--yellow-hover-dark);
+  --text-rgb: var(--yellow-hover-dark-rgb);
   &.card--inverse {
     --outer: var(--yellow-hover4);
     --mid: var(--yellow-hover2);
     --bg: var(--yellow-hover1);
     --text: var(--yellow-hover-light);
+    --text-rgb: var(--yellow-hover-light-rgb);
   }
 }
 
 $hover-time: 0.2s;
+
+%beforeBg {
+  content: "";
+  position: absolute;
+  background-color: var(--mid);
+  top: 2px;
+  bottom: 2px;
+  left: 8px;
+  right: 8px;
+  border-radius: 14px;
+  transition: background-color $hover-time;
+}
 
 .card {
   --outer: var(--yellow2);
   --mid: var(--yellow3);
   --bg: var(--yellow4);
   --text: var(--yellow-dark);
-  position: relative;
+  --text-rgb: var(--yellow-dark-rgb);
+  display: flex;
+  flex-direction: column;
   background-color: var(--outer);
   color: var(--text);
   border-radius: 12px;
-  padding: 4px 16px;
-  transition:
-    background-color $hover-time,
-    color $hover-time;
-  &::before {
-    content: "";
-    position: absolute;
-    background-color: var(--mid);
-    top: 2px;
-    bottom: 2px;
-    left: 8px;
-    right: 8px;
-    border-radius: 14px;
-    transition: background-color $hover-time;
-  }
+  position: relative;
   &--inverse {
     --outer: var(--yellow4);
     --mid: var(--yellow2);
     --bg: var(--yellow1);
     --text: var(--yellow-light);
+    --text-rgb: var(--yellow-light-rgb);
   }
   &--success {
     --outer: var(--green2);
     --mid: var(--green3);
     --bg: var(--green4);
     --text: var(--green-dark);
+    --text-rgb: var(--green-dark-rgb);
   }
   &--warning {
     --outer: var(--orange4);
     --mid: var(--orange5);
     --bg: var(--orange6);
     --text: var(--orange-dark);
+    --text-rgb: var(--orange-dark-rgb);
   }
   &--error {
     --outer: var(--red2);
     --mid: var(--red3);
     --bg: var(--red4);
     --text: var(--red-dark);
+    --text-rgb: var(--red-dark-rgb);
   }
   &--info {
     --outer: var(--blue3);
     --mid: var(--blue4);
     --bg: var(--blue5);
     --text: var(--blue-dark);
+    --text-rgb: var(--blue-dark-rgb);
   }
-  &__bg {
+  &--with-bg {
+    &::before {
+      @extend %beforeBg;
+    }
+  }
+  &__bg,
+  &__section__bg {
     background-color: var(--bg);
     position: absolute;
     top: 4px;
@@ -77,7 +93,56 @@ $hover-time: 0.2s;
     border-radius: 16px;
     transition: background-color $hover-time;
   }
-  &__content {
+  &__content,
+  &__section-content {
     position: relative;
+  }
+  &__section {
+    position: relative;
+    padding: 4px 16px;
+    background-color: var(--outer);
+    color: var(--text);
+    border-radius: 12px;
+    transition:
+      background-color $hover-time,
+      color $hover-time;
+    &::before {
+      @extend %beforeBg;
+    }
+    &--primary-action {
+      @at-root button#{&} {
+        appearance: none;
+        border: none;
+        &:focus {
+          outline: none;
+        }
+      }
+      &[data-hovered],
+      &[data-focused],
+      &[data-pressed] {
+        @include action-hover;
+      }
+    }
+    &--actions {
+      padding: 8px 16px;
+      .card__section-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: theme.to-rem(52px - 8px);
+      }
+    }
+  }
+  &__action-icons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+  }
+  &__action {
+    &--icon {
+      @include icon-button.ink-rgb("text");
+      margin: theme.to-rem(-6px) 0;
+    }
   }
 }
