@@ -6,7 +6,9 @@ import {
 } from "react-aria-components";
 import "./button.scss";
 
-type ButtonVariant = "text" | "outlined" | "contained";
+export const buttonVariants = ["text", "outlined", "contained"] as const;
+
+type ButtonVariant = (typeof buttonVariants)[number];
 
 export interface ButtonProps extends Omit<AriaButtonProps, "className"> {
   variant?: ButtonVariant;
