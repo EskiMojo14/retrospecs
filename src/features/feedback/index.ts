@@ -85,7 +85,7 @@ export const feedbackApi = emptyApi
                 ...result.ids.map((id) => ({ type: "Feedback" as const, id })),
                 { type: "Feedback" as const, id: `SPRINT-${sprintId}` },
               ]
-            : [],
+            : [{ type: "Feedback" as const, id: `SPRINT-${sprintId}` }],
       }),
       addFeedback: build.mutation<null, TablesInsert<"feedback">>({
         queryFn: supabaseQuery((feedback) =>
@@ -193,6 +193,37 @@ export const setupFeedbackRealtime = buildRealtimeHandler("feedback", {
         "getFeedbackBySprint",
         sprintId,
         (draft) => feedbackAdapter.removeOne(draft, feedbackId),
+      ),
+    );
+  },
+});
+
+export const setupReactionRealtime = buildRealtimeHandler("reactions", {
+  insert: (payload, dispatch) =>
+    dispatch(
+      feedbackApi.util.updateQueryData(
+        "getReactionsByFeedback",
+        payload.new.feedback_id,
+        (draft) => reactionAdapter.addOne(draft, payload.new),
+      ),
+    ),
+  delete: (payload, dispatch) => {
+    const { user_id, feedback_id, reaction } = payload.old;
+    if (
+      typeof reaction === "undefined" ||
+      typeof user_id === "undefined" ||
+      typeof feedback_id === "undefined"
+    )
+      return;
+    dispatch(
+      feedbackApi.util.updateQueryData(
+        "getReactionsByFeedback",
+        feedback_id,
+        (draft) =>
+          reactionAdapter.removeOne(
+            draft,
+            selectReactionId({ user_id, feedback_id, reaction }),
+          ),
       ),
     );
   },
