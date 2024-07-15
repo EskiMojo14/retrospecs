@@ -106,23 +106,70 @@ export type Database = {
           },
         ];
       };
+      org_members: {
+        Row: {
+          created_at: string;
+          org_id: number;
+          role: Database["public"]["Enums"]["member_role"];
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          org_id: number;
+          role: Database["public"]["Enums"]["member_role"];
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          org_id?: number;
+          role?: Database["public"]["Enums"]["member_role"];
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "org_members_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "org_members_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       orgs: {
         Row: {
           created_at: string;
           id: number;
           name: string;
+          owner_id: string;
         };
         Insert: {
           created_at?: string;
           id?: number;
           name: string;
+          owner_id?: string;
         };
         Update: {
           created_at?: string;
           id?: number;
           name?: string;
+          owner_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "orgs_owner_id_fkey";
+            columns: ["owner_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       reactions: {
         Row: {
@@ -202,19 +249,16 @@ export type Database = {
       team_members: {
         Row: {
           created_at: string;
-          role: Database["public"]["Enums"]["member_role"];
           team_id: number;
           user_id: string;
         };
         Insert: {
           created_at?: string;
-          role: Database["public"]["Enums"]["member_role"];
           team_id: number;
           user_id: string;
         };
         Update: {
           created_at?: string;
-          role?: Database["public"]["Enums"]["member_role"];
           team_id?: number;
           user_id?: string;
         };
