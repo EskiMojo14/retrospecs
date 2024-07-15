@@ -118,14 +118,13 @@ export function emplace<K extends object, V>(
   if (map.has(key)) {
     let value = map.get(key) as V;
     if (handler.update) {
-      value = handler.update(value, key, map);
-      map.set(key, value);
+      map.set(key, (value = handler.update(value, key, map)));
     }
     return value;
   }
   if (!handler.insert)
     throw new Error("No insert provided for key not already in map");
-  const inserted = handler.insert(key, map);
-  map.set(key, inserted);
+  let inserted;
+  map.set(key, (inserted = handler.insert(key, map)));
   return inserted;
 }
