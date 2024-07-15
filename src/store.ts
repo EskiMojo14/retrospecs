@@ -2,9 +2,12 @@ import { ThunkAction, UnknownAction, configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "@/reducers";
 import { emptyApi } from "@/features/api";
 
-export const makeStore = () =>
+export type PreloadedState = Parameters<typeof rootReducer>[0];
+
+export const makeStore = (preloadedState?: PreloadedState) =>
   configureStore({
     reducer: rootReducer,
+    preloadedState,
     middleware: (gDM) => gDM().concat(emptyApi.middleware),
   });
 

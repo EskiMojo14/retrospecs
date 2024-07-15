@@ -16,6 +16,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit/_pkg.tgz",
     "@supabase/supabase-js": "^2.44.3",
+    "@testing-library/user-event": "^14.5.2",
     "clsx": "^2.1.1",
     "eslint-plugin-react": "^7.34.3",
     "normalize.css": "^8.0.1",
