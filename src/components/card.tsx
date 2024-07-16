@@ -34,6 +34,7 @@ export const Card = createGenericComponent<
     children: ReactNode;
   }
 >(
+  "Card",
   "div",
   (
     { children, type = "default", as: As, className, withBg, ...props },
@@ -63,8 +64,6 @@ export const Card = createGenericComponent<
   ),
 );
 
-Card.displayName = "Card";
-
 interface CardSectionProps {
   className?: string;
   children?: ReactNode;
@@ -79,20 +78,18 @@ export const CardSection = createGenericComponent<
   "div",
   CardSectionProps,
   CardSectionPassedProps
->("div", ({ children, as: As, className, ...props }, ref) => (
+>("CardSection", "div", ({ children, as: As, className, ...props }, ref) => (
   <As ref={ref} {...props} className={cls("section", undefined, className)}>
     <span className={cls("section__bg")} aria-hidden />
     <div className={cls("section-content")}>{children}</div>
   </As>
 ));
 
-CardSection.displayName = "CardSection";
-
 export const CardPrimaryAction = createGenericComponent<
   typeof AriaButton,
   CardSectionProps,
   CardSectionPassedProps
->(AriaButton, ({ children, className, ...props }, ref) => (
+>("CardPrimaryAction", AriaButton, ({ children, className, ...props }, ref) => (
   <CardSection
     ref={ref}
     {...props}
@@ -106,7 +103,7 @@ export const CardActions = createGenericComponent<
   "div",
   CardSectionProps,
   CardSectionPassedProps
->("div", ({ children, className, ...props }, ref) => (
+>("CardActions", "div", ({ children, className, ...props }, ref) => (
   <CardSection
     ref={ref}
     {...props}
@@ -115,8 +112,6 @@ export const CardActions = createGenericComponent<
     {children}
   </CardSection>
 ));
-
-CardActions.displayName = "CardActions";
 
 export const CardActionButtons = createGenericComponent<
   "div",
@@ -128,17 +123,19 @@ export const CardActionButtons = createGenericComponent<
     className: string;
     children: ReactNode;
   }
->("div", ({ children, className, as: As, ...props }, ref) => (
-  <As
-    ref={ref}
-    {...props}
-    className={cls("action-buttons", undefined, className)}
-  >
-    {children}
-  </As>
-));
-
-CardActionButtons.displayName = "CardActionButtons";
+>(
+  "CardActionButtons",
+  "div",
+  ({ children, className, as: As, ...props }, ref) => (
+    <As
+      ref={ref}
+      {...props}
+      className={cls("action-buttons", undefined, className)}
+    >
+      {children}
+    </As>
+  ),
+);
 
 export const CardActionButton = createGenericComponent<
   typeof Button,
@@ -146,11 +143,9 @@ export const CardActionButton = createGenericComponent<
   {
     className: string;
   }
->(Button, ({ className, as: As, ...props }, ref) => (
+>("CardActionButton", Button, ({ className, as: As, ...props }, ref) => (
   <As {...props} ref={ref} className={cls("action", "button", className)} />
 ));
-
-CardActionButton.displayName = "CardActionButton";
 
 export const CardActionIcons = createGenericComponent<
   "div",
@@ -162,15 +157,19 @@ export const CardActionIcons = createGenericComponent<
     className: string;
     children: ReactNode;
   }
->("div", ({ children, className, as: As, ...props }, ref) => (
-  <As
-    ref={ref}
-    {...props}
-    className={cls("action-icons", undefined, className)}
-  >
-    {children}
-  </As>
-));
+>(
+  "CardActionIcons",
+  "div",
+  ({ children, className, as: As, ...props }, ref) => (
+    <As
+      ref={ref}
+      {...props}
+      className={cls("action-icons", undefined, className)}
+    >
+      {children}
+    </As>
+  ),
+);
 
 export const CardActionIcon = createGenericComponent<
   typeof IconButton,
@@ -178,8 +177,6 @@ export const CardActionIcon = createGenericComponent<
   {
     className: string;
   }
->(IconButton, ({ className, as: As, ...props }, ref) => (
+>("CardActionIcon", IconButton, ({ className, as: As, ...props }, ref) => (
   <As {...props} ref={ref} className={cls("action", "icon", className)} />
 ));
-
-CardActionIcon.displayName = "CardActionIcon";

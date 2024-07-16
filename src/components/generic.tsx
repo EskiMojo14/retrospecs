@@ -83,17 +83,21 @@ export function createGenericComponent<
   ReceivedProps extends {},
   PassedProps extends {} = {},
 >(
+  displayName: string,
   defaultComponent:
     | DefaultComponent
     | { getComponent: (props: ReceivedProps) => DefaultComponent },
   render: GenericRenderFunction<ReceivedProps, PassedProps>,
 ): GenericComponent<DefaultComponent, ReceivedProps, PassedProps> {
-  return forwardRef<typeof refSymbol, { as?: ElementType } & ReceivedProps>(
-    function intermediate({ as = defaultComponent, ...props }, ref) {
-      if (typeof as === "object" && "getComponent" in as) {
-        as = as.getComponent(props as never);
-      }
-      return render({ ...props, as } as never, ref);
-    },
-  ) as never;
+  const component = forwardRef<
+    typeof refSymbol,
+    { as?: ElementType } & ReceivedProps
+  >(function intermediate({ as = defaultComponent, ...props }, ref) {
+    if (typeof as === "object" && "getComponent" in as) {
+      as = as.getComponent(props as never);
+    }
+    return render({ ...props, as } as never, ref);
+  });
+  component.displayName = displayName;
+  return component as never;
 }

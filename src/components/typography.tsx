@@ -52,10 +52,9 @@ export const Typography = createGenericComponent<
     children: React.ReactNode;
   }
 >(
+  "Typography",
   { getComponent: ({ variant }) => variantMapping[variant] },
   ({ variant, className, as: As, ...props }, ref) => (
     <As ref={ref} {...props} className={cls(undefined, variant, className)} />
   ),
 );
-
-Typography.displayName = "Typography";

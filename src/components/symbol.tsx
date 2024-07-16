@@ -49,6 +49,7 @@ export const Symbol = createGenericComponent<
   SymbolProps,
   SymbolPassedProps
 >(
+  "Symbol",
   "i",
   (
     {
@@ -84,5 +85,3 @@ export const Symbol = createGenericComponent<
     </As>
   ),
 );
-
-Symbol.displayName = "Symbol";

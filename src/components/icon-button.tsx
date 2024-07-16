@@ -16,7 +16,7 @@ export const IconButton = createGenericComponent<
   {
     className: string;
   }
->(Button, ({ className, as: As, compact, ...props }, ref) => (
+>("IconButton", Button, ({ className, as: As, compact, ...props }, ref) => (
   <As
     {...props}
     ref={ref}
@@ -29,5 +29,3 @@ export const IconButton = createGenericComponent<
     )}
   />
 ));
-
-IconButton.displayName = "IconButton";

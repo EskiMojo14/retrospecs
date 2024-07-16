@@ -22,21 +22,23 @@ export const Button = createGenericComponent<
   {
     className: string;
   }
->(AriaButton, ({ variant = "text", className, as: As, ...props }, ref) => (
-  <As
-    ref={ref}
-    {...props}
-    className={cls(
-      undefined,
-      {
-        [variant]: true,
-      },
-      className,
-    )}
-  />
-));
-
-Button.displayName = "Button";
+>(
+  "Button",
+  AriaButton,
+  ({ variant = "text", className, as: As, ...props }, ref) => (
+    <As
+      ref={ref}
+      {...props}
+      className={cls(
+        undefined,
+        {
+          [variant]: true,
+        },
+        className,
+      )}
+    />
+  ),
+);
 
 export const LinkButton = (props: Overwrite<LinkProps, ButtonProps>) => (
   <Button as={Link} {...props} />
