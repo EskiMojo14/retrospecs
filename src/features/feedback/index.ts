@@ -1,16 +1,13 @@
-import {
-  createEntityAdapter,
-  createSelector,
-  EntityState,
-} from "@reduxjs/toolkit";
+import type { EntityState } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { supabase } from "@/db";
-import { Enums, Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
-import { compoundKey, supabaseQuery } from "@/util/supabase-query";
-import { PickRequired } from "@/util/types";
-import { emptyApi } from "@/features/api";
 import { buildRealtimeHandler } from "@/db/realtime";
-import { Sprint } from "@/features/sprints";
+import type { Enums, Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
+import { emptyApi } from "@/features/api";
+import type { Sprint } from "@/features/sprints";
 import { groupBy } from "@/util";
+import { compoundKey, supabaseQuery } from "@/util/supabase-query";
+import type { PickRequired } from "@/util/types";
 
 export type Feedback = Tables<"feedback">;
 export type Reaction = Tables<"reactions">;

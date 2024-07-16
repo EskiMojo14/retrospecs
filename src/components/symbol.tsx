@@ -1,7 +1,7 @@
-import { CSSProperties, ReactNode } from "react";
+import clsx from "clsx";
+import type { CSSProperties, ReactNode } from "react";
 import { createGenericComponent } from "./generic";
 import { clamp } from "@/util";
-import clsx from "clsx";
 import "./symbol.scss";
 
 interface SymbolSettings {

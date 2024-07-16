@@ -1,6 +1,7 @@
-import { ThunkAction, UnknownAction, configureStore } from "@reduxjs/toolkit";
-import { rootReducer } from "@/reducers";
+import type { ThunkAction, UnknownAction } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { emptyApi } from "@/features/api";
+import { rootReducer } from "@/reducers";
 
 export type PreloadedState = Parameters<typeof rootReducer>[0];
 

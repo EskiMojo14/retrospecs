@@ -1,9 +1,12 @@
-import { createGenericComponent } from "@/components/generic";
-import { forwardRef, ReactNode } from "react";
-import { bemHelper } from "@/util";
+import type { ReactNode } from "react";
+import { forwardRef } from "react";
 import { Button as AriaButton } from "react-aria-components";
-import { IconButton, IconButtonProps } from "./icon-button";
-import { Button, ButtonProps } from "./button";
+import type { ButtonProps } from "./button";
+import { Button } from "./button";
+import type { IconButtonProps } from "./icon-button";
+import { IconButton } from "./icon-button";
+import { createGenericComponent } from "@/components/generic";
+import { bemHelper } from "@/util";
 import "./card.scss";
 
 export const cardTypes = [

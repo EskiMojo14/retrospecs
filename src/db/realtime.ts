@@ -1,7 +1,7 @@
-import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
-import { Database, Tables } from "./supabase";
-import { AppDispatch } from "@/store";
+import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+import type { Database, Tables } from "./supabase";
 import { supabase } from ".";
+import type { AppDispatch } from "@/store";
 import { toLowerCaseTyped } from "@/util";
 
 export const buildRealtimeHandler =

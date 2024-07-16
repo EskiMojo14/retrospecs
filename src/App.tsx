@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import logo from "/assets/retrospecs.png";
 import { Categories } from "@/features/feedback/category";
 

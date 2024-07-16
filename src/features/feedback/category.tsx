@@ -1,7 +1,8 @@
-import { categories, Category, selectFeedbackByCategory } from "./slice-old";
 import clsx from "clsx";
-import { useAppSelector } from "@/pretyped";
 import { FeedbackCard } from "./card";
+import type { Category } from "./slice-old";
+import { categories, selectFeedbackByCategory } from "./slice-old";
+import { useAppSelector } from "@/pretyped";
 import styles from "./category.module.scss";
 
 interface CategoryProps {

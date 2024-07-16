@@ -14,7 +14,7 @@ export interface Feedback {
   title?: string;
 }
 
-const examples: Feedback[] = [
+const examples: Array<Feedback> = [
   {
     id: "1",
     sprintId: "2",

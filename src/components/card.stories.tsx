@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import type { ComponentPropsWithoutRef, CSSProperties } from "react";
 import {
   Card,
   CardActionButton,
@@ -12,7 +13,6 @@ import {
   cardTypes,
 } from "./card";
 import { Symbol } from "./symbol";
-import { ComponentPropsWithoutRef, CSSProperties } from "react";
 
 interface StoryArgs {
   onPrimaryAction?: () => void;

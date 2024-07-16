@@ -1,9 +1,7 @@
-import { bemHelper } from "@/util";
 import { forwardRef } from "react";
-import {
-  Button as AriaButton,
-  ButtonProps as AriaButtonProps,
-} from "react-aria-components";
+import type { ButtonProps as AriaButtonProps } from "react-aria-components";
+import { Button as AriaButton } from "react-aria-components";
+import { bemHelper } from "@/util";
 import "./button.scss";
 
 export const buttonVariants = ["text", "outlined", "contained"] as const;

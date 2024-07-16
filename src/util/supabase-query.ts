@@ -1,5 +1,8 @@
-import { BaseQueryApi } from "@reduxjs/toolkit/query";
-import { PostgrestError, PostgrestSingleResponse } from "@supabase/supabase-js";
+import type { BaseQueryApi } from "@reduxjs/toolkit/query";
+import type {
+  PostgrestError,
+  PostgrestSingleResponse,
+} from "@supabase/supabase-js";
 
 export interface PostgrestMeta {
   count: number | null;
@@ -53,6 +56,6 @@ export function supabaseQuery<
 
 export const compoundKey =
   <T>() =>
-  <K extends keyof T>(...keys: K[]) =>
+  <K extends keyof T>(...keys: Array<K>) =>
   (obj: Pick<T, K>) =>
     keys.map((key) => obj[key]).join("---");

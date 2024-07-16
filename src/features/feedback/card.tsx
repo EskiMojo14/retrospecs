@@ -1,6 +1,7 @@
-import styles from "./card.module.scss";
 import clsx from "clsx";
 import { ToggleButton } from "react-aria-components";
+import type { Feedback } from "./slice-old";
+import { feedbackAddressed, feedbackRemoved } from "./slice-old";
 import {
   Card,
   CardActionIcon,
@@ -8,9 +9,9 @@ import {
   CardActions,
   CardPrimaryAction,
 } from "@/components/card";
-import { Feedback, feedbackAddressed, feedbackRemoved } from "./slice-old";
-import { useAppDispatch } from "@/pretyped";
 import { Symbol } from "@/components/symbol";
+import { useAppDispatch } from "@/pretyped";
+import styles from "./card.module.scss";
 
 interface FeedbackCardProps {
   feedback: Feedback;

@@ -15,7 +15,7 @@ export const bemHelper = BEMHelper.withDefaults({
 
 export const safeAssign: <T extends object>(
   target: T,
-  ...sources: Partial<T>[]
+  ...sources: Array<Partial<T>>
 ) => T = Object.assign;
 
 export const toLowerCaseTyped = <T extends string>(value: T): Lowercase<T> =>
@@ -28,18 +28,18 @@ export const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
 export const groupBy = <T, K extends PropertyKey>(
-  array: T[],
+  array: Array<T>,
   key: (item: T) => K,
-): Partial<Record<K, T[]>> =>
-  array.reduce<Partial<Record<K, T[]>>>((acc, item) => {
+): Partial<Record<K, Array<T>>> =>
+  array.reduce<Partial<Record<K, Array<T>>>>((acc, item) => {
     (acc[key(item)] ??= []).push(item);
     return acc;
   }, {});
 
 export const mapGroupBy = <T, K>(
-  array: T[],
+  array: Array<T>,
   key: (item: T) => K,
-): Map<K, T[]> =>
+): Map<K, Array<T>> =>
   array.reduce((acc, item) => {
     emplace(acc, key(item), {
       insert: () => [item],
@@ -49,7 +49,7 @@ export const mapGroupBy = <T, K>(
       },
     });
     return acc;
-  }, new Map<K, T[]>());
+  }, new Map<K, Array<T>>());
 
 interface WeakMapEmplaceHandler<K extends object, V> {
   /**

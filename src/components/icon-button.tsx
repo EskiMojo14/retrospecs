@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { Button, ButtonProps } from "./button";
+import type { ButtonProps } from "./button";
+import { Button } from "./button";
 import "./icon-button.scss";
 
 export type IconButtonProps = ButtonProps;

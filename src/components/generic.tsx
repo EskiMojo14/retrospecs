@@ -1,12 +1,12 @@
-import {
+import type {
   ComponentPropsWithRef,
   ComponentType,
   ElementType,
   ForwardedRef,
-  forwardRef,
   Ref,
 } from "react";
-import { Overwrite } from "@/util/types";
+import { forwardRef } from "react";
+import type { Overwrite } from "@/util/types";
 
 const propSymbol = Symbol("prop");
 const refSymbol = Symbol("ref");

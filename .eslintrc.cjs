@@ -8,7 +8,9 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
@@ -23,6 +25,50 @@ module.exports = {
       "error",
       { allowNumber: true },
     ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { fixStyle: "separate-type-imports" },
+    ],
+    "@typescript-eslint/array-type": ["error", { default: "generic" }],
+    "import/order": [
+      "error",
+      {
+        alphabetize: {
+          order: "asc",
+          orderImportKind: "asc",
+          caseInsensitive: true,
+        },
+        pathGroups: [
+          {
+            pattern: "**/*.+(css|sass|less|scss|pcss|styl)",
+            patternOptions: { dot: true, nocomment: true },
+            group: "unknown",
+            position: "after",
+          },
+          {
+            pattern: "{.,..}/**/*.+(css|sass|less|scss|pcss|styl)",
+            patternOptions: { dot: true, nocomment: true },
+            group: "unknown",
+            position: "after",
+          },
+          {
+            pattern: "@/**",
+            group: "internal",
+          },
+          {
+            pattern: "react",
+            group: "builtin",
+            position: "before",
+          },
+          {
+            pattern: "react-dom",
+            group: "builtin",
+            position: "before",
+          },
+        ],
+        warnOnUnassignedImports: true,
+      },
+    ],
   },
   parserOptions: {
     ecmaVersion: "latest",
@@ -30,4 +76,22 @@ module.exports = {
     project: ["./tsconfig.app.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
+  settings: {
+    "import/resolver": {
+      typescript: {
+        project: ["./tsconfig.app.json", "./tsconfig.node.json"],
+      },
+      node: true,
+    },
+    react: {
+      version: "detect",
+    },
+  },
+  overrides: [
+    {
+      files: ["**/*.test.ts"],
+      plugins: ["vitest"],
+      extends: ["plugin:vitest/legacy-recommended"],
+    },
+  ],
 };
