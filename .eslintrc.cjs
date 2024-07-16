@@ -40,14 +40,8 @@ module.exports = {
         },
         pathGroups: [
           {
-            pattern: "**/*.+(css|sass|less|scss|pcss|styl)",
-            patternOptions: { dot: true, nocomment: true },
-            group: "unknown",
-            position: "after",
-          },
-          {
-            pattern: "{.,..}/**/*.+(css|sass|less|scss|pcss|styl)",
-            patternOptions: { dot: true, nocomment: true },
+            pattern: "*.{css,scss}",
+            patternOptions: { matchBase: true },
             group: "unknown",
             position: "after",
           },
