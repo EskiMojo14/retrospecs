@@ -2,7 +2,7 @@
 @use "sass:meta";
 @use "@/util";
 @use "@/theme";
-@use "./typography";
+@use "@/components/typography";
 
 @mixin ink($color, $state-opacities: ()) {
   --button-text-rgb: #{if(
