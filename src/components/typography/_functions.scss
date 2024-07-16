@@ -1,0 +1,3 @@
+@function emphasis($color, $emphasis) {
+  @return rgba(var(--#{$color}-rgb), var(--typography-emphasis-#{$emphasis}));
+}

@@ -1,5 +1,4 @@
 @use "@/util";
-@use "@/components/icon-button";
 
 @mixin action-hover {
   &[data-hovered],

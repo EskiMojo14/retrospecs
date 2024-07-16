@@ -1,4 +1,4 @@
-@use "@/components/typography";
+@use "@/components/typography/functions" as typography-functions;
 
 .orgCard {
   .primaryAction {
@@ -18,7 +18,7 @@
   }
   .date,
   .teamCount {
-    color: typography.emphasis("card-text", "medium");
+    color: typography-functions.emphasis("card-text", "medium");
   }
   .teamCount {
     margin-bottom: 0.125rem;

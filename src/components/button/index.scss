@@ -1,49 +1,20 @@
 @use "sass:map";
-@use "sass:meta";
 @use "@/util";
-@use "@/theme";
-@use "@/components/typography";
-
-@mixin ink($color, $state-opacities: ()) {
-  --button-text-rgb: #{if(
-      meta.type-of($color) == "color",
-      util.get-rgb($color),
-      var(--#{$color}-rgb)
-    )};
-  --button-text: #{rgb(var(--button-text-rgb))};
-  @include theme.states("button-text", $state-opacities);
-}
-
-@mixin contained-ink($color, $state-opacities: ()) {
-  --button-text-rgb: #{if(
-      meta.type-of($color) == "color",
-      util.get-rgb($color),
-      var(--#{$color}-rgb)
-    )};
-
-  @each $state,
-    $opacity in map.merge(theme.$default-state-opacities, $state-opacities)
-  {
-    --#{$state}-color: #{color-mix(
-        in srgb,
-        if(meta.type-of($color) == "color", $color, rgb(var(--#{$color}-rgb)))
-          calc(#{$opacity} * 100%),
-        var(--background)
-      )};
-  }
-}
+@use "@/components/typography/mixins" as typography-mixins;
+@use "@/components/typography/variables" as typography-variables;
+@use "./mixins";
 
 .button {
   --dark-rgb: var(--orange-dark-rgb);
   --light-rgb: var(--orange-light-rgb);
   --background-rgb: var(--dark-rgb);
   --background: #{rgb(var(--background-rgb))};
-  @include ink("dark");
+  @include mixins.ink("dark");
   --outline: var(--button-text);
   --outline-width: 2px;
   --border-radius: 8px;
   color: var(--button-text);
-  @include typography.style("button");
+  @include typography-mixins.style("button");
   text-wrap: nowrap;
   padding: 8px 16px;
   border-radius: var(--border-radius);
@@ -83,7 +54,7 @@
   }
   &--contained {
     background: var(--background);
-    @include contained-ink("light");
+    @include mixins.contained-ink("light");
   }
   &[data-hovered] {
     background: var(--hover-color);
@@ -100,6 +71,6 @@
     outline-offset: 2px;
   }
   &[data-disabled] {
-    opacity: map.get(typography.$emphasis-map, "disabled");
+    opacity: map.get(typography-variables.$emphasis-map, "disabled");
   }
 }

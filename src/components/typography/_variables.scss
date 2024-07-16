@@ -1,0 +1,72 @@
+@use "sass:string";
+@use "@/util";
+
+$defaults: (
+  font-family: string.unquote("Raleway"),
+  font-size: util.to-rem(16px),
+  font-weight: 500,
+  text-transform: none,
+  font-variant-numeric: oldstyle-nums,
+  font-feature-settings: '"lnum" 0, "onum" 0',
+);
+
+$type-scale: (
+  headline1: (
+    font-size: util.to-rem(99px),
+    font-weight: 300,
+  ),
+  headline2: (
+    font-size: util.to-rem(62px),
+    font-weight: 400,
+  ),
+  headline3: (
+    font-size: util.to-rem(49px),
+    font-weight: 400,
+  ),
+  headline4: (
+    font-size: util.to-rem(35px),
+    font-weight: 400,
+  ),
+  headline5: (
+    font-family: string.unquote("Super Dream"),
+    font-size: util.to-rem(25px),
+    font-weight: 400,
+  ),
+  headline6: (
+    font-size: util.to-rem(21px),
+  ),
+  body1: (
+    font-size: util.to-rem(16px),
+  ),
+  body2: (
+    font-size: util.to-rem(14px),
+  ),
+  subtitle1: (
+    font-size: util.to-rem(16px),
+  ),
+  subtitle2: (
+    font-size: util.to-rem(14px),
+  ),
+  button: (
+    font-size: util.to-rem(14px),
+    font-weight: 700,
+    text-transform: uppercase,
+    font-variant-numeric: lining-nums,
+    font-feature-settings: '"lnum" 1',
+  ),
+  overline: (
+    font-size: util.to-rem(10px),
+    text-transform: uppercase,
+    font-variant-numeric: lining-nums,
+    font-feature-settings: '"lnum" 1',
+  ),
+  caption: (
+    font-size: util.to-rem(12px),
+  ),
+);
+
+$emphasis-map: (
+  high: 0.87,
+  medium: 0.6,
+  disabled: 0.38,
+);

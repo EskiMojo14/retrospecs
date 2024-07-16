@@ -1,0 +1,33 @@
+@use "sass:map";
+@use "sass:meta";
+@use "@/theme";
+@use "@/util";
+
+@mixin ink($color, $state-opacities: ()) {
+  --button-text-rgb: #{if(
+      meta.type-of($color) == "color",
+      util.get-rgb($color),
+      var(--#{$color}-rgb)
+    )};
+  --button-text: #{rgb(var(--button-text-rgb))};
+  @include theme.states("button-text", $state-opacities);
+}
+
+@mixin contained-ink($color, $state-opacities: ()) {
+  --button-text-rgb: #{if(
+      meta.type-of($color) == "color",
+      util.get-rgb($color),
+      var(--#{$color}-rgb)
+    )};
+
+  @each $state,
+    $opacity in map.merge(theme.$default-state-opacities, $state-opacities)
+  {
+    --#{$state}-color: #{color-mix(
+        in srgb,
+        if(meta.type-of($color) == "color", $color, rgb(var(--#{$color}-rgb)))
+          calc(#{$opacity} * 100%),
+        var(--background)
+      )};
+  }
+}
