@@ -8,7 +8,9 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  argTypes: {},
+  argTypes: {
+    isDisabled: { control: "boolean" },
+  },
   args: { onPress: fn() },
 } satisfies Meta<typeof OAuthButton>;
 

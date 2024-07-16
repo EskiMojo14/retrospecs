@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { forwardRef } from "react";
 import type { ButtonProps } from "react-aria-components";
 import { Button } from "react-aria-components";
-import "./oauth.css";
+import "./oauth.scss";
 
 export interface OAuthButtonProps
   extends Omit<ButtonProps, "className" | "children"> {
