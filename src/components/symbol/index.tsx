@@ -28,7 +28,7 @@ const symbolSettingsToVar = ({
   weight = defaultSettings.weight,
   grade = defaultSettings.grade,
   opticalSize = defaultSettings.opticalSize,
-}: Omit<SymbolSettings, "size">) => {
+}: Pick<SymbolSettings, "fill" | "weight" | "grade" | "opticalSize">) => {
   return `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' ${clamp(grade, -25, 200)}, 'opsz' ${clamp(opticalSize, 20, 48)}`;
 };
 

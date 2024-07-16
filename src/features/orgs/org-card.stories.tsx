@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { teamsApi } from "../teams";
 import { OrgCard } from "./org-card";
 import type { Org } from ".";
 import { orgAdapter, orgsApi } from ".";
+import { teamsApi } from "@/features/teams";
 import { makeStore } from "@/store";
 import { createReduxDecorator } from "@/util/storybook";
 
