@@ -10,24 +10,33 @@
       var(--#{$color}-rgb)
     )};
   --button-text: #{rgb(var(--button-text-rgb))};
-  @include theme.states("button-text", $state-opacities);
 }
 
 @mixin contained-ink($color, $state-opacities: ()) {
+  --background: #{color-mix(
+      in srgb,
+      if(meta.type-of($color) == "color", $color, rgb(var(--#{$color}-rgb)))
+        calc(var(--background-alpha) * 100%),
+      rgb(var(--background-rgb))
+    )};
+
   --button-text-rgb: #{if(
       meta.type-of($color) == "color",
       util.get-rgb($color),
       var(--#{$color}-rgb)
     )};
+}
 
-  @each $state,
-    $opacity in map.merge(theme.$default-state-opacities, $state-opacities)
-  {
-    --#{$state}-color: #{color-mix(
-        in srgb,
-        if(meta.type-of($color) == "color", $color, rgb(var(--#{$color}-rgb)))
-          calc(#{$opacity} * 100%),
-        var(--background)
-      )};
+@mixin outline {
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--outline-width);
+    left: var(--outline-width);
+    right: var(--outline-width);
+    bottom: var(--outline-width);
+    border: var(--outline-width) solid var(--outline);
+    border-radius: calc(var(--border-radius) - var(--outline-width));
+    pointer-events: none;
   }
 }

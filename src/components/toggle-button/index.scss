@@ -1,4 +1,58 @@
+@use "sass:map";
+@use "@/theme";
+@use "@/theme/typography";
+@use "@/components/button/mixins" as button-mixins;
+@use "@/components/button/variables" as button-variables;
+
 .toggle-button {
+  --dark-rgb: var(--orange-dark-rgb);
+  --light-rgb: var(--orange-light-rgb);
+  --background-rgb: var(--dark-rgb);
+  --background-alpha: 0;
+  --background: #{rgba(var(--background-rgb), var(--background-alpha))};
+  --outline: var(--button-text);
+  --outline-width: #{button-variables.$outline-width};
+  --border-radius: #{button-variables.$border-radius};
+  border-radius: var(--border-radius);
+
+  background: var(--background);
+  color: var(--button-text);
+  padding: button-variables.$padding-y button-variables.$padding-x;
+
+  position: relative;
+
+  text-wrap: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition:
+    background 200ms,
+    outline 200ms,
+    outline-offset 200ms;
+
+  @include typography.style("button");
+
+  @include button-mixins.ink("dark");
+  @include button-mixins.outline;
+  @include theme.states;
+  @include theme.focus-ring;
+
+  @at-root button#{&} {
+    appearance: none;
+    border: none;
+    &:focus:not([data-focus-visible]) {
+      outline: none;
+    }
+  }
+  @at-root a#{&} {
+    text-decoration: none;
+  }
+
+  &[data-selected] {
+    @include button-mixins.contained-ink("light");
+  }
   &[data-disabled] {
+    opacity: map.get(typography.$emphasis-map, disabled);
   }
 }

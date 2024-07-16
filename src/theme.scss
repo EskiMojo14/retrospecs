@@ -2,19 +2,24 @@
 @use "sass:meta";
 
 $default-state-opacities: (
-  hover: 0.15,
-  focus: 0.25,
+  hovered: 0.15,
+  focused: 0.25,
   pressed: 0.3,
 );
 
-@mixin states($color, $state-opacities: ()) {
+@mixin states($state-opacities: ()) {
   @each $state,
     $opacity in map.merge($default-state-opacities, $state-opacities)
   {
-    --#{$state}-color: #{if(
-        meta.type-of($color) == "color",
-        #{rgba($color, $opacity)},
-        rgba(var(--#{$color}-rgb), #{$opacity})
-      )};
+    &[data-#{$state}] {
+      --background-alpha: #{$opacity};
+    }
+  }
+}
+
+@mixin focus-ring {
+  &[data-focus-visible] {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
   }
 }

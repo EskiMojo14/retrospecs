@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:string";
 @use "@/util";
 
@@ -70,3 +71,13 @@ $emphasis-map: (
   medium: 0.6,
   disabled: 0.38,
 );
+
+@function emphasis($color, $emphasis) {
+  @return rgba(var(--#{$color}-rgb), var(--typography-emphasis-#{$emphasis}));
+}
+
+@mixin style($style) {
+  @each $prop, $value in map.get($type-scale, $style) {
+    #{$prop}: var(--typography-#{$style}-#{$prop});
+  }
+}

@@ -2,6 +2,7 @@
 @use "sass:map";
 @use "sass:math";
 @use "@/util";
+@use "@/theme/typography";
 
 @import "normalize.css";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
@@ -97,11 +98,24 @@ $gradients: (
   --border-width: #{util.to-rem(4px)};
   --header-height: #{util.to-rem(64px)};
   --header-margin: calc(var(--border-width) * var(--orange-length));
+  --focus-ring-color: var(--blue4);
   @include color-var("off-white", #e7e6df);
   @include color-var("brown", #5a3d2b);
 
   @each $name, $stops in $gradients {
     @include gradient($name, $stops);
+  }
+
+  @each $emphasis, $opacity in typography.$emphasis-map {
+    --typography-emphasis-#{$emphasis}: #{$opacity};
+  }
+  @each $prop, $value in typography.$defaults {
+    --typography-default-#{$prop}: #{$value};
+  }
+  @each $style, $props in typography.$type-scale {
+    @each $prop, $value in $props {
+      --typography-#{$style}-#{$prop}: #{$value};
+    }
   }
 }
 

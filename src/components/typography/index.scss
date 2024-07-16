@@ -1,31 +1,16 @@
 @use "sass:map";
 @use "sass:meta";
 @use "sass:string";
+@use "@/theme/typography";
 @use "@/util";
-@use "./variables";
-@use "./mixins";
-
-:root {
-  @each $emphasis, $opacity in variables.$emphasis-map {
-    --typography-emphasis-#{$emphasis}: #{$opacity};
-  }
-  @each $prop, $value in variables.$defaults {
-    --typography-default-#{$prop}: #{$value};
-  }
-  @each $style, $props in variables.$type-scale {
-    @each $prop, $value in $props {
-      --typography-#{$style}-#{$prop}: #{$value};
-    }
-  }
-}
 
 .typography {
-  @each $prop, $value in variables.$defaults {
+  @each $prop, $value in typography.$defaults {
     #{$prop}: var(--typography-default-#{$prop});
   }
-  @each $style, $props in variables.$type-scale {
+  @each $style, $props in typography.$type-scale {
     &--#{$style} {
-      @include mixins.style($style);
+      @include typography.style($style);
     }
   }
 }

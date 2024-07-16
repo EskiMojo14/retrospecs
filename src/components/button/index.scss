@@ -1,22 +1,23 @@
 @use "sass:map";
+@use "@/theme";
+@use "@/theme/typography";
 @use "@/util";
-@use "@/components/typography/mixins" as typography-mixins;
-@use "@/components/typography/variables" as typography-variables;
 @use "./mixins";
+@use "./variables";
 
 .button {
   --dark-rgb: var(--orange-dark-rgb);
   --light-rgb: var(--orange-light-rgb);
   --background-rgb: var(--dark-rgb);
-  --background: #{rgb(var(--background-rgb))};
-  @include mixins.ink("dark");
+  --background-alpha: 0;
+  --background: #{rgba(var(--background-rgb), var(--background-alpha))};
   --outline: var(--button-text);
-  --outline-width: 2px;
-  --border-radius: 8px;
+  --outline-width: #{variables.$outline-width};
+  --border-radius: #{variables.$border-radius};
+  background: var(--background);
   color: var(--button-text);
-  @include typography-mixins.style("button");
   text-wrap: nowrap;
-  padding: 8px 16px;
+  padding: variables.$padding-y variables.$padding-x;
   border-radius: var(--border-radius);
   transition:
     background 200ms,
@@ -26,12 +27,17 @@
   justify-content: center;
   align-items: center;
 
+  @include typography.style("button");
+
+  @include mixins.ink("dark");
+  @include theme.states;
+  @include theme.focus-ring;
+
   @at-root button#{&} {
     appearance: none;
     border: none;
-    &--text,
-    &--outlined {
-      background: none;
+    &:focus:not([data-focus-visible]) {
+      outline: none;
     }
   }
   @at-root a#{&} {
@@ -40,37 +46,9 @@
   &--outlined,
   &--contained {
     position: relative;
-    &::before {
-      content: "";
-      position: absolute;
-      top: var(--outline-width);
-      left: var(--outline-width);
-      right: var(--outline-width);
-      bottom: var(--outline-width);
-      border: var(--outline-width) solid var(--outline);
-      border-radius: calc(var(--border-radius) - var(--outline-width));
-      pointer-events: none;
-    }
+    @include mixins.outline;
   }
   &--contained {
-    background: var(--background);
     @include mixins.contained-ink("light");
-  }
-  &[data-hovered] {
-    background: var(--hover-color);
-  }
-  &[data-focused] {
-    background: var(--focus-color);
-    outline: none;
-  }
-  &[data-pressed] {
-    background: var(--pressed-color);
-  }
-  &[data-focus-visible] {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
-  &[data-disabled] {
-    opacity: map.get(typography-variables.$emphasis-map, "disabled");
   }
 }

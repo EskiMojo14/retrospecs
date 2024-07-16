@@ -1,8 +1,0 @@
-@use "sass:map";
-@use "./variables";
-
-@mixin style($style) {
-  @each $prop, $value in map.get(variables.$type-scale, $style) {
-    #{$prop}: var(--typography-#{$style}-#{$prop});
-  }
-}

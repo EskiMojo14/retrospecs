@@ -1,8 +1,9 @@
 import { clsx } from "clsx";
 import { ToggleButton as AriaToggleButton } from "react-aria-components";
 import { createGenericComponent } from "@/components/generic";
+import "./index.scss";
 
-interface ToggleButtonProps {
+export interface ToggleButtonProps {
   className?: string;
 }
 
