@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { startCase } from "lodash";
-import { Typography, typographyVariants } from "./typography";
+import { typographyVariants } from "./constants";
+import { Typography } from ".";
 
 const meta = {
   title: "Components/Typography",

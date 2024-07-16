@@ -1,22 +1,13 @@
 import type { ReactNode } from "react";
 import { Button as AriaButton } from "react-aria-components";
-import type { ButtonProps } from "./button";
-import { Button } from "./button";
-import { IconButton } from "./icon-button";
+import type { CardType } from "./constants";
+import type { ButtonProps } from "@/components/button";
+import { Button } from "@/components/button";
 import { createGenericComponent } from "@/components/generic";
+import { IconButton } from "@/components/icon-button";
 import { bemHelper } from "@/util";
-import "./card.scss";
+import "./index.scss";
 
-export const cardTypes = [
-  "default",
-  "inverse",
-  "success",
-  "warning",
-  "error",
-  "info",
-] as const;
-
-type CardType = (typeof cardTypes)[number];
 export interface CardProps {
   type?: CardType;
   className?: string;

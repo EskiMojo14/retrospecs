@@ -1,13 +1,10 @@
 import type { LinkProps } from "react-aria-components";
 import { Button as AriaButton, Link } from "react-aria-components";
-import { createGenericComponent } from "./generic";
+import type { ButtonVariant } from "./constants";
+import { createGenericComponent } from "@/components/generic";
 import { bemHelper } from "@/util";
 import type { Overwrite } from "@/util/types";
-import "./button.scss";
-
-export const buttonVariants = ["text", "outlined", "contained"] as const;
-
-type ButtonVariant = (typeof buttonVariants)[number];
+import "./index.scss";
 
 export interface ButtonProps {
   variant?: ButtonVariant;

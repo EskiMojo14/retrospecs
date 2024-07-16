@@ -1,17 +1,17 @@
 @use "sass:meta";
-@use "@/util/theme";
+@use "@/util";
 
 .icon-button {
   padding: 14px;
-  width: theme.to-rem(48px);
-  height: theme.to-rem(48px);
+  width: util.to-rem(48px);
+  height: util.to-rem(48px);
   --border-radius: 50%;
   &::before {
     border-radius: inherit;
   }
   &--compact {
     padding: 8px;
-    width: theme.to-rem(40px);
-    height: theme.to-rem(40px);
+    width: util.to-rem(40px);
+    height: util.to-rem(40px);
   }
 }

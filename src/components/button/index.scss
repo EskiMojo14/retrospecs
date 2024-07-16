@@ -1,12 +1,13 @@
 @use "sass:map";
 @use "sass:meta";
-@use "@/util/theme";
+@use "@/util";
+@use "@/theme";
 @use "./typography";
 
 @mixin ink($color, $state-opacities: ()) {
   --button-text-rgb: #{if(
       meta.type-of($color) == "color",
-      theme.get-rgb($color),
+      util.get-rgb($color),
       var(--#{$color}-rgb)
     )};
   --button-text: #{rgb(var(--button-text-rgb))};
@@ -16,7 +17,7 @@
 @mixin contained-ink($color, $state-opacities: ()) {
   --button-text-rgb: #{if(
       meta.type-of($color) == "color",
-      theme.get-rgb($color),
+      util.get-rgb($color),
       var(--#{$color}-rgb)
     )};
 

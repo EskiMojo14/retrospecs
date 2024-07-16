@@ -1,5 +1,5 @@
-@use "@/util/theme";
-@use "./icon-button";
+@use "@/util";
+@use "@/components/icon-button";
 
 @mixin action-hover {
   &[data-hovered],
@@ -130,7 +130,7 @@ $hover-time: 0.2s;
         display: flex;
         align-items: center;
         gap: 8px;
-        min-height: theme.to-rem(52px - 8px);
+        min-height: util.to-rem(52px - 8px);
       }
     }
   }
@@ -148,7 +148,7 @@ $hover-time: 0.2s;
   }
   &__action {
     &--icon {
-      margin: theme.to-rem(-6px) 0;
+      margin: util.to-rem(-6px) 0;
     }
   }
 }

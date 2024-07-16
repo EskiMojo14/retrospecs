@@ -1,6 +1,7 @@
-import { AppStore, makeStore, PreloadedState } from "@/store";
 import type { Meta, Args } from "@storybook/react";
 import { Provider } from "react-redux";
+import type { AppStore, PreloadedState } from "@/store";
+import { makeStore } from "@/store";
 
 type DecoratorFunction<TArgs = Args> = Extract<
   NonNullable<Meta<TArgs>["decorators"]>,

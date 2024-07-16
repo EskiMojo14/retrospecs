@@ -1,5 +1,5 @@
+import { Typography } from "@/components/typography";
 // eslint-disable-next-line import/no-unresolved
-import { Typography } from "./components/typography";
 import logo from "/assets/retrospecs.png";
 import { Categories } from "@/features/feedback/category";
 

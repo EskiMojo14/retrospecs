@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import type { CSSProperties, ReactNode } from "react";
-import { createGenericComponent } from "./generic";
+import { createGenericComponent } from "@/components/generic";
 import { clamp } from "@/util";
-import "./symbol.scss";
+import "./index.scss";
 
 interface SymbolSettings {
   fill?: boolean;

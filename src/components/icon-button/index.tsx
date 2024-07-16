@@ -1,7 +1,7 @@
-import { Button } from "./button";
-import { createGenericComponent } from "./generic";
+import { Button } from "@/components/button";
+import { createGenericComponent } from "@/components/generic";
 import { bemHelper } from "@/util";
-import "./icon-button.scss";
+import "./index.scss";
 
 export interface IconButtonProps {
   className?: string;

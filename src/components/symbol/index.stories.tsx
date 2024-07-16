@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Symbol } from "./symbol";
+import { Symbol } from ".";
 
 const meta = {
   title: "Components/Symbol",

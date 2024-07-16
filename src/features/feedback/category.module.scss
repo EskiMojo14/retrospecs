@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "@/util/theme";
+@use "@/util";
 
 .categories {
   display: grid;
@@ -50,7 +50,7 @@ $color-map: (
     top: 0;
     left: 0;
     right: 0;
-    height: theme.to-rem(72px);
+    height: util.to-rem(72px);
   }
   :global(.no-groove) & {
     background-image: none;

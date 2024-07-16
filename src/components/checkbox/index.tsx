@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { forwardRef } from "react";
 import type { CheckboxProps } from "react-aria-components";
 import { Checkbox as AriaCheckbox } from "react-aria-components";
-import "./checkbox.scss";
+import "./index.scss";
 
 export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
   ({ children, ...props }, ref) => (
