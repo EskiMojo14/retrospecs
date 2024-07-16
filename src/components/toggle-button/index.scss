@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "@/theme";
 @use "@/theme/typography";
+@use "@/util";
 @use "@/components/button/mixins" as button-mixins;
 @use "@/components/button/variables" as button-variables;
 
@@ -54,5 +55,49 @@
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
+  }
+}
+
+.toggle-button-group {
+  display: flex;
+  .toggle-button {
+    &:first-child {
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+      &::before {
+        border-radius: var(--outline-border-radius) 0 0
+          var(--outline-border-radius);
+      }
+    }
+    &:last-child {
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      &::before {
+        border-radius: 0 var(--outline-border-radius)
+          var(--outline-border-radius) 0;
+      }
+    }
+    &:not(:last-child):not(:first-child) {
+      border-radius: 0;
+      &::before {
+        border-radius: 0;
+      }
+    }
+  }
+  @include util.rtl {
+    .toggle-button {
+      &:first-child {
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        &::before {
+          border-radius: 0 var(--outline-border-radius)
+            var(--outline-border-radius) 0;
+        }
+      }
+      &:last-child {
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        &::before {
+          border-radius: var(--outline-border-radius) 0 0
+            var(--outline-border-radius);
+        }
+      }
+    }
   }
 }

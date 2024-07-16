@@ -36,7 +36,8 @@
     right: var(--outline-width);
     bottom: var(--outline-width);
     border: var(--outline-width) solid var(--outline);
-    border-radius: calc(var(--border-radius) - var(--outline-width));
+    --outline-border-radius: calc(var(--border-radius) - var(--outline-width));
+    border-radius: var(--outline-border-radius);
     pointer-events: none;
   }
 }
