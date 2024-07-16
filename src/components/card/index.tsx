@@ -66,15 +66,19 @@ interface CardSectionPassedProps {
 }
 
 export const CardSection = createGenericComponent<
-  "div",
+  "section",
   CardSectionProps,
   CardSectionPassedProps
->("CardSection", "div", ({ children, as: As, className, ...props }, ref) => (
-  <As ref={ref} {...props} className={cls("section", undefined, className)}>
-    <span className={cls("section__bg")} aria-hidden />
-    <div className={cls("section-content")}>{children}</div>
-  </As>
-));
+>(
+  "CardSection",
+  "section",
+  ({ children, as: As, className, ...props }, ref) => (
+    <As ref={ref} {...props} className={cls("section", undefined, className)}>
+      <span className={cls("section__bg")} aria-hidden />
+      <div className={cls("section-content")}>{children}</div>
+    </As>
+  ),
+);
 
 export const CardPrimaryAction = createGenericComponent<
   typeof AriaButton,
@@ -91,10 +95,10 @@ export const CardPrimaryAction = createGenericComponent<
 ));
 
 export const CardActions = createGenericComponent<
-  "div",
+  "section",
   CardSectionProps,
   CardSectionPassedProps
->("CardActions", "div", ({ children, className, ...props }, ref) => (
+>("CardActions", "section", ({ children, className, ...props }, ref) => (
   <CardSection
     ref={ref}
     {...props}
