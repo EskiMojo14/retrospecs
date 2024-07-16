@@ -37,7 +37,7 @@ export const Default: Story = {
 function GroupComponent({ isDisabled, dir }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
-    <ToggleButtonGroup isDisabled={isDisabled} dir={dir}>
+    <ToggleButtonGroup {...{ isDisabled, dir }} aria-label="Groove">
       <ToggleButton
         isSelected={value === "none"}
         onChange={() => {

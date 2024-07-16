@@ -29,7 +29,7 @@ interface ToggleButtonGroupProps {
 }
 
 export const ToggleButtonGroup = createGenericComponent<
-  "div",
+  "section",
   ToggleButtonGroupProps,
   {
     className: string;
@@ -37,7 +37,7 @@ export const ToggleButtonGroup = createGenericComponent<
   }
 >(
   "ToggleButtonGroup",
-  "div",
+  "section",
   ({ className, as: As, children, isDisabled, ...props }, ref) => {
     const ariaContextValue = useMemo<ContextType<typeof ToggleButtonContext>>(
       () => ({ isDisabled }),
