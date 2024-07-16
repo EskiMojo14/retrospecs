@@ -18,13 +18,16 @@ const meta = {
     compact: {
       control: "boolean",
     },
+    isDisabled: {
+      control: "boolean",
+    },
     children: {
       table: {
         disable: true,
       },
     },
   },
-  args: { onPress: fn(), compact: false },
+  args: { onPress: fn(), compact: false, isDisabled: false },
 } satisfies Meta<typeof IconButton>;
 
 export default meta;

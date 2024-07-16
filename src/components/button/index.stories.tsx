@@ -14,8 +14,11 @@ const meta = {
       control: "select",
       options: buttonVariants,
     },
+    isDisabled: {
+      control: "boolean",
+    },
   },
-  args: { onPress: fn() },
+  args: { onPress: fn(), isDisabled: false },
 } satisfies Meta<typeof Button>;
 
 export default meta;
