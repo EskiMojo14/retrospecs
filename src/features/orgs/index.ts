@@ -9,7 +9,7 @@ import type { PickRequired } from "@/util/types";
 export type Org = Tables<"orgs">;
 export type OrgMember = Tables<"org_members">;
 
-const orgAdapter = createEntityAdapter<Org>();
+export const orgAdapter = createEntityAdapter<Org>();
 
 export const {
   selectAll: selectAllOrgs,
@@ -21,7 +21,7 @@ export const {
 
 const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
 
-const orgMemberAdapter = createEntityAdapter<OrgMember, string>({
+export const orgMemberAdapter = createEntityAdapter<OrgMember, string>({
   selectId: selectOrgMemberId,
 });
 
@@ -64,6 +64,21 @@ export const orgsApi = emptyApi
         invalidatesTags: (_res, _err, id) => [{ type: "Org", id }],
       }),
 
+      getOrgMemberCount: build.query<number, Org["id"]>({
+        queryFn: supabaseQuery(
+          (orgId) =>
+            supabase
+              .from("org_members")
+              .select("*", { count: "exact", head: true })
+              .eq("org_id", orgId),
+          {
+            transformResponse: (_res, { count }) => count ?? 0,
+          },
+        ),
+        providesTags: (_res, _err, orgId) => [
+          { type: "OrgMember", id: `ORG-${orgId}` },
+        ],
+      }),
       getOrgMembers: build.query<EntityState<OrgMember, string>, Org["id"]>({
         queryFn: supabaseQuery(
           (orgId) => supabase.from("org_members").select().eq("org_id", orgId),
@@ -135,6 +150,7 @@ export const {
   useAddOrgMutation,
   useUpdateOrgMutation,
   useDeleteOrgMutation,
+  useGetOrgMemberCountQuery,
   useGetOrgMembersQuery,
   useAddOrgMemberMutation,
   useUpdateOrgMemberMutation,

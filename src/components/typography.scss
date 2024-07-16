@@ -1,0 +1,106 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+@use "@/util/theme";
+
+$type-scale: (
+  headline1: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(99px),
+    font-weight: 300,
+  ),
+  headline2: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(62px),
+    font-weight: 400,
+  ),
+  headline3: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(49px),
+    font-weight: 400,
+  ),
+  headline4: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(35px),
+    font-weight: 400,
+  ),
+  headline5: (
+    font-family: string.unquote("Super Dream"),
+    font-size: theme.to-rem(25px),
+    font-weight: 400,
+  ),
+  headline6: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(21px),
+  ),
+  body1: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(16px),
+  ),
+  body2: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(14px),
+  ),
+  subtitle1: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(16px),
+  ),
+  subtitle2: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(14px),
+  ),
+  button: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(14px),
+    font-weight: 700,
+    text-transform: uppercase,
+    font-variant-numeric: lining-nums,
+    font-feature-settings: '"lnum"' 1,
+  ),
+  overline: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(10px),
+    text-transform: uppercase,
+    font-variant-numeric: lining-nums,
+    font-feature-settings: '"lnum"' 1,
+  ),
+  caption: (
+    font-family: string.unquote("Raleway"),
+    font-size: theme.to-rem(12px),
+  ),
+);
+
+$emphasis-map: (
+  high: 0.87,
+  medium: 0.6,
+  disabled: 0.38,
+);
+
+@function emphasis($color, $emphasis) {
+  @return rgba(var(--#{$color}-rgb), var(--typography-emphasis-#{$emphasis}));
+}
+
+@mixin style($style) {
+  @each $prop, $value in map.get($type-scale, $style) {
+    #{$prop}: var(--typography-#{$style}-#{$prop});
+  }
+}
+
+:root {
+  @each $emphasis, $opacity in $emphasis-map {
+    --typography-emphasis-#{$emphasis}: #{$opacity};
+  }
+  @each $style, $props in $type-scale {
+    @each $prop, $value in $props {
+      --typography-#{$style}-#{$prop}: #{$value};
+    }
+  }
+}
+
+.typography {
+  @each $style, $props in $type-scale {
+    &--#{$style} {
+      @include style($style);
+    }
+  }
+}

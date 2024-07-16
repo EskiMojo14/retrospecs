@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:meta";
 @use "@/util/theme";
+@use "./typography";
 
 @mixin ink($color, $state-opacities: ()) {
   --text-rgb: #{if(
@@ -44,8 +45,8 @@
   appearance: none;
   border: none;
   background: none;
-  text-transform: uppercase;
-  font-weight: 700;
+  @include typography.style("button");
+  text-wrap: nowrap;
   padding: 8px 16px;
   border-radius: var(--border-radius);
   transition:

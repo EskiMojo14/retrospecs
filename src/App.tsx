@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
+import { Typography } from "./components/typography";
 import logo from "/assets/retrospecs.png";
 import { Categories } from "@/features/feedback/category";
 
@@ -7,7 +8,7 @@ function App() {
     <>
       <div className="header">
         <img src={logo} alt="RetroSpecs" />
-        <h1>RetroSpecs</h1>
+        <Typography variant="headline5">RetroSpecs</Typography>
       </div>
       <Categories />
     </>
