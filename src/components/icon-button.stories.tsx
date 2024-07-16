@@ -15,6 +15,11 @@ const meta = {
       control: "select",
       options: buttonVariants,
     },
+    children: {
+      table: {
+        disable: true,
+      },
+    },
   },
   args: { onPress: fn() },
 } satisfies Meta<typeof IconButton>;
