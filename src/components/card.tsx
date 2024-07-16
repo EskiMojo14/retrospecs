@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
-import { forwardRef } from "react";
 import { Button as AriaButton } from "react-aria-components";
 import type { ButtonProps } from "./button";
 import { Button } from "./button";
-import type { IconButtonProps } from "./icon-button";
 import { IconButton } from "./icon-button";
 import { createGenericComponent } from "@/components/generic";
 import { bemHelper } from "@/util";
@@ -142,15 +140,15 @@ export const CardActionButtons = createGenericComponent<
 
 CardActionButtons.displayName = "CardActionButtons";
 
-export const CardActionButton = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, ...props }, ref) => (
-    <Button
-      {...props}
-      ref={ref}
-      className={cls("action", "button", className)}
-    />
-  ),
-);
+export const CardActionButton = createGenericComponent<
+  typeof Button,
+  ButtonProps,
+  {
+    className: string;
+  }
+>(Button, ({ className, as: As, ...props }, ref) => (
+  <As {...props} ref={ref} className={cls("action", "button", className)} />
+));
 
 CardActionButton.displayName = "CardActionButton";
 
@@ -174,14 +172,14 @@ export const CardActionIcons = createGenericComponent<
   </As>
 ));
 
-export const CardActionIcon = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, ...props }, ref) => (
-    <IconButton
-      {...props}
-      ref={ref}
-      className={cls("action", "icon", className)}
-    />
-  ),
-);
+export const CardActionIcon = createGenericComponent<
+  typeof IconButton,
+  { className?: string },
+  {
+    className: string;
+  }
+>(IconButton, ({ className, as: As, ...props }, ref) => (
+  <As {...props} ref={ref} className={cls("action", "icon", className)} />
+));
 
 CardActionIcon.displayName = "CardActionIcon";

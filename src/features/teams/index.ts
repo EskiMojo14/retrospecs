@@ -49,6 +49,22 @@ export const teamsApi = emptyApi
         providesTags: (result) =>
           result ? result.ids.map((id) => ({ type: "Team", id })) : [],
       }),
+      getTeamCountByOrg: build.query<number, Org["id"]>({
+        queryFn: supabaseQuery(
+          (orgId) =>
+            supabase
+              .from("teams")
+              .select("*", {
+                count: "exact",
+                head: true,
+              })
+              .eq("org_id", orgId),
+          {
+            transformResponse: (_res, { count }) => count ?? 0,
+          },
+        ),
+        providesTags: (result) => (result ? [{ type: "Team" }] : []),
+      }),
       addTeam: build.mutation<null, TablesInsert<"teams">>({
         queryFn: supabaseQuery((team) => supabase.from("teams").insert(team)),
         invalidatesTags: ["Team"],
@@ -88,7 +104,7 @@ export const teamsApi = emptyApi
                 { type: "TeamMember" as const, id: `TEAM-${teamId}` },
                 { type: "Team" as const, id: teamId },
               ]
-            : [{ type: "Team", id: teamId }],
+            : [{ type: "Team" as const, id: teamId }],
       }),
       addTeamMember: build.mutation<null, TablesInsert<"team_members">>({
         queryFn: supabaseQuery((member) =>
@@ -134,6 +150,7 @@ export const teamsApi = emptyApi
 
 export const {
   useGetTeamsByOrgQuery,
+  useGetTeamCountByOrgQuery,
   useAddTeamMutation,
   useUpdateTeamMutation,
   useDeleteTeamMutation,

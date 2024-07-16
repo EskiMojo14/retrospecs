@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { teamsApi } from "../teams";
 import { OrgCard } from "./org-card";
 import type { Org } from ".";
 import { orgAdapter, orgsApi } from ".";
@@ -24,6 +25,10 @@ void store.dispatch(
 
 void store.dispatch(
   orgsApi.util.upsertQueryData("getOrgMemberCount", org.id, 5),
+);
+
+void store.dispatch(
+  teamsApi.util.upsertQueryData("getTeamCountByOrg", org.id, 3),
 );
 
 const meta = {

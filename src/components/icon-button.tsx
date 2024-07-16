@@ -1,15 +1,33 @@
-import clsx from "clsx";
-import { forwardRef } from "react";
-import type { ButtonProps } from "./button";
 import { Button } from "./button";
+import { createGenericComponent } from "./generic";
+import { bemHelper } from "@/util";
 import "./icon-button.scss";
 
-export type IconButtonProps = ButtonProps;
+export interface IconButtonProps {
+  className?: string;
+  compact?: boolean;
+}
 
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, ...props }, ref) => (
-    <Button {...props} ref={ref} className={clsx("icon-button", className)} />
-  ),
-);
+const cls = bemHelper("icon-button");
+
+export const IconButton = createGenericComponent<
+  typeof Button,
+  IconButtonProps,
+  {
+    className: string;
+  }
+>(Button, ({ className, as: As, compact, ...props }, ref) => (
+  <As
+    {...props}
+    ref={ref}
+    className={cls(
+      undefined,
+      {
+        compact: !!compact,
+      },
+      className,
+    )}
+  />
+));
 
 IconButton.displayName = "IconButton";

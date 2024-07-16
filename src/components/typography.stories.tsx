@@ -16,11 +16,8 @@ const meta = {
     children: {
       control: "text",
     },
-    as: {
-      table: { disable: true },
-    },
   },
-  args: { children: "", variant: "headline1", as: undefined },
+  args: { children: "", variant: "headline1" },
 } satisfies Meta<typeof Typography>;
 
 export default meta;

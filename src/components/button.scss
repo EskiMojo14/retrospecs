@@ -4,17 +4,17 @@
 @use "./typography";
 
 @mixin ink($color, $state-opacities: ()) {
-  --text-rgb: #{if(
+  --button-text-rgb: #{if(
       meta.type-of($color) == "color",
       theme.get-rgb($color),
       var(--#{$color}-rgb)
     )};
-  --text: #{rgb(var(--text-rgb))};
-  @include theme.states("text", $state-opacities);
+  --button-text: #{rgb(var(--button-text-rgb))};
+  @include theme.states("button-text", $state-opacities);
 }
 
 @mixin contained-ink($color, $state-opacities: ()) {
-  --text-rgb: #{if(
+  --button-text-rgb: #{if(
       meta.type-of($color) == "color",
       theme.get-rgb($color),
       var(--#{$color}-rgb)
@@ -38,13 +38,10 @@
   --background-rgb: var(--dark-rgb);
   --background: #{rgb(var(--background-rgb))};
   @include ink("dark");
-  --outline: var(--text);
+  --outline: var(--button-text);
   --outline-width: 2px;
   --border-radius: 8px;
-  color: var(--text);
-  appearance: none;
-  border: none;
-  background: none;
+  color: var(--button-text);
   @include typography.style("button");
   text-wrap: nowrap;
   padding: 8px 16px;
@@ -57,7 +54,16 @@
   justify-content: center;
   align-items: center;
 
-  &--text {
+  @at-root button#{&} {
+    appearance: none;
+    border: none;
+    &--text,
+    &--outlined {
+      background: none;
+    }
+  }
+  @at-root a#{&} {
+    text-decoration: none;
   }
   &--outlined,
   &--contained {

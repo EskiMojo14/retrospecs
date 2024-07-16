@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { Org } from ".";
 import { selectOrgById, useGetOrgMemberCountQuery, useGetOrgsQuery } from ".";
+import { LinkButton } from "@/components/button";
 import {
   Card,
   CardActionButton,
@@ -12,6 +13,8 @@ import {
 } from "@/components/card";
 import { Symbol } from "@/components/symbol";
 import { Typography } from "@/components/typography";
+import { useGetTeamCountByOrgQuery } from "@/features/teams";
+import styles from "./org-card.module.scss";
 
 interface OrgCardProps {
   orgId: Org["id"];
@@ -23,8 +26,11 @@ export function OrgCard({ orgId }: OrgCardProps) {
       org: data && selectOrgById(data, orgId),
     }),
   });
-  const { count } = useGetOrgMemberCountQuery(orgId, {
-    selectFromResult: ({ data }) => ({ count: data ?? 0 }),
+  const { memberCount } = useGetOrgMemberCountQuery(orgId, {
+    selectFromResult: ({ data }) => ({ memberCount: data ?? 0 }),
+  });
+  const { teamCount } = useGetTeamCountByOrgQuery(orgId, {
+    selectFromResult: ({ data }) => ({ teamCount: data ?? 0 }),
   });
   const formattedDate = useMemo(
     () =>
@@ -36,14 +42,31 @@ export function OrgCard({ orgId }: OrgCardProps) {
   );
   if (!org) return null;
   return (
-    <Card>
-      <CardPrimaryAction>
-        <Typography variant="headline6">{org.name}</Typography>
-        <Typography variant="caption">Created {formattedDate}</Typography>
+    <Card className={styles.orgCard}>
+      <CardPrimaryAction
+        as={LinkButton}
+        href={`/orgs/${org.id}`}
+        className={styles.primaryAction}
+      >
+        <Typography variant="overline" className={styles.teamCount}>
+          {teamCount} Teams
+        </Typography>
+        <Typography variant="headline6" className={styles.title}>
+          {org.name}
+        </Typography>
+        <Typography variant="caption" className={styles.date}>
+          Created {formattedDate}
+        </Typography>
       </CardPrimaryAction>
       <CardActions>
         <CardActionButtons>
-          <CardActionButton>Members ({count})</CardActionButton>
+          <CardActionButton
+            as={LinkButton}
+            variant="outlined"
+            href={`/orgs/${org.id}/members`}
+          >
+            Members: {memberCount}
+          </CardActionButton>
         </CardActionButtons>
         <CardActionIcons>
           <CardActionIcon>

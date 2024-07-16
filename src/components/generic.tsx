@@ -23,24 +23,54 @@ type GenericRenderFunction<RecievedProps, PassedProps> = (
   ref: ForwardedRef<typeof refSymbol>,
 ) => JSX.Element;
 
+type GenericComponentProps<Component extends ElementType, Acc extends {} = {}> =
+  Component extends GenericComponentInternal<
+    infer DefaultComponent,
+    infer ReceivedProps
+  >
+    ? GenericComponentProps<DefaultComponent, ReceivedProps & Acc>
+    : Overwrite<ComponentPropsWithRef<Component>, Acc>;
+
+interface GenericComponentInternal<
+  DefaultComponent extends ElementType<PassedProps>,
+  ReceivedProps extends {},
+  PassedProps extends {} = {},
+> {
+  /** These are fake properties for inference, they will never exist in runtime */
+  __GenericComponentTypes?: {
+    DefaultComponent: DefaultComponent;
+    ReceivedProps: ReceivedProps;
+    PassedProps: PassedProps;
+  };
+}
+
 export interface GenericComponent<
   DefaultComponent extends React.ElementType<PassedProps>,
-  ReceivedProps,
-  PassedProps = {},
-> {
+  ReceivedProps extends {},
+  PassedProps extends {} = {},
+> extends GenericComponentInternal<
+    DefaultComponent,
+    ReceivedProps,
+    PassedProps
+  > {
+  /** Allow passing a placeholder component (i.e. we are inside a generic component's render func) */
   (
-    props:
-      | ({ as?: never } & Overwrite<
-          ComponentPropsWithRef<DefaultComponent>,
-          ReceivedProps
-        >)
-      | ({ as: PlaceholderComponent<PassedProps> } & ComponentPropsWithRef<
-          PlaceholderComponent<PassedProps>
-        >),
+    props: { as: PlaceholderComponent<PassedProps> } & GenericComponentProps<
+      PlaceholderComponent<PassedProps>
+    >,
   ): JSX.Element;
+  /** Use a specified element, and inherit its props */
   <Component extends ElementType<PassedProps>>(
     props: { as: Component } & Overwrite<
-      ComponentPropsWithRef<Component>,
+      GenericComponentProps<Component>,
+      ReceivedProps
+    >,
+  ): JSX.Element;
+  /** Use the default element, and inherit its props */
+  (
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    props: { as?: never } & Overwrite<
+      GenericComponentProps<DefaultComponent>,
       ReceivedProps
     >,
   ): JSX.Element;
@@ -50,8 +80,8 @@ export interface GenericComponent<
 
 export function createGenericComponent<
   DefaultComponent extends ElementType<PassedProps>,
-  ReceivedProps,
-  PassedProps = {},
+  ReceivedProps extends {},
+  PassedProps extends {} = {},
 >(
   defaultComponent:
     | DefaultComponent

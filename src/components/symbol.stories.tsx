@@ -42,7 +42,6 @@ const meta = {
   },
   args: {
     children: "edit",
-    as: "i",
   },
 } satisfies Meta<typeof Symbol>;
 

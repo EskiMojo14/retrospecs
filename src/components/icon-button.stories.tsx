@@ -15,13 +15,16 @@ const meta = {
       control: "select",
       options: buttonVariants,
     },
+    compact: {
+      control: "boolean",
+    },
     children: {
       table: {
         disable: true,
       },
     },
   },
-  args: { onPress: fn() },
+  args: { onPress: fn(), compact: false },
 } satisfies Meta<typeof IconButton>;
 
 export default meta;

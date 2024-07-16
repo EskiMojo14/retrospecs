@@ -9,4 +9,9 @@
   &::before {
     border-radius: inherit;
   }
+  &--compact {
+    padding: 8px;
+    width: theme.to-rem(40px);
+    height: theme.to-rem(40px);
+  }
 }

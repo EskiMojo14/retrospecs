@@ -2,17 +2,25 @@
 @use "./icon-button";
 
 @mixin action-hover {
-  --outer: var(--yellow-hover2);
-  --mid: var(--yellow-hover3);
-  --bg: var(--yellow-hover4);
-  --text: var(--yellow-hover-dark);
-  --text-rgb: var(--yellow-hover-dark-rgb);
-  &.card--inverse {
-    --outer: var(--yellow-hover4);
-    --mid: var(--yellow-hover2);
-    --bg: var(--yellow-hover1);
-    --text: var(--yellow-hover-light);
-    --text-rgb: var(--yellow-hover-light-rgb);
+  &[data-hovered],
+  &[data-focused],
+  &[data-pressed] {
+    --hover-color: var(--outer);
+    --focus-color: var(--outer);
+    --pressed-color: var(--outer);
+
+    --outer: var(--yellow-hover2);
+    --mid: var(--yellow-hover3);
+    --bg: var(--yellow-hover4);
+    --card-text-rgb: var(--yellow-hover-dark-rgb);
+
+    @content;
+    &.card--inverse {
+      --outer: var(--yellow-hover4);
+      --mid: var(--yellow-hover2);
+      --bg: var(--yellow-hover1);
+      --card-text-rgb: var(--yellow-hover-light-rgb);
+    }
   }
 }
 
@@ -34,48 +42,43 @@ $hover-time: 0.2s;
   --outer: var(--yellow2);
   --mid: var(--yellow3);
   --bg: var(--yellow4);
-  --text: var(--yellow-dark);
-  --text-rgb: var(--yellow-dark-rgb);
+  --card-text-rgb: var(--yellow-dark-rgb);
+  --card-text: rgb(var(--card-text-rgb));
   display: flex;
   flex-direction: column;
   background-color: var(--outer);
-  color: var(--text);
+  color: var(--card-text);
   border-radius: 12px;
   position: relative;
   &--inverse {
     --outer: var(--yellow4);
     --mid: var(--yellow2);
     --bg: var(--yellow1);
-    --text: var(--yellow-light);
-    --text-rgb: var(--yellow-light-rgb);
+    --card-text-rgb: var(--yellow-light-rgb);
   }
   &--success {
     --outer: var(--green2);
     --mid: var(--green3);
     --bg: var(--green4);
-    --text: var(--green-dark);
-    --text-rgb: var(--green-dark-rgb);
+    --card-text-rgb: var(--green-dark-rgb);
   }
   &--warning {
     --outer: var(--orange4);
     --mid: var(--orange5);
     --bg: var(--orange6);
-    --text: var(--orange-dark);
-    --text-rgb: var(--orange-dark-rgb);
+    --card-text-rgb: var(--orange-dark-rgb);
   }
   &--error {
     --outer: var(--red2);
     --mid: var(--red3);
     --bg: var(--red4);
-    --text: var(--red-dark);
-    --text-rgb: var(--red-dark-rgb);
+    --card-text-rgb: var(--red-dark-rgb);
   }
   &--info {
     --outer: var(--blue3);
     --mid: var(--blue4);
     --bg: var(--blue5);
-    --text: var(--blue-dark);
-    --text-rgb: var(--blue-dark-rgb);
+    --card-text-rgb: var(--blue-dark-rgb);
   }
   &--with-bg {
     &::before {
@@ -101,7 +104,7 @@ $hover-time: 0.2s;
     position: relative;
     padding: 4px 16px;
     background-color: var(--outer);
-    color: var(--text);
+    color: var(--card-text);
     border-radius: 12px;
     transition:
       background-color $hover-time,
@@ -110,6 +113,7 @@ $hover-time: 0.2s;
       @extend %beforeBg;
     }
     &--primary-action {
+      color: unset;
       @at-root button#{&} {
         appearance: none;
         border: none;
@@ -117,11 +121,7 @@ $hover-time: 0.2s;
           outline: none;
         }
       }
-      &[data-hovered],
-      &[data-focused],
-      &[data-pressed] {
-        @include action-hover;
-      }
+      @include action-hover;
     }
     &--actions {
       padding: 8px 16px;

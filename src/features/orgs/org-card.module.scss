@@ -1,0 +1,29 @@
+@use "@/components/typography";
+
+.orgCard {
+  .primaryAction {
+    align-items: flex-start;
+    padding: 8px 28px;
+    :global(.card__section-content) {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      text-transform: none;
+    }
+  }
+  .title,
+  .date,
+  .teamCount {
+    margin: 0;
+  }
+  .date,
+  .teamCount {
+    color: typography.emphasis("card-text", "medium");
+  }
+  .teamCount {
+    margin-bottom: 0.125rem;
+  }
+  .title {
+    margin-bottom: 0.25rem;
+  }
+}

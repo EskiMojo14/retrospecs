@@ -30,6 +30,7 @@ module.exports = {
       { fixStyle: "separate-type-imports" },
     ],
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
+    "@typescript-eslint/ban-types": "off",
     "import/order": [
       "error",
       {
