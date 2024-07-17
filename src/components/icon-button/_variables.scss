@@ -1,0 +1,8 @@
+@use "@/util";
+
+$padding: 14px;
+$normal-size: util.to-rem(48px);
+$compact-padding: 8px;
+$compact-size: util.to-rem(40px);
+$border-radius: 50%;
+$outline-border-radius: 50%;

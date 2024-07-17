@@ -1,17 +1,18 @@
 @use "sass:meta";
 @use "@/util";
+@use "./variables";
 
 .icon-button {
-  padding: 14px;
-  width: util.to-rem(48px);
-  height: util.to-rem(48px);
-  --border-radius: 50%;
+  padding: variables.$padding;
+  width: variables.$normal-size;
+  height: variables.$normal-size;
+  --border-radius: #{variables.$border-radius};
   &::before {
-    border-radius: inherit;
+    border-radius: variables.$outline-border-radius;
   }
   &--compact {
-    padding: 8px;
-    width: util.to-rem(40px);
-    height: util.to-rem(40px);
+    padding: variables.$compact-padding;
+    width: variables.$compact-size;
+    height: variables.$compact-size;
   }
 }
