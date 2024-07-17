@@ -45,7 +45,7 @@ export const Default: Story = {
   },
 };
 
-function GroupComponent({ isDisabled, dir }: StoryProps) {
+function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
     <section>
@@ -53,7 +53,7 @@ function GroupComponent({ isDisabled, dir }: StoryProps) {
         Groove
       </Typography>
       <ToggleButtonGroup
-        {...{ isDisabled, dir }}
+        {...{ isDisabled, dir, color, inverse }}
         aria-labelled-by="groove-label"
       >
         <ToggleButton
