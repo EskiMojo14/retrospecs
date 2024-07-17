@@ -3,4 +3,4 @@ $border-radius: 8px;
 $min-height: 36px;
 $padding-x: calc(var(--outline-width) * 4);
 $padding-y: 0px;
-$icon-spacing: $padding-x;
+$icon-spacing: calc(var(--outline-width) * 2);
