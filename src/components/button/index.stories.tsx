@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { buttonVariants } from "./constants";
+import { buttonColors, buttonVariants } from "./constants";
 import { Button } from ".";
+import { inverseContainerDecorator } from "@/util/storybook";
 
 const meta = {
   title: "Components/Button",
@@ -13,35 +14,55 @@ const meta = {
     variant: {
       control: "select",
       options: buttonVariants,
+      table: {
+        disable: true,
+      },
     },
-    isDisabled: {
+    color: {
+      control: "select",
+      options: buttonColors,
+    },
+    inverse: {
       control: "boolean",
     },
   },
-  args: { onPress: fn(), isDisabled: false },
+  args: {
+    onPress: fn(),
+    children: "Button",
+    isDisabled: false,
+    color: "default",
+    inverse: false,
+  },
+  decorators: [inverseContainerDecorator],
 } satisfies Meta<typeof Button>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  argTypes: {
+    variant: {
+      table: { disable: false },
+    },
+  },
+  args: {},
+};
+
 export const Text: Story = {
   args: {
     variant: "text",
-    children: "Button",
   },
 };
 
 export const Outlined: Story = {
   args: {
     variant: "outlined",
-    children: "Button",
   },
 };
 
 export const Contained: Story = {
   args: {
     variant: "contained",
-    children: "Button",
   },
 };

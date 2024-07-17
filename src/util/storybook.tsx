@@ -1,12 +1,7 @@
-import type { Meta, Args } from "@storybook/react";
+import type { ComponentType } from "react";
 import { Provider } from "react-redux";
 import type { AppStore, PreloadedState } from "@/store";
 import { makeStore } from "@/store";
-
-type DecoratorFunction<TArgs = Args> = Extract<
-  NonNullable<Meta<TArgs>["decorators"]>,
-  (...args: any) => any
->;
 
 export const createReduxDecorator =
   ({
@@ -15,9 +10,24 @@ export const createReduxDecorator =
   }: {
     preloadedState?: PreloadedState;
     store?: AppStore;
-  }): DecoratorFunction =>
-  (Story) => (
+  }) =>
+  // eslint-disable-next-line react/display-name
+  (Story: ComponentType) => (
     <Provider store={store}>
       <Story />
     </Provider>
   );
+
+export const inverseContainerDecorator = <TArgs extends { inverse?: boolean }>(
+  Story: ComponentType<TArgs>,
+  { args }: { args: TArgs },
+) => (
+  <div
+    style={{
+      padding: "1rem",
+      background: args.inverse ? "var(--yellow-dark)" : "none",
+    }}
+  >
+    <Story {...args} />
+  </div>
+);

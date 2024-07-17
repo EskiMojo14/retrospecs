@@ -5,12 +5,19 @@ import {
   ToggleButton as AriaToggleButton,
   ToggleButtonContext,
 } from "react-aria-components";
+import type { ButtonColor } from "@/components/button/constants";
 import { createGenericComponent } from "@/components/generic";
+import { bemHelper } from "@/util";
 import "./index.scss";
 
 export interface ToggleButtonProps {
   className?: string;
+  color?: ButtonColor;
+  /** For display on a dark background. */
+  inverse?: boolean;
 }
+
+const cls = bemHelper("toggle-button");
 
 export const ToggleButton = createGenericComponent<
   typeof AriaToggleButton,
@@ -18,9 +25,24 @@ export const ToggleButton = createGenericComponent<
   {
     className: string;
   }
->("ToggleButton", AriaToggleButton, ({ className, as: As, ...props }, ref) => (
-  <As ref={ref} {...props} className={clsx("toggle-button", className)} />
-));
+>(
+  "ToggleButton",
+  AriaToggleButton,
+  ({ className, as: As, color = "default", inverse, ...props }, ref) => (
+    <As
+      ref={ref}
+      {...props}
+      className={cls(
+        undefined,
+        {
+          [color]: color !== "default",
+          inverse: !!inverse,
+        },
+        className,
+      )}
+    />
+  ),
+);
 
 interface ToggleButtonGroupProps {
   isDisabled?: boolean;

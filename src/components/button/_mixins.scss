@@ -41,3 +41,29 @@
     pointer-events: none;
   }
 }
+
+@mixin colors($filled-selector: "button--contained") {
+  &--success {
+    --dark-rgb: var(--green-dark-rgb);
+    --light-rgb: var(--green-light-rgb);
+  }
+  &--warning {
+    --dark-rgb: var(--yellow-dark-rgb);
+    --light-rgb: var(--yellow-light-rgb);
+  }
+  &--error {
+    --dark-rgb: var(--red-dark-rgb);
+    --light-rgb: var(--red-light-rgb);
+  }
+  &--info {
+    --dark-rgb: var(--blue-dark-rgb);
+    --light-rgb: var(--blue-light-rgb);
+  }
+  &--inverse {
+    @include ink("light");
+    --background-rgb: var(--light-rgb);
+    &.#{$filled-selector} {
+      @include contained-ink("dark");
+    }
+  }
+}

@@ -3,7 +3,9 @@ import { fn } from "@storybook/test";
 import type { ComponentProps, ComponentType } from "react";
 import { useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from ".";
+import { buttonColors } from "@/components/button/constants";
 import { Typography } from "@/components/typography";
+import { inverseContainerDecorator } from "@/util/storybook";
 
 interface StoryProps extends ComponentProps<typeof ToggleButton> {
   dir?: string;
@@ -24,8 +26,13 @@ const meta = {
         disable: true,
       },
     },
+    color: {
+      control: "select",
+      options: buttonColors,
+    },
   },
-  args: { onChange: fn(), isDisabled: false },
+  args: { onChange: fn(), isDisabled: false, color: "default", inverse: false },
+  decorators: [inverseContainerDecorator],
 } satisfies Meta<StoryProps>;
 
 export default meta;

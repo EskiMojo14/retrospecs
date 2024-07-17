@@ -54,4 +54,5 @@
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
   }
+  @include mixins.colors;
 }
