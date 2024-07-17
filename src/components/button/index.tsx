@@ -30,7 +30,7 @@ const sharedIconProps: SymbolProps = {
 
 const symbolContextValue: ContextType<typeof SymbolContext> = {
   slots: {
-    [DEFAULT_SLOT]: sharedIconProps,
+    [DEFAULT_SLOT]: {},
     leading: { ...sharedIconProps, className: cls("icon", "leading") },
     trailing: { ...sharedIconProps, className: cls("icon", "trailing") },
   },
