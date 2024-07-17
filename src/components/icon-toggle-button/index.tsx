@@ -1,14 +1,14 @@
 import { createGenericComponent } from "@/components/generic";
 import { ToggleButton } from "@/components/toggle-button";
 import { bemHelper } from "@/util";
-import "./index.scss";
+import "@/components/icon-button/index.scss";
 
 export interface IconToggleButtonProps {
   className?: string;
   compact?: boolean;
 }
 
-const cls = bemHelper("icon-toggle-button");
+const cls = bemHelper("icon-button");
 
 export const IconToggleButton = createGenericComponent<
   typeof ToggleButton,
