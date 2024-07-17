@@ -51,4 +51,7 @@
   &--contained {
     @include mixins.contained-ink("light");
   }
+  &[data-disabled] {
+    opacity: map.get(typography.$emphasis-map, disabled);
+  }
 }
