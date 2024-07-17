@@ -1,7 +1,6 @@
-import { clsx } from "clsx";
 import type { CSSProperties, ReactNode } from "react";
 import { createGenericComponent } from "@/components/generic";
-import { clamp } from "@/util";
+import { bemHelper, clamp } from "@/util";
 import "./index.scss";
 
 interface SymbolSettings {
@@ -36,6 +35,8 @@ export interface SymbolProps extends SymbolSettings {
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
+  /** Set to `true` to use the default duration, or set a custom duration. */
+  transition?: boolean | string;
 }
 
 export interface SymbolPassedProps {
@@ -43,6 +44,8 @@ export interface SymbolPassedProps {
   style: CSSProperties;
   children: ReactNode;
 }
+
+const cls = bemHelper("symbol");
 
 export const Symbol = createGenericComponent<
   "i",
@@ -62,6 +65,7 @@ export const Symbol = createGenericComponent<
       style,
       children,
       className,
+      transition,
       ...props
     },
     ref,
@@ -69,7 +73,13 @@ export const Symbol = createGenericComponent<
     <As
       ref={ref}
       {...props}
-      className={clsx("material-symbols-sharp symbol", className)}
+      className={cls(
+        undefined,
+        {
+          transition: !!transition,
+        },
+        ["material-symbols-sharp", className ?? ""],
+      )}
       style={{
         ...style,
         fontSize: `${size}px`,
@@ -79,6 +89,8 @@ export const Symbol = createGenericComponent<
           grade,
           opticalSize,
         }),
+        "--transition-duration":
+          typeof transition === "string" ? transition : undefined,
       }}
     >
       {children}

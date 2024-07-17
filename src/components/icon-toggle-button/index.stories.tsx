@@ -35,6 +35,10 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: ({ isSelected }) => <Symbol fill={isSelected}>favorite</Symbol>,
+    children: ({ isSelected }) => (
+      <Symbol fill={isSelected} transition>
+        favorite
+      </Symbol>
+    ),
   },
 };

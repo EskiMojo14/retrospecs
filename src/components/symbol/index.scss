@@ -1,3 +1,7 @@
 .symbol {
   font-variation-settings: var(--variation-settings);
+  --transition-duration: 250ms;
+  &--transition {
+    transition: font-variation-settings var(--transition-duration);
+  }
 }
