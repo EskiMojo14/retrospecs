@@ -1,20 +1,38 @@
-import { clsx } from "clsx";
 import { forwardRef } from "react";
-import type { CheckboxProps } from "react-aria-components";
+import type { CheckboxProps as AriaCheckboxProps } from "react-aria-components";
 import { Checkbox as AriaCheckbox } from "react-aria-components";
+import { bemHelper } from "@/util";
 import "./index.scss";
 
+export interface CheckboxProps extends Omit<AriaCheckboxProps, "className"> {
+  className?: string;
+  inverse?: boolean;
+}
+
+const containerCls = bemHelper("checkbox-container");
+const cls = bemHelper("checkbox");
+
 export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
-  ({ children, ...props }, ref) => (
+  ({ children, className, inverse, ...props }, ref) => (
     <AriaCheckbox
       {...props}
       ref={ref}
-      className={clsx("checkbox-container", props.className)}
+      className={containerCls(
+        undefined,
+        {
+          inverse: !!inverse,
+        },
+        className,
+      )}
     >
       {({ isIndeterminate }) => (
         <>
-          <div className="checkbox">
-            <svg viewBox="0 0 18 18" aria-hidden="true">
+          <div className={cls()}>
+            <svg
+              className={cls("checkmark")}
+              viewBox="0 0 18 18"
+              aria-hidden="true"
+            >
               {isIndeterminate ? (
                 <rect x={1} y={7.5} width={15} height={3} />
               ) : (

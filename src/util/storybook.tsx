@@ -25,7 +25,8 @@ export const inverseContainerDecorator = <TArgs extends { inverse?: boolean }>(
   <div
     style={{
       padding: "1rem",
-      background: args.inverse ? "var(--yellow-dark)" : "none",
+      background: args.inverse ? "var(--yellow-dark)" : undefined,
+      color: args.inverse ? "var(--off-white)" : undefined,
     }}
   >
     <Story {...args} />

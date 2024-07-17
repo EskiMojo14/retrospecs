@@ -1,3 +1,5 @@
+@use "@/theme/typography";
+
 .checkbox-container {
   --selected-color: var(--yellow2);
   --selected-color-pressed: var(--yellow3);
@@ -7,10 +9,15 @@
 
   display: flex;
   align-items: center;
-  gap: 0.571rem;
-  font-size: 1.143rem;
-  color: black;
+  gap: 0.5rem;
+
+  @include typography.style("body1");
   forced-color-adjust: none;
+
+  &--inverse {
+    --border-color: var(--yellow4);
+    --border-color-pressed: var(--yellow3);
+  }
 
   .checkbox {
     width: 20px;
@@ -22,7 +29,7 @@
     justify-content: center;
   }
 
-  svg {
+  .checkbox__checkmark {
     width: 1rem;
     height: 1rem;
     fill: none;
@@ -54,7 +61,7 @@
       background: var(--selected-color-pressed);
     }
 
-    svg {
+    .checkbox__checkmark {
       stroke-dashoffset: 44;
     }
   }
