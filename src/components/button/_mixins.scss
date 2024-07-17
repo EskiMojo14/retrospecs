@@ -42,22 +42,19 @@
   }
 }
 
+$color-map: (
+  "success": "green",
+  "warning": "yellow",
+  "error": "red",
+  "info": "blue",
+);
+
 @mixin colors($filled-selector: "button--contained") {
-  &--success {
-    --dark-rgb: var(--green-dark-rgb);
-    --light-rgb: var(--green-light-rgb);
-  }
-  &--warning {
-    --dark-rgb: var(--yellow-dark-rgb);
-    --light-rgb: var(--yellow-light-rgb);
-  }
-  &--error {
-    --dark-rgb: var(--red-dark-rgb);
-    --light-rgb: var(--red-light-rgb);
-  }
-  &--info {
-    --dark-rgb: var(--blue-dark-rgb);
-    --light-rgb: var(--blue-light-rgb);
+  @each $variant, $color in $color-map {
+    &--#{$variant} {
+      --dark-rgb: var(--#{$color}-dark-rgb);
+      --light-rgb: var(--#{$color}-light-rgb);
+    }
   }
   &--inverse {
     @include ink("light");
