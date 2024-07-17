@@ -1,6 +1,10 @@
 import type { ContextType } from "react";
 import type { LinkProps } from "react-aria-components";
-import { Button as AriaButton, Link } from "react-aria-components";
+import {
+  Button as AriaButton,
+  DEFAULT_SLOT,
+  Link,
+} from "react-aria-components";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import { createGenericComponent } from "@/components/generic";
 import { SymbolContext } from "@/components/symbol";
@@ -20,7 +24,10 @@ export interface ButtonProps {
 const cls = bemHelper("button");
 
 const symbolContextValue: ContextType<typeof SymbolContext> = {
-  slots: { icon: { size: 18, weight: 700, className: cls("icon") } },
+  slots: {
+    [DEFAULT_SLOT]: {},
+    icon: { size: 18, weight: 700, className: cls("icon") },
+  },
 };
 
 export const Button = createGenericComponent<

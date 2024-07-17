@@ -76,6 +76,13 @@ export const Contained: Story = {
 };
 
 export const WithIcon: Story = {
+  argTypes: {
+    children: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     children: (
       <>
