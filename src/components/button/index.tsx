@@ -46,17 +46,7 @@ export const Button = createGenericComponent<
 >(
   "Button",
   AriaButton,
-  (
-    {
-      variant = "text",
-      color = "default",
-      inverse,
-      className,
-      as: As,
-      ...props
-    },
-    ref,
-  ) => (
+  ({ variant = "text", color, inverse, className, as: As, ...props }, ref) => (
     <As
       ref={ref}
       {...props}
@@ -64,7 +54,7 @@ export const Button = createGenericComponent<
         undefined,
         {
           [variant]: variant !== "text",
-          [color]: color !== "default",
+          [color ?? ""]: !!color,
           inverse: !!inverse,
         },
         className,

@@ -33,7 +33,6 @@ const meta = {
     onPress: fn(),
     compact: false,
     isDisabled: false,
-    color: "default",
     children: <Symbol>edit</Symbol>,
     inverse: false,
   },

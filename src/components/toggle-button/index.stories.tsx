@@ -31,7 +31,7 @@ const meta = {
       options: buttonColors,
     },
   },
-  args: { onChange: fn(), isDisabled: false, color: "default", inverse: false },
+  args: { onChange: fn(), isDisabled: false, inverse: false },
   decorators: [inverseContainerDecorator],
 } satisfies Meta<StoryProps>;
 

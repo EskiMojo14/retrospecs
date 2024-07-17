@@ -1,10 +1,9 @@
-export const cardTypes = [
-  "default",
+export const cardColors = [
   "inverse",
-  "success",
-  "warning",
-  "error",
-  "info",
+  "garden",
+  "sun",
+  "campfire",
+  "fridge",
 ] as const;
 
-export type CardType = (typeof cardTypes)[number];
+export type CardColor = (typeof cardColors)[number];

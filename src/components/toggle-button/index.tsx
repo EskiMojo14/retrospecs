@@ -34,7 +34,7 @@ export const ToggleButton = createGenericComponent<
     ref as never,
     ToggleButtonGroupContext,
   ) as [typeof props, typeof ref];
-  const { className, as: As, color = "default", inverse, ...rest } = props;
+  const { className, as: As, color, inverse, ...rest } = props;
   return (
     <As
       ref={ref}
@@ -42,7 +42,7 @@ export const ToggleButton = createGenericComponent<
       className={cls(
         undefined,
         {
-          [color]: color !== "default",
+          [color ?? ""]: !!color,
           inverse: !!inverse,
         },
         className,

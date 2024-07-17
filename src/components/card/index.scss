@@ -55,25 +55,25 @@ $hover-time: 0.2s;
     --bg: var(--yellow1);
     --card-text-rgb: var(--yellow-light-rgb);
   }
-  &--success {
+  &--garden {
     --outer: var(--green2);
     --mid: var(--green3);
     --bg: var(--green4);
     --card-text-rgb: var(--green-dark-rgb);
   }
-  &--warning {
+  &--sun {
     --outer: var(--orange4);
     --mid: var(--orange5);
     --bg: var(--orange6);
     --card-text-rgb: var(--orange-dark-rgb);
   }
-  &--error {
+  &--campfire {
     --outer: var(--red2);
     --mid: var(--red3);
     --bg: var(--red4);
     --card-text-rgb: var(--red-dark-rgb);
   }
-  &--info {
+  &--fridge {
     --outer: var(--blue3);
     --mid: var(--blue4);
     --bg: var(--blue5);

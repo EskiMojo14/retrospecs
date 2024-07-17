@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Button as AriaButton } from "react-aria-components";
-import type { CardType } from "./constants";
+import type { CardColor } from "./constants";
 import type { ButtonProps } from "@/components/button";
 import { Button } from "@/components/button";
 import { createGenericComponent } from "@/components/generic";
@@ -9,7 +9,7 @@ import { bemHelper } from "@/util";
 import "./index.scss";
 
 export interface CardProps {
-  type?: CardType;
+  color?: CardColor;
   className?: string;
   children?: ReactNode;
   withBg?: boolean;
@@ -27,17 +27,14 @@ export const Card = createGenericComponent<
 >(
   "Card",
   "div",
-  (
-    { children, type = "default", as: As, className, withBg, ...props },
-    ref,
-  ) => (
+  ({ children, color, as: As, className, withBg, ...props }, ref) => (
     <As
       ref={ref}
       {...props}
       className={cls(
         undefined,
         {
-          [type]: type !== "default",
+          [color ?? ""]: !!color,
           "with-bg": !!withBg,
         },
         className,

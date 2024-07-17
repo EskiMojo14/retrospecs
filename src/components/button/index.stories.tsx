@@ -35,7 +35,6 @@ const meta = {
     onPress: fn(),
     children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
-    color: "default",
     inverse: false,
   },
   decorators: [inverseContainerDecorator],

@@ -28,7 +28,6 @@ const meta = {
   args: {
     onChange: fn(),
     isDisabled: false,
-    color: "default",
     inverse: false,
     compact: false,
   },

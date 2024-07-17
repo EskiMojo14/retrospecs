@@ -43,10 +43,10 @@
 }
 
 $color-map: (
-  "success": "green",
-  "warning": "yellow",
-  "error": "red",
-  "info": "blue",
+  "garden": "green",
+  "sun": "yellow",
+  "campfire": "red",
+  "fridge": "blue",
 );
 
 @mixin colors($filled-selector: "button--contained") {
