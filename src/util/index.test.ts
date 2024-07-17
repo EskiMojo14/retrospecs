@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { assert, clamp, emplace, groupBy, mapGroupBy } from ".";
+import { assert, clamp, defaultNullish, emplace, groupBy, mapGroupBy } from ".";
 
 describe("util / index", () => {
   describe("assert", () => {
@@ -119,6 +119,29 @@ describe("util / index", () => {
       const result = emplace(map, key, {});
 
       expect(result).toBe(value);
+    });
+  });
+  describe("defaultNullish", () => {
+    interface Test {
+      a: number;
+      b: number | null;
+      c: number | undefined;
+      d?: number;
+    }
+    it("should return the value if it has no nullish properties", () => {
+      const value: Test = { a: 1, b: 2, c: 3, d: 4 };
+      const defaults = { a: 0, b: 0, c: 0, d: 0 };
+      expect(defaultNullish(value, defaults)).toBe(value);
+    });
+    it("should return the value with the defaults if it has nullish properties", () => {
+      const value: Test = { a: 1, b: null, c: undefined };
+      const defaults = { a: 0, b: 0, c: 0, d: 0 };
+      expect(defaultNullish(value, defaults)).toEqual({
+        a: 1,
+        b: 0,
+        c: 0,
+        d: 0,
+      });
     });
   });
 });

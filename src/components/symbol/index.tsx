@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { createGenericComponent } from "@/components/generic";
-import { bemHelper, clamp } from "@/util";
+import { bemHelper, clamp, defaultNullish } from "@/util";
 import "./index.scss";
 
 interface SymbolSettings {
@@ -8,8 +8,6 @@ interface SymbolSettings {
   weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700;
   /** -25 (low emphasis) to 200 (high emphasis), defaults to 0 */
   grade?: number;
-  /** defaults to 24 */
-  size?: number;
   /** 20px to 48px, defaults to `size` */
   opticalSize?: number;
 }
@@ -18,16 +16,14 @@ const defaultSettings: Required<SymbolSettings> = {
   fill: false,
   weight: 400,
   grade: 0,
-  size: 24,
   opticalSize: 24,
 };
 
-const symbolSettingsToVar = ({
-  fill = defaultSettings.fill,
-  weight = defaultSettings.weight,
-  grade = defaultSettings.grade,
-  opticalSize = defaultSettings.opticalSize,
-}: Pick<SymbolSettings, "fill" | "weight" | "grade" | "opticalSize">) => {
+const symbolSettingsToVar = (props: SymbolSettings) => {
+  const { fill, weight, grade, opticalSize } = defaultNullish(
+    props,
+    defaultSettings,
+  );
   return `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' ${clamp(grade, -25, 200)}, 'opsz' ${clamp(opticalSize, 20, 48)}`;
 };
 
@@ -35,6 +31,8 @@ export interface SymbolProps extends SymbolSettings {
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
+  /** defaults to 24 */
+  size?: number;
   /** Set to `true` to use the default duration, or set a custom duration. */
   transition?: boolean | string;
 }
@@ -59,7 +57,7 @@ export const Symbol = createGenericComponent<
       fill,
       weight,
       grade,
-      size = defaultSettings.size,
+      size = 24,
       opticalSize = size,
       as: As,
       style,

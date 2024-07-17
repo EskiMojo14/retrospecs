@@ -128,3 +128,28 @@ export function emplace<K extends object, V>(
   map.set(key, (inserted = handler.insert(key, map)));
   return inserted;
 }
+
+type NullishDefaults<T> = {
+  [K in keyof T as T[K] extends NonNullable<T[K]> ? never : K]-?: NonNullable<
+    T[K]
+  >;
+};
+
+type WithoutNullish<T> = {
+  [K in keyof T]-?: NonNullable<T[K]>;
+};
+
+export function defaultNullish<T>(
+  value: T,
+  defaults: NullishDefaults<T>,
+): WithoutNullish<T> {
+  const result = { ...value };
+  let changed = false;
+  for (const key in defaults) {
+    if (result[key] == null) {
+      result[key] = defaults[key];
+      changed = true;
+    }
+  }
+  return (changed ? result : value) as never;
+}
