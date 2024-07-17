@@ -1,23 +1,9 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { SymbolSettings } from "./constants";
+import { defaultSettings } from "./constants";
 import { createGenericComponent } from "@/components/generic";
 import { bemHelper, clamp, defaultNullish } from "@/util";
 import "./index.scss";
-
-interface SymbolSettings {
-  fill?: boolean;
-  weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700;
-  /** -25 (low emphasis) to 200 (high emphasis), defaults to 0 */
-  grade?: number;
-  /** 20px to 48px, defaults to `size` */
-  opticalSize?: number;
-}
-
-const defaultSettings: Required<SymbolSettings> = {
-  fill: false,
-  weight: 400,
-  grade: 0,
-  opticalSize: 24,
-};
 
 const symbolSettingsToVar = (props: SymbolSettings) => {
   const { fill, weight, grade, opticalSize } = defaultNullish(

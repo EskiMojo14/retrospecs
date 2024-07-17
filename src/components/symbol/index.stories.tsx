@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { defaultSettings } from "./constants";
 import { Symbol } from ".";
 
 const meta = {
@@ -8,33 +9,27 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    children: {
-      control: "text",
-    },
-    fill: {
-      control: "boolean",
-    },
     weight: {
       control: "select",
       options: [100, 200, 300, 400, 500, 600, 700],
     },
     grade: {
       control: {
-        type: "number",
+        type: "range",
         min: -25,
         max: 200,
       },
     },
     size: {
       control: {
-        type: "number",
+        type: "range",
         min: 20,
         max: 48,
       },
     },
     opticalSize: {
       control: {
-        type: "number",
+        type: "range",
         min: 20,
         max: 48,
       },
@@ -42,6 +37,10 @@ const meta = {
   },
   args: {
     children: "edit",
+    ...defaultSettings,
+    opticalSize: undefined,
+    size: 24,
+    transition: false,
   },
 } satisfies Meta<typeof Symbol>;
 

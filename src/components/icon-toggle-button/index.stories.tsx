@@ -25,7 +25,13 @@ const meta = {
       options: buttonColors,
     },
   },
-  args: { onChange: fn(), isDisabled: false, color: "default", inverse: false },
+  args: {
+    onChange: fn(),
+    isDisabled: false,
+    color: "default",
+    inverse: false,
+    compact: false,
+  },
   decorators: [inverseContainerDecorator],
 } satisfies Meta<typeof IconToggleButton>;
 
