@@ -139,6 +139,9 @@ type WithoutNullish<T> = {
   [K in keyof T]-?: NonNullable<T[K]>;
 };
 
+/**
+ * Set default values for nullish properties in an object
+ */
 export function defaultNullish<T>(
   value: T,
   defaults: NullishDefaults<T>,
