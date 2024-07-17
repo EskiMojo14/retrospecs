@@ -8,7 +8,14 @@ function App() {
     <>
       <div className="header">
         <img src={logo} alt="RetroSpecs" />
-        <Typography variant="headline5">RetroSpecs</Typography>
+        <Typography
+          variant="headline5"
+          style={{
+            fontFamily: "Super Dream",
+          }}
+        >
+          RetroSpecs
+        </Typography>
       </div>
       <Categories />
     </>
