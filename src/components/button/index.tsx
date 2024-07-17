@@ -19,7 +19,6 @@ export interface ButtonProps {
   color?: ButtonColor;
   /** For display on a dark background. */
   inverse?: boolean;
-  children?: React.ReactNode;
 }
 
 const cls = bemHelper("button");
@@ -42,7 +41,6 @@ export const Button = createGenericComponent<
   ButtonProps,
   {
     className: string;
-    children: React.ReactNode;
   }
 >(
   "Button",
@@ -54,28 +52,25 @@ export const Button = createGenericComponent<
       inverse,
       className,
       as: As,
-      children,
       ...props
     },
     ref,
   ) => (
-    <As
-      ref={ref}
-      {...props}
-      className={cls(
-        undefined,
-        {
-          [variant]: variant !== "text",
-          [color]: color !== "default",
-          inverse: !!inverse,
-        },
-        className,
-      )}
-    >
-      <SymbolContext.Provider value={symbolContextValue}>
-        {children}
-      </SymbolContext.Provider>
-    </As>
+    <SymbolContext.Provider value={symbolContextValue}>
+      <As
+        ref={ref}
+        {...props}
+        className={cls(
+          undefined,
+          {
+            [variant]: variant !== "text",
+            [color]: color !== "default",
+            inverse: !!inverse,
+          },
+          className,
+        )}
+      />
+    </SymbolContext.Provider>
   ),
 );
 
