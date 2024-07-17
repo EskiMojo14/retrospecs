@@ -38,15 +38,14 @@ export const Button = createGenericComponent<
     <As
       ref={ref}
       {...props}
-      className={cls(
-        undefined,
-        {
+      className={cls({
+        modifiers: {
           [variant]: variant !== "text",
           [color ?? ""]: !!color,
           inverse: !!inverse,
         },
-        className,
-      )}
+        extra: className,
+      })}
     >
       {renderPropChild(props, (children) => (
         <SymbolContext.Provider value={buttonSymbolSlots}>

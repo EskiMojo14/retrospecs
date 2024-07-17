@@ -64,13 +64,12 @@ export const Symbol = createGenericComponent<
     <As
       ref={ref}
       {...rest}
-      className={cls(
-        undefined,
-        {
+      className={cls({
+        modifiers: {
           transition: !!transition,
         },
-        ["material-symbols-sharp", className ?? ""],
-      )}
+        extra: ["material-symbols-sharp", className ?? ""],
+      })}
       style={{
         ...style,
         fontSize: `${size}px`,

@@ -23,7 +23,7 @@ export const IconToggleButton = createGenericComponent<
     <As
       {...props}
       ref={ref}
-      className={cls(undefined, { compact: !!compact }, className)}
+      className={cls({ modifiers: { compact: !!compact }, extra: className })}
     />
   ),
 );

@@ -31,14 +31,13 @@ export const Card = createGenericComponent<
     <As
       ref={ref}
       {...props}
-      className={cls(
-        undefined,
-        {
+      className={cls({
+        modifiers: {
           [color ?? ""]: !!color,
           "with-bg": !!withBg,
         },
-        className,
-      )}
+        extra: className,
+      })}
     >
       {withBg ? (
         <>

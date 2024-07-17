@@ -17,13 +17,12 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
     <AriaCheckbox
       {...props}
       ref={ref}
-      className={containerCls(
-        undefined,
-        {
+      className={containerCls({
+        modifiers: {
           inverse: !!inverse,
         },
-        className,
-      )}
+        extra: className,
+      })}
     >
       {({ isIndeterminate }) => (
         <>

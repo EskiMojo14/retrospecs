@@ -20,12 +20,11 @@ export const IconButton = createGenericComponent<
   <As
     {...props}
     ref={ref}
-    className={cls(
-      undefined,
-      {
+    className={cls({
+      modifiers: {
         compact: !!compact,
       },
-      className,
-    )}
+      extra: className,
+    })}
   />
 ));
