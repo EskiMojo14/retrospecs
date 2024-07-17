@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import type { ContextType } from "react";
+import type { ContextType, ReactNode } from "react";
 import { createContext, useMemo } from "react";
 import type { ContextValue } from "react-aria-components";
 import {
@@ -7,9 +7,13 @@ import {
   ToggleButtonContext,
   useContextProps,
 } from "react-aria-components";
-import type { ButtonColor } from "@/components/button/constants";
-import { createGenericComponent } from "@/components/generic";
+import {
+  buttonSymbolSlots,
+  type ButtonColor,
+} from "@/components/button/constants";
+import { createGenericComponent, renderPropChild } from "@/components/generic";
 import { Provider } from "@/components/provider";
+import { SymbolContext } from "@/components/symbol";
 import { bemHelper } from "@/util";
 import "./index.scss";
 
@@ -27,6 +31,7 @@ export const ToggleButton = createGenericComponent<
   ToggleButtonProps,
   {
     className: string;
+    children: ReactNode;
   }
 >("ToggleButton", AriaToggleButton, (props, ref) => {
   [props, ref] = useContextProps(
@@ -47,7 +52,13 @@ export const ToggleButton = createGenericComponent<
         },
         className,
       )}
-    />
+    >
+      {renderPropChild(rest, (children) => (
+        <SymbolContext.Provider value={buttonSymbolSlots}>
+          {children}
+        </SymbolContext.Provider>
+      ))}
+    </As>
   );
 });
 

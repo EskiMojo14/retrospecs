@@ -1,13 +1,12 @@
-import type { ContextType, ReactNode } from "react";
+import type { ReactNode } from "react";
 import type { LinkProps } from "react-aria-components";
+import { Button as AriaButton, Link } from "react-aria-components";
 import {
-  Button as AriaButton,
-  DEFAULT_SLOT,
-  Link,
-} from "react-aria-components";
-import type { ButtonColor, ButtonVariant } from "./constants";
+  buttonSymbolSlots,
+  type ButtonColor,
+  type ButtonVariant,
+} from "./constants";
 import { createGenericComponent, renderPropChild } from "@/components/generic";
-import type { SymbolProps } from "@/components/symbol";
 import { SymbolContext } from "@/components/symbol";
 import { bemHelper } from "@/util";
 import type { Overwrite } from "@/util/types";
@@ -22,19 +21,6 @@ export interface ButtonProps {
 }
 
 const cls = bemHelper("button");
-
-const sharedIconProps: SymbolProps = {
-  size: 18,
-  weight: 700,
-};
-
-const symbolContextValue: ContextType<typeof SymbolContext> = {
-  slots: {
-    [DEFAULT_SLOT]: {},
-    leading: { ...sharedIconProps, className: cls("icon", "leading") },
-    trailing: { ...sharedIconProps, className: cls("icon", "trailing") },
-  },
-};
 
 export const Button = createGenericComponent<
   typeof AriaButton,
@@ -61,7 +47,7 @@ export const Button = createGenericComponent<
       )}
     >
       {renderPropChild(props, (children) => (
-        <SymbolContext.Provider value={symbolContextValue}>
+        <SymbolContext.Provider value={buttonSymbolSlots}>
           {children}
         </SymbolContext.Provider>
       ))}

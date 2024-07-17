@@ -4,6 +4,7 @@ import type { ComponentProps, ComponentType } from "react";
 import { useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from ".";
 import { buttonColors } from "@/components/button/constants";
+import { Symbol } from "@/components/symbol";
 import { Typography } from "@/components/typography";
 import { inverseContainerDecorator } from "@/util/storybook";
 
@@ -42,6 +43,19 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: ({ isSelected }) => (isSelected ? "Active" : "Inactive"),
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    children: ({ isSelected }) => (
+      <>
+        <Symbol fill={isSelected} transition slot="leading">
+          favorite
+        </Symbol>
+        Favorite
+      </>
+    ),
   },
 };
 
