@@ -112,7 +112,7 @@ export const Group: Story = {
   args: { dir: "ltr" },
   argTypes: {
     dir: {
-      control: "radio",
+      control: "inline-radio",
       options: ["ltr", "rtl"],
       table: { disable: false },
     },

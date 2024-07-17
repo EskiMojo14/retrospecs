@@ -24,6 +24,8 @@ export interface SymbolProps extends SymbolSettings {
   /** Set to `true` to use the default duration, or set a custom duration. */
   transition?: boolean | string;
   slot?: string;
+  /** Whether the icon should be flipped vertically in RTL */
+  flipRtl?: boolean;
 }
 
 export interface SymbolPassedProps {
@@ -58,6 +60,7 @@ export const Symbol = createGenericComponent<
     children,
     className,
     transition,
+    flipRtl,
     ...rest
   } = props;
   return (
@@ -67,6 +70,7 @@ export const Symbol = createGenericComponent<
       className={cls({
         modifiers: {
           transition: !!transition,
+          "flip-rtl": !!flipRtl,
         },
         extra: ["material-symbols-sharp", className ?? ""],
       })}

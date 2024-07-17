@@ -1,7 +1,14 @@
+@use "@/util";
+
 .symbol {
   font-variation-settings: var(--variation-settings);
   --transition-duration: 250ms;
   &--transition {
     transition: font-variation-settings var(--transition-duration);
+  }
+  &--flip-rtl {
+    @include util.rtl {
+      transform: scaleX(-1);
+    }
   }
 }

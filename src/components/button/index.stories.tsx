@@ -90,7 +90,7 @@ export const WithIcon: Story = {
     },
     icon: {
       control: {
-        type: "radio",
+        type: "inline-radio",
       },
       options: ["leading", "trailing"],
     },

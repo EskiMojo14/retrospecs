@@ -1,10 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { defaultSettings } from "./constants";
 import { Symbol } from ".";
 
+interface StoryProps {
+  dir?: "ltr" | "rtl";
+}
+
 const meta = {
   title: "Components/Symbol",
-  component: Symbol,
+  component: Symbol as ComponentType<
+    ComponentPropsWithoutRef<typeof Symbol> & StoryProps
+  >,
   parameters: {
     layout: "centered",
   },
@@ -38,6 +45,12 @@ const meta = {
         max: 48,
       },
     },
+    dir: {
+      control: {
+        type: "inline-radio",
+      },
+      options: ["ltr", "rtl"],
+    },
   },
   args: {
     children: "edit",
@@ -45,8 +58,10 @@ const meta = {
     opticalSize: undefined,
     size: 24,
     transition: false,
+    flipRtl: false,
+    dir: "ltr",
   },
-} satisfies Meta<typeof Symbol>;
+} satisfies Meta<ComponentPropsWithoutRef<typeof Symbol> & StoryProps>;
 
 export default meta;
 
