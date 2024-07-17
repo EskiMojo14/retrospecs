@@ -52,7 +52,7 @@ $color-map: (
     right: 0;
     height: util.to-rem(72px);
   }
-  :global(.no-groove) & {
+  [data-groove="none"] & {
     background-image: none;
     background-color: var(--light);
     color: var(--dark);

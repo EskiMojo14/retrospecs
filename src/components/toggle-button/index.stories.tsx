@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { useState, type ComponentProps, type ComponentType } from "react";
+import type { ComponentProps, ComponentType } from "react";
+import { useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from ".";
+import { Typography } from "@/components/typography";
 
 interface StoryProps extends ComponentProps<typeof ToggleButton> {
   dir?: string;
@@ -14,11 +16,13 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    dir: {
-      table: { disable: true },
-    },
     isDisabled: {
       control: "boolean",
+    },
+    children: {
+      table: {
+        disable: true,
+      },
     },
   },
   args: { onChange: fn(), isDisabled: false },
@@ -30,39 +34,47 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "Button",
+    children: ({ isSelected }) => (isSelected ? "Active" : "Inactive"),
   },
 };
 
 function GroupComponent({ isDisabled, dir }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
-    <ToggleButtonGroup {...{ isDisabled, dir }} aria-label="Groove">
-      <ToggleButton
-        isSelected={value === "none"}
-        onChange={() => {
-          setValue("none");
-        }}
+    <section>
+      <Typography variant="body1" id="groove-label">
+        Groove
+      </Typography>
+      <ToggleButtonGroup
+        {...{ isDisabled, dir }}
+        aria-labelled-by="groove-label"
       >
-        None
-      </ToggleButton>
-      <ToggleButton
-        isSelected={value === "low"}
-        onChange={() => {
-          setValue("low");
-        }}
-      >
-        Low volume
-      </ToggleButton>
-      <ToggleButton
-        isSelected={value === "heavy"}
-        onChange={() => {
-          setValue("heavy");
-        }}
-      >
-        Heavy
-      </ToggleButton>
-    </ToggleButtonGroup>
+        <ToggleButton
+          isSelected={value === "none"}
+          onChange={() => {
+            setValue("none");
+          }}
+        >
+          None
+        </ToggleButton>
+        <ToggleButton
+          isSelected={value === "low"}
+          onChange={() => {
+            setValue("low");
+          }}
+        >
+          Low volume
+        </ToggleButton>
+        <ToggleButton
+          isSelected={value === "heavy"}
+          onChange={() => {
+            setValue("heavy");
+          }}
+        >
+          Heavy
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </section>
   );
 }
 
