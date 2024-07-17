@@ -10,8 +10,12 @@ const meta = {
   },
   argTypes: {
     weight: {
-      control: "select",
-      options: [100, 200, 300, 400, 500, 600, 700],
+      control: {
+        type: "range",
+        min: 100,
+        max: 700,
+        step: 100,
+      },
     },
     grade: {
       control: {
