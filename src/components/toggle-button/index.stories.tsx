@@ -54,7 +54,7 @@ function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
       </Typography>
       <ToggleButtonGroup
         {...{ isDisabled, dir, color, inverse }}
-        aria-labelled-by="groove-label"
+        aria-labelledby="groove-label"
       >
         <ToggleButton
           isSelected={value === "none"}
