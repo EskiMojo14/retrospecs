@@ -14,18 +14,13 @@ export interface ButtonProps {
   color?: ButtonColor;
   /** For display on a dark background. */
   inverse?: boolean;
-  /**
-   * Icon to display to the left of the text.
-   * If using Symbol, `slot` must be set to "icon".
-   */
-  icon?: React.ReactNode;
   children?: React.ReactNode;
 }
 
 const cls = bemHelper("button");
 
 const symbolContextValue: ContextType<typeof SymbolContext> = {
-  slots: { icon: { size: 18, weight: 700 } },
+  slots: { icon: { size: 18, weight: 700, className: cls("icon") } },
 };
 
 export const Button = createGenericComponent<
@@ -46,7 +41,6 @@ export const Button = createGenericComponent<
       className,
       as: As,
       children,
-      icon,
       ...props
     },
     ref,
@@ -65,7 +59,6 @@ export const Button = createGenericComponent<
       )}
     >
       <SymbolContext.Provider value={symbolContextValue}>
-        {icon && <span className={cls("icon")}>{icon}</span>}
         {children}
       </SymbolContext.Provider>
     </As>

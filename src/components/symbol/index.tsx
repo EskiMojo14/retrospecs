@@ -6,14 +6,6 @@ import { createGenericComponent } from "@/components/generic";
 import { bemHelper, clamp, defaultNullish } from "@/util";
 import "./index.scss";
 
-interface SymbolContextValue extends SymbolSettings {
-  size?: number;
-}
-
-export const SymbolContext = createContext<
-  ContextValue<SymbolContextValue, HTMLElement>
->({});
-
 const symbolSettingsToVar = (props: SymbolSettings) => {
   const { fill, weight, grade, opticalSize } = defaultNullish(
     props,
@@ -25,11 +17,12 @@ const symbolSettingsToVar = (props: SymbolSettings) => {
 export interface SymbolProps extends SymbolSettings {
   className?: string;
   style?: CSSProperties;
-  children: ReactNode;
+  children?: ReactNode;
   /** defaults to 24 */
   size?: number;
   /** Set to `true` to use the default duration, or set a custom duration. */
   transition?: boolean | string;
+  slot?: string;
 }
 
 export interface SymbolPassedProps {
@@ -39,6 +32,10 @@ export interface SymbolPassedProps {
 }
 
 const cls = bemHelper("symbol");
+
+export const SymbolContext = createContext<
+  ContextValue<SymbolProps, HTMLElement>
+>({});
 
 export const Symbol = createGenericComponent<
   "i",

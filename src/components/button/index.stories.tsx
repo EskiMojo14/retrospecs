@@ -23,9 +23,6 @@ const meta = {
     inverse: {
       control: "boolean",
     },
-    icon: {
-      table: { disable: true },
-    },
   },
   args: {
     onPress: fn(),
@@ -80,7 +77,11 @@ export const Contained: Story = {
 
 export const WithIcon: Story = {
   args: {
-    icon: <Symbol slot="icon">favorite</Symbol>,
-    children: "Favorite",
+    children: (
+      <>
+        <Symbol slot="icon">favorite</Symbol>
+        Favorite
+      </>
+    ),
   },
 };
