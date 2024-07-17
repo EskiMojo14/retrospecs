@@ -63,10 +63,10 @@
     position: relative;
     vertical-align: top;
     &--leading {
-      margin-right: button-variables.$icon-spacing;
+      @include util.rtl-box(margin, 0, button-variables.$icon-spacing);
     }
     &--trailing {
-      margin-left: button-variables.$icon-spacing;
+      @include util.rtl-box(margin, button-variables.$icon-spacing);
     }
   }
 }

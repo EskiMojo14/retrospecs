@@ -16,3 +16,12 @@ $base-size: 16px;
     @content;
   }
 }
+
+@mixin rtl-box($prop, $start, $end: 0) {
+  #{$prop}-left: $start;
+  #{$prop}-right: $end;
+  @include rtl {
+    #{$prop}-left: $end;
+    #{$prop}-right: $start;
+  }
+}
