@@ -1,13 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { buttonColors, buttonVariants } from "./constants";
 import { Button } from ".";
 import { Symbol } from "@/components/symbol";
 import { inverseContainerDecorator } from "@/util/storybook";
 
+interface StoryProps {
+  icon?: "leading" | "trailing";
+}
+
 const meta = {
   title: "Components/Button",
-  component: Button,
+  component: Button as ComponentType<
+    ComponentPropsWithoutRef<typeof Button> & StoryProps
+  >,
   parameters: {
     layout: "centered",
   },
@@ -32,7 +39,7 @@ const meta = {
     inverse: false,
   },
   decorators: [inverseContainerDecorator],
-} satisfies Meta<typeof Button>;
+} satisfies Meta<ComponentPropsWithoutRef<typeof Button> & StoryProps>;
 
 export default meta;
 
@@ -82,13 +89,21 @@ export const WithIcon: Story = {
         disable: true,
       },
     },
+    icon: {
+      control: {
+        type: "radio",
+      },
+      options: ["leading", "trailing"],
+    },
   },
+  render: ({ icon, ...args }) => (
+    <Button {...args}>
+      {icon === "leading" && <Symbol slot="leading">favorite</Symbol>}
+      Favorite
+      {icon === "trailing" && <Symbol slot="trailing">favorite</Symbol>}
+    </Button>
+  ),
   args: {
-    children: (
-      <>
-        <Symbol slot="icon">favorite</Symbol>
-        Favorite
-      </>
-    ),
+    icon: "leading",
   },
 };

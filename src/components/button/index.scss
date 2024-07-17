@@ -60,6 +60,11 @@
     display: inline-block;
     position: relative;
     vertical-align: top;
-    margin-right: variables.$spacing;
+    &--leading {
+      margin-right: variables.$icon-spacing;
+    }
+    &--trailing {
+      margin-left: variables.$icon-spacing;
+    }
   }
 }

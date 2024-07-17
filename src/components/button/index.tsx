@@ -7,6 +7,7 @@ import {
 } from "react-aria-components";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import { createGenericComponent } from "@/components/generic";
+import type { SymbolProps } from "@/components/symbol";
 import { SymbolContext } from "@/components/symbol";
 import { bemHelper } from "@/util";
 import type { Overwrite } from "@/util/types";
@@ -23,10 +24,16 @@ export interface ButtonProps {
 
 const cls = bemHelper("button");
 
+const sharedIconProps: SymbolProps = {
+  size: 18,
+  weight: 700,
+};
+
 const symbolContextValue: ContextType<typeof SymbolContext> = {
   slots: {
-    [DEFAULT_SLOT]: {},
-    icon: { size: 18, weight: 700, className: cls("icon") },
+    [DEFAULT_SLOT]: sharedIconProps,
+    leading: { ...sharedIconProps, className: cls("icon", "leading") },
+    trailing: { ...sharedIconProps, className: cls("icon", "trailing") },
   },
 };
 
