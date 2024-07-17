@@ -33,7 +33,7 @@ const meta = {
   },
   args: {
     onPress: fn(),
-    children: "Button",
+    children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
     color: "default",
     inverse: false,

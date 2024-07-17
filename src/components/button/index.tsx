@@ -1,4 +1,4 @@
-import type { ContextType } from "react";
+import type { ContextType, ReactNode } from "react";
 import type { LinkProps } from "react-aria-components";
 import {
   Button as AriaButton,
@@ -6,7 +6,7 @@ import {
   Link,
 } from "react-aria-components";
 import type { ButtonColor, ButtonVariant } from "./constants";
-import { createGenericComponent } from "@/components/generic";
+import { createGenericComponent, renderPropChild } from "@/components/generic";
 import type { SymbolProps } from "@/components/symbol";
 import { SymbolContext } from "@/components/symbol";
 import { bemHelper } from "@/util";
@@ -41,6 +41,7 @@ export const Button = createGenericComponent<
   ButtonProps,
   {
     className: string;
+    children: ReactNode;
   }
 >(
   "Button",
@@ -56,21 +57,25 @@ export const Button = createGenericComponent<
     },
     ref,
   ) => (
-    <SymbolContext.Provider value={symbolContextValue}>
-      <As
-        ref={ref}
-        {...props}
-        className={cls(
-          undefined,
-          {
-            [variant]: variant !== "text",
-            [color]: color !== "default",
-            inverse: !!inverse,
-          },
-          className,
-        )}
-      />
-    </SymbolContext.Provider>
+    <As
+      ref={ref}
+      {...props}
+      className={cls(
+        undefined,
+        {
+          [variant]: variant !== "text",
+          [color]: color !== "default",
+          inverse: !!inverse,
+        },
+        className,
+      )}
+    >
+      {renderPropChild(props, (children) => (
+        <SymbolContext.Provider value={symbolContextValue}>
+          {children}
+        </SymbolContext.Provider>
+      ))}
+    </As>
   ),
 );
 

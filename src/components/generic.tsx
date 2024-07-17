@@ -3,6 +3,7 @@ import type {
   ComponentType,
   ElementType,
   ForwardedRef,
+  ReactNode,
   Ref,
 } from "react";
 import { forwardRef } from "react";
@@ -101,3 +102,24 @@ export function createGenericComponent<
   component.displayName = displayName;
   return component as never;
 }
+
+/**
+ * Handle React ARIA's callback children while allowing wrapping in more markup
+ */
+export const renderPropChild = <RenderProps,>(
+  {
+    children,
+  }: {
+    [propSymbol]: true;
+    children?: ((props: RenderProps) => ReactNode) | ReactNode;
+  },
+  render: (children: ReactNode) => ReactNode,
+) => {
+  if (typeof children === "function") {
+    // whatever made the children thinks it's fine to pass a function
+    // so we'll do the same
+    return ((renderProps: RenderProps) =>
+      render(children(renderProps))) as never;
+  }
+  return render(children);
+};

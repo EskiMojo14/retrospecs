@@ -9,6 +9,7 @@ import {
 } from "react-aria-components";
 import type { ButtonColor } from "@/components/button/constants";
 import { createGenericComponent } from "@/components/generic";
+import { Provider } from "@/components/provider";
 import { bemHelper } from "@/util";
 import "./index.scss";
 
@@ -51,9 +52,9 @@ export const ToggleButton = createGenericComponent<
 });
 
 interface ToggleButtonGroupProps {
+  children?: React.ReactNode;
   isDisabled?: boolean;
   className?: string;
-  children: React.ReactNode;
   color?: ButtonColor;
   inverse?: boolean;
 }
@@ -90,11 +91,14 @@ export const ToggleButtonGroup = createGenericComponent<
         {...props}
         className={clsx("toggle-button-group", className)}
       >
-        <ToggleButtonContext.Provider value={ariaContextValue}>
-          <ToggleButtonGroupContext.Provider value={contextValue}>
-            {children}
-          </ToggleButtonGroupContext.Provider>
-        </ToggleButtonContext.Provider>
+        <Provider
+          values={[
+            [ToggleButtonContext.Provider, ariaContextValue],
+            [ToggleButtonGroupContext.Provider, contextValue],
+          ]}
+        >
+          {children}
+        </Provider>
       </As>
     );
   },
