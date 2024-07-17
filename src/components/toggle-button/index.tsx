@@ -58,13 +58,8 @@ interface ToggleButtonGroupProps {
   inverse?: boolean;
 }
 
-interface ToggleButtonGroupContextValue {
-  color?: ButtonColor;
-  inverse?: boolean;
-}
-
 const ToggleButtonGroupContext = createContext<
-  ContextValue<ToggleButtonGroupContextValue, HTMLElement>
+  ContextValue<ToggleButtonProps, HTMLElement>
 >({});
 
 export const ToggleButtonGroup = createGenericComponent<
@@ -85,7 +80,7 @@ export const ToggleButtonGroup = createGenericComponent<
       () => ({ isDisabled }),
       [isDisabled],
     );
-    const contextValue = useMemo<ToggleButtonGroupContextValue>(
+    const contextValue = useMemo<ToggleButtonProps>(
       () => ({ color, inverse }),
       [color, inverse],
     );

@@ -1,4 +1,5 @@
-import { createContext, type CSSProperties, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { createContext } from "react";
 import { useContextProps, type ContextValue } from "react-aria-components";
 import type { SymbolSettings } from "./constants";
 import { defaultSettings } from "./constants";

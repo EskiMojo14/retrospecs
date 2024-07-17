@@ -12,7 +12,7 @@ const propSymbol = Symbol("prop");
 const refSymbol = Symbol("ref");
 
 type PlaceholderComponent<PassedProps> = ComponentType<
-  PassedProps & { [propSymbol]: true; ref: Ref<typeof refSymbol> }
+  Overwrite<PassedProps, { [propSymbol]: true; ref: Ref<typeof refSymbol> }>
 >;
 
 /** To make sure all props and the ref is passed through, we fake some types here */
