@@ -8,7 +8,7 @@ import {
   useContextProps,
 } from "react-aria-components";
 import {
-  buttonSymbolSlots,
+  makeButtonSymbolSlots,
   type ButtonColor,
 } from "@/components/button/constants";
 import { createGenericComponent, renderPropChild } from "@/components/generic";
@@ -25,6 +25,8 @@ export interface ToggleButtonProps {
 }
 
 const cls = bemHelper("toggle-button");
+
+const buttonSymbolSlots = makeButtonSymbolSlots(cls);
 
 export const ToggleButton = createGenericComponent<
   typeof AriaToggleButton,

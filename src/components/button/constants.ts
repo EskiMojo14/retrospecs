@@ -1,7 +1,7 @@
 import type { ContextType } from "react";
 import { DEFAULT_SLOT } from "react-aria-components";
-import type { SymbolContext, SymbolProps } from "../symbol";
-import { bemHelper } from "@/util";
+import type { HelperFunction } from "react-bem-helper";
+import type { SymbolContext, SymbolProps } from "@/components/symbol";
 
 export const buttonVariants = ["text", "outlined", "contained"] as const;
 
@@ -16,12 +16,11 @@ const sharedIconProps: SymbolProps = {
   weight: 700,
 };
 
-export const cls = bemHelper("button");
-
-export const buttonSymbolSlots = {
-  slots: {
-    [DEFAULT_SLOT]: {},
-    leading: { ...sharedIconProps, className: cls("icon", "leading") },
-    trailing: { ...sharedIconProps, className: cls("icon", "trailing") },
-  },
-} satisfies ContextType<typeof SymbolContext>;
+export const makeButtonSymbolSlots = (cls: HelperFunction<string>) =>
+  ({
+    slots: {
+      [DEFAULT_SLOT]: {},
+      leading: { ...sharedIconProps, className: cls("icon", "leading") },
+      trailing: { ...sharedIconProps, className: cls("icon", "trailing") },
+    },
+  }) satisfies ContextType<typeof SymbolContext>;

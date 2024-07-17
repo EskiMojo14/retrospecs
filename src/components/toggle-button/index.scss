@@ -58,6 +58,17 @@
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
   }
+  &__icon {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    &--leading {
+      margin-right: button-variables.$icon-spacing;
+    }
+    &--trailing {
+      margin-left: button-variables.$icon-spacing;
+    }
+  }
 }
 
 .toggle-button-group {

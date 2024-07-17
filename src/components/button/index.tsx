@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { LinkProps } from "react-aria-components";
 import { Button as AriaButton, Link } from "react-aria-components";
 import {
-  buttonSymbolSlots,
+  makeButtonSymbolSlots,
   type ButtonColor,
   type ButtonVariant,
 } from "./constants";
@@ -21,6 +21,8 @@ export interface ButtonProps {
 }
 
 const cls = bemHelper("button");
+
+const buttonSymbolSlots = makeButtonSymbolSlots(cls);
 
 export const Button = createGenericComponent<
   typeof AriaButton,
