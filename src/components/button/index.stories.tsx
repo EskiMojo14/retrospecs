@@ -25,7 +25,7 @@ const meta = {
     },
     color: {
       control: "select",
-      options: buttonColors,
+      options: [undefined, ...buttonColors],
     },
     inverse: {
       control: "boolean",

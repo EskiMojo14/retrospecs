@@ -29,7 +29,7 @@ const meta = {
     },
     color: {
       control: "select",
-      options: buttonColors,
+      options: [undefined, ...buttonColors],
     },
   },
   args: { onChange: fn(), isDisabled: false, inverse: false },
@@ -76,6 +76,9 @@ function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
             setValue("none");
           }}
         >
+          <Symbol fill={value === "none"} transition slot="leading">
+            volume_mute
+          </Symbol>
           None
         </ToggleButton>
         <ToggleButton
@@ -84,6 +87,9 @@ function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
             setValue("low");
           }}
         >
+          <Symbol fill={value === "low"} transition slot="leading">
+            volume_down
+          </Symbol>
           Low volume
         </ToggleButton>
         <ToggleButton
@@ -92,6 +98,9 @@ function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
             setValue("heavy");
           }}
         >
+          <Symbol fill={value === "heavy"} transition slot="leading">
+            volume_up
+          </Symbol>
           Heavy
         </ToggleButton>
       </ToggleButtonGroup>

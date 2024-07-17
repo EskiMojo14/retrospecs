@@ -26,7 +26,7 @@ const meta = {
     },
     color: {
       control: "select",
-      options: buttonColors,
+      options: [undefined, ...buttonColors],
     },
   },
   args: {

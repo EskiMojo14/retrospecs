@@ -30,7 +30,7 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
   argTypes: {
     color: {
       control: "select",
-      options: cardColors,
+      options: [undefined, ...cardColors],
     },
     ...({
       onPrimaryAction: { table: { disable: true } },
