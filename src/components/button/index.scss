@@ -18,6 +18,7 @@
   color: var(--button-text);
   text-wrap: nowrap;
   padding: variables.$padding-y variables.$padding-x;
+  min-height: variables.$min-height;
   border-radius: var(--border-radius);
   transition:
     background 200ms,
@@ -55,4 +56,12 @@
     opacity: map.get(typography.$emphasis-map, disabled);
   }
   @include mixins.colors;
+  &__icon {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin-right: variables.$spacing;
+    height: 18px;
+    width: 18px;
+  }
 }

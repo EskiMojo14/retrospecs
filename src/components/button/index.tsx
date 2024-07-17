@@ -1,7 +1,9 @@
+import type { ContextType } from "react";
 import type { LinkProps } from "react-aria-components";
 import { Button as AriaButton, Link } from "react-aria-components";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import { createGenericComponent } from "@/components/generic";
+import { SymbolContext } from "@/components/symbol";
 import { bemHelper } from "@/util";
 import type { Overwrite } from "@/util/types";
 import "./index.scss";
@@ -12,15 +14,26 @@ export interface ButtonProps {
   color?: ButtonColor;
   /** For display on a dark background. */
   inverse?: boolean;
+  /**
+   * Icon to display to the left of the text.
+   * If using Symbol, `slot` must be set to "icon".
+   */
+  icon?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const cls = bemHelper("button");
+
+const symbolContextValue: ContextType<typeof SymbolContext> = {
+  slots: { icon: { size: 18, weight: 700 } },
+};
 
 export const Button = createGenericComponent<
   typeof AriaButton,
   ButtonProps,
   {
     className: string;
+    children: React.ReactNode;
   }
 >(
   "Button",
@@ -32,6 +45,8 @@ export const Button = createGenericComponent<
       inverse,
       className,
       as: As,
+      children,
+      icon,
       ...props
     },
     ref,
@@ -48,7 +63,12 @@ export const Button = createGenericComponent<
         },
         className,
       )}
-    />
+    >
+      <SymbolContext.Provider value={symbolContextValue}>
+        {icon && <span className={cls("icon")}>{icon}</span>}
+        {children}
+      </SymbolContext.Provider>
+    </As>
   ),
 );
 

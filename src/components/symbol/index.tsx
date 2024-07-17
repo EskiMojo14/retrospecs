@@ -1,9 +1,18 @@
-import type { CSSProperties, ReactNode } from "react";
+import { createContext, type CSSProperties, type ReactNode } from "react";
+import { useContextProps, type ContextValue } from "react-aria-components";
 import type { SymbolSettings } from "./constants";
 import { defaultSettings } from "./constants";
 import { createGenericComponent } from "@/components/generic";
 import { bemHelper, clamp, defaultNullish } from "@/util";
 import "./index.scss";
+
+interface SymbolContextValue extends SymbolSettings {
+  size?: number;
+}
+
+export const SymbolContext = createContext<
+  ContextValue<SymbolContextValue, HTMLElement>
+>({});
 
 const symbolSettingsToVar = (props: SymbolSettings) => {
   const { fill, weight, grade, opticalSize } = defaultNullish(
@@ -35,28 +44,28 @@ export const Symbol = createGenericComponent<
   "i",
   SymbolProps,
   SymbolPassedProps
->(
-  "Symbol",
-  "i",
-  (
-    {
-      fill,
-      weight,
-      grade,
-      size = 24,
-      opticalSize = size,
-      as: As,
-      style,
-      children,
-      className,
-      transition,
-      ...props
-    },
-    ref,
-  ) => (
+>("Symbol", "i", (props, ref) => {
+  [props, ref] = useContextProps(props, ref as never, SymbolContext) as [
+    typeof props,
+    typeof ref,
+  ];
+  const {
+    fill,
+    weight,
+    grade,
+    size = 24,
+    opticalSize = size,
+    as: As,
+    style,
+    children,
+    className,
+    transition,
+    ...rest
+  } = props;
+  return (
     <As
       ref={ref}
-      {...props}
+      {...rest}
       className={cls(
         undefined,
         {
@@ -79,5 +88,5 @@ export const Symbol = createGenericComponent<
     >
       {children}
     </As>
-  ),
-);
+  );
+});
