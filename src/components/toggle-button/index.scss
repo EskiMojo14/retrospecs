@@ -19,6 +19,7 @@
   background: var(--background);
   color: var(--button-text);
   padding: button-variables.$padding-y button-variables.$padding-x;
+  min-height: button-variables.$min-height;
 
   position: relative;
 

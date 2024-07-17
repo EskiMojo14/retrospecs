@@ -89,7 +89,7 @@ export const Group: Story = {
   args: { dir: "ltr" },
   argTypes: {
     dir: {
-      control: "select",
+      control: "radio",
       options: ["ltr", "rtl"],
       table: { disable: false },
     },
