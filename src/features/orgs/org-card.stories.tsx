@@ -1,34 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { OrgCard } from "./org-card";
-import type { Org } from ".";
-import { orgAdapter, orgsApi } from ".";
-import { teamsApi } from "@/features/teams";
+import { prefillOrgs } from "./storybook";
 import { makeStore } from "@/store";
 import { createReduxDecorator } from "@/util/storybook";
 
 const store = makeStore();
 
-const org: Org = {
-  id: 1,
-  created_at: new Date().toISOString(),
-  owner_id: "owner",
-  name: "Org Name",
-};
-
-void store.dispatch(
-  orgsApi.util.upsertQueryData(
-    "getOrgs",
-    undefined,
-    orgAdapter.getInitialState(undefined, [org]),
-  ),
-);
-
-void store.dispatch(
-  orgsApi.util.upsertQueryData("getOrgMemberCount", org.id, 5),
-);
-
-void store.dispatch(
-  teamsApi.util.upsertQueryData("getTeamCountByOrg", org.id, 3),
+store.dispatch(
+  prefillOrgs([
+    {
+      id: 1,
+      created_at: new Date().toISOString(),
+      owner_id: "owner",
+      name: "Org Name",
+      teamCount: 3,
+      memberCount: 5,
+    },
+  ]),
 );
 
 const meta = {
@@ -40,7 +28,7 @@ const meta = {
   argTypes: {
     orgId: { table: { disable: true } },
   },
-  args: { orgId: org.id },
+  args: { orgId: 1 },
   decorators: [createReduxDecorator({ store })],
 } satisfies Meta<typeof OrgCard>;
 
