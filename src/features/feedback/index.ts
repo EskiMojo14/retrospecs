@@ -50,15 +50,15 @@ export const {
   selectTotal: selectTotalReactions,
 } = reactionAdapter.getSelectors();
 
-export const selectReactionByTypes = createSelector(
+export const selectReactionsByTypes = createSelector(
   selectAllReactions,
   (reactions) => groupBy(reactions, (r) => r.reaction),
 );
 
-export const selectReactionByType = (
+export const selectReactionsByType = (
   state: EntityState<Reaction, string>,
   reaction: Enums<"reaction">,
-) => selectReactionByTypes(state)[reaction];
+) => selectReactionsByTypes(state)[reaction];
 
 export const feedbackApi = emptyApi
   .enhanceEndpoints({ addTagTypes: ["Feedback", "Reaction"] })
