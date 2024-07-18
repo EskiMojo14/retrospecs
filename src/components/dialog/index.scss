@@ -38,6 +38,7 @@
   }
   &__actions {
     padding: 4px 8px;
+    gap: 4px;
   }
   [data-entering] & {
     animation:
