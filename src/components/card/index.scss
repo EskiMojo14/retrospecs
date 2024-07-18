@@ -133,18 +133,6 @@ $hover-time: 0.2s;
       }
     }
   }
-  &__action-icons {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-grow: 1;
-  }
-  &__action-buttons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-grow: 1;
-  }
   &__action {
     &--icon {
       margin: util.to-rem(-6px) 0;

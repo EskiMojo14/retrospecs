@@ -31,3 +31,22 @@ export const variantMapping = {
   overline: "p",
   caption: "p",
 } satisfies Record<TypographyVariant, keyof JSX.IntrinsicElements>;
+
+export const levelMapping: {
+  [K in TypographyVariant as (typeof variantMapping)[K] extends `h${number}`
+    ? K
+    : never]: (typeof variantMapping)[K] extends `h${infer N extends number}`
+    ? N
+    : never;
+} = {
+  headline1: 1,
+  headline2: 2,
+  headline3: 3,
+  headline4: 4,
+  headline5: 5,
+  headline6: 6,
+  subtitle1: 6,
+  subtitle2: 6,
+};
+
+export type HeadingVariant = keyof typeof levelMapping;

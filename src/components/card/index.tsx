@@ -1,10 +1,11 @@
-import type { ReactNode } from "react";
-import { Button as AriaButton } from "react-aria-components";
+import type { ContextType, ReactNode } from "react";
+import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
 import type { CardColor } from "./constants";
 import type { ButtonProps } from "@/components/button";
 import { Button } from "@/components/button";
 import { createGenericComponent } from "@/components/generic";
 import { IconButton } from "@/components/icon-button";
+import { ToolbarContext } from "@/components/toolbar";
 import { bemHelper } from "@/util";
 import "./index.scss";
 
@@ -16,6 +17,14 @@ export interface CardProps {
 }
 
 const cls = bemHelper("card");
+
+const toolbarContextValue: ContextType<typeof ToolbarContext> = {
+  slots: {
+    [DEFAULT_SLOT]: {},
+    buttons: { align: "start" },
+    icons: { align: "end" },
+  },
+};
 
 export const Card = createGenericComponent<
   "div",
@@ -39,14 +48,16 @@ export const Card = createGenericComponent<
         extra: className,
       })}
     >
-      {withBg ? (
-        <>
-          <span className={cls("bg")} aria-hidden />
-          <div className={cls("content")}>{children}</div>
-        </>
-      ) : (
-        children
-      )}
+      <ToolbarContext.Provider value={toolbarContextValue}>
+        {withBg ? (
+          <>
+            <span className={cls("bg")} aria-hidden />
+            <div className={cls("content")}>{children}</div>
+          </>
+        ) : (
+          children
+        )}
+      </ToolbarContext.Provider>
     </As>
   ),
 );
@@ -104,30 +115,6 @@ export const CardActions = createGenericComponent<
   </CardSection>
 ));
 
-export const CardActionButtons = createGenericComponent<
-  "div",
-  {
-    className?: string;
-    children?: ReactNode;
-  },
-  {
-    className: string;
-    children: ReactNode;
-  }
->(
-  "CardActionButtons",
-  "div",
-  ({ children, className, as: As, ...props }, ref) => (
-    <As
-      ref={ref}
-      {...props}
-      className={cls("action-buttons", undefined, className)}
-    >
-      {children}
-    </As>
-  ),
-);
-
 export const CardActionButton = createGenericComponent<
   typeof Button,
   ButtonProps,
@@ -137,30 +124,6 @@ export const CardActionButton = createGenericComponent<
 >("CardActionButton", Button, ({ className, as: As, ...props }, ref) => (
   <As {...props} ref={ref} className={cls("action", "button", className)} />
 ));
-
-export const CardActionIcons = createGenericComponent<
-  "div",
-  {
-    className?: string;
-    children?: ReactNode;
-  },
-  {
-    className: string;
-    children: ReactNode;
-  }
->(
-  "CardActionIcons",
-  "div",
-  ({ children, className, as: As, ...props }, ref) => (
-    <As
-      ref={ref}
-      {...props}
-      className={cls("action-icons", undefined, className)}
-    >
-      {children}
-    </As>
-  ),
-);
 
 export const CardActionIcon = createGenericComponent<
   typeof IconButton,

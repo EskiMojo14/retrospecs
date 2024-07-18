@@ -1,4 +1,12 @@
-import type { Provider, ReactNode } from "react";
+import {
+  useContext,
+  useMemo,
+  type Context,
+  type Provider,
+  type ReactNode,
+} from "react";
+import { mergeProps } from "react-aria";
+import type { ContextValue } from "react-aria-components";
 
 type ProviderTuple<T> = [Provider<T>, T];
 
@@ -19,3 +27,40 @@ export function Provider<ContextValues extends Array<any>>({
     children,
   );
 }
+
+function mergeSlottedContext<T, El extends HTMLElement>(
+  parentValue: ContextValue<T, El>,
+  value: ContextValue<T, El>,
+): ContextValue<T, El> {
+  if (!parentValue) {
+    return value;
+  }
+  if (!value) {
+    return parentValue;
+  }
+  if (!("slots" in parentValue) || !("slots" in value)) {
+    return mergeProps(parentValue, value) as never;
+  }
+  const slots = { ...parentValue.slots };
+  for (const slot in value.slots ?? {}) {
+    slots[slot] = mergeProps(slots[slot], value.slots?.[slot]) as never;
+  }
+  return { ...parentValue, slots };
+}
+
+export const MergeProvider = <T, El extends HTMLElement>({
+  children,
+  context,
+  value,
+}: {
+  context: Context<ContextValue<T, El>>;
+  value: ContextValue<T, El>;
+  children: ReactNode;
+}) => {
+  const parentValue = useContext(context);
+  const merged = useMemo(
+    () => mergeSlottedContext(parentValue, value),
+    [parentValue, value],
+  );
+  return <context.Provider value={merged}>{children}</context.Provider>;
+};

@@ -110,7 +110,7 @@ export const renderPropChild = <RenderProps,>(
   {
     children,
   }: {
-    [propSymbol]: true;
+    [propSymbol]?: true;
     children?: ((props: RenderProps) => ReactNode) | ReactNode;
   },
   render: (children: ReactNode) => ReactNode,

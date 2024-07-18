@@ -5,14 +5,13 @@ import { cardColors } from "./constants";
 import {
   Card,
   CardActionButton,
-  CardActionButtons,
   CardActionIcon,
-  CardActionIcons,
   CardActions,
   CardPrimaryAction,
   CardSection,
 } from ".";
 import { Symbol } from "@/components/symbol";
+import { Toolbar } from "@/components/toolbar";
 
 interface StoryArgs {
   onPrimaryAction?: () => void;
@@ -65,14 +64,14 @@ export const Default: Story = {
         Normal section
       </CardSection>
       <CardActions>
-        <CardActionButtons>
+        <Toolbar slot="buttons">
           <CardActionButton onPress={onActionButton}>Button</CardActionButton>
-        </CardActionButtons>
-        <CardActionIcons>
+        </Toolbar>
+        <Toolbar slot="icons">
           <CardActionIcon onPress={onActionIcon}>
             <Symbol>edit</Symbol>
           </CardActionIcon>
-        </CardActionIcons>
+        </Toolbar>
       </CardActions>
     </Card>
   ),

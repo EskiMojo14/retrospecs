@@ -8,15 +8,14 @@ import { LinkButton } from "@/components/button";
 import {
   Card,
   CardActionButton,
-  CardActionButtons,
   CardActionIcon,
-  CardActionIcons,
   CardActions,
   CardPrimaryAction,
 } from "@/components/card";
 import { Symbol } from "@/components/symbol";
 import { Typography } from "@/components/typography";
 import styles from "./team-card.module.scss";
+import { Toolbar } from "@/components/toolbar";
 
 export interface TeamCardProps {
   orgId: number;
@@ -56,7 +55,7 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
         </Typography>
       </CardPrimaryAction>
       <CardActions>
-        <CardActionButtons>
+        <Toolbar slot="buttons">
           <CardActionButton
             as={LinkButton}
             variant="outlined"
@@ -64,15 +63,15 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
           >
             Members: {memberCount}
           </CardActionButton>
-        </CardActionButtons>
-        <CardActionIcons>
+        </Toolbar>
+        <Toolbar slot="icons">
           <CardActionIcon>
             <Symbol>edit</Symbol>
           </CardActionIcon>
           <CardActionIcon>
             <Symbol>delete</Symbol>
           </CardActionIcon>
-        </CardActionIcons>
+        </Toolbar>
       </CardActions>
     </Card>
   );

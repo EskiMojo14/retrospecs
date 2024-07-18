@@ -5,13 +5,12 @@ import { LinkButton } from "@/components/button";
 import {
   Card,
   CardActionButton,
-  CardActionButtons,
   CardActionIcon,
-  CardActionIcons,
   CardActions,
   CardPrimaryAction,
 } from "@/components/card";
 import { Symbol } from "@/components/symbol";
+import { Toolbar } from "@/components/toolbar";
 import { Typography } from "@/components/typography";
 import { useGetTeamCountByOrgQuery } from "@/features/teams";
 import styles from "./org-card.module.scss";
@@ -59,7 +58,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
         </Typography>
       </CardPrimaryAction>
       <CardActions>
-        <CardActionButtons>
+        <Toolbar slot="buttons">
           <CardActionButton
             as={LinkButton}
             variant="outlined"
@@ -67,15 +66,15 @@ export function OrgCard({ orgId }: OrgCardProps) {
           >
             Members: {memberCount}
           </CardActionButton>
-        </CardActionButtons>
-        <CardActionIcons>
+        </Toolbar>
+        <Toolbar slot="icons">
           <CardActionIcon>
             <Symbol>edit</Symbol>
           </CardActionIcon>
           <CardActionIcon>
             <Symbol>delete</Symbol>
           </CardActionIcon>
-        </CardActionIcons>
+        </Toolbar>
       </CardActions>
     </Card>
   );
