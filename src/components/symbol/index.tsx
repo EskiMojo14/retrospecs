@@ -66,6 +66,7 @@ export const Symbol = createGenericComponent<
   return (
     <As
       ref={ref}
+      aria-hidden
       {...rest}
       className={cls({
         modifiers: {

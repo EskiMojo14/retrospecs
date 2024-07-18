@@ -1,0 +1,13 @@
+@use "@/theme";
+
+.link {
+  --light-rgb: var(--blue-light-rgb);
+  --dark-rgb: var(--blue4-rgb);
+  --text-color-rgb: var(--dark-rgb);
+  --text-color: rgb(var(--text-color-rgb));
+  color: var(--text-color);
+  @include theme.focus-ring;
+  &--inverse {
+    --text-color-rgb: var(--light-rgb);
+  }
+}

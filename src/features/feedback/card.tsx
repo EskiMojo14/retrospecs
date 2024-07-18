@@ -1,15 +1,15 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { ToggleButton } from "react-aria-components";
 import type { Feedback } from "./slice-old";
 import { feedbackAddressed, feedbackRemoved } from "./slice-old";
 import {
   Card,
   CardActionIcon,
-  CardActionIcons,
   CardActions,
   CardPrimaryAction,
 } from "@/components/card";
 import { Symbol } from "@/components/symbol";
+import { Toolbar } from "@/components/toolbar";
 import { useAppDispatch } from "@/pretyped";
 import styles from "./card.module.scss";
 
@@ -33,7 +33,7 @@ export function FeedbackCard({ feedback }: FeedbackCardProps) {
         {feedback.comment}
       </CardPrimaryAction>
       <CardActions>
-        <CardActionIcons>
+        <Toolbar slot="icons">
           <CardActionIcon onPress={console.log}>
             <Symbol>edit</Symbol>
           </CardActionIcon>
@@ -42,7 +42,7 @@ export function FeedbackCard({ feedback }: FeedbackCardProps) {
           >
             <Symbol>delete</Symbol>
           </CardActionIcon>
-        </CardActionIcons>
+        </Toolbar>
       </CardActions>
     </Card>
   );
