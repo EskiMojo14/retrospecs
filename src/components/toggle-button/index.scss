@@ -6,8 +6,6 @@
 @use "@/components/button/variables" as button-variables;
 
 .toggle-button {
-  --dark-rgb: var(--orange-dark-rgb);
-  --light-rgb: var(--orange-light-rgb);
   --background-rgb: var(--dark-rgb);
   --background-alpha: 0;
   --background: #{rgba(var(--background-rgb), var(--background-alpha))};
@@ -36,8 +34,8 @@
   @include typography.style("button");
 
   @include button-mixins.ink("dark");
-  @include button-mixins.outline;
   @include button-mixins.colors("toggle-button[data-selected]");
+  @include button-mixins.outline;
   @include theme.states;
   @include theme.focus-ring;
 

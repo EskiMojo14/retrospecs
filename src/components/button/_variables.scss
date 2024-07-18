@@ -4,3 +4,19 @@ $min-height: 36px;
 $padding-x: calc(var(--outline-width) * 4);
 $padding-y: 0px;
 $icon-spacing: calc(var(--outline-width) * 2);
+$default-color: (
+  color: "blue",
+  dark: 2,
+);
+$color-map: (
+  "garden": "green",
+  "sun": (
+    color: "yellow",
+    dark: 2,
+  ),
+  "sunset": "orange",
+  "dusk": (
+    color: "red",
+    dark: 2,
+  ),
+);

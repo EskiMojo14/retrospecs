@@ -2,6 +2,7 @@
 @use "sass:meta";
 @use "@/theme";
 @use "@/util";
+@use "./variables";
 
 @mixin ink($color, $state-opacities: ()) {
   --button-text-rgb: #{if(
@@ -42,18 +43,27 @@
   }
 }
 
-$color-map: (
-  "garden": "green",
-  "sun": "yellow",
-  "campfire": "red",
-  "fridge": "blue",
-);
+@mixin color($color) {
+  $dark-shade: if(
+    meta.type-of($color) == "map" and map.has-key($color, "dark"),
+    map.get($color, "dark"),
+    "-dark"
+  );
+  $light-shade: if(
+    meta.type-of($color) == "map" and map.has-key($color, "light"),
+    map.get($color, "light"),
+    "-light"
+  );
+  $name: if(meta.type-of($color) == "map", map.get($color, "color"), $color);
+  --dark-rgb: var(--#{$name}#{$dark-shade}-rgb);
+  --light-rgb: var(--#{$name}#{$light-shade}-rgb);
+}
 
 @mixin colors($filled-selector: "button--contained") {
-  @each $variant, $color in $color-map {
+  @include color(variables.$default-color);
+  @each $variant, $color in variables.$color-map {
     &--#{$variant} {
-      --dark-rgb: var(--#{$color}-dark-rgb);
-      --light-rgb: var(--#{$color}-light-rgb);
+      @include color($color);
     }
   }
   &--inverse {
