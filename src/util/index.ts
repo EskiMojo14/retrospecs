@@ -38,7 +38,7 @@ export const groupBy = <T, K extends PropertyKey, V = T>(
     return acc;
   }, {});
 
-export const mapGroupBy = <T, K, V>(
+export const mapGroupBy = <T, K, V = T>(
   array: Array<T>,
   key: (item: T, derived: V) => K,
   derive: (item: T) => V = (item) => item as never,
