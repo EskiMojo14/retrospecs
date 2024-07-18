@@ -15,6 +15,7 @@ export function LineBackground({
       aria-hidden
       className={cls({ extra: className })}
       style={{ "--scale": scale }}
+      dir="ltr"
     >
       <div className={cls("line", "vertical")} />
       <div className={cls("bottom-row")}>
