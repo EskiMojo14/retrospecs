@@ -54,9 +54,6 @@
   &__background {
     opacity: 0.35;
   }
-  &__container {
-    position: relative;
-  }
   [data-entering] & {
     animation:
       dialog-fade 300ms,

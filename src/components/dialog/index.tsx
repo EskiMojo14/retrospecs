@@ -72,8 +72,9 @@ export const Dialog = ({
         {renderPropChild(props, (children) => (
           <MergeProvider context={HeadingContext} value={headingContextValue}>
             <ToolbarContext.Provider value={toolbarContextValue}>
-              <LineBackground className={cls("background")} />
-              <div className={cls("container")}>{children}</div>
+              <LineBackground className={cls("background")}>
+                {children}
+              </LineBackground>
             </ToolbarContext.Provider>
           </MergeProvider>
         ))}

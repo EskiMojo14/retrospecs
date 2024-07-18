@@ -52,4 +52,7 @@ $background-size: 128px;
   &__whorl {
     background-image: var(--whorl-img);
   }
+  &-content {
+    position: relative;
+  }
 }
