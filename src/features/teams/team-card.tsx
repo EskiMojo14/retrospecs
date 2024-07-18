@@ -1,6 +1,9 @@
 import { useMemo } from "react";
-import type { Org } from ".";
-import { selectOrgById, useGetOrgMemberCountQuery, useGetOrgsQuery } from ".";
+import {
+  selectTeamById,
+  useGetTeamMemberCountQuery,
+  useGetTeamsByOrgQuery,
+} from ".";
 import { LinkButton } from "@/components/button";
 import {
   Card,
@@ -13,46 +16,40 @@ import {
 } from "@/components/card";
 import { Symbol } from "@/components/symbol";
 import { Typography } from "@/components/typography";
-import { useGetTeamCountByOrgQuery } from "@/features/teams";
-import styles from "./org-card.module.scss";
+import styles from "./team-card.module.scss";
 
-interface OrgCardProps {
-  orgId: Org["id"];
+export interface TeamCardProps {
+  orgId: number;
+  teamId: number;
 }
 
-export function OrgCard({ orgId }: OrgCardProps) {
-  const { org } = useGetOrgsQuery(undefined, {
+export function TeamCard({ orgId, teamId }: TeamCardProps) {
+  const { team } = useGetTeamsByOrgQuery(orgId, {
     selectFromResult: ({ data }) => ({
-      org: data && selectOrgById(data, orgId),
+      team: data && selectTeamById(data, teamId),
     }),
   });
-  const { memberCount } = useGetOrgMemberCountQuery(orgId, {
+  const { memberCount } = useGetTeamMemberCountQuery(teamId, {
     selectFromResult: ({ data }) => ({ memberCount: data ?? 0 }),
-  });
-  const { teamCount } = useGetTeamCountByOrgQuery(orgId, {
-    selectFromResult: ({ data }) => ({ teamCount: data ?? 0 }),
   });
   const formattedDate = useMemo(
     () =>
-      org?.created_at &&
-      new Date(org.created_at).toLocaleDateString(undefined, {
+      team?.created_at &&
+      new Date(team.created_at).toLocaleDateString(undefined, {
         dateStyle: "short",
       }),
-    [org?.created_at],
+    [team?.created_at],
   );
-  if (!org) return null;
+  if (!team) return null;
   return (
-    <Card className={styles.orgCard}>
+    <Card className={styles.teamCard}>
       <CardPrimaryAction
         as={LinkButton}
-        href={`/orgs/${orgId}`}
+        href={`/orgs/${orgId}/teams/${teamId}`}
         className={styles.primaryAction}
       >
-        <Typography variant="overline" className={styles.teamCount}>
-          {teamCount} Teams
-        </Typography>
         <Typography variant="headline6" className={styles.title}>
-          {org.name}
+          {team.name}
         </Typography>
         <Typography variant="caption" className={styles.date}>
           Created {formattedDate}
@@ -63,7 +60,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
           <CardActionButton
             as={LinkButton}
             variant="outlined"
-            href={`/orgs/${orgId}/members`}
+            href={`/orgs/${orgId}/teams/${teamId}/members`}
           >
             Members: {memberCount}
           </CardActionButton>

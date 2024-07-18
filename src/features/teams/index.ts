@@ -10,7 +10,7 @@ import type { PickRequired } from "@/util/types";
 export type Team = Tables<"teams">;
 export type TeamMember = Tables<"team_members">;
 
-const teamAdapter = createEntityAdapter<Team>();
+export const teamAdapter = createEntityAdapter<Team>();
 
 export const {
   selectAll: selectAllTeams,
@@ -106,6 +106,24 @@ export const teamsApi = emptyApi
               ]
             : [{ type: "Team" as const, id: teamId }],
       }),
+      getTeamMemberCount: build.query<number, Team["id"]>({
+        queryFn: supabaseQuery(
+          (teamId) =>
+            supabase
+              .from("team_members")
+              .select("*", {
+                count: "exact",
+                head: true,
+              })
+              .eq("team_id", teamId),
+          {
+            transformResponse: (_res, { count }) => count ?? 0,
+          },
+        ),
+        providesTags: (_res, _err, teamId) => [
+          { type: "TeamMember", id: `TEAM-${teamId}` },
+        ],
+      }),
       addTeamMember: build.mutation<null, TablesInsert<"team_members">>({
         queryFn: supabaseQuery((member) =>
           supabase.from("team_members").insert(member),
@@ -141,7 +159,7 @@ export const teamsApi = emptyApi
             .eq("user_id", member.user_id),
         ),
         invalidatesTags: (_res, _err, member) => [
-          { type: "TeamMember", id: selectTeamMemberId(member) },
+          { type: "TeamMember" as const, id: selectTeamMemberId(member) },
         ],
       }),
     }),
@@ -155,6 +173,7 @@ export const {
   useUpdateTeamMutation,
   useDeleteTeamMutation,
   useGetTeamMembersQuery,
+  useGetTeamMemberCountQuery,
   useAddTeamMemberMutation,
   useUpdateTeamMemberMutation,
   useDeleteTeamMemberMutation,
