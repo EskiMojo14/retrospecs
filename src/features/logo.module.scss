@@ -6,4 +6,9 @@
     font-family: "Super Dream", cursive;
     margin: 0;
   }
+  &:global(.link) {
+    &:focus-visible:not([data-focus-visible]) {
+      outline: none;
+    }
+  }
 }
