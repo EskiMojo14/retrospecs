@@ -38,9 +38,9 @@ $hover-time: 0.2s;
 }
 
 .card {
-  --outer: var(--yellow2);
-  --mid: var(--yellow3);
-  --bg: var(--yellow4);
+  --outer: var(--yellow3);
+  --mid: var(--yellow4);
+  --bg: var(--yellow5);
   --card-text-rgb: var(--yellow-dark-rgb);
   --card-text: rgb(var(--card-text-rgb));
   display: flex;
@@ -50,8 +50,8 @@ $hover-time: 0.2s;
   border-radius: 12px;
   position: relative;
   &--inverse {
-    --outer: var(--yellow4);
-    --mid: var(--yellow2);
+    --outer: var(--yellow5);
+    --mid: var(--yellow3);
     --bg: var(--yellow1);
     --card-text-rgb: var(--yellow-light-rgb);
   }
