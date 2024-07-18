@@ -1,8 +1,19 @@
 @use "sass:math";
+@use "@/theme/typography";
 
 .dialog {
+  position: relative;
   border-radius: 4px;
   background-color: var(--off-white);
+  color: typography.emphasis("blue-dark", "high");
+  max-height: calc(100% - 32px);
+  min-width: 280px;
+  @media (max-width: 592px) {
+    max-width: calc(100vw - 32px);
+  }
+  @media (min-width: 592px) {
+    max-width: 560px;
+  }
   &:focus-visible {
     outline: none;
   }
@@ -39,6 +50,12 @@
   &__actions {
     padding: 4px 8px;
     gap: 4px;
+  }
+  &__background {
+    opacity: 0.35;
+  }
+  &__container {
+    position: relative;
   }
   [data-entering] & {
     animation:

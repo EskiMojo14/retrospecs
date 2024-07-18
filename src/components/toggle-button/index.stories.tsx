@@ -104,6 +104,10 @@ function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
           Heavy
         </ToggleButton>
       </ToggleButtonGroup>
+      <Typography variant="caption" id="groove-label">
+        Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
+        it down a little.
+      </Typography>
     </section>
   );
 }

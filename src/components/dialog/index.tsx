@@ -11,6 +11,7 @@ import {
   ModalOverlay,
 } from "react-aria-components";
 import { createGenericComponent, renderPropChild } from "@/components/generic";
+import { LineBackground } from "@/components/line-background";
 import { MergeProvider } from "@/components/provider";
 import { ToolbarContext } from "@/components/toolbar";
 import { bemHelper } from "@/util";
@@ -71,7 +72,8 @@ export const Dialog = ({
         {renderPropChild(props, (children) => (
           <MergeProvider context={HeadingContext} value={headingContextValue}>
             <ToolbarContext.Provider value={toolbarContextValue}>
-              {children}
+              <LineBackground className={cls("background")} />
+              <div className={cls("container")}>{children}</div>
             </ToolbarContext.Provider>
           </MergeProvider>
         ))}
