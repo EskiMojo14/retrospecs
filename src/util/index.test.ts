@@ -32,12 +32,12 @@ describe("util / index", () => {
     });
   });
   describe("groupBy", () => {
+    const array = [
+      { key: "a", value: 1 },
+      { key: "a", value: 2 },
+      { key: "b", value: 3 },
+    ];
     it("should group by the key", () => {
-      const array = [
-        { key: "a", value: 1 },
-        { key: "a", value: 2 },
-        { key: "b", value: 3 },
-      ];
       expect(groupBy(array, (item) => item.key)).toEqual({
         a: [
           { key: "a", value: 1 },
@@ -46,14 +46,26 @@ describe("util / index", () => {
         b: [{ key: "b", value: 3 }],
       });
     });
+    it("should allow derivation", () => {
+      expect(
+        groupBy(
+          array,
+          (item) => item.key,
+          (item) => item.value,
+        ),
+      ).toEqual({
+        a: [1, 2],
+        b: [3],
+      });
+    });
   });
   describe("mapGroupBy", () => {
+    const array = [
+      { key: "a", value: 1 },
+      { key: "a", value: 2 },
+      { key: "b", value: 3 },
+    ];
     it("should group by the key", () => {
-      const array = [
-        { key: "a", value: 1 },
-        { key: "a", value: 2 },
-        { key: "b", value: 3 },
-      ];
       expect(mapGroupBy(array, (item) => item.key)).toEqual(
         new Map([
           [
@@ -64,6 +76,20 @@ describe("util / index", () => {
             ],
           ],
           ["b", [{ key: "b", value: 3 }]],
+        ]),
+      );
+    });
+    it("should allow derivation", () => {
+      expect(
+        mapGroupBy(
+          array,
+          (item) => item.key,
+          (item) => item.value,
+        ),
+      ).toEqual(
+        new Map([
+          ["a", [1, 2]],
+          ["b", [3]],
         ]),
       );
     });

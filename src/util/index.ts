@@ -27,29 +27,33 @@ export const toUpperCaseTyped = <T extends string>(value: T): Uppercase<T> =>
 export const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
-export const groupBy = <T, K extends PropertyKey>(
+export const groupBy = <T, K extends PropertyKey, V = T>(
   array: Array<T>,
-  key: (item: T) => K,
-): Partial<Record<K, Array<T>>> =>
-  array.reduce<Partial<Record<K, Array<T>>>>((acc, item) => {
-    (acc[key(item)] ??= []).push(item);
+  key: (item: T, derived: V) => K,
+  derive: (item: T) => V = (item) => item as never,
+): Partial<Record<K, Array<V>>> =>
+  array.reduce<Partial<Record<K, Array<V>>>>((acc, item) => {
+    const derived = derive(item);
+    (acc[key(item, derived)] ??= []).push(derived);
     return acc;
   }, {});
 
-export const mapGroupBy = <T, K>(
+export const mapGroupBy = <T, K, V>(
   array: Array<T>,
-  key: (item: T) => K,
-): Map<K, Array<T>> =>
+  key: (item: T, derived: V) => K,
+  derive: (item: T) => V = (item) => item as never,
+): Map<K, Array<V>> =>
   array.reduce((acc, item) => {
-    emplace(acc, key(item), {
-      insert: () => [item],
+    const derived = derive(item);
+    emplace(acc, key(item, derived), {
+      insert: () => [derived],
       update: (group) => {
-        group.push(item);
+        group.push(derived);
         return group;
       },
     });
     return acc;
-  }, new Map<K, Array<T>>());
+  }, new Map<K, Array<V>>());
 
 interface WeakMapEmplaceHandler<K extends object, V> {
   /**
