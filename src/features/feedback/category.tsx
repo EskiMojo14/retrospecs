@@ -1,10 +1,10 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
+import { LineBackground } from "@/components/line-background";
+import { useAppSelector } from "@/pretyped";
 import { FeedbackCard } from "./card";
 import type { Category } from "./slice-old";
 import { categories, selectFeedbackByCategory } from "./slice-old";
-import { useAppSelector } from "@/pretyped";
 import styles from "./category.module.scss";
-import { LineBackground } from "@/components/line-background";
 
 interface CategoryProps {
   category: Category;

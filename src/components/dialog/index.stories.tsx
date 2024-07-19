@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ComponentPropsWithoutRef } from "react";
 import { DialogTrigger } from "react-aria-components";
-import { Dialog, DialogContent } from ".";
 import { Button } from "@/components/button";
 import { Symbol } from "@/components/symbol";
 import { Toolbar } from "@/components/toolbar";
 import { Typography, Heading } from "@/components/typography";
+import { Dialog, DialogContent } from ".";
 
 const meta = {
   title: "Components/Dialog",

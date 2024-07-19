@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Breadcrumbs, Breadcrumb } from ".";
 import { Link } from "@/components/link";
+import { Breadcrumbs, Breadcrumb } from ".";
 
 interface StoryProps {
   dir?: "rtl" | "ltr";

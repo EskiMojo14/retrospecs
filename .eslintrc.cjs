@@ -39,11 +39,20 @@ module.exports = {
           orderImportKind: "asc",
           caseInsensitive: true,
         },
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+        ],
         pathGroups: [
           {
             pattern: "*.{css,scss}",
             patternOptions: { matchBase: true },
-            group: "unknown",
+            group: "object",
             position: "after",
           },
           {

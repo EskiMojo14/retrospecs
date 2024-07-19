@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "./supabase";
 import { assert } from "@/util";
+import type { Database } from "./supabase";
 
 assert(
   typeof import.meta.env.VITE_SUPABASE_URL === "string",

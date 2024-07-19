@@ -2,10 +2,10 @@ import type { CSSProperties, ReactNode } from "react";
 import { createContext } from "react";
 import type { SlotProps, ContextValue } from "react-aria-components";
 import { useContextProps } from "react-aria-components";
-import type { SymbolSettings } from "./constants";
-import { defaultSettings } from "./constants";
 import { createGenericComponent } from "@/components/generic";
 import { bemHelper, clamp, defaultNullish } from "@/util";
+import type { SymbolSettings } from "./constants";
+import { defaultSettings } from "./constants";
 import "./index.scss";
 
 const symbolSettingsToVar = (props: SymbolSettings) => {

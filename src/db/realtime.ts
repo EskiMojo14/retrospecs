@@ -1,8 +1,8 @@
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
-import type { Database, Tables } from "./supabase";
-import { supabase } from ".";
 import type { AppDispatch } from "@/store";
 import { toLowerCaseTyped } from "@/util";
+import type { Database, Tables } from "./supabase";
+import { supabase } from ".";
 
 export const buildRealtimeHandler =
   <Table extends keyof Database["public"]["Tables"]>(

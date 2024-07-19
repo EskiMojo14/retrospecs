@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { Checkbox } from ".";
 import { inverseContainerDecorator } from "@/util/storybook";
+import { Checkbox } from ".";
 
 const meta = {
   title: "Components/Checkbox",

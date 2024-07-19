@@ -1,12 +1,12 @@
 import type { ContextType, ReactNode } from "react";
 import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
-import type { CardColor, CardVariant } from "./constants";
 import type { ButtonProps } from "@/components/button";
 import { Button } from "@/components/button";
 import { createGenericComponent } from "@/components/generic";
 import { IconButton } from "@/components/icon-button";
 import { ToolbarContext } from "@/components/toolbar";
 import { bemHelper } from "@/util";
+import type { CardColor, CardVariant } from "./constants";
 import "./index.scss";
 
 export interface CardProps {

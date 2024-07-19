@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
-import { buttonColors, buttonVariants } from "./constants";
-import { Button } from ".";
 import { Symbol } from "@/components/symbol";
 import { inverseContainerDecorator } from "@/util/storybook";
+import { buttonColors, buttonVariants } from "./constants";
+import { Button } from ".";
 
 interface StoryProps {
   icon?: "leading" | "trailing";

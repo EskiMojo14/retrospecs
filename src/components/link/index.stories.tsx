@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { Link } from ".";
 import { inverseContainerDecorator } from "@/util/storybook";
+import { Link } from ".";
 
 const meta = {
   title: "Components/Link",

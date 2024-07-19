@@ -1,6 +1,4 @@
 import { useMemo } from "react";
-import type { Org } from ".";
-import { selectOrgById, useGetOrgMemberCountQuery, useGetOrgsQuery } from ".";
 import { LinkButton } from "@/components/button";
 import {
   Card,
@@ -13,6 +11,8 @@ import { Symbol } from "@/components/symbol";
 import { Toolbar } from "@/components/toolbar";
 import { Typography } from "@/components/typography";
 import { useGetTeamCountByOrgQuery } from "@/features/teams";
+import type { Org } from ".";
+import { selectOrgById, useGetOrgMemberCountQuery, useGetOrgsQuery } from ".";
 import styles from "./org-card.module.scss";
 
 interface OrgCardProps {

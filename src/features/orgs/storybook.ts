@@ -1,7 +1,7 @@
-import type { Org } from ".";
-import { orgAdapter, orgsApi } from ".";
 import { teamsApi } from "@/features/teams";
 import type { AppThunk } from "@/store";
+import type { Org } from ".";
+import { orgAdapter, orgsApi } from ".";
 
 interface OrgWithCounts extends Org {
   memberCount: number;

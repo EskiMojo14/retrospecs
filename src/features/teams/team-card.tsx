@@ -1,9 +1,4 @@
 import { useMemo } from "react";
-import {
-  selectTeamById,
-  useGetTeamMemberCountQuery,
-  useGetTeamsByOrgQuery,
-} from ".";
 import { LinkButton } from "@/components/button";
 import {
   Card,
@@ -13,9 +8,14 @@ import {
   CardPrimaryAction,
 } from "@/components/card";
 import { Symbol } from "@/components/symbol";
-import { Typography } from "@/components/typography";
-import styles from "./team-card.module.scss";
 import { Toolbar } from "@/components/toolbar";
+import { Typography } from "@/components/typography";
+import {
+  selectTeamById,
+  useGetTeamMemberCountQuery,
+  useGetTeamsByOrgQuery,
+} from ".";
+import styles from "./team-card.module.scss";
 
 export interface TeamCardProps {
   orgId: number;

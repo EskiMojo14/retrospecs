@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { makeStore } from "@/store";
+import { createReduxDecorator } from "@/util/storybook";
 import { TeamCard } from "./team-card";
 import type { Team } from ".";
 import { teamAdapter, teamsApi } from ".";
-import { makeStore } from "@/store";
-import { createReduxDecorator } from "@/util/storybook";
 
 const store = makeStore();
 

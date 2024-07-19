@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Button, LinkButton } from "@/components/button";
+import { Symbol } from "@/components/symbol";
 import { toastTypes, type Toast } from "./constants";
 import { GlobalToastRegion } from "./toast-region";
 import { toastQueue } from ".";
-import { Button, LinkButton } from "@/components/button";
-import { Symbol } from "@/components/symbol";
 
 interface StoryProps extends Toast {
   hasAction?: boolean;

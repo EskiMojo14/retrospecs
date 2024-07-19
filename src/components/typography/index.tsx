@@ -1,10 +1,10 @@
 import { forwardRef } from "react";
 import type { HeadingProps as AriaHeadingProps } from "react-aria-components";
 import { Heading as AriaHeading } from "react-aria-components";
-import type { HeadingVariant, TypographyVariant } from "./constants";
-import { levelMapping, variantMapping } from "./constants";
 import { createGenericComponent } from "@/components/generic";
 import { bemHelper } from "@/util";
+import type { HeadingVariant, TypographyVariant } from "./constants";
+import { levelMapping, variantMapping } from "./constants";
 import "./index.scss";
 
 export interface TypographyProps {
