@@ -10087,6 +10087,7 @@ __metadata:
     storybook: "npm:^8.2.4"
     typescript: "npm:^5.2.2"
     vite: "npm:^5.3.1"
+    vite-plugin-remix-router: "npm:^2.0.0"
     vitest: "npm:^2.0.3"
   languageName: unknown
   linkType: soft
@@ -11357,6 +11358,16 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 10c0/a1bcc110aeb49e79a50ae0df41ca692d39e0d992702f7c5b095c969f622eb72636543bed79efb7131fdedaa4c44a6c9c19daf6fca909240acc1f27f79b978c11
+  languageName: node
+  linkType: hard
+
+"vite-plugin-remix-router@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "vite-plugin-remix-router@npm:2.0.0"
+  peerDependencies:
+    react-router-dom: ^6.9.0
+    vite: ">=2"
+  checksum: 10c0/e96c6739bc56a586df2fa8ef65b1413285f947db700f513320b216126f7dca8435644eddd5d6b64150f5d9b7e66281008cf8a93678cab38aa435256a0afcb064
   languageName: node
   linkType: hard
 
