@@ -13,7 +13,7 @@
   --button-text: #{rgb(var(--button-text-rgb))};
 }
 
-@mixin contained-ink($color, $state-opacities: ()) {
+@mixin filled-ink($color, $state-opacities: ()) {
   --background: #{color-mix(
       in srgb,
       if(meta.type-of($color) == "color", $color, rgb(var(--#{$color}-rgb)))
@@ -59,7 +59,7 @@
   --light-rgb: var(--#{$name}#{$light-shade}-rgb);
 }
 
-@mixin colors($filled-selector: "button--contained") {
+@mixin colors($filled-selector: "button--filled") {
   @include color(variables.$default-color);
   @each $variant, $color in variables.$color-map {
     &--#{$variant} {
@@ -70,7 +70,7 @@
     @include ink("light");
     --background-rgb: var(--light-rgb);
     &.#{$filled-selector} {
-      @include contained-ink("dark");
+      @include filled-ink("dark");
     }
   }
 }

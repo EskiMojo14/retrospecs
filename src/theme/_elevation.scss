@@ -1,0 +1,3 @@
+@mixin elevation($n) {
+  box-shadow: $n * 1px $n * 1px var(--shadow);
+}

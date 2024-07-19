@@ -28,7 +28,7 @@ const meta = {
             </DialogContent>
             <Toolbar slot="actions">
               <Button onPress={close}>Cancel</Button>
-              <Button onPress={close} variant="outlined" color="sunset">
+              <Button onPress={close} variant="elevated" color="sunset">
                 Delete
               </Button>
             </Toolbar>

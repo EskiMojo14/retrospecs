@@ -67,7 +67,7 @@
   }
 
   &[data-selected] {
-    @include button-mixins.contained-ink("light");
+    @include button-mixins.filled-ink("light");
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);

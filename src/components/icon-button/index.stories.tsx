@@ -64,8 +64,8 @@ export const Outlined: Story = {
   },
 };
 
-export const Contained: Story = {
+export const Filled: Story = {
   args: {
-    variant: "contained",
+    variant: "filled",
   },
 };

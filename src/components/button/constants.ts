@@ -3,7 +3,12 @@ import { DEFAULT_SLOT } from "react-aria-components";
 import type { HelperFunction } from "react-bem-helper";
 import type { SymbolContext, SymbolProps } from "@/components/symbol";
 
-export const buttonVariants = ["text", "outlined", "contained"] as const;
+export const buttonVariants = [
+  "text",
+  "outlined",
+  "filled",
+  "elevated",
+] as const;
 
 export type ButtonVariant = (typeof buttonVariants)[number];
 

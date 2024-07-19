@@ -104,6 +104,7 @@ $gradients: (
   --focus-ring-color: var(--blue4);
   @include color-var("off-white", #e7e6df);
   @include color-var("brown", #5a3d2b);
+  @include color-var("shadow", black);
 
   @each $name, $stops in $gradients {
     @include gradient($name, $stops);

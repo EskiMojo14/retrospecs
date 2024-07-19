@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "@/theme/typography";
+@use "@/theme/elevation";
 
 .dialog {
   position: relative;
@@ -8,6 +9,7 @@
   color: typography.emphasis("blue-dark", "high");
   max-height: calc(100% - 32px);
   min-width: 280px;
+  @include elevation.elevation(8);
   @media (max-width: 592px) {
     max-width: calc(100vw - 32px);
   }

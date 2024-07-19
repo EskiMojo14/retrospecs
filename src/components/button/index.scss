@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "@/theme";
 @use "@/theme/typography";
+@use "@/theme/elevation";
 @use "@/util";
 @use "./mixins";
 @use "./variables";
@@ -21,7 +22,9 @@
   transition:
     background 200ms,
     outline 200ms,
-    outline-offset 200ms;
+    outline-offset 200ms,
+    box-shadow 200ms,
+    translate 200ms;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,12 +47,27 @@
     text-decoration: none;
   }
   &--outlined,
-  &--contained {
+  &--filled,
+  &--elevated {
     position: relative;
     @include mixins.outline;
   }
-  &--contained {
-    @include mixins.contained-ink("light");
+  &--filled,
+  &--elevated {
+    @include mixins.filled-ink("light");
+  }
+  &--elevated {
+    --shadow: var(--background);
+    @include elevation.elevation(2);
+    &[data-hovered] {
+      translate: -2px -2px;
+      @include elevation.elevation(4);
+    }
+    &[data-focus-visible],
+    &[data-pressed] {
+      translate: 0 0;
+      @include elevation.elevation(2);
+    }
   }
   &--compact {
     padding: variables.$compact-padding;

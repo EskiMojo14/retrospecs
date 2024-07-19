@@ -71,14 +71,14 @@ export const Outlined: Story = {
   },
 };
 
-export const Contained: Story = {
+export const Filled: Story = {
   argTypes: {
     variant: {
       table: { disable: true },
     },
   },
   args: {
-    variant: "contained",
+    variant: "filled",
   },
 };
 
