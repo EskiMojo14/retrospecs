@@ -1,0 +1,25 @@
+@use "@/theme/typography";
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 1rem;
+  .title {
+    color: typography.emphasis("brown", "high");
+    margin: 0;
+  }
+  .subtitle {
+    color: typography.emphasis("brown", "medium");
+    margin: 0;
+  }
+  .error {
+    background-color: var(--brown);
+    color: var(--off-white);
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 0;
+  }
+}
