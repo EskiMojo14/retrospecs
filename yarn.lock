@@ -4326,7 +4326,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-gnu@npm:4.18.1":
+"@rollup/rollup-linux-x64-gnu@npm:4.18.1, @rollup/rollup-linux-x64-gnu@npm:^4.9.5":
   version: 4.18.1
   resolution: "@rollup/rollup-linux-x64-gnu@npm:4.18.1"
   conditions: os=linux & cpu=x64 & libc=glibc
@@ -4886,6 +4886,21 @@ __metadata:
     "@types/ws": "npm:^8.5.10"
     ws: "npm:^8.14.2"
   checksum: 10c0/d33bb7c124c5014ad3f308bb9837f74a33e408976595bda2a8955e2685e89654259738cb2409c31a3aef3892d22d3986c2880437083a87f1a47e828dd2f27eb9
+  languageName: node
+  linkType: hard
+
+"@supabase/ssr@npm:0.4.0":
+  version: 0.4.0
+  resolution: "@supabase/ssr@npm:0.4.0"
+  dependencies:
+    "@rollup/rollup-linux-x64-gnu": "npm:^4.9.5"
+    cookie: "npm:^0.6.0"
+  peerDependencies:
+    "@supabase/supabase-js": ^2.43.4
+  dependenciesMeta:
+    "@rollup/rollup-linux-x64-gnu":
+      optional: true
+  checksum: 10c0/378f92e271eeed700dfc509f7f6398b4e0984a4845de91467b5ac211f50c690548fd32eb72f80b9600963084a947b4573a370b3419df15ca6fdf87df8252de09
   languageName: node
   linkType: hard
 
@@ -12726,6 +12741,7 @@ __metadata:
     "@storybook/react": "npm:^8.2.4"
     "@storybook/react-vite": "npm:^8.2.4"
     "@storybook/test": "npm:^8.2.4"
+    "@supabase/ssr": "npm:0.4.0"
     "@supabase/supabase-js": "npm:^2.44.3"
     "@testing-library/dom": "npm:^10.3.2"
     "@testing-library/jest-dom": "npm:^6.4.6"
