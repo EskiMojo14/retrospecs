@@ -34,7 +34,7 @@
   @include typography.style("button");
 
   @include button-mixins.ink("dark");
-  @include button-mixins.colors("toggle-button[data-selected]");
+  @include button-mixins.colors("&.toggle-button[data-selected]");
   @include button-mixins.outline;
   @include theme.states;
   @include theme.focus-ring;

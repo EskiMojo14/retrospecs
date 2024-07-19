@@ -59,7 +59,7 @@
   --light-rgb: var(--#{$name}#{$light-shade}-rgb);
 }
 
-@mixin colors($filled-selector: "button--filled") {
+@mixin colors($filled-selector: "&.button--filled, &.button--elevated") {
   @include color(variables.$default-color);
   @each $variant, $color in variables.$color-map {
     &--#{$variant} {
@@ -69,7 +69,7 @@
   &--inverse {
     @include ink("light");
     --background-rgb: var(--light-rgb);
-    &.#{$filled-selector} {
+    #{$filled-selector} {
       @include filled-ink("dark");
     }
   }
