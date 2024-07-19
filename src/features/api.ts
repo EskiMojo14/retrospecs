@@ -1,7 +1,7 @@
 import type { BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { PostgrestError } from "@supabase/supabase-js";
-import type { PostgrestMeta } from "@/util/supabase-query";
+import type { PostgrestMeta } from "~/util/supabase-query";
 
 export const _NEVER = Symbol();
 export type NEVER = typeof _NEVER;

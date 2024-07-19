@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { assert } from "@/util";
+import { assert } from "~/util";
 import type { Database } from "./supabase";
 
 assert(

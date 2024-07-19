@@ -3,12 +3,12 @@ import { useToast } from "@react-aria/toast";
 import type { ToastState } from "@react-stately/toast";
 import type { ReactNode } from "react";
 import { useMemo, useRef } from "react";
-import type { ButtonProps } from "@/components/button";
-import { ButtonContext } from "@/components/button";
-import { IconButton } from "@/components/icon-button";
-import { Symbol } from "@/components/symbol";
-import { Heading, Typography } from "@/components/typography";
-import { bemHelper } from "@/util";
+import type { ButtonProps } from "~/components/button";
+import { ButtonContext } from "~/components/button";
+import { IconButton } from "~/components/icon-button";
+import { Symbol } from "~/components/symbol";
+import { Heading, Typography } from "~/components/typography";
+import { bemHelper } from "~/util";
 import type { Toast } from "./constants";
 import { toastButtonColor, toastSymbols } from "./constants";
 

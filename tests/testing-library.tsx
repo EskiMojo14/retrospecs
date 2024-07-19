@@ -2,8 +2,8 @@ import type { RenderOptions } from "@testing-library/react";
 import { render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import type { AppStore, PreloadedState } from "@/store";
-import { makeStore } from "@/store";
+import type { AppStore, PreloadedState } from "~/store";
+import { makeStore } from "~/store";
 
 export const renderWithUser = (...args: Parameters<typeof render>) => ({
   user: userEvent.setup(),

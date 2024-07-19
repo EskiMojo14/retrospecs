@@ -7,7 +7,7 @@ import type {
   Ref,
 } from "react";
 import { forwardRef } from "react";
-import type { Overwrite } from "@/util/types";
+import type { Overwrite } from "~/util/types";
 
 const propSymbol = Symbol("prop");
 const refSymbol = Symbol("ref");

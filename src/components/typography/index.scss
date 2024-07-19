@@ -1,8 +1,8 @@
 @use "sass:map";
 @use "sass:meta";
 @use "sass:string";
-@use "@/theme/typography";
-@use "@/util";
+@use "~/theme/typography";
+@use "~/util";
 
 .typography {
   @each $prop, $value in typography.$defaults {

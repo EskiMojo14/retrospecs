@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "sass:meta";
-@use "@/theme";
-@use "@/util";
+@use "~/theme";
+@use "~/util";
 @use "./variables";
 
 @mixin ink($color, $state-opacities: ()) {

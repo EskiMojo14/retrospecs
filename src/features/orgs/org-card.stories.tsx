@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { makeStore } from "@/store";
-import { createReduxDecorator } from "@/util/storybook";
+import { makeStore } from "~/store";
+import { createReduxDecorator } from "~/util/storybook";
 import { OrgCard } from "./org-card";
 import { prefillOrgs } from "./storybook";
 

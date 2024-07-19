@@ -1,6 +1,6 @@
 import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
-import type { AppDispatch } from "@/store";
-import { toLowerCaseTyped } from "@/util";
+import type { AppDispatch } from "~/store";
+import { toLowerCaseTyped } from "~/util";
 import type { Database, Tables } from "./supabase";
 import { supabase } from ".";
 

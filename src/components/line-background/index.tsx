@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { bemHelper } from "@/util";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 const cls = bemHelper("line-background");

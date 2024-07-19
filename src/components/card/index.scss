@@ -1,5 +1,5 @@
-@use "@/theme/elevation";
-@use "@/util";
+@use "~/theme/elevation";
+@use "~/util";
 
 @mixin action-hover {
   &[data-hovered],

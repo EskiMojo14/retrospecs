@@ -1,15 +1,15 @@
 import { useMemo } from "react";
-import { LinkButton } from "@/components/button";
+import { LinkButton } from "~/components/button";
 import {
   Card,
   CardActionButton,
   CardActionIcon,
   CardActions,
   CardPrimaryAction,
-} from "@/components/card";
-import { Symbol } from "@/components/symbol";
-import { Toolbar } from "@/components/toolbar";
-import { Typography } from "@/components/typography";
+} from "~/components/card";
+import { Symbol } from "~/components/symbol";
+import { Toolbar } from "~/components/toolbar";
+import { Typography } from "~/components/typography";
 import {
   selectTeamById,
   useGetTeamMemberCountQuery,

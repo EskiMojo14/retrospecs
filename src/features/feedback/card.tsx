@@ -1,17 +1,17 @@
 import { clsx } from "clsx";
 import { DialogTrigger, ToggleButton } from "react-aria-components";
-import { Button } from "@/components/button";
+import { Button } from "~/components/button";
 import {
   Card,
   CardActionIcon,
   CardActions,
   CardPrimaryAction,
-} from "@/components/card";
-import { Dialog, DialogContent } from "@/components/dialog";
-import { Symbol } from "@/components/symbol";
-import { Toolbar } from "@/components/toolbar";
-import { Heading, Typography } from "@/components/typography";
-import { useAppDispatch } from "@/pretyped";
+} from "~/components/card";
+import { Dialog, DialogContent } from "~/components/dialog";
+import { Symbol } from "~/components/symbol";
+import { Toolbar } from "~/components/toolbar";
+import { Heading, Typography } from "~/components/typography";
+import { useAppDispatch } from "~/pretyped";
 import type { Feedback } from "./slice-old";
 import { feedbackAddressed, feedbackRemoved } from "./slice-old";
 import styles from "./card.module.scss";

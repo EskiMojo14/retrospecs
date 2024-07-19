@@ -1,8 +1,8 @@
 import { createContext } from "react";
 import type { ContextValue } from "react-aria-components";
 import { Toolbar as AriaToolbar, useContextProps } from "react-aria-components";
-import { createGenericComponent } from "@/components/generic";
-import { bemHelper } from "@/util";
+import { createGenericComponent } from "~/components/generic";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 export interface ToolbarProps {

@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
 import { Provider } from "react-redux";
-import type { AppStore, PreloadedState } from "@/store";
-import { makeStore } from "@/store";
+import type { AppStore, PreloadedState } from "~/store";
+import { makeStore } from "~/store";
 
 export const createReduxDecorator =
   ({

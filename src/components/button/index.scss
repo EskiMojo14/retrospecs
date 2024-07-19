@@ -1,8 +1,8 @@
 @use "sass:map";
-@use "@/theme";
-@use "@/theme/typography";
-@use "@/theme/elevation";
-@use "@/util";
+@use "~/theme";
+@use "~/theme/typography";
+@use "~/theme/elevation";
+@use "~/util";
 @use "./mixins";
 @use "./variables";
 

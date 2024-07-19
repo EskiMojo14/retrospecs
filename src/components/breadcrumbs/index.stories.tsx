@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Link } from "@/components/link";
+import { Link } from "~/components/link";
 import { Breadcrumbs, Breadcrumb } from ".";
 
 interface StoryProps {

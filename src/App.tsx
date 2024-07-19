@@ -1,7 +1,7 @@
-import { Breadcrumb, Breadcrumbs } from "@/components/breadcrumbs";
-import { Link } from "@/components/link";
-import { Categories } from "@/features/feedback/category";
-import { Logo } from "@/features/logo";
+import { Breadcrumb, Breadcrumbs } from "~/components/breadcrumbs";
+import { Link } from "~/components/link";
+import { Categories } from "~/features/feedback/category";
+import { Logo } from "~/features/logo";
 
 function App() {
   return (

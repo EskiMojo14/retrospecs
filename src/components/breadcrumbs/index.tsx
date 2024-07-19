@@ -5,8 +5,8 @@ import {
   Breadcrumbs as AriaBreadcrumbs,
   Breadcrumb as AriaBreadcrumb,
 } from "react-aria-components";
-import { Symbol } from "@/components/symbol";
-import { bemHelper } from "@/util";
+import { Symbol } from "~/components/symbol";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 export const Breadcrumbs = forwardRef<HTMLOListElement, BreadcrumbsProps<any>>(

@@ -9,10 +9,10 @@ import {
 import {
   makeButtonSymbolSlots,
   type ButtonColor,
-} from "@/components/button/constants";
-import { createGenericComponent, renderPropChild } from "@/components/generic";
-import { SymbolContext } from "@/components/symbol";
-import { bemHelper } from "@/util";
+} from "~/components/button/constants";
+import { createGenericComponent, renderPropChild } from "~/components/generic";
+import { SymbolContext } from "~/components/symbol";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 export interface ToggleButtonProps {

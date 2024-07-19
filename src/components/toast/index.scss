@@ -1,7 +1,7 @@
-@use "@/theme/animation";
-@use "@/theme/elevation";
-@use "@/theme/typography";
-@use "@/util";
+@use "~/theme/animation";
+@use "~/theme/elevation";
+@use "~/theme/typography";
+@use "~/util";
 
 $type-colors: (
   "success": "green",

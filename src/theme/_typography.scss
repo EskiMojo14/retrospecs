@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:string";
-@use "@/util";
+@use "~/util";
 
 $defaults: (
   font-family: string.unquote("Raleway"),

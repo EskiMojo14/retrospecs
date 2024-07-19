@@ -1,10 +1,10 @@
 import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter } from "@reduxjs/toolkit";
-import { supabase } from "@/db";
-import type { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
-import { emptyApi } from "@/features/api";
-import { compoundKey, supabaseQuery } from "@/util/supabase-query";
-import type { PickRequired } from "@/util/types";
+import { supabase } from "~/db";
+import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
+import { emptyApi } from "~/features/api";
+import { compoundKey, supabaseQuery } from "~/util/supabase-query";
+import type { PickRequired } from "~/util/types";
 
 export type Org = Tables<"orgs">;
 export type OrgMember = Tables<"org_members">;

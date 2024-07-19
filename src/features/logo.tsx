@@ -1,9 +1,9 @@
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
-import { createGenericComponent } from "@/components/generic";
+import { createGenericComponent } from "~/components/generic";
 // eslint-disable-next-line import/no-unresolved
 import logo from "/assets/retrospecs.png";
-import { Typography } from "@/components/typography";
+import { Typography } from "~/components/typography";
 import styles from "./logo.module.scss";
 
 interface LogoProps {

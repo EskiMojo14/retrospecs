@@ -1,5 +1,5 @@
-import { teamsApi } from "@/features/teams";
-import type { AppThunk } from "@/store";
+import { teamsApi } from "~/features/teams";
+import type { AppThunk } from "~/store";
 import type { Org } from ".";
 import { orgAdapter, orgsApi } from ".";
 

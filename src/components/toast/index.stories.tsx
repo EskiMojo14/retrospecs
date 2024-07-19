@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button, LinkButton } from "@/components/button";
-import { Symbol } from "@/components/symbol";
+import { Button, LinkButton } from "~/components/button";
+import { Symbol } from "~/components/symbol";
 import { toastTypes, type Toast } from "./constants";
 import { GlobalToastRegion } from "./toast-region";
 import { toastQueue } from ".";

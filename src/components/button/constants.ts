@@ -1,7 +1,7 @@
 import type { ContextType } from "react";
 import { DEFAULT_SLOT } from "react-aria-components";
 import type { HelperFunction } from "react-bem-helper";
-import type { SymbolContext, SymbolProps } from "@/components/symbol";
+import type { SymbolContext, SymbolProps } from "~/components/symbol";
 
 export const buttonVariants = [
   "text",

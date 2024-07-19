@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, CSSProperties } from "react";
-import { Symbol } from "@/components/symbol";
-import { Toolbar } from "@/components/toolbar";
+import { Symbol } from "~/components/symbol";
+import { Toolbar } from "~/components/toolbar";
 import { cardColors, cardVariants } from "./constants";
 import {
   Card,

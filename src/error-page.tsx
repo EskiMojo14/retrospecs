@@ -1,31 +1,12 @@
-import { useRouteError } from "react-router-dom";
-import { Heading, Typography } from "@/components/typography";
+import { Heading, Typography } from "~/components/typography";
 import styles from "./error-page.module.scss";
 
-export function ErrorPage() {
-  const error = useRouteError();
-  console.error(error);
+export interface ErrorPageProps {
+  status?: number;
+  message?: string;
+}
 
-  const errorIsObject = error && typeof error === "object";
-
-  let status = undefined;
-  if (errorIsObject && "status" in error && typeof error.status === "number") {
-    status = error.status;
-  }
-  let message = undefined;
-  if (
-    errorIsObject &&
-    "statusText" in error &&
-    typeof error.statusText === "string"
-  ) {
-    message = error.statusText;
-  } else if (
-    errorIsObject &&
-    "message" in error &&
-    typeof error.message === "string"
-  ) {
-    message = error.message;
-  }
+export function ErrorPage({ status, message }: ErrorPageProps) {
   return (
     <main className={styles.page}>
       <Heading variant="headline3" className={styles.title}>

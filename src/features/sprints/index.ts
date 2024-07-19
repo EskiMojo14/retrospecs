@@ -1,12 +1,12 @@
 import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter } from "@reduxjs/toolkit";
-import { supabase } from "@/db";
-import { buildRealtimeHandler } from "@/db/realtime";
-import type { Tables, TablesInsert, TablesUpdate } from "@/db/supabase";
-import { emptyApi } from "@/features/api";
-import type { Team } from "@/features/teams";
-import { supabaseQuery } from "@/util/supabase-query";
-import type { PickRequired } from "@/util/types";
+import { supabase } from "~/db";
+import { buildRealtimeHandler } from "~/db/realtime";
+import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
+import { emptyApi } from "~/features/api";
+import type { Team } from "~/features/teams";
+import { supabaseQuery } from "~/util/supabase-query";
+import type { PickRequired } from "~/util/types";
 
 export type Sprint = Tables<"sprints">;
 

@@ -1,9 +1,9 @@
 @use "sass:map";
-@use "@/theme";
-@use "@/theme/typography";
-@use "@/util";
-@use "@/components/button/mixins" as button-mixins;
-@use "@/components/button/variables" as button-variables;
+@use "~/theme";
+@use "~/theme/typography";
+@use "~/util";
+@use "~/components/button/mixins" as button-mixins;
+@use "~/components/button/variables" as button-variables;
 
 .toggle-button {
   --background-rgb: var(--dark-rgb);

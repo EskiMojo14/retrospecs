@@ -4,7 +4,11 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "baseUrl": ".",
     "module": "ESNext",
     "skipLibCheck": true,
@@ -23,8 +27,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "~/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["src", "test-setup.ts", "tests"]
+  "include": [
+    "app",
+    "src",
+    "test-setup.ts",
+    "tests"
+  ]
 }

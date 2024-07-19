@@ -1,5 +1,5 @@
 @use "sass:math";
-@use "@/util";
+@use "~/util";
 
 @mixin spring-in($duration: 300ms) {
   from {

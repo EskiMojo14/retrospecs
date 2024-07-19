@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { ButtonColor } from "@/components/button/constants";
+import type { ButtonColor } from "~/components/button/constants";
 
 export const toastTypes = ["success", "info", "warning", "error"] as const;
 

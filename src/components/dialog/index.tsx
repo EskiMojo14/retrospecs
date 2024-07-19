@@ -10,11 +10,11 @@ import {
   Modal,
   ModalOverlay,
 } from "react-aria-components";
-import { createGenericComponent, renderPropChild } from "@/components/generic";
-import { LineBackground } from "@/components/line-background";
-import { MergeProvider } from "@/components/provider";
-import { ToolbarContext } from "@/components/toolbar";
-import { bemHelper } from "@/util";
+import { createGenericComponent, renderPropChild } from "~/components/generic";
+import { LineBackground } from "~/components/line-background";
+import { MergeProvider } from "~/components/provider";
+import { ToolbarContext } from "~/components/toolbar";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 export interface DialogProps

@@ -5,10 +5,10 @@ import {
   Link,
   useContextProps,
 } from "react-aria-components";
-import { createGenericComponent, renderPropChild } from "@/components/generic";
-import { SymbolContext } from "@/components/symbol";
-import { bemHelper } from "@/util";
-import type { Overwrite } from "@/util/types";
+import { createGenericComponent, renderPropChild } from "~/components/generic";
+import { SymbolContext } from "~/components/symbol";
+import { bemHelper } from "~/util";
+import type { Overwrite } from "~/util/types";
 import {
   makeButtonSymbolSlots,
   type ButtonColor,

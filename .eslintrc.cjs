@@ -18,7 +18,10 @@ module.exports = {
   rules: {
     "react-refresh/only-export-components": [
       "warn",
-      { allowConstantExport: true },
+      {
+        allowConstantExport: true,
+        allowExportNames: ["meta", "links", "headers", "loader", "action"],
+      },
     ],
     "react/prop-types": "off",
     "@typescript-eslint/restrict-template-expressions": [
@@ -56,7 +59,7 @@ module.exports = {
             position: "after",
           },
           {
-            pattern: "@/**",
+            pattern: "~/**",
             group: "internal",
           },
           {
