@@ -3,8 +3,10 @@ import { useToast } from "@react-aria/toast";
 import type { ToastState } from "@react-stately/toast";
 import type { ReactNode } from "react";
 import { useMemo, useRef } from "react";
-import { toastButtonColor, toastSymbols, type Toast } from "./constants";
+import type { Toast } from "./constants";
+import { toastButtonColor, toastSymbols } from "./constants";
 import type { ButtonProps } from "@/components/button";
+import { ButtonContext } from "@/components/button";
 import { IconButton } from "@/components/icon-button";
 import { Symbol } from "@/components/symbol";
 import { Heading, Typography } from "@/components/typography";
@@ -46,11 +48,10 @@ export function Toast({ state, ...props }: ToastProps) {
         close: () => {
           state.close(props.toast.key);
         },
-        buttonProps,
       });
     }
     return actionsProp;
-  }, [actionsProp, props.toast.key, state, buttonProps]);
+  }, [actionsProp, props.toast.key, state]);
   return (
     <div
       {...toastProps}
@@ -69,33 +70,38 @@ export function Toast({ state, ...props }: ToastProps) {
         }
       }}
     >
-      <div className={cls("icon")}>
-        {symbol ?? <Symbol>{toastSymbols[type]}</Symbol>}
-      </div>
-      <div className={cls("content")}>
-        {title && (
-          <Heading variant="subtitle1" className={cls("title")} {...titleProps}>
-            {title}
-          </Heading>
+      <ButtonContext.Provider value={buttonProps}>
+        <div className={cls("icon")}>
+          {symbol ?? <Symbol>{toastSymbols[type]}</Symbol>}
+        </div>
+        <div className={cls("content")}>
+          {title && (
+            <Heading
+              variant="subtitle1"
+              className={cls("title")}
+              {...titleProps}
+            >
+              {title}
+            </Heading>
+          )}
+          <Typography
+            variant="body2"
+            className={cls("description")}
+            {...descriptionProps}
+          >
+            {description}
+          </Typography>
+        </div>
+        {actions ?? (
+          <IconButton
+            {...closeButtonProps}
+            className={cls("close")}
+            aria-label="Close toast"
+          >
+            <Symbol>close</Symbol>
+          </IconButton>
         )}
-        <Typography
-          variant="body2"
-          className={cls("description")}
-          {...descriptionProps}
-        >
-          {description}
-        </Typography>
-      </div>
-      {actions ?? (
-        <IconButton
-          {...closeButtonProps}
-          className={cls("close")}
-          {...buttonProps}
-          aria-label="Close toast"
-        >
-          <Symbol>close</Symbol>
-        </IconButton>
-      )}
+      </ButtonContext.Provider>
     </div>
   );
 }

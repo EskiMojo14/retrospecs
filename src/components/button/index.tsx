@@ -1,6 +1,10 @@
-import type { ReactNode } from "react";
-import type { LinkProps } from "react-aria-components";
-import { Button as AriaButton, Link } from "react-aria-components";
+import { createContext, type ReactNode } from "react";
+import type { LinkProps, ContextValue } from "react-aria-components";
+import {
+  Button as AriaButton,
+  Link,
+  useContextProps,
+} from "react-aria-components";
 import {
   makeButtonSymbolSlots,
   type ButtonColor,
@@ -25,6 +29,10 @@ const cls = bemHelper("button");
 
 const buttonSymbolSlots = makeButtonSymbolSlots(cls);
 
+export const ButtonContext = createContext<
+  ContextValue<ButtonProps, HTMLElement>
+>({});
+
 export const Button = createGenericComponent<
   typeof AriaButton,
   ButtonProps,
@@ -32,16 +40,24 @@ export const Button = createGenericComponent<
     className: string;
     children: ReactNode;
   }
->(
-  "Button",
-  AriaButton,
-  (
-    { variant = "text", color, inverse, compact, className, as: As, ...props },
-    ref,
-  ) => (
+>("Button", AriaButton, (props, ref) => {
+  [props, ref] = useContextProps(props, ref as never, ButtonContext) as [
+    typeof props,
+    typeof ref,
+  ];
+  const {
+    variant = "text",
+    color,
+    inverse,
+    compact,
+    className,
+    as: As,
+    ...rest
+  } = props;
+  return (
     <As
       ref={ref}
-      {...props}
+      {...rest}
       className={cls({
         modifiers: {
           [variant]: variant !== "text",
@@ -52,14 +68,14 @@ export const Button = createGenericComponent<
         extra: className,
       })}
     >
-      {renderPropChild(props, (children) => (
+      {renderPropChild(rest, (children) => (
         <SymbolContext.Provider value={buttonSymbolSlots}>
           {children}
         </SymbolContext.Provider>
       ))}
     </As>
-  ),
-);
+  );
+});
 
 export const LinkButton = (props: Overwrite<LinkProps, ButtonProps>) => (
   <Button as={Link} {...props} />

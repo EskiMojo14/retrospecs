@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import type { ButtonProps } from "@/components/button";
 import type { ButtonColor } from "@/components/button/constants";
 
 export const toastTypes = ["success", "info", "warning", "error"] as const;
@@ -8,7 +7,6 @@ export type ToastType = (typeof toastTypes)[number];
 
 export interface ToastActionsRenderProps {
   close: () => void;
-  buttonProps?: ButtonProps;
 }
 
 export interface Toast {

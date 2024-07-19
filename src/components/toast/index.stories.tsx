@@ -19,8 +19,8 @@ const meta = {
             ...toast,
             symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
             actions: hasAction
-              ? ({ close, buttonProps }) => (
-                  <LinkButton {...buttonProps} onPress={close} href="#">
+              ? ({ close }) => (
+                  <LinkButton onPress={close} href="#">
                     Take me there
                   </LinkButton>
                 )
