@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, CSSProperties } from "react";
-import { cardColors } from "./constants";
+import { cardColors, cardVariants } from "./constants";
 import {
   Card,
   CardActionButton,
@@ -30,6 +30,10 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
     color: {
       control: "select",
       options: [undefined, ...cardColors],
+    },
+    variant: {
+      control: "select",
+      options: cardVariants,
     },
     ...({
       onPrimaryAction: { table: { disable: true } },
@@ -79,15 +83,5 @@ export const Default: Story = {
     onPrimaryAction: fn(),
     onActionButton: fn(),
     onActionIcon: fn(),
-  },
-};
-
-export const NoContent: Story = {
-  args: {
-    withBg: true,
-    style: {
-      width: "200px",
-      height: "200px",
-    },
   },
 };

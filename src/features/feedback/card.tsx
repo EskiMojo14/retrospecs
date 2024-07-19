@@ -20,7 +20,7 @@ interface FeedbackCardProps {
 export function FeedbackCard({ feedback }: FeedbackCardProps) {
   const dispatch = useAppDispatch();
   return (
-    <Card className={styles.feedbackCard}>
+    <Card className={styles.feedbackCard} variant="raised">
       <CardPrimaryAction
         as={ToggleButton}
         className={clsx(styles.text)}

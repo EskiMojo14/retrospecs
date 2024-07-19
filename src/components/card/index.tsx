@@ -1,6 +1,6 @@
 import type { ContextType, ReactNode } from "react";
 import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
-import type { CardColor } from "./constants";
+import type { CardColor, CardVariant } from "./constants";
 import type { ButtonProps } from "@/components/button";
 import { Button } from "@/components/button";
 import { createGenericComponent } from "@/components/generic";
@@ -13,7 +13,7 @@ export interface CardProps {
   color?: CardColor;
   className?: string;
   children?: ReactNode;
-  withBg?: boolean;
+  variant?: CardVariant;
 }
 
 const cls = bemHelper("card");
@@ -36,27 +36,23 @@ export const Card = createGenericComponent<
 >(
   "Card",
   "div",
-  ({ children, color, as: As, className, withBg, ...props }, ref) => (
+  (
+    { children, color, as: As, className, variant = "filled", ...props },
+    ref,
+  ) => (
     <As
       ref={ref}
       {...props}
       className={cls({
         modifiers: {
           [color ?? ""]: !!color,
-          "with-bg": !!withBg,
+          [variant]: true,
         },
         extra: className,
       })}
     >
       <ToolbarContext.Provider value={toolbarContextValue}>
-        {withBg ? (
-          <>
-            <span className={cls("bg")} aria-hidden />
-            <div className={cls("content")}>{children}</div>
-          </>
-        ) : (
-          children
-        )}
+        {children}
       </ToolbarContext.Provider>
     </As>
   ),

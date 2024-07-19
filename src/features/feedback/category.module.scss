@@ -12,9 +12,6 @@ $color-map: (
   "neutral": "blue",
 );
 .category {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
   padding: 0.5rem;
   height: 100vh;
   background-repeat: repeat;
@@ -63,6 +60,11 @@ $color-map: (
 
   :global(.line-background) {
     display: none;
+  }
+  :global(.line-background-content) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
   [data-groove="low_volume"] & {
     background-image: none;

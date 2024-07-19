@@ -1,3 +1,4 @@
+@use "@/theme/elevation";
 @use "@/util";
 
 @mixin action-hover {
@@ -25,18 +26,6 @@
 
 $hover-time: 0.2s;
 
-%beforeBg {
-  content: "";
-  position: absolute;
-  background-color: var(--mid);
-  top: 2px;
-  bottom: 2px;
-  left: 8px;
-  right: 8px;
-  border-radius: 14px;
-  transition: background-color $hover-time;
-}
-
 .card {
   --outer: var(--yellow3);
   --mid: var(--yellow4);
@@ -45,10 +34,12 @@ $hover-time: 0.2s;
   --card-text: rgb(var(--card-text-rgb));
   display: flex;
   flex-direction: column;
-  background-color: var(--outer);
-  color: var(--card-text);
-  border-radius: 12px;
+  --border-radius: 12px;
+  border-radius: var(--border-radius);
   position: relative;
+  transition:
+    box-shadow $hover-time,
+    translate $hover-time;
   &--inverse {
     --outer: var(--yellow5);
     --mid: var(--yellow3);
@@ -79,14 +70,31 @@ $hover-time: 0.2s;
     --bg: var(--blue5);
     --card-text-rgb: var(--blue-dark-rgb);
   }
-  &--with-bg {
-    &::before {
-      @extend %beforeBg;
+  &--filled,
+  &--raised {
+    background-color: var(--outer);
+    color: var(--card-text);
+    .card__bg,
+    .card__section__bg {
+      background-color: var(--bg);
+    }
+    .card__section {
+      background-color: var(--outer);
+      color: var(--card-text);
+      &::before {
+        background-color: var(--mid);
+      }
+    }
+  }
+  &--raised {
+    @include elevation.elevation(4);
+    &:hover {
+      @include elevation.elevation(6);
+      translate: -2px -2px;
     }
   }
   &__bg,
   &__section__bg {
-    background-color: var(--bg);
     position: absolute;
     top: 4px;
     bottom: 4px;
@@ -102,16 +110,22 @@ $hover-time: 0.2s;
   &__section {
     position: relative;
     padding: 4px 16px;
-    background-color: var(--outer);
-    color: var(--card-text);
     border-radius: 12px;
     transition:
       background-color $hover-time,
       color $hover-time;
     &::before {
-      @extend %beforeBg;
+      content: "";
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      left: 8px;
+      right: 8px;
+      border-radius: 14px;
+      transition: background-color $hover-time;
     }
     &--primary-action {
+      background-color: unset;
       color: unset;
       @at-root button#{&} {
         appearance: none;
