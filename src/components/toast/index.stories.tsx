@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { toastTypes, type Toast } from "./constants";
 import { GlobalToastRegion } from "./toast-region";
 import { toastQueue } from ".";
-import { Button } from "@/components/button";
+import { Button, LinkButton } from "@/components/button";
 import { Symbol } from "@/components/symbol";
 
 interface StoryProps extends Toast {
@@ -20,9 +20,9 @@ const meta = {
             symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
             actions: hasAction
               ? ({ close, buttonProps }) => (
-                  <Button {...buttonProps} onPress={close}>
-                    Close
-                  </Button>
+                  <LinkButton {...buttonProps} onPress={close} href="#">
+                    Take me there
+                  </LinkButton>
                 )
               : undefined,
           })
