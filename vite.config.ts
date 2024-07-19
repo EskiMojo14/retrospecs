@@ -13,7 +13,10 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
       ignoredRouteFiles: ["**/*"],
-      routes: (defineRoutes) => flatRoutes("routes", defineRoutes),
+      routes: (defineRoutes) =>
+        flatRoutes("routes", defineRoutes, {
+          ignoredRouteFiles: ["**/*.{scss,css}"],
+        }),
     }),
     tsconfigPaths(),
   ],
