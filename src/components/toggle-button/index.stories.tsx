@@ -68,12 +68,12 @@ function GroupComponent({
 }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
-    <section>
+    <section dir={dir}>
       <Typography variant="body1" id="groove-label">
         Groove
       </Typography>
       <ToggleButtonGroup
-        {...{ isDisabled, dir, color, inverse, compact }}
+        {...{ isDisabled, color, inverse, compact }}
         aria-labelledby="groove-label"
       >
         <ToggleButton
