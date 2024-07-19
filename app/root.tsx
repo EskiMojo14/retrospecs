@@ -44,17 +44,5 @@ export function ErrorBoundary() {
   } else if (error instanceof Error) {
     message = error.message;
   }
-  return (
-    <html>
-      <head>
-        <title>Oh no!</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <ErrorPage {...{ status, message }} />
-        <Scripts />
-      </body>
-    </html>
-  );
+  return <ErrorPage {...{ status, message }} />;
 }
