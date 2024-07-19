@@ -31,6 +31,7 @@ export function Toast({ state, ...props }: ToastProps) {
       inverse,
       actions: actionsProp,
     },
+    timeout,
   } = props.toast;
   const buttonProps = useMemo<ButtonProps>(
     () => ({
@@ -60,12 +61,15 @@ export function Toast({ state, ...props }: ToastProps) {
         modifiers: {
           inverse: !!inverse,
           [type]: true,
+          "has-timeout": !!timeout,
         },
       })}
+      style={{
+        "--timeout": timeout && `${timeout}ms`,
+      }}
       data-animation={props.toast.animation}
-      onAnimationEnd={() => {
-        // Remove the toast when the exiting animation completes.
-        if (props.toast.animation === "exiting") {
+      onAnimationEnd={(e) => {
+        if (e.animationName.startsWith("toast-slide-out")) {
           state.remove(props.toast.key);
         }
       }}

@@ -7,25 +7,29 @@ import { Symbol } from "@/components/symbol";
 
 interface StoryProps extends Toast {
   hasAction?: boolean;
+  timeout?: number;
 }
 
 const meta = {
   title: "Components/Toast",
-  render: ({ symbol, hasAction, ...toast }) => (
+  render: ({ symbol, hasAction, timeout, ...toast }) => (
     <>
       <Button
         onPress={() =>
-          toastQueue.add({
-            ...toast,
-            symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
-            actions: hasAction
-              ? ({ close }) => (
-                  <LinkButton onPress={close} href="#">
-                    Take me there
-                  </LinkButton>
-                )
-              : undefined,
-          })
+          toastQueue.add(
+            {
+              ...toast,
+              symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
+              actions: hasAction
+                ? ({ close }) => (
+                    <LinkButton onPress={close} href="#">
+                      Take me there
+                    </LinkButton>
+                  )
+                : undefined,
+            },
+            { timeout },
+          )
         }
       >
         Queue toast
@@ -44,6 +48,9 @@ const meta = {
     symbol: {
       control: "text",
     },
+    timeout: {
+      control: "number",
+    },
   },
   args: {
     type: "info",
@@ -51,6 +58,7 @@ const meta = {
     description: "This is a toast message.",
     inverse: false,
     hasAction: false,
+    timeout: undefined,
   },
 } satisfies Meta<StoryProps>;
 
