@@ -63,6 +63,7 @@
     "jsdom": "^24.1.0",
     "postcss": "^8.4.39",
     "prettier": "^3.3.3",
+    "remix-flat-routes": "^0.6.5",
     "sass": "^1.77.8",
     "storybook": "^8.2.4",
     "typescript": "^5.2.2",
