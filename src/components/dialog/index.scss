@@ -1,6 +1,6 @@
-@use "sass:math";
-@use "@/theme/typography";
+@use "@/theme/animation";
 @use "@/theme/elevation";
+@use "@/theme/typography";
 
 .dialog {
   position: relative;
@@ -78,32 +78,13 @@
 }
 
 @keyframes dialog-enter {
-  from {
-    transform: scale(0.9);
-  }
-  // go too far, then spring back
-  #{(100 - (math.div(75, 300) * 100)) + "%"} {
-    transform: scale(1.05);
-  }
-  to {
-    transform: scale(1);
-  }
+  @include animation.spring-in;
 }
 
 @keyframes dialog-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  @include animation.fade-in;
 }
 
 @keyframes dialog-exit {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(0.9);
-  }
+  @include animation.shrink-back;
 }

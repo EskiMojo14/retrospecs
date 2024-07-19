@@ -1,0 +1,109 @@
+@use "@/theme/animation";
+@use "@/theme/elevation";
+@use "@/util";
+
+$type-colors: (
+  "success": "green",
+  "info": "blue",
+  "warning": "yellow",
+  "error": "red",
+);
+
+.toast {
+  display: flex;
+  align-items: center;
+  max-width: 560px;
+  border-radius: 8px;
+  --background: var(--dark);
+  --text: var(--light);
+  background-color: var(--background);
+  color: var(--text);
+  padding: 0 8px;
+  gap: 8px;
+  min-height: 48px;
+  @include elevation.elevation(8);
+  @media (max-width: 592px) {
+    max-width: calc(100% - 32px);
+  }
+  &-region {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  @each $type, $color in $type-colors {
+    &--#{$type} {
+      --light: var(--#{$color}-light);
+      --dark: var(--#{$color}-dark);
+    }
+  }
+  &--inverse {
+    --background: var(--light);
+    --text: var(--dark);
+  }
+  &[data-animation="entering"] {
+    animation: toast-slide-in 300ms;
+  }
+  &[data-animation="exiting"] {
+    animation: toast-slide-out 300ms;
+  }
+  &[data-animation="queued"] {
+    animation:
+      toast-appear 300ms,
+      toast-appear-size 300ms;
+  }
+  &__icon {
+    padding: 8px;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+    flex: 1 1 auto;
+  }
+  &__title {
+    margin: 0;
+  }
+  &__description {
+    margin: 0;
+  }
+  &__close {
+    @include util.rtl-box("margin", 0, -8px);
+  }
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateY(calc(100% + 16px));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100% + 16px));
+  }
+}
+
+@keyframes toast-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes toast-appear-size {
+  @include animation.spring-in;
+}

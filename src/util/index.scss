@@ -35,3 +35,7 @@ $base-size: 16px;
     -1px 1px 0 $color,
     1px 1px 0 $color;
 }
+
+@function strip-units($number) {
+  @return math.div($number, ($number * 0 + 1));
+}

@@ -1,0 +1,34 @@
+@use "sass:math";
+@use "@/util";
+
+@mixin spring-in($duration: 300ms) {
+  from {
+    transform: scale(0.9);
+  }
+  // go too far, then spring back
+  $percentage: 100 - (math.div(75, util.strip-units($duration)) * 100);
+  #{$percentage + "%"} {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@mixin shrink-back() {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}
+
+@mixin fade-in() {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

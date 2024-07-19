@@ -14,6 +14,8 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@react-aria/toast": "3.0.0-beta.12",
+    "@react-stately/toast": "3.0.0-beta.4",
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit/_pkg.tgz",
     "@supabase/supabase-js": "^2.44.3",
     "@testing-library/user-event": "^14.5.2",
