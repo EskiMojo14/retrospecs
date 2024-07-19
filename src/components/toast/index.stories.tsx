@@ -8,35 +8,39 @@ import { Symbol } from "@/components/symbol";
 interface StoryProps extends Toast {
   hasAction?: boolean;
   timeout?: number;
+  dir: "ltr" | "rtl";
 }
 
 const meta = {
   title: "Components/Toast",
-  render: ({ symbol, hasAction, timeout, ...toast }) => (
-    <>
-      <Button
-        onPress={() =>
-          toastQueue.add(
-            {
-              ...toast,
-              symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
-              actions: hasAction
-                ? ({ close }) => (
-                    <LinkButton onPress={close} href="#">
-                      Take me there
-                    </LinkButton>
-                  )
-                : undefined,
-            },
-            { timeout },
-          )
-        }
-      >
-        Queue toast
-      </Button>
-      <GlobalToastRegion />
-    </>
-  ),
+  render: ({ symbol, hasAction, timeout, dir, ...toast }) => {
+    document.dir = dir;
+    return (
+      <>
+        <Button
+          onPress={() =>
+            toastQueue.add(
+              {
+                ...toast,
+                symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
+                actions: hasAction
+                  ? ({ close }) => (
+                      <LinkButton onPress={close} href="#">
+                        Take me there
+                      </LinkButton>
+                    )
+                  : undefined,
+              },
+              { timeout },
+            )
+          }
+        >
+          Queue toast
+        </Button>
+        <GlobalToastRegion />
+      </>
+    );
+  },
   parameters: {
     layout: "centered",
   },
@@ -51,6 +55,10 @@ const meta = {
     timeout: {
       control: "number",
     },
+    dir: {
+      control: "radio",
+      options: ["ltr", "rtl"],
+    },
   },
   args: {
     type: "info",
@@ -59,6 +67,7 @@ const meta = {
     inverse: false,
     hasAction: false,
     timeout: undefined,
+    dir: "ltr",
   },
 } satisfies Meta<StoryProps>;
 

@@ -57,11 +57,17 @@ $type-colors: (
       content: "";
       position: absolute;
       bottom: 0;
+      left: 0;
       width: 100%;
       height: 4px;
       background-color: var(--text);
       animation: timeout-progress var(--timeout) linear forwards;
-      @include util.rtl-position("left", 0);
+    }
+    @include util.rtl {
+      &::before {
+        left: unset;
+        right: 0;
+      }
     }
   }
   &[data-animation="entering"] {
