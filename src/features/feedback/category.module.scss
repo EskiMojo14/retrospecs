@@ -29,12 +29,11 @@ $color-map: (
       --dark: var(--#{$color}-dark);
       --light: var(--#{$color}-light);
       --img: url("/assets/#{$color}_bg.svg");
-      &::before {
-        background: linear-gradient(
-          to bottom,
-          var(--#{$color}-dark),
-          transparent
-        );
+      :global(.line-background) {
+        --vertical-img: url("/assets/lines/#{$color}_vert.svg");
+        --horizontal-img: url("/assets/lines/#{$color}_horiz.svg");
+        --corner-img: url("/assets/lines/#{$color}_corner.svg");
+        --whorl-img: url("/assets/lines/#{$color}_whorl.svg");
       }
     }
   }
@@ -51,6 +50,7 @@ $color-map: (
     left: 0;
     right: 0;
     height: util.to-rem(72px);
+    background: linear-gradient(to bottom, var(--dark), transparent);
   }
   [data-groove="none"] & {
     background-image: none;
@@ -58,6 +58,21 @@ $color-map: (
     color: var(--dark);
     &::before {
       content: none;
+    }
+  }
+
+  :global(.line-background) {
+    display: none;
+  }
+  [data-groove="low_volume"] & {
+    background-image: none;
+    background-color: var(--light);
+    color: var(--dark);
+    :global(.line-background) {
+      display: flex;
+    }
+    &::before {
+      background: linear-gradient(to bottom, var(--light), transparent);
     }
   }
 }

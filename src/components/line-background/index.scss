@@ -3,10 +3,10 @@ $background-size: 128px;
 .line-background {
   --scale: 1;
   --size: calc(#{$background-size} * var(--scale));
-  --vertical-img: url("/assets/line_vert.svg");
-  --horizontal-img: url("/assets/line_horiz.svg");
-  --corner-img: url("/assets/line_corner.svg");
-  --whorl-img: url("/assets/line_whorl.svg");
+  --vertical-img: url("/assets/lines/vert.svg");
+  --horizontal-img: url("/assets/lines/horiz.svg");
+  --corner-img: url("/assets/lines/corner.svg");
+  --whorl-img: url("/assets/lines/whorl.svg");
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

@@ -4,6 +4,7 @@ import type { Category } from "./slice-old";
 import { categories, selectFeedbackByCategory } from "./slice-old";
 import { useAppSelector } from "@/pretyped";
 import styles from "./category.module.scss";
+import { LineBackground } from "@/components/line-background";
 
 interface CategoryProps {
   category: Category;
@@ -31,10 +32,12 @@ export function CategoryCard({ category }: CategoryProps) {
   );
   return (
     <div className={clsx(styles.category, styles[category])}>
-      <h2>{categoryTitles[category]}</h2>
-      {feedback.map((f) => (
-        <FeedbackCard key={f.id} feedback={f} />
-      ))}
+      <LineBackground scale={2}>
+        <h2>{categoryTitles[category]}</h2>
+        {feedback.map((f) => (
+          <FeedbackCard key={f.id} feedback={f} />
+        ))}
+      </LineBackground>
     </div>
   );
 }
