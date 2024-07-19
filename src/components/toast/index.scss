@@ -1,5 +1,6 @@
 @use "@/theme/animation";
 @use "@/theme/elevation";
+@use "@/theme/typography";
 @use "@/util";
 
 $type-colors: (
@@ -14,8 +15,10 @@ $type-colors: (
   align-items: center;
   max-width: 560px;
   border-radius: 8px;
-  --background: var(--dark);
-  --text: var(--light);
+  --background-rgb: var(--dark-rgb);
+  --text-rgb: var(--light-rgb);
+  --background: rgb(var(--background-rgb));
+  --text: rgb(var(--text-rgb));
   background-color: var(--background);
   color: var(--text);
   padding: 0 8px;
@@ -42,13 +45,13 @@ $type-colors: (
   }
   @each $type, $color in $type-colors {
     &--#{$type} {
-      --light: var(--#{$color}-light);
-      --dark: var(--#{$color}-dark);
+      --light-rgb: var(--#{$color}-light-rgb);
+      --dark-rgb: var(--#{$color}-dark-rgb);
     }
   }
   &--inverse {
-    --background: var(--light);
-    --text: var(--dark);
+    --background-rgb: var(--light-rgb);
+    --text-rgb: var(--dark-rgb);
   }
   &--has-timeout {
     position: relative;
@@ -60,11 +63,20 @@ $type-colors: (
       left: 0;
       width: 100%;
       height: 4px;
+      background-color: typography.emphasis("text", "disabled");
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
       background-color: var(--text);
       animation: timeout-progress var(--timeout) linear forwards;
     }
     @include util.rtl {
-      &::before {
+      &::after {
         left: unset;
         right: 0;
       }
