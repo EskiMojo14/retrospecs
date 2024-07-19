@@ -82,6 +82,17 @@ export const Filled: Story = {
   },
 };
 
+export const Elevated: Story = {
+  argTypes: {
+    variant: {
+      table: { disable: true },
+    },
+  },
+  args: {
+    variant: "elevated",
+  },
+};
+
 export const WithIcon: Story = {
   argTypes: {
     children: {
