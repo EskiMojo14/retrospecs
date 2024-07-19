@@ -1,9 +1,11 @@
 $outline-width: 2px;
 $border-radius: 8px;
 $min-height: 36px;
-$padding-x: calc(var(--outline-width) * 4);
-$padding-y: 0px;
+$compact-min-height: 32px;
+$padding: 0px calc(var(--outline-width) * 4);
+$compact-padding: 0px calc(var(--outline-width) * 3);
 $icon-spacing: calc(var(--outline-width) * 2);
+$compact-icon-spacing: var(--outline-width);
 $default-color: (
   color: "blue",
   dark: 2,

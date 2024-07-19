@@ -36,6 +36,7 @@ const meta = {
     children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
     inverse: false,
+    compact: false,
   },
   decorators: [inverseContainerDecorator],
 } satisfies Meta<ComponentPropsWithoutRef<typeof Button> & StoryProps>;

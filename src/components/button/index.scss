@@ -15,7 +15,7 @@
   background: var(--background);
   color: var(--button-text);
   text-wrap: nowrap;
-  padding: variables.$padding-y variables.$padding-x;
+  padding: variables.$padding;
   min-height: variables.$min-height;
   border-radius: var(--border-radius);
   transition:
@@ -50,6 +50,18 @@
   }
   &--contained {
     @include mixins.contained-ink("light");
+  }
+  &--compact {
+    padding: variables.$compact-padding;
+    min-height: variables.$compact-min-height;
+    .button__icon {
+      &--leading {
+        @include util.rtl-box(margin, 0, variables.$compact-icon-spacing);
+      }
+      &--trailing {
+        @include util.rtl-box(margin, variables.$compact-icon-spacing);
+      }
+    }
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);

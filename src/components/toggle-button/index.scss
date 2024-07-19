@@ -16,7 +16,7 @@
 
   background: var(--background);
   color: var(--button-text);
-  padding: button-variables.$padding-y button-variables.$padding-x;
+  padding: button-variables.$padding;
   min-height: button-variables.$min-height;
 
   position: relative;
@@ -48,6 +48,22 @@
   }
   @at-root a#{&} {
     text-decoration: none;
+  }
+  &--compact {
+    padding: button-variables.$compact-padding;
+    min-height: button-variables.$compact-min-height;
+    .toggle-button__icon {
+      &--leading {
+        @include util.rtl-box(
+          margin,
+          0,
+          button-variables.$compact-icon-spacing
+        );
+      }
+      &--trailing {
+        @include util.rtl-box(margin, button-variables.$compact-icon-spacing);
+      }
+    }
   }
 
   &[data-selected] {

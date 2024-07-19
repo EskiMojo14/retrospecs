@@ -1,10 +1,9 @@
 import { clsx } from "clsx";
-import type { ContextType, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { createContext, useMemo } from "react";
 import type { ContextValue } from "react-aria-components";
 import {
   ToggleButton as AriaToggleButton,
-  ToggleButtonContext,
   useContextProps,
 } from "react-aria-components";
 import {
@@ -12,7 +11,6 @@ import {
   type ButtonColor,
 } from "@/components/button/constants";
 import { createGenericComponent, renderPropChild } from "@/components/generic";
-import { Provider } from "@/components/provider";
 import { SymbolContext } from "@/components/symbol";
 import { bemHelper } from "@/util";
 import "./index.scss";
@@ -22,6 +20,7 @@ export interface ToggleButtonProps {
   color?: ButtonColor;
   /** For display on a dark background. */
   inverse?: boolean;
+  compact?: boolean;
 }
 
 const cls = bemHelper("toggle-button");
@@ -41,7 +40,7 @@ export const ToggleButton = createGenericComponent<
     ref as never,
     ToggleButtonGroupContext,
   ) as [typeof props, typeof ref];
-  const { className, as: As, color, inverse, ...rest } = props;
+  const { className, as: As, color, inverse, compact, ...rest } = props;
   return (
     <As
       ref={ref}
@@ -50,6 +49,7 @@ export const ToggleButton = createGenericComponent<
         modifiers: {
           [color ?? ""]: !!color,
           inverse: !!inverse,
+          compact: !!compact,
         },
         extra: className,
       })}
@@ -69,6 +69,7 @@ interface ToggleButtonGroupProps {
   className?: string;
   color?: ButtonColor;
   inverse?: boolean;
+  compact?: boolean;
 }
 
 const ToggleButtonGroupContext = createContext<
@@ -86,16 +87,21 @@ export const ToggleButtonGroup = createGenericComponent<
   "ToggleButtonGroup",
   "section",
   (
-    { className, as: As, children, isDisabled, inverse, color, ...props },
+    {
+      className,
+      as: As,
+      children,
+      isDisabled,
+      inverse,
+      color,
+      compact,
+      ...props
+    },
     ref,
   ) => {
-    const ariaContextValue = useMemo<ContextType<typeof ToggleButtonContext>>(
-      () => ({ isDisabled }),
-      [isDisabled],
-    );
     const contextValue = useMemo<ToggleButtonProps>(
-      () => ({ color, inverse }),
-      [color, inverse],
+      () => ({ color, inverse, compact, isDisabled }),
+      [color, inverse, compact, isDisabled],
     );
     return (
       <As
@@ -103,14 +109,9 @@ export const ToggleButtonGroup = createGenericComponent<
         {...props}
         className={clsx("toggle-button-group", className)}
       >
-        <Provider
-          values={[
-            [ToggleButtonContext.Provider, ariaContextValue],
-            [ToggleButtonGroupContext.Provider, contextValue],
-          ]}
-        >
+        <ToggleButtonGroupContext.Provider value={contextValue}>
           {children}
-        </Provider>
+        </ToggleButtonGroupContext.Provider>
       </As>
     );
   },

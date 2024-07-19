@@ -32,7 +32,7 @@ const meta = {
       options: [undefined, ...buttonColors],
     },
   },
-  args: { onChange: fn(), isDisabled: false, inverse: false },
+  args: { onChange: fn(), isDisabled: false, inverse: false, compact: false },
   decorators: [inverseContainerDecorator],
 } satisfies Meta<StoryProps>;
 
@@ -59,7 +59,13 @@ export const WithIcon: Story = {
   },
 };
 
-function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
+function GroupComponent({
+  isDisabled,
+  dir,
+  color,
+  inverse,
+  compact,
+}: StoryProps) {
   const [value, setValue] = useState("none");
   return (
     <section>
@@ -67,7 +73,7 @@ function GroupComponent({ isDisabled, dir, color, inverse }: StoryProps) {
         Groove
       </Typography>
       <ToggleButtonGroup
-        {...{ isDisabled, dir, color, inverse }}
+        {...{ isDisabled, dir, color, inverse, compact }}
         aria-labelledby="groove-label"
       >
         <ToggleButton

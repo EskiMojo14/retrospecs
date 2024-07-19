@@ -18,6 +18,7 @@ export interface ButtonProps {
   color?: ButtonColor;
   /** For display on a dark background. */
   inverse?: boolean;
+  compact?: boolean;
 }
 
 const cls = bemHelper("button");
@@ -34,7 +35,10 @@ export const Button = createGenericComponent<
 >(
   "Button",
   AriaButton,
-  ({ variant = "text", color, inverse, className, as: As, ...props }, ref) => (
+  (
+    { variant = "text", color, inverse, compact, className, as: As, ...props },
+    ref,
+  ) => (
     <As
       ref={ref}
       {...props}
@@ -43,6 +47,7 @@ export const Button = createGenericComponent<
           [variant]: variant !== "text",
           [color ?? ""]: !!color,
           inverse: !!inverse,
+          compact: !!compact,
         },
         extra: className,
       })}
