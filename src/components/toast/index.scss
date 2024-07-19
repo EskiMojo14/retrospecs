@@ -23,7 +23,7 @@ $type-colors: (
   min-height: 48px;
   @include elevation.elevation(8);
   @media (max-width: 592px) {
-    max-width: calc(100% - 32px);
+    max-width: calc(100vw - 32px);
   }
   &-region {
     position: fixed;
