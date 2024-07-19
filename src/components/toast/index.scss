@@ -28,12 +28,13 @@ $type-colors: (
   &-region {
     position: fixed;
     bottom: 0;
-    right: 0;
     padding: 16px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 16px;
+    width: auto;
+    @include util.rtl-position("right", 0);
     &:focus-visible {
       outline: none;
     }

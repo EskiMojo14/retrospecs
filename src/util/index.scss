@@ -28,6 +28,18 @@ $base-size: 16px;
   }
 }
 
+@mixin rtl-position($prop, $start, $end: unset) {
+  $opposite: if($prop == "right", "left", "right");
+  & {
+    #{$prop}: $start;
+    #{$opposite}: $end;
+  }
+  @include rtl {
+    #{$prop}: $end;
+    #{$opposite}: $start;
+  }
+}
+
 @mixin text-stroke($color) {
   text-shadow:
     -1px -1px 0 $color,
