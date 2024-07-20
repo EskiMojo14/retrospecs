@@ -1,7 +1,26 @@
 import type { ComponentType } from "react";
 import { Provider } from "react-redux";
+import type { AppSupabaseClient } from "~/db";
+import { OriginalSupabaseProvider } from "~/db/provider";
 import type { AppStore, PreloadedState } from "~/store";
 import { makeStore } from "~/store";
+
+type Decorator<
+  ArgsConstraint extends {} = {},
+  StoryProps extends keyof ArgsConstraint = never,
+> = <TArgs extends ArgsConstraint>(
+  Story: ComponentType<Omit<TArgs, StoryProps>>,
+  context: { args: TArgs },
+) => JSX.Element;
+
+export const createSupabaseDecorator =
+  (supabase: AppSupabaseClient): Decorator =>
+  // eslint-disable-next-line react/display-name
+  (Story, { args }) => (
+    <OriginalSupabaseProvider supabase={supabase}>
+      <Story {...args} />
+    </OriginalSupabaseProvider>
+  );
 
 interface ReduxDecoratorConfig {
   preloadedState?: PreloadedState;
@@ -12,11 +31,11 @@ export const createReduxDecorator =
   ({
     preloadedState,
     store = makeStore(preloadedState),
-  }: ReduxDecoratorConfig) =>
+  }: ReduxDecoratorConfig): Decorator =>
   // eslint-disable-next-line react/display-name
-  (Story: ComponentType) => (
+  (Story, { args }) => (
     <Provider store={store}>
-      <Story />
+      <Story {...args} />
     </Provider>
   );
 
@@ -24,10 +43,10 @@ export interface DarkThemeDecoratorArgs {
   dark?: boolean;
 }
 
-export const darkThemeDecorator = <TArgs extends DarkThemeDecoratorArgs>(
-  Story: ComponentType<Omit<TArgs, "dark">>,
-  { args: { dark, ...args } }: { args: TArgs },
-) => (
+export const darkThemeDecorator: Decorator<
+  DarkThemeDecoratorArgs,
+  keyof DarkThemeDecoratorArgs
+> = (Story, { args: { dark, ...args } }) => (
   <div
     data-theme={dark ? "dark" : "light"}
     style={{

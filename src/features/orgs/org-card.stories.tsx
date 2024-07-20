@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { createBrowserClient } from "~/db/client";
-import { applyInjector } from "~/hooks/use-endpoint-injector";
 import { makeStore } from "~/store";
-import { createReduxDecorator } from "~/util/storybook/decorators";
+import { applyInjector } from "~/store/endpoint-injector";
+import {
+  createReduxDecorator,
+  createSupabaseDecorator,
+} from "~/util/storybook/decorators";
 import { injectTeamsApi } from "../teams";
 import { OrgCard } from "./org-card";
 import type { Org } from ".";
@@ -58,7 +61,10 @@ const meta = {
     orgId: { table: { disable: true } },
   },
   args: { orgId: 1 },
-  decorators: [createReduxDecorator({ store })],
+  decorators: [
+    createSupabaseDecorator(supabase),
+    createReduxDecorator({ store }),
+  ],
 } satisfies Meta<typeof OrgCard>;
 
 export default meta;
