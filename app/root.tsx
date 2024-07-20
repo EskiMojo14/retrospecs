@@ -15,6 +15,7 @@ import {
 import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
 import { ForeEauFore } from "~/404";
+import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
 import { SupabaseProvider } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
@@ -71,6 +72,7 @@ export default function App() {
       <SupabaseProvider>
         <StoreProvider>
           <Outlet />
+          <GlobalToastRegion />
         </StoreProvider>
       </SupabaseProvider>
     </RouterProvider>

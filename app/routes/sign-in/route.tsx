@@ -1,17 +1,44 @@
 import { useSearchParams } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 import { Form } from "react-aria-components";
 import { Button } from "~/components/button";
 import { Symbol } from "~/components/symbol";
-import { Typography } from "~/components/typography";
+import { toastQueue } from "~/components/toast";
 import { useSupabase } from "~/db/provider";
 import { Logo } from "~/features/logo";
 import styles from "./route.module.scss";
 
 export default function SignIn() {
   const supabase = useSupabase();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const error = searchParams.get("error");
+
+  const toastKeyRef = useRef<string>();
+
+  useEffect(() => {
+    if (error && !toastKeyRef.current) {
+      toastKeyRef.current = toastQueue.add(
+        {
+          type: "error",
+          description: error,
+        },
+        {
+          onClose: () => {
+            toastKeyRef.current = undefined;
+          },
+        },
+      );
+      setSearchParams(
+        (prev) => {
+          const searchParams = new URLSearchParams(prev);
+          searchParams.delete("error");
+          return searchParams;
+        },
+        { replace: true },
+      );
+    }
+  }, [error, setSearchParams]);
 
   return (
     <Form
@@ -44,11 +71,6 @@ export default function SignIn() {
         </Symbol>
         Sign in with GitHub
       </Button>
-      {error && (
-        <Typography variant="body2" className={styles.error}>
-          {error}
-        </Typography>
-      )}
     </Form>
   );
 }
