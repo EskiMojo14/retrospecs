@@ -1,5 +1,3 @@
-$outline-width: 2px;
-$border-radius: 8px;
 $min-height: 36px;
 $compact-min-height: 32px;
 $padding: 0px calc(var(--outline-width) * 4);
@@ -8,17 +6,100 @@ $icon-spacing: calc(var(--outline-width) * 2);
 $compact-icon-spacing: var(--outline-width);
 $default-color: (
   color: "blue",
-  dark: 2,
+  light: (
+    text: 500,
+    outline: 500,
+    fill: 900,
+    filled-text: 50,
+    filled-outline: 50,
+  ),
+  dark: (
+    text: 300,
+    outline: 300,
+    fill: 200,
+    filled-text: 900,
+    filled-outline: 900,
+  ),
 );
 $color-map: (
-  "garden": "green",
-  "sun": (
-    color: "yellow",
-    dark: 2,
+  "green": (
+    light: (
+      text: 500,
+      outline: 500,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 300,
+      outline: 300,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
   ),
-  "sunset": "orange",
-  "dusk": (
-    color: "red",
-    dark: 2,
+  "yellow": (
+    light: (
+      text: 500,
+      outline: 500,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 300,
+      outline: 300,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "orange": (
+    light: (
+      text: 500,
+      outline: 500,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 300,
+      outline: 300,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "gold": (
+    light: (
+      text: 500,
+      outline: 500,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 300,
+      outline: 300,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "red": (
+    light: (
+      text: 500,
+      outline: 500,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 300,
+      outline: 300,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
   ),
 );

@@ -6,8 +6,9 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  --text-color-rgb: var(--brown-rgb);
+  --text-color-rgb: var(--black-rgb);
   --text-color: rgb(var(--text-color-rgb));
+  color: var(--text-color);
 }
 
 .breadcrumb {

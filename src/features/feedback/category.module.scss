@@ -23,8 +23,8 @@ $color-map: (
   background-image: var(--img);
   @each $name, $color in $color-map {
     &.#{$name} {
-      --dark: var(--#{$color}-dark);
-      --light: var(--#{$color}-light);
+      --dark: var(--#{$color}-900);
+      --light: var(--#{$color}-50);
       --img: url("/assets/#{$color}_bg.svg");
       :global(.line-background) {
         --vertical-img: url("/assets/lines/#{$color}_vert.svg");

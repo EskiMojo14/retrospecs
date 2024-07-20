@@ -3,14 +3,16 @@ import { Provider } from "react-redux";
 import type { AppStore, PreloadedState } from "~/store";
 import { makeStore } from "~/store";
 
+interface ReduxDecoratorConfig {
+  preloadedState?: PreloadedState;
+  store?: AppStore;
+}
+
 export const createReduxDecorator =
   ({
     preloadedState,
     store = makeStore(preloadedState),
-  }: {
-    preloadedState?: PreloadedState;
-    store?: AppStore;
-  }) =>
+  }: ReduxDecoratorConfig) =>
   // eslint-disable-next-line react/display-name
   (Story: ComponentType) => (
     <Provider store={store}>
@@ -18,15 +20,20 @@ export const createReduxDecorator =
     </Provider>
   );
 
-export const inverseContainerDecorator = <TArgs extends { inverse?: boolean }>(
-  Story: ComponentType<TArgs>,
-  { args }: { args: TArgs },
+export interface DarkThemeDecoratorArgs {
+  dark?: boolean;
+}
+
+export const darkThemeDecorator = <TArgs extends DarkThemeDecoratorArgs>(
+  Story: ComponentType<Omit<TArgs, "dark">>,
+  { args: { dark, ...args } }: { args: TArgs },
 ) => (
   <div
+    data-theme={dark ? "dark" : "light"}
     style={{
       padding: "1rem",
-      background: args.inverse ? "var(--yellow-dark)" : undefined,
-      color: args.inverse ? "var(--off-white)" : undefined,
+      background: dark ? "var(--brown-800)" : undefined,
+      color: dark ? "var(--white)" : undefined,
     }}
   >
     <Story {...args} />

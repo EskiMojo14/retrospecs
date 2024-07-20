@@ -17,6 +17,14 @@ $background-size: 128px;
   height: 100%;
   overflow: hidden;
   border-radius: inherit;
+  @each $color in ("blue", "red", "green") {
+    &--#{$color} {
+      --vertical-img: url("/assets/lines/#{$color}_vert.svg");
+      --horizontal-img: url("/assets/lines/#{$color}_horiz.svg");
+      --corner-img: url("/assets/lines/#{$color}_corner.svg");
+      --whorl-img: url("/assets/lines/#{$color}_whorl.svg");
+    }
+  }
   &__line {
     flex: 1 1 auto;
     background-position: center;

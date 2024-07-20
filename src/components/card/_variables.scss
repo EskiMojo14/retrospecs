@@ -1,0 +1,130 @@
+$default-color: (
+  color: "gold",
+  light: (
+    outer: 700,
+    outer-hover: 500,
+    mid: 300,
+    mid-hover: 200,
+    bg: 100,
+    bg-hover: 50,
+  ),
+  dark: (
+    outer: 900,
+    outer-hover: 700,
+    mid: 500,
+    mid-hover: 300,
+    bg: 200,
+    bg-hover: 100,
+  ),
+);
+
+$color-map: (
+  "blue": (
+    light: (
+      outer: 700,
+      outer-hover: 500,
+      mid: 300,
+      mid-hover: 200,
+      bg: 100,
+      bg-hover: 50,
+    ),
+    dark: (
+      outer: 900,
+      outer-hover: 700,
+      mid: 500,
+      mid-hover: 300,
+      bg: 200,
+      bg-hover: 100,
+    ),
+  ),
+  "green": (
+    light: (
+      outer: 700,
+      outer-hover: 500,
+      mid: 300,
+      mid-hover: 200,
+      bg: 100,
+      bg-hover: 50,
+    ),
+    dark: (
+      outer: 900,
+      outer-hover: 700,
+      mid: 500,
+      mid-hover: 300,
+      bg: 200,
+      bg-hover: 100,
+    ),
+  ),
+  "yellow": (
+    light: (
+      outer: 700,
+      outer-hover: 500,
+      mid: 300,
+      mid-hover: 200,
+      bg: 100,
+      bg-hover: 50,
+    ),
+    dark: (
+      outer: 900,
+      outer-hover: 700,
+      mid: 500,
+      mid-hover: 300,
+      bg: 200,
+      bg-hover: 100,
+    ),
+  ),
+  "orange": (
+    light: (
+      outer: 700,
+      outer-hover: 500,
+      mid: 300,
+      mid-hover: 200,
+      bg: 100,
+      bg-hover: 50,
+    ),
+    dark: (
+      outer: 900,
+      outer-hover: 700,
+      mid: 500,
+      mid-hover: 300,
+      bg: 200,
+      bg-hover: 100,
+    ),
+  ),
+  "gold": (
+    light: (
+      outer: 700,
+      outer-hover: 500,
+      mid: 300,
+      mid-hover: 200,
+      bg: 100,
+      bg-hover: 50,
+    ),
+    dark: (
+      outer: 900,
+      outer-hover: 700,
+      mid: 500,
+      mid-hover: 300,
+      bg: 200,
+      bg-hover: 100,
+    ),
+  ),
+  "red": (
+    light: (
+      outer: 700,
+      outer-hover: 500,
+      mid: 300,
+      mid-hover: 200,
+      bg: 100,
+      bg-hover: 50,
+    ),
+    dark: (
+      outer: 900,
+      outer-hover: 700,
+      mid: 500,
+      mid-hover: 300,
+      bg: 200,
+      bg-hover: 100,
+    ),
+  ),
+);

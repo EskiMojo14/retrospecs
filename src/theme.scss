@@ -17,9 +17,33 @@ $default-state-opacities: (
   }
 }
 
+@mixin dark {
+  [data-theme="dark"] &,
+  &[data-theme="dark"] {
+    @content;
+  }
+}
+
 @mixin focus-ring {
   &[data-focus-visible] {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
+    outline: var(--outline-width) solid var(--focus-ring-color);
+    outline-offset: var(--outline-width);
+  }
+}
+
+@mixin outline(
+  $border-radius: calc(var(--border-radius) - var(--outline-width))
+) {
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--outline-width);
+    left: var(--outline-width);
+    right: var(--outline-width);
+    bottom: var(--outline-width);
+    border: var(--outline-width) solid var(--outline-color);
+    --outline-border-radius: #{$border-radius};
+    border-radius: var(--outline-border-radius);
+    pointer-events: none;
   }
 }

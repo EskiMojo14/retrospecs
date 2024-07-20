@@ -6,12 +6,15 @@
 @use "~/components/button/variables" as button-variables;
 
 .toggle-button {
-  --background-rgb: var(--dark-rgb);
+  --button-text: #{rgb(var(--button-text-rgb))};
+  --button-outline: #{rgb(var(--button-outline-rgb))};
+  --button-fill: #{rgb(var(--button-fill-rgb))};
+  --button-filled-text: #{rgb(var(--button-filled-text-rgb))};
+  --button-filled-outline: #{rgb(var(--button-filled-outline-rgb))};
   --background-alpha: 0;
-  --background: #{rgba(var(--background-rgb), var(--background-alpha))};
-  --outline: var(--button-text);
-  --outline-width: #{button-variables.$outline-width};
-  --border-radius: #{button-variables.$border-radius};
+  --background: #{rgba(var(--button-text-rgb), var(--background-alpha))};
+  --button-text: #{rgb(var(--button-text-rgb))};
+  --outline-color: var(--button-text);
   border-radius: var(--border-radius);
 
   background: var(--background);
@@ -32,10 +35,8 @@
     outline-offset 200ms;
 
   @include typography.style("button");
-
-  @include button-mixins.ink("dark");
-  @include button-mixins.colors("&.toggle-button[data-selected]");
-  @include button-mixins.outline;
+  @include button-mixins.colors("&[data-selected]");
+  @include theme.outline;
   @include theme.states;
   @include theme.focus-ring;
 
@@ -67,7 +68,13 @@
   }
 
   &[data-selected] {
-    @include button-mixins.filled-ink("light");
+    color: var(--button-filled-text);
+    --outline-color: var(--button-filled-outline);
+    --background: color-mix(
+      in srgb,
+      rgb(var(--button-text-rgb)) calc(var(--background-alpha) * 100%),
+      rgb(var(--button-fill-rgb))
+    );
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);

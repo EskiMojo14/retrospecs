@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ComponentPropsWithoutRef } from "react";
+import { backgroundColors } from "./constants";
 import { LineBackground } from ".";
 
 interface StoryProps extends ComponentPropsWithoutRef<typeof LineBackground> {
@@ -8,12 +9,12 @@ interface StoryProps extends ComponentPropsWithoutRef<typeof LineBackground> {
 
 const meta = {
   title: "Components/LineBackground",
-  render: ({ scale, dir }: { scale?: number; dir?: "rtl" | "ltr" }) => (
+  render: ({ dir, ...props }) => (
     <div
       style={{ height: "50vh", width: "50vw", position: "relative" }}
       dir={dir}
     >
-      <LineBackground scale={scale} />
+      <LineBackground {...props} />
     </div>
   ),
   parameters: {
@@ -34,8 +35,12 @@ const meta = {
       },
       options: ["ltr", "rtl"],
     },
+    color: {
+      control: "select",
+      options: [undefined, ...backgroundColors],
+    },
   },
-  args: { scale: 1, dir: "ltr" },
+  args: { scale: 1, dir: "ltr", color: undefined },
 } satisfies Meta<StoryProps>;
 
 export default meta;

@@ -1,22 +1,26 @@
+@use "~/theme";
 @use "~/theme/typography";
 
 .checkbox-container {
-  --selected-color: var(--yellow2);
-  --selected-color-pressed: var(--yellow3);
-  --checkmark-color: var(--yellow4);
-  --border-color: var(--yellow1);
-  --border-color-pressed: var(--yellow2);
+  --selected-color: var(--gold-500);
+  --selected-color-pressed: var(--gold-300);
+  --checkmark-color: var(--gold-50);
+  --border-color: var(--gold-900);
+  --border-color-pressed: var(--gold-500);
 
   display: flex;
   align-items: center;
+  padding: 0.5rem;
   gap: 0.5rem;
 
   @include typography.style("body1");
-  forced-color-adjust: none;
 
-  &--inverse {
-    --border-color: var(--yellow4);
-    --border-color-pressed: var(--yellow3);
+  @include theme.dark {
+    --selected-color: var(--gold-300);
+    --selected-color-pressed: var(--gold-200);
+    --checkmark-color: var(--black);
+    --border-color: var(--gold-500);
+    --border-color-pressed: var(--gold-300);
   }
 
   .checkbox {
@@ -45,8 +49,8 @@
   }
 
   &[data-focus-visible] .checkbox {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
+    outline: var(--outline-width) solid var(--focus-ring-color);
+    outline-offset: var(--outline-width);
   }
 
   &[data-selected],

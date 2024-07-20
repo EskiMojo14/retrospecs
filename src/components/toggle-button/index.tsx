@@ -18,8 +18,6 @@ import "./index.scss";
 export interface ToggleButtonProps {
   className?: string;
   color?: ButtonColor;
-  /** For display on a dark background. */
-  inverse?: boolean;
   compact?: boolean;
 }
 
@@ -40,7 +38,7 @@ export const ToggleButton = createGenericComponent<
     ref as never,
     ToggleButtonGroupContext,
   ) as [typeof props, typeof ref];
-  const { className, as: As, color, inverse, compact, ...rest } = props;
+  const { className, as: As, color, compact, ...rest } = props;
   return (
     <As
       ref={ref}
@@ -48,7 +46,6 @@ export const ToggleButton = createGenericComponent<
       className={cls({
         modifiers: {
           [color ?? ""]: !!color,
-          inverse: !!inverse,
           compact: !!compact,
         },
         extra: className,
@@ -68,7 +65,6 @@ interface ToggleButtonGroupProps {
   isDisabled?: boolean;
   className?: string;
   color?: ButtonColor;
-  inverse?: boolean;
   compact?: boolean;
 }
 
@@ -87,21 +83,12 @@ export const ToggleButtonGroup = createGenericComponent<
   "ToggleButtonGroup",
   "section",
   (
-    {
-      className,
-      as: As,
-      children,
-      isDisabled,
-      inverse,
-      color,
-      compact,
-      ...props
-    },
+    { className, as: As, children, isDisabled, color, compact, ...props },
     ref,
   ) => {
     const contextValue = useMemo<ToggleButtonProps>(
-      () => ({ color, inverse, compact, isDisabled }),
-      [color, inverse, compact, isDisabled],
+      () => ({ color, compact, isDisabled }),
+      [color, compact, isDisabled],
     );
     return (
       <As

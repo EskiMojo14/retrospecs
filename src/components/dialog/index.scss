@@ -1,3 +1,4 @@
+@use "~/theme";
 @use "~/theme/animation";
 @use "~/theme/elevation";
 @use "~/theme/typography";
@@ -5,8 +6,8 @@
 .dialog {
   position: relative;
   border-radius: 4px;
-  background-color: var(--off-white);
-  color: typography.emphasis("blue-dark", "high");
+  background-color: var(--white);
+  color: typography.emphasis("black", "high");
   max-height: calc(100% - 32px);
   min-width: 280px;
   @include elevation.elevation(8);
@@ -19,15 +20,19 @@
   &:focus-visible {
     outline: none;
   }
+  @include theme.dark {
+    background-color: var(--brown-800);
+    color: typography.emphasis("white", "high");
+  }
   &-overlay {
-    --overlay-rgb: var(--brown-rgb);
+    --overlay-rgb: var(--black-rgb);
     --background-alpha: 0.5;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(var(--brown-rgb), var(--background-alpha));
+    background-color: rgba(var(--overlay-rgb), var(--background-alpha));
 
     display: flex;
     justify-content: center;
@@ -70,10 +75,10 @@
 
 @keyframes overlay-fade {
   from {
-    background-color: rgba(var(--brown-rgb), 0);
+    background-color: rgba(var(--overlay-rgb), 0);
   }
   to {
-    background-color: rgba(var(--brown-rgb), var(--background-alpha));
+    background-color: rgba(var(--overlay-rgb), var(--background-alpha));
   }
 }
 

@@ -6,21 +6,17 @@ import "./index.scss";
 
 export interface CheckboxProps extends Omit<AriaCheckboxProps, "className"> {
   className?: string;
-  inverse?: boolean;
 }
 
 const containerCls = bemHelper("checkbox-container");
 const cls = bemHelper("checkbox");
 
 export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
-  ({ children, className, inverse, ...props }, ref) => (
+  ({ children, className, ...props }, ref) => (
     <AriaCheckbox
       {...props}
       ref={ref}
       className={containerCls({
-        modifiers: {
-          inverse: !!inverse,
-        },
         extra: className,
       })}
     >

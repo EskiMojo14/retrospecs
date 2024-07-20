@@ -1,22 +1,19 @@
 @use "sass:map";
-@use "sass:meta";
 @use "~/theme";
-@use "~/util";
 @use "./variables";
 
 @mixin color($name, $color) {
   @each $var, $value in map.get($color, "light") {
-    --button-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
+    --card-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
   }
   @include theme.dark {
     @each $var, $value in map.get($color, "dark") {
-      --button-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
+      --card-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
     }
   }
 }
 
 @mixin colors(
-  $filled-selector: "&.button--filled, &.button--elevated",
   $default: variables.$default-color,
   $color-map: variables.$color-map
 ) {
@@ -25,5 +22,21 @@
     &--#{$variant} {
       @include color($variant, $color);
     }
+  }
+}
+
+@mixin action-hover {
+  &[data-hovered],
+  &[data-focused],
+  &[data-pressed] {
+    --hover-color: var(--card-outer);
+    --focus-color: var(--card-outer);
+    --pressed-color: var(--card-outer);
+
+    --card-outer: var(--card-outer-hover);
+    --card-mid: var(--card-mid-hover);
+    --card-bg: var(--card-bg-hover);
+
+    @content;
   }
 }

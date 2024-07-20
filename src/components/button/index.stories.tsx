@@ -2,19 +2,20 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { Symbol } from "~/components/symbol";
-import { inverseContainerDecorator } from "~/util/storybook";
+import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
+import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { buttonColors, buttonVariants } from "./constants";
-import { Button } from ".";
+import { Button, LinkButton } from ".";
 
-interface StoryProps {
+interface StoryProps
+  extends ComponentPropsWithoutRef<typeof Button>,
+    DarkThemeDecoratorArgs {
   icon?: "leading" | "trailing";
 }
 
 const meta = {
   title: "Components/Button",
-  component: Button as ComponentType<
-    ComponentPropsWithoutRef<typeof Button> & StoryProps
-  >,
+  component: Button as ComponentType<StoryProps>,
   parameters: {
     layout: "centered",
   },
@@ -27,19 +28,16 @@ const meta = {
       control: "select",
       options: [undefined, ...buttonColors],
     },
-    inverse: {
-      control: "boolean",
-    },
   },
   args: {
     onPress: fn(),
     children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
-    inverse: false,
+    dark: false,
     compact: false,
   },
-  decorators: [inverseContainerDecorator],
-} satisfies Meta<ComponentPropsWithoutRef<typeof Button> & StoryProps>;
+  decorators: [darkThemeDecorator],
+} satisfies Meta<StoryProps>;
 
 export default meta;
 
@@ -117,4 +115,9 @@ export const WithIcon: Story = {
   args: {
     icon: "leading",
   },
+};
+
+export const AsLink: Story = {
+  render: (args) => <LinkButton {...args} href="#" />,
+  args: {},
 };

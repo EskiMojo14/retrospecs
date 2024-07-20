@@ -26,9 +26,8 @@ export function Toast({ state, ...props }: ToastProps) {
     content: {
       symbol,
       title,
-      type,
+      type = "default",
       description,
-      inverse,
       actions: actionsProp,
     },
     timeout,
@@ -36,9 +35,8 @@ export function Toast({ state, ...props }: ToastProps) {
   const buttonProps = useMemo<ButtonProps>(
     () => ({
       color: toastButtonColor[type],
-      inverse: !inverse,
     }),
-    [type, inverse],
+    [type],
   );
   const actions = useMemo<ReactNode>(() => {
     if (!actionsProp) {
@@ -59,7 +57,6 @@ export function Toast({ state, ...props }: ToastProps) {
       ref={ref}
       className={cls({
         modifiers: {
-          inverse: !!inverse,
           [type]: true,
           "has-timeout": !!timeout,
         },

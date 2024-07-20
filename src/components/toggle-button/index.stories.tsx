@@ -5,10 +5,13 @@ import { useState } from "react";
 import { buttonColors } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { Typography } from "~/components/typography";
-import { inverseContainerDecorator } from "~/util/storybook";
+import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
+import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { ToggleButton, ToggleButtonGroup } from ".";
 
-interface StoryProps extends ComponentProps<typeof ToggleButton> {
+interface StoryProps
+  extends ComponentProps<typeof ToggleButton>,
+    DarkThemeDecoratorArgs {
   dir?: string;
 }
 
@@ -32,8 +35,8 @@ const meta = {
       options: [undefined, ...buttonColors],
     },
   },
-  args: { onChange: fn(), isDisabled: false, inverse: false, compact: false },
-  decorators: [inverseContainerDecorator],
+  args: { onChange: fn(), isDisabled: false, dark: false, compact: false },
+  decorators: [darkThemeDecorator],
 } satisfies Meta<StoryProps>;
 
 export default meta;
@@ -59,13 +62,7 @@ export const WithIcon: Story = {
   },
 };
 
-function GroupComponent({
-  isDisabled,
-  dir,
-  color,
-  inverse,
-  compact,
-}: StoryProps) {
+function GroupComponent({ isDisabled, dir, color, compact }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
     <section dir={dir}>
@@ -73,7 +70,7 @@ function GroupComponent({
         Groove
       </Typography>
       <ToggleButtonGroup
-        {...{ isDisabled, color, inverse, compact }}
+        {...{ isDisabled, color, compact }}
         aria-labelledby="groove-label"
       >
         <ToggleButton

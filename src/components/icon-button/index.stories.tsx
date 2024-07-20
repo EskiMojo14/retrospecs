@@ -1,9 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import type { ComponentPropsWithoutRef } from "react";
 import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
-import { inverseContainerDecorator } from "~/util/storybook";
+import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
+import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { IconButton } from ".";
+
+interface StoryProps
+  extends ComponentPropsWithoutRef<typeof IconButton>,
+    DarkThemeDecoratorArgs {}
 
 const meta = {
   title: "Components/Icon Button",
@@ -34,10 +40,10 @@ const meta = {
     compact: false,
     isDisabled: false,
     children: <Symbol>edit</Symbol>,
-    inverse: false,
+    dark: false,
   },
-  decorators: [inverseContainerDecorator],
-} satisfies Meta<typeof IconButton>;
+  decorators: [darkThemeDecorator],
+} satisfies Meta<StoryProps>;
 
 export default meta;
 

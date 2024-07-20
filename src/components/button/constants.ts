@@ -12,7 +12,14 @@ export const buttonVariants = [
 
 export type ButtonVariant = (typeof buttonVariants)[number];
 
-export const buttonColors = ["garden", "sun", "sunset", "dusk"] as const;
+export const buttonColors = [
+  "blue",
+  "green",
+  "yellow",
+  "orange",
+  "gold",
+  "red",
+] as const;
 
 export type ButtonColor = (typeof buttonColors)[number];
 

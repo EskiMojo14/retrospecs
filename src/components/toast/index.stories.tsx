@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button, LinkButton } from "~/components/button";
 import { Symbol } from "~/components/symbol";
+import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
 import { toastTypes, type Toast } from "./constants";
 import { GlobalToastRegion } from "./toast-region";
 import { toastQueue } from ".";
 
-interface StoryProps extends Toast {
+interface StoryProps extends Toast, DarkThemeDecoratorArgs {
   hasAction?: boolean;
   timeout?: number;
   dir: "ltr" | "rtl";
@@ -13,8 +14,9 @@ interface StoryProps extends Toast {
 
 const meta = {
   title: "Components/Toast",
-  render: ({ symbol, hasAction, timeout, dir, ...toast }) => {
+  render: ({ symbol, hasAction, timeout, dir, dark, ...toast }) => {
     document.dir = dir;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
     return (
       <>
         <Button
@@ -25,7 +27,7 @@ const meta = {
                 symbol: symbol ? <Symbol>{symbol}</Symbol> : undefined,
                 actions: hasAction
                   ? ({ close }) => (
-                      <LinkButton onPress={close} href="#">
+                      <LinkButton variant="outlined" onPress={close} href="#">
                         Take me there
                       </LinkButton>
                     )
@@ -61,13 +63,13 @@ const meta = {
     },
   },
   args: {
-    type: "info",
+    type: "default",
     title: "",
     description: "This is a toast message.",
-    inverse: false,
     hasAction: false,
     timeout: undefined,
     dir: "ltr",
+    dark: false,
   },
 } satisfies Meta<StoryProps>;
 

@@ -4,6 +4,7 @@
 @use "~/util";
 @use "~/theme/typography";
 @use "~/theme/palette";
+@use "~/theme";
 
 @import "normalize.css";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
@@ -22,93 +23,10 @@
   --#{$name}: rgb(var(--#{$name}-rgb));
 }
 
-@mixin gradient($name, $stops) {
-  $length: list.length($stops);
-  --#{$name}-length: #{$length};
-  @each $stop in $stops {
-    $index: list.index($stops, $stop);
-    @include color-var(#{$name}#{$index}, $stop);
-  }
-  --#{$name}-dark: var(--#{$name}1);
-  --#{$name}-dark-rgb: var(--#{$name}1-rgb);
-  --#{$name}-light: var(--#{$name}#{$length});
-  --#{$name}-light-rgb: var(--#{$name}#{$length}-rgb);
-  $shadow: "";
-  $start: math.max(1, $length - 3);
-  @for $i from 0 to 4 {
-    $shadow:
-      #{$shadow},
-      0 0 0 calc(var(--border-width) * #{$i + 1}) var(--#{$name}#{$i + $start});
-  }
-  --#{$name}-shadow: #{$shadow};
-  @if $length > 4 {
-    $full-shadow: "";
-    @for $i from 1 through $length {
-      $full-shadow:
-        #{$full-shadow},
-        0 0 0 calc(var(--border-width) * #{$i}) var(--#{$name}#{$i});
-    }
-    --full-#{$name}-shadow: #{$full-shadow};
-  }
-}
-
-$gradients: (
-  "green": (
-    #1d5434,
-    #38663f,
-    #9cb45c,
-    #ccd5aa,
-  ),
-  "blue": (
-    #001219,
-    #084055,
-    #005f73,
-    #0a9396,
-    #94d2bd,
-  ),
-  "orange": (
-    #9b2226,
-    #ae2012,
-    #bb3e03,
-    #ca6702,
-    #ee9b00,
-    #e9d8a6,
-  ),
-  "red": (
-    #422418,
-    #6d2e1f,
-    #c44d2f,
-    #e58165,
-    #f0b49c,
-    #f6d4bb,
-  ),
-  "yellow": (
-    #24211c,
-    #7a531b,
-    #b17929,
-    #fcc83f,
-    #f4f7c6,
-  ),
-  "yellow-hover": (
-    #3d0501,
-    #a61a10,
-    #f61303,
-    #ff6002,
-    #ff9801,
-  ),
-);
-
 :root {
-  --border-width: #{util.to-rem(4px)};
-  --header-height: #{util.to-rem(64px)};
-  --header-margin: calc(var(--border-width) * var(--orange-length));
-  --focus-ring-color: var(--blue4);
-  @include color-var("off-white", #e7e6df);
-  @include color-var("brown", #5a3d2b);
-
-  @each $name, $stops in $gradients {
-    @include gradient($name, $stops);
-  }
+  --focus-ring-color: var(--blue-400);
+  --outline-width: 2px;
+  --border-radius: 8px;
 
   @each $color, $stops in palette.$palette {
     @each $stop, $value in $stops {
@@ -133,6 +51,10 @@ $gradients: (
   }
 }
 
+[data-theme="dark"] {
+  --focus-ring-color: var(--blue-200);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -142,5 +64,9 @@ body {
   color: var(--black);
   @each $prop, $value in typography.$defaults {
     #{$prop}: var(--typography-default-#{$prop});
+  }
+  @include theme.dark {
+    background-color: var(--brown-900);
+    color: var(--white);
   }
 }

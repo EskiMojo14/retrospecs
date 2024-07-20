@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { inverseContainerDecorator } from "~/util/storybook";
+import type { ComponentPropsWithoutRef } from "react";
+import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
+import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { Link } from ".";
+
+interface StoryProps
+  extends ComponentPropsWithoutRef<typeof Link>,
+    DarkThemeDecoratorArgs {}
 
 const meta = {
   title: "Components/Link",
@@ -10,9 +16,9 @@ const meta = {
     layout: "centered",
   },
   argTypes: {},
-  args: { onPress: fn(), inverse: false, children: "Link", href: "#" },
-  decorators: [inverseContainerDecorator],
-} satisfies Meta<typeof Link>;
+  args: { onPress: fn(), dark: false, children: "Link", href: "#" },
+  decorators: [darkThemeDecorator],
+} satisfies Meta<StoryProps>;
 
 export default meta;
 

@@ -1,36 +1,19 @@
 @use "~/theme/elevation";
 @use "~/util";
-
-@mixin action-hover {
-  &[data-hovered],
-  &[data-focused],
-  &[data-pressed] {
-    --hover-color: var(--outer);
-    --focus-color: var(--outer);
-    --pressed-color: var(--outer);
-
-    --outer: var(--yellow-hover2);
-    --mid: var(--yellow-hover3);
-    --bg: var(--yellow-hover4);
-    --card-text-rgb: var(--yellow-hover-dark-rgb);
-
-    @content;
-    &.card--inverse {
-      --outer: var(--yellow-hover4);
-      --mid: var(--yellow-hover2);
-      --bg: var(--yellow-hover1);
-      --card-text-rgb: var(--yellow-hover-light-rgb);
-    }
-  }
-}
+@use "./mixins";
 
 $hover-time: 0.2s;
 
 .card {
-  --outer: var(--yellow3);
-  --mid: var(--yellow4);
-  --bg: var(--yellow5);
-  --card-text-rgb: var(--yellow-dark-rgb);
+  --card-outer: #{rgb(var(--card-outer-rgb))};
+  --card-mid: #{rgb(var(--card-mid-rgb))};
+  --card-bg: #{rgb(var(--card-bg-rgb))};
+
+  --card-outer-hover: #{rgb(var(--card-outer-hover-rgb))};
+  --card-mid-hover: #{rgb(var(--card-mid-hover-rgb))};
+  --card-bg-hover: #{rgb(var(--card-bg-hover-rgb))};
+
+  --card-text-rgb: var(--black-rgb);
   --card-text: rgb(var(--card-text-rgb));
   display: flex;
   flex-direction: column;
@@ -38,51 +21,23 @@ $hover-time: 0.2s;
   border-radius: var(--border-radius);
   position: relative;
   transition:
+    background-color $hover-time,
     box-shadow $hover-time,
     translate $hover-time;
-  &--inverse {
-    --outer: var(--yellow5);
-    --mid: var(--yellow3);
-    --bg: var(--yellow1);
-    --card-text-rgb: var(--yellow-light-rgb);
-  }
-  &--garden {
-    --outer: var(--green2);
-    --mid: var(--green3);
-    --bg: var(--green4);
-    --card-text-rgb: var(--green-dark-rgb);
-  }
-  &--sun {
-    --outer: var(--orange4);
-    --mid: var(--orange5);
-    --bg: var(--orange6);
-    --card-text-rgb: var(--orange-dark-rgb);
-  }
-  &--campfire {
-    --outer: var(--red2);
-    --mid: var(--red3);
-    --bg: var(--red4);
-    --card-text-rgb: var(--red-dark-rgb);
-  }
-  &--fridge {
-    --outer: var(--blue3);
-    --mid: var(--blue4);
-    --bg: var(--blue5);
-    --card-text-rgb: var(--blue-dark-rgb);
-  }
+  @include mixins.colors;
   &--filled,
   &--raised {
-    background-color: var(--outer);
+    background-color: var(--card-outer);
     color: var(--card-text);
     .card__bg,
     .card__section__bg {
-      background-color: var(--bg);
+      background-color: var(--card-bg);
     }
     .card__section {
-      background-color: var(--outer);
+      background-color: var(--card-outer);
       color: var(--card-text);
       &::before {
-        background-color: var(--mid);
+        background-color: var(--card-mid);
       }
     }
   }
@@ -134,7 +89,7 @@ $hover-time: 0.2s;
           outline: none;
         }
       }
-      @include action-hover;
+      @include mixins.action-hover;
     }
     &--actions {
       padding: 8px 16px;

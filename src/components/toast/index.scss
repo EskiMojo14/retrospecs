@@ -1,22 +1,17 @@
+@use "sass:map";
+@use "~/components/button/mixins" as button-mixins;
+@use "~/theme";
 @use "~/theme/animation";
 @use "~/theme/elevation";
 @use "~/theme/typography";
 @use "~/util";
-
-$type-colors: (
-  "success": "green",
-  "info": "blue",
-  "warning": "yellow",
-  "error": "red",
-);
+@use "./variables";
 
 .toast {
   display: flex;
   align-items: center;
   max-width: 560px;
   border-radius: 8px;
-  --background-rgb: var(--dark-rgb);
-  --text-rgb: var(--light-rgb);
   --background: rgb(var(--background-rgb));
   --text: rgb(var(--text-rgb));
   background-color: var(--background);
@@ -43,15 +38,23 @@ $type-colors: (
       outline: none;
     }
   }
-  @each $type, $color in $type-colors {
+  @each $type, $color in variables.$type-colors {
     &--#{$type} {
-      --light-rgb: var(--#{$color}-light-rgb);
-      --dark-rgb: var(--#{$color}-dark-rgb);
+      --background-rgb: var(
+        --#{map.get($color, color)}-#{map.get($color, light, background)}-rgb
+      );
+      --text-rgb: var(
+        --#{map.get($color, color)}-#{map.get($color, light, text)}-rgb
+      );
+      @include theme.dark {
+        --background-rgb: var(
+          --#{map.get($color, color)}-#{map.get($color, dark, background)}-rgb
+        );
+        --text-rgb: var(
+          --#{map.get($color, color)}-#{map.get($color, dark, text)}-rgb
+        );
+      }
     }
-  }
-  &--inverse {
-    --background-rgb: var(--light-rgb);
-    --text-rgb: var(--dark-rgb);
   }
   &--has-timeout {
     position: relative;
@@ -114,6 +117,20 @@ $type-colors: (
   }
   &__close {
     @include util.rtl-box("margin", 0, -8px);
+  }
+  .button {
+    @include button-mixins.colors(
+      null,
+      variables.$button-default-color,
+      variables.$button-color-map
+    );
+  }
+  .toggle-button {
+    @include button-mixins.colors(
+      "&[data-selected]",
+      variables.$button-default-color,
+      variables.$button-color-map
+    );
   }
 }
 

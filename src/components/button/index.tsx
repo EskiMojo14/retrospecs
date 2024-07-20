@@ -20,8 +20,6 @@ export interface ButtonProps {
   variant?: ButtonVariant;
   className?: string;
   color?: ButtonColor;
-  /** For display on a dark background. */
-  inverse?: boolean;
   compact?: boolean;
 }
 
@@ -48,7 +46,6 @@ export const Button = createGenericComponent<
   const {
     variant = "text",
     color,
-    inverse,
     compact,
     className,
     as: As,
@@ -62,7 +59,6 @@ export const Button = createGenericComponent<
         modifiers: {
           [variant]: variant !== "text",
           [color ?? ""]: !!color,
-          inverse: !!inverse,
           compact: !!compact,
         },
         extra: className,

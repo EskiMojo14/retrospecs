@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import type { ComponentPropsWithoutRef, CSSProperties } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
+import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
+import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { cardColors, cardVariants } from "./constants";
 import {
   Card,
@@ -13,11 +15,12 @@ import {
   CardSection,
 } from ".";
 
-interface StoryArgs {
+interface StoryArgs
+  extends ComponentPropsWithoutRef<typeof Card>,
+    DarkThemeDecoratorArgs {
   onPrimaryAction?: () => void;
   onActionButton?: () => void;
   onActionIcon?: () => void;
-  style?: CSSProperties;
 }
 
 const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
@@ -35,14 +38,15 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
       control: "select",
       options: cardVariants,
     },
-    ...({
-      onPrimaryAction: { table: { disable: true } },
-      onActionButton: { table: { disable: true } },
-      onActionIcon: { table: { disable: true } },
-      style: { table: { disable: true } },
-    } satisfies { [K in keyof StoryArgs]: { table: { disable: true } } }),
+    onPrimaryAction: { table: { disable: true } },
+    onActionButton: { table: { disable: true } },
+    onActionIcon: { table: { disable: true } },
+    style: { table: { disable: true } },
   },
-  args: {},
+  args: {
+    dark: false,
+  },
+  decorators: [darkThemeDecorator],
 };
 
 export default meta;

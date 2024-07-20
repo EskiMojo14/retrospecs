@@ -1,0 +1,157 @@
+$type-colors: (
+  "success": (
+    color: "green",
+    light: (
+      background: 900,
+      text: 50,
+    ),
+    dark: (
+      background: 50,
+      text: 900,
+    ),
+  ),
+  "info": (
+    color: "blue",
+    light: (
+      background: 900,
+      text: 50,
+    ),
+    dark: (
+      background: 50,
+      text: 900,
+    ),
+  ),
+  "warning": (
+    color: "orange",
+    light: (
+      background: 900,
+      text: 50,
+    ),
+    dark: (
+      background: 50,
+      text: 900,
+    ),
+  ),
+  "error": (
+    color: "red",
+    light: (
+      background: 900,
+      text: 50,
+    ),
+    dark: (
+      background: 50,
+      text: 900,
+    ),
+  ),
+  "default": (
+    color: "gold",
+    light: (
+      background: 900,
+      text: 50,
+    ),
+    dark: (
+      background: 50,
+      text: 900,
+    ),
+  ),
+);
+
+$button-default-color: (
+  color: "blue",
+  light: (
+    text: 50,
+    outline: 50,
+    fill: 900,
+    filled-text: 50,
+    filled-outline: 50,
+  ),
+  dark: (
+    text: 900,
+    outline: 900,
+    fill: 200,
+    filled-text: 900,
+    filled-outline: 900,
+  ),
+);
+$button-color-map: (
+  "green": (
+    light: (
+      text: 50,
+      outline: 50,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 900,
+      outline: 900,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "yellow": (
+    light: (
+      text: 50,
+      outline: 50,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 900,
+      outline: 900,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "orange": (
+    light: (
+      text: 50,
+      outline: 50,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 900,
+      outline: 900,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "gold": (
+    light: (
+      text: 50,
+      outline: 50,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 900,
+      outline: 900,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+  "red": (
+    light: (
+      text: 50,
+      outline: 50,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 900,
+      outline: 900,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
+);

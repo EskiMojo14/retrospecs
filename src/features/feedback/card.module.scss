@@ -20,14 +20,14 @@
 }
 
 .quote {
-  background-color: rgba(var(--off-white-rgb), 0.6);
-  color: typography.emphasis("blue-dark", "medium");
+  background-color: rgba(var(--white-rgb), 0.6);
+  color: typography.emphasis("black", "medium");
   font-style: italic;
   margin: 16px -8px;
   padding: 8px;
-  box-shadow: -4px 0 0 0 var(--orange-dark);
+  box-shadow: -4px 0 0 0 var(--brown-900);
   @include util.rtl {
-    box-shadow: 4px 0 0 0 var(--orange-dark);
+    box-shadow: 4px 0 0 0 var(--brown-900);
   }
   :global(.typography--subtitle1) {
     margin-top: 0;

@@ -7,12 +7,14 @@
 @use "./variables";
 
 .button {
-  --background-rgb: var(--dark-rgb);
+  --button-text: #{rgb(var(--button-text-rgb))};
+  --button-outline: #{rgb(var(--button-outline-rgb))};
+  --button-fill: #{rgb(var(--button-fill-rgb))};
+  --button-filled-text: #{rgb(var(--button-filled-text-rgb))};
+  --button-filled-outline: #{rgb(var(--button-filled-outline-rgb))};
   --background-alpha: 0;
-  --background: #{rgba(var(--background-rgb), var(--background-alpha))};
-  --outline: var(--button-text);
-  --outline-width: #{variables.$outline-width};
-  --border-radius: #{variables.$border-radius};
+  --background: #{rgba(var(--button-text-rgb), var(--background-alpha))};
+  --outline-color: var(--button-outline);
   background: var(--background);
   color: var(--button-text);
   text-wrap: nowrap;
@@ -31,7 +33,6 @@
   vertical-align: middle;
   @include typography.style("button");
 
-  @include mixins.ink("dark");
   @include mixins.colors;
   @include theme.states;
   @include theme.focus-ring;
@@ -39,22 +40,29 @@
   @at-root button#{&} {
     appearance: none;
     border: none;
-    &:focus:not([data-focus-visible]) {
-      outline: none;
-    }
   }
   @at-root a#{&} {
     text-decoration: none;
   }
+  &:focus:not([data-focus-visible]) {
+    outline: none;
+  }
+
   &--outlined,
   &--filled,
   &--elevated {
     position: relative;
-    @include mixins.outline;
+    @include theme.outline;
   }
   &--filled,
   &--elevated {
-    @include mixins.filled-ink("light");
+    color: var(--button-filled-text);
+    --outline-color: var(--button-filled-outline);
+    --background: color-mix(
+      in srgb,
+      rgb(var(--button-text-rgb)) calc(var(--background-alpha) * 100%),
+      rgb(var(--button-fill-rgb))
+    );
   }
   &--elevated {
     --shadow: var(--background);

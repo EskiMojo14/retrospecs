@@ -1,10 +1,10 @@
 import type { AppLoadContext } from "@remix-run/node";
+import type { Request } from "express";
 import { parseAcceptLanguage } from "intl-parse-accept-language";
 import type { AppSupabaseClient } from "./db";
 import { createServerClient } from "./db/client.server";
 import type { AppStore } from "./store";
 import { makeStore } from "./store";
-import type { Request } from "express";
 
 declare module "@remix-run/node" {
   interface AppLoadContext {

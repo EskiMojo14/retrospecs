@@ -1,15 +1,18 @@
 import type { ReactNode } from "react";
 import { bemHelper } from "~/util";
+import type { BackgroundColor } from "./constants";
 import "./index.scss";
 
 const cls = bemHelper("line-background");
 
 export function LineBackground({
   scale,
+  color,
   className,
   children,
 }: {
   scale?: number;
+  color?: BackgroundColor;
   className?: string;
   children?: ReactNode;
 }) {
@@ -17,7 +20,10 @@ export function LineBackground({
     <>
       <div
         aria-hidden
-        className={cls({ extra: className })}
+        className={cls({
+          modifiers: { [color ?? ""]: !!color },
+          extra: className,
+        })}
         style={{ "--scale": scale }}
         dir="ltr"
       >
