@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useRef } from "react";
 import { createRequiredContext } from "required-react-context";
-import { createBrowserClient } from "./client.browser";
+import { createBrowserClient } from "./client";
 import type { AppSupabaseClient } from ".";
 
 const { SupabaseProvider: Provider, useSupabase } =

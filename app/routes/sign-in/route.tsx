@@ -1,40 +1,27 @@
-import { useActionData, useSearchParams, useSubmit } from "@remix-run/react";
-import type { ActionFunctionArgs } from "@remix-run/server-runtime";
-import { json, redirect } from "@remix-run/server-runtime";
+import { useSearchParams } from "@remix-run/react";
 import { Form } from "react-aria-components";
-import { Typography } from "~/components/typography";
-import { GithubOAuthButton } from "~/features/auth/oauth";
-import { Logo } from "~/features/logo";
-import styles from "./route.module.scss";
 import { Button } from "~/components/button";
 import { Symbol } from "~/components/symbol";
-
-export const action = async ({ request, context }: ActionFunctionArgs) => {
-  const { supabase } = context;
-  const url = new URL(request.url);
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "github",
-    options: {
-      redirectTo: `${url.origin}/auth/callback`,
-    },
-  });
-  if (error) {
-    return redirect(`/sign-in?error=${error.message}`);
-  }
-};
+import { Typography } from "~/components/typography";
+import { useSupabase } from "~/db/provider";
+import { Logo } from "~/features/logo";
+import styles from "./route.module.scss";
 
 export default function SignIn() {
-  const submit = useSubmit();
-
+  const supabase = useSupabase();
   const [searchParams] = useSearchParams();
 
   const error = searchParams.get("error");
 
   return (
     <Form
-      method="post"
-      onSubmit={(e) => {
-        submit(e.currentTarget);
+      onSubmit={() => {
+        void supabase.auth.signInWithOAuth({
+          provider: "github",
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
       }}
       className={styles.form}
     >

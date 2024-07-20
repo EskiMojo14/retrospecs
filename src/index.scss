@@ -3,6 +3,7 @@
 @use "sass:math";
 @use "~/util";
 @use "~/theme/typography";
+@use "~/theme/palette";
 
 @import "normalize.css";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
@@ -104,10 +105,19 @@ $gradients: (
   --focus-ring-color: var(--blue4);
   @include color-var("off-white", #e7e6df);
   @include color-var("brown", #5a3d2b);
-  @include color-var("shadow", black);
 
   @each $name, $stops in $gradients {
     @include gradient($name, $stops);
+  }
+
+  @each $color, $stops in palette.$palette {
+    @each $stop, $value in $stops {
+      @include color-var(#{$color}-#{$stop}, $value);
+    }
+  }
+
+  @each $color, $value in palette.$standards {
+    @include color-var(#{$color}, $value);
   }
 
   @each $emphasis, $opacity in typography.$emphasis-map {
@@ -128,8 +138,8 @@ $gradients: (
 }
 
 body {
-  background-color: var(--off-white);
-  color: var(--brown);
+  background-color: var(--white);
+  color: var(--black);
   @each $prop, $value in typography.$defaults {
     #{$prop}: var(--typography-default-#{$prop});
   }

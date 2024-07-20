@@ -1,9 +1,9 @@
 // @ts-check
+import { existsSync } from "fs";
 import { createRequestHandler } from "@remix-run/express";
 import compression from "compression";
 import dotenv from "dotenv";
 import express from "express";
-import { existsSync } from "fs";
 import morgan from "morgan";
 
 const dotEnvPaths = [
@@ -64,6 +64,6 @@ app.use(morgan("tiny"));
 app.all("*", remixHandler);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () =>
-  console.log(`Express server listening at http://localhost:${port}`),
-);
+app.listen(port, () => {
+  console.log(`Express server listening at http://localhost:${port}`);
+});

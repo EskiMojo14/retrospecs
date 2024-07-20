@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSupabase } from "~/db/provider.client";
+import { useSupabase } from "~/db/provider";
 import type { RealtimeHandler } from "~/db/realtime";
 import { useAppDispatch } from "~/pretyped";
 

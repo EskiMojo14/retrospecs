@@ -16,7 +16,9 @@ import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
 import { ForeEauFore } from "~/404";
 import { ensureAuthenticated } from "~/db/auth.server";
+import { SupabaseProvider } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
+import { useIsomorphicLayoutEffect } from "~/hooks/use-isomorphic-layout-effect";
 import "~/index.scss";
 
 declare module "react-aria-components" {
@@ -39,9 +41,8 @@ export const loader = (async ({ request, context }) => {
 }) satisfies LoaderFunction;
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const lang = useLoaderData<typeof loader>();
   return (
-    <html lang={lang}>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -59,10 +60,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const lang = useLoaderData<typeof loader>();
+  useIsomorphicLayoutEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
   const navigate = useNavigate();
   return (
     <RouterProvider {...{ useHref, navigate }}>
-      <Outlet />
+      <SupabaseProvider>
+        <Outlet />
+      </SupabaseProvider>
     </RouterProvider>
   );
 }
