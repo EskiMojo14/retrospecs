@@ -29,7 +29,8 @@ const authRoutes = ["/sign-in", "/auth/callback"];
 
 export const loader = (async ({ request, context }) => {
   const { lang, headers } = context;
-  const isAuthRoute = authRoutes.some((url) => request.url.endsWith(url));
+  const url = new URL(request.url);
+  const isAuthRoute = authRoutes.some((pathname) => url.pathname === pathname);
   if (isAuthRoute) {
     return json(lang, { headers });
   }

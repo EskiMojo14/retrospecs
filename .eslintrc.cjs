@@ -11,8 +11,6 @@ module.exports = {
     "plugin:storybook/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
@@ -82,7 +80,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
-    project: ["./tsconfig.app.json", "./tsconfig.node.json"],
+    project: ["./tsconfig.json"],
     tsconfigRootDir: __dirname,
   },
   settings: {
