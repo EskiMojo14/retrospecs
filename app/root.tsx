@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from "@remix-run/react";
+import { ForeEauFore } from "~/404";
 import { ErrorPage } from "~/error-page";
 import "~/index.scss";
 
@@ -44,5 +45,6 @@ export function ErrorBoundary() {
   } else if (error instanceof Error) {
     message = error.message;
   }
+  if (status === 404) return <ForeEauFore />;
   return <ErrorPage {...{ status, message }} />;
 }
