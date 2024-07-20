@@ -7,11 +7,11 @@ assert(
   "Missing SUPABASE_URL",
 );
 assert(
-  typeof import.meta.env.VITE_SUPABASE_KEY === "string",
+  typeof import.meta.env.VITE_SUPABASE_ANON_KEY === "string",
   "Missing SUPABASE_KEY",
 );
 
 export const supabase = createClient<Database>(
   import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_KEY,
+  import.meta.env.VITE_SUPABASE_ANON_KEY,
 );

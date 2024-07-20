@@ -31,7 +31,8 @@
     "react-aria-components": "^1.2.1",
     "react-bem-helper": "^1.4.1",
     "react-dom": "^18.3.1",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "valibot": "^0.36.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
