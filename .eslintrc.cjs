@@ -11,6 +11,8 @@ module.exports = {
     "plugin:storybook/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "@remix-run/eslint-config",
+    "@remix-run/eslint-config/node",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",

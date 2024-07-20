@@ -18,10 +18,11 @@
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit/_pkg.tgz",
     "@remix-run/node": "^2.10.3",
     "@remix-run/react": "^2.10.3",
-    "@remix-run/serve": "^2.10.3",
+    "@remix-run/server-runtime": "^2.10.3",
     "@supabase/ssr": "0.4.0",
     "@supabase/supabase-js": "^2.44.3",
     "@testing-library/user-event": "^14.5.2",
+    "@vercel/remix": "^2.10.2",
     "clsx": "^2.1.1",
     "eslint-plugin-react": "^7.34.3",
     "intl-parse-accept-language": "^1.0.0",
@@ -40,6 +41,8 @@
     "@chromatic-com/storybook": "^1.6.1",
     "@react-aria/optimize-locales-plugin": "^1.1.1",
     "@remix-run/dev": "^2.10.3",
+    "@remix-run/eslint-config": "^2.10.3",
+    "@remix-run/serve": "^2.10.3",
     "@storybook/addon-essentials": "^8.2.4",
     "@storybook/addon-interactions": "^8.2.4",
     "@storybook/addon-links": "^8.2.4",
@@ -72,8 +75,12 @@
     "storybook": "^8.2.4",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
+    "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.3"
   },
   "packageManager": "yarn@4.3.1",
-  "prettier": {}
+  "prettier": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
