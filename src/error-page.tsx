@@ -1,4 +1,5 @@
 import { Heading, Typography } from "~/components/typography";
+import { ForeEauFore } from "./404";
 import styles from "./error-page.module.scss";
 
 export interface ErrorPageProps {
@@ -7,6 +8,7 @@ export interface ErrorPageProps {
 }
 
 export function ErrorPage({ status, message }: ErrorPageProps) {
+  if (status === 404) return <ForeEauFore />;
   return (
     <main className={styles.page}>
       <Heading variant="headline3" className={styles.title}>
