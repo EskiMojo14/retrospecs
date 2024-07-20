@@ -1,13 +1,10 @@
+import type { AppLoadContext } from "@remix-run/node";
 import { redirect } from "@remix-run/react";
-import type { SupabaseClient } from "@supabase/supabase-js";
 
 export async function ensureAuthenticated({
   supabase,
   headers,
-}: {
-  supabase: SupabaseClient;
-  headers: Headers;
-}) {
+}: Pick<AppLoadContext, "supabase" | "headers">) {
   const {
     data: { user },
     error,

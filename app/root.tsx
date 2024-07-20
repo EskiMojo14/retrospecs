@@ -1,3 +1,4 @@
+import type { LoaderFunction } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   Links,
@@ -11,13 +12,10 @@ import {
   useHref,
   json,
 } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/router";
-import { parseAcceptLanguage } from "intl-parse-accept-language";
 import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
 import { ForeEauFore } from "~/404";
 import { ensureAuthenticated } from "~/db/auth.server";
-import { createServerClient } from "~/db/client.server";
 import { ErrorPage } from "~/error-page";
 import "~/index.scss";
 
@@ -29,16 +27,13 @@ declare module "react-aria-components" {
 
 const authRoutes = ["/sign-in", "/auth/callback"];
 
-export const loader = (async ({ request }) => {
-  const [lang = ""] = parseAcceptLanguage(
-    request.headers.get("accept-language") ?? "",
-  );
-  const { supabase, headers } = createServerClient(request);
+export const loader = (async ({ request, context }) => {
+  const { lang, headers } = context;
   const isAuthRoute = authRoutes.some((url) => request.url.endsWith(url));
   if (isAuthRoute) {
     return json({ lang }, { headers });
   }
-  await ensureAuthenticated({ supabase, headers });
+  await ensureAuthenticated(context);
   return json({ lang }, { headers });
 }) satisfies LoaderFunction;
 

@@ -13,8 +13,19 @@ import { parseAcceptLanguage } from "intl-parse-accept-language";
 import { isbot } from "isbot";
 import { getLocalizationScript } from "react-aria-components/i18n";
 import { renderToPipeableStream } from "react-dom/server";
+import type { AppSupabaseClient } from "~/db";
+import { createServerClient } from "~/db/client.server";
+import { safeAssign } from "~/util";
 
 const ABORT_DELAY = 5_000;
+
+declare module "@remix-run/node" {
+  interface AppLoadContext {
+    lang: string;
+    supabase: AppSupabaseClient;
+    headers: Headers;
+  }
+}
 
 export default function handleRequest(
   request: Request,
@@ -26,9 +37,11 @@ export default function handleRequest(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext,
 ) {
-  const [locale = ""] = parseAcceptLanguage(
+  const [lang = ""] = parseAcceptLanguage(
     request.headers.get("accept-language") ?? "",
   );
+  const { supabase, headers } = createServerClient(request);
+  safeAssign(loadContext, { lang, supabase, headers });
 
   return isbot(request.headers.get("user-agent") ?? "")
     ? handleBotRequest(
@@ -36,14 +49,14 @@ export default function handleRequest(
         responseStatusCode,
         responseHeaders,
         remixContext,
-        locale,
+        lang,
       )
     : handleBrowserRequest(
         request,
         responseStatusCode,
         responseHeaders,
         remixContext,
-        locale,
+        lang,
       );
 }
 
@@ -52,7 +65,7 @@ function handleBotRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  locale: string,
+  lang: string,
 ) {
   return new Promise((resolve, reject) => {
     let shellRendered = false;
@@ -63,7 +76,7 @@ function handleBotRequest(
         abortDelay={ABORT_DELAY}
       />,
       {
-        bootstrapScriptContent: getLocalizationScript(locale),
+        bootstrapScriptContent: getLocalizationScript(lang),
         onAllReady() {
           shellRendered = true;
           const body = new PassThrough();
@@ -104,7 +117,7 @@ function handleBrowserRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  locale: string,
+  lang: string,
 ) {
   return new Promise((resolve, reject) => {
     let shellRendered = false;
@@ -115,7 +128,7 @@ function handleBrowserRequest(
         abortDelay={ABORT_DELAY}
       />,
       {
-        bootstrapScriptContent: getLocalizationScript(locale),
+        bootstrapScriptContent: getLocalizationScript(lang),
         onShellReady() {
           shellRendered = true;
           const body = new PassThrough();
