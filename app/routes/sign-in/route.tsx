@@ -45,7 +45,7 @@ export default function SignIn() {
   }, [error, setSearchParams]);
 
   return (
-    <LineBackground>
+    <LineBackground scale={2}>
       <Form
         onSubmit={() => {
           void supabase.auth.signInWithOAuth({
