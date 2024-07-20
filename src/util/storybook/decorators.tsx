@@ -1,4 +1,9 @@
-import type { ComponentType } from "react";
+import {
+  useEffect,
+  type ComponentType,
+  type DependencyList,
+  type EffectCallback,
+} from "react";
 import { Provider } from "react-redux";
 import type { AppSupabaseClient } from "~/db";
 import { OriginalSupabaseProvider } from "~/db/provider";
@@ -39,6 +44,19 @@ export const createReduxDecorator =
     </Provider>
   );
 
+function Effect({
+  children,
+  effect,
+  deps,
+}: {
+  children: JSX.Element;
+  deps: DependencyList;
+  effect: EffectCallback;
+}) {
+  useEffect(effect, [...deps, effect]);
+  return children;
+}
+
 export interface DarkThemeDecoratorArgs {
   dark?: boolean;
 }
@@ -47,16 +65,17 @@ export const darkThemeDecorator: Decorator<
   DarkThemeDecoratorArgs,
   keyof DarkThemeDecoratorArgs
 > = (Story, { args: { dark, ...args } }) => (
-  <div
-    data-theme={dark ? "dark" : "light"}
-    style={{
-      padding: "1rem",
-      background: dark ? "var(--brown-800)" : undefined,
-      color: dark ? "var(--white)" : undefined,
+  <Effect
+    deps={[dark]}
+    effect={() => {
+      document.documentElement.dataset.theme = dark ? "dark" : "light";
+      return () => {
+        delete document.documentElement.dataset.theme;
+      };
     }}
   >
     <Story {...args} />
-  </div>
+  </Effect>
 );
 
 export interface RtlDecoratorArgs {
@@ -67,7 +86,16 @@ export const rtlDecorator: Decorator<
   RtlDecoratorArgs,
   keyof RtlDecoratorArgs
 > = (Story, { args: { dir, ...args } }) => (
-  <div dir={dir}>
+  <Effect
+    deps={[dir]}
+    effect={() => {
+      const originalDir = document.documentElement.dir;
+      document.documentElement.dir = dir ?? "ltr";
+      return () => {
+        document.documentElement.dir = originalDir;
+      };
+    }}
+  >
     <Story {...args} />
-  </div>
+  </Effect>
 );
