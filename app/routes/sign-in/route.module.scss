@@ -1,5 +1,5 @@
 .error {
-  color: var(--red-dark);
+  color: var(--red3);
 }
 
 .form {
@@ -9,4 +9,13 @@
   flex-direction: column;
   gap: 1rem;
   height: 100vh;
+}
+
+.logo {
+  flex-direction: column;
+  gap: 0;
+  img {
+    width: 192px;
+    height: 192px;
+  }
 }

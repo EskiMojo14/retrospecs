@@ -73,9 +73,8 @@
     opacity: map.get(typography.$emphasis-map, disabled);
   }
   &__icon {
-    display: inline-block;
     position: relative;
-    vertical-align: top;
+    vertical-align: middle;
     &--leading {
       @include util.rtl-box(margin, 0, button-variables.$icon-spacing);
     }

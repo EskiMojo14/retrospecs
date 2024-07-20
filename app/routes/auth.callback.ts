@@ -13,6 +13,7 @@ export const loader = async ({
     if (!error) {
       return redirect(next, { headers });
     }
+    return redirect(`/sign-in?error=${error.message}`);
   }
-  return redirect("/sign-in");
+  return redirect("/sign-in?error=No code provided");
 };

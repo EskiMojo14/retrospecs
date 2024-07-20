@@ -28,7 +28,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  vertical-align: middle;
   @include typography.style("button");
 
   @include mixins.ink("dark");
@@ -85,9 +85,8 @@
     opacity: map.get(typography.$emphasis-map, disabled);
   }
   &__icon {
-    display: inline-block;
     position: relative;
-    vertical-align: top;
+    vertical-align: middle;
     &--leading {
       @include util.rtl-box(margin, 0, variables.$icon-spacing);
     }
