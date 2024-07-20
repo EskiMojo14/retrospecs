@@ -15,6 +15,8 @@ import { getLocalizationScript } from "react-aria-components/i18n";
 import { renderToPipeableStream } from "react-dom/server";
 import type { AppSupabaseClient } from "~/db";
 import { createServerClient } from "~/db/client.server";
+import type { AppStore } from "~/store";
+import { makeStore } from "~/store";
 import { safeAssign } from "~/util";
 
 const ABORT_DELAY = 5_000;
@@ -24,6 +26,7 @@ declare module "@remix-run/node" {
     lang: string;
     supabase: AppSupabaseClient;
     headers: Headers;
+    store: AppStore;
   }
 }
 
@@ -41,7 +44,7 @@ export default function handleRequest(
     request.headers.get("accept-language") ?? "",
   );
   const { supabase, headers } = createServerClient(request);
-  safeAssign(loadContext, { lang, supabase, headers });
+  safeAssign(loadContext, { lang, supabase, headers, store: makeStore() });
 
   return isbot(request.headers.get("user-agent") ?? "")
     ? handleBotRequest(
