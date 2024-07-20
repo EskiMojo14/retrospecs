@@ -2,43 +2,26 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Link } from "~/components/link";
 import { Breadcrumbs, Breadcrumb } from ".";
 
-interface StoryProps {
-  dir?: "rtl" | "ltr";
-}
-
 const meta = {
   title: "Components/Breadcrumbs",
-  render: ({ dir }) => (
-    <div dir={dir}>
-      <Breadcrumbs>
-        <Breadcrumb>
-          <Link href="/">Home</Link>
-        </Breadcrumb>
-        <Breadcrumb>
-          <Link href="/products">Products</Link>
-        </Breadcrumb>
-        <Breadcrumb>
-          <Link href="/products/123">Product 123</Link>
-        </Breadcrumb>
-      </Breadcrumbs>
-    </div>
+  render: () => (
+    <Breadcrumbs>
+      <Breadcrumb>
+        <Link href="/">Home</Link>
+      </Breadcrumb>
+      <Breadcrumb>
+        <Link href="/products">Products</Link>
+      </Breadcrumb>
+      <Breadcrumb>
+        <Link href="/products/123">Product 123</Link>
+      </Breadcrumb>
+    </Breadcrumbs>
   ),
   parameters: {
     layout: "centered",
   },
-  argTypes: {
-    dir: {
-      control: {
-        type: "inline-radio",
-      },
-      options: ["ltr", "rtl"],
-    },
-  },
-  args: {
-    dir: "ltr",
-  },
-  decorators: [],
-} satisfies Meta<StoryProps>;
+  args: {},
+} satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;
 

@@ -1,15 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import type { ComponentPropsWithoutRef } from "react";
 import { buttonColors } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
-import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
-import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { IconToggleButton } from ".";
-
-interface StoryProps
-  extends ComponentPropsWithoutRef<typeof IconToggleButton>,
-    DarkThemeDecoratorArgs {}
 
 const meta = {
   title: "Components/Icon Toggle Button",
@@ -34,11 +27,9 @@ const meta = {
   args: {
     onChange: fn(),
     isDisabled: false,
-    dark: false,
     compact: false,
   },
-  decorators: [darkThemeDecorator],
-} satisfies Meta<StoryProps>;
+} satisfies Meta<typeof IconToggleButton>;
 
 export default meta;
 

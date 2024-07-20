@@ -1,21 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { ComponentPropsWithoutRef } from "react";
 import { DialogTrigger } from "react-aria-components";
 import { Button } from "~/components/button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography, Heading } from "~/components/typography";
-import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
 import { Dialog, DialogContent } from ".";
-
-interface StoryProps
-  extends ComponentPropsWithoutRef<typeof Dialog>,
-    DarkThemeDecoratorArgs {}
 
 const meta = {
   title: "Components/Dialog",
-  render: ({ dark, ...props }) => {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  render: (props) => {
     return (
       <DialogTrigger>
         <Button color="red">
@@ -51,9 +44,8 @@ const meta = {
   args: {
     isDismissable: false,
     isKeyboardDismissDisabled: false,
-    dark: false,
   },
-} satisfies Meta<StoryProps>;
+} satisfies Meta<typeof Dialog>;
 
 export default meta;
 

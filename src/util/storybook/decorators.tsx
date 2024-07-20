@@ -58,3 +58,16 @@ export const darkThemeDecorator: Decorator<
     <Story {...args} />
   </div>
 );
+
+export interface RtlDecoratorArgs {
+  dir?: "rtl" | "ltr";
+}
+
+export const rtlDecorator: Decorator<
+  RtlDecoratorArgs,
+  keyof RtlDecoratorArgs
+> = (Story, { args: { dir, ...args } }) => (
+  <div dir={dir}>
+    <Story {...args} />
+  </div>
+);

@@ -1,23 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import type { ComponentProps, ComponentType } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { useState } from "react";
 import { buttonColors } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { Typography } from "~/components/typography";
-import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
-import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { ToggleButton, ToggleButtonGroup } from ".";
-
-interface StoryProps
-  extends ComponentProps<typeof ToggleButton>,
-    DarkThemeDecoratorArgs {
-  dir?: string;
-}
 
 const meta = {
   title: "Components/Toggle Button",
-  component: ToggleButton as ComponentType<StoryProps>,
+  component: ToggleButton,
   parameters: {
     layout: "centered",
   },
@@ -35,9 +27,8 @@ const meta = {
       options: [undefined, ...buttonColors],
     },
   },
-  args: { onChange: fn(), isDisabled: false, dark: false, compact: false },
-  decorators: [darkThemeDecorator],
-} satisfies Meta<StoryProps>;
+  args: { onChange: fn(), isDisabled: false, compact: false },
+} satisfies Meta<typeof ToggleButton>;
 
 export default meta;
 
@@ -62,10 +53,14 @@ export const WithIcon: Story = {
   },
 };
 
-function GroupComponent({ isDisabled, dir, color, compact }: StoryProps) {
+function GroupComponent({
+  isDisabled,
+  color,
+  compact,
+}: ComponentPropsWithoutRef<typeof ToggleButton>) {
   const [value, setValue] = useState("none");
   return (
-    <section dir={dir}>
+    <section>
       <Typography variant="body1" id="groove-label">
         Groove
       </Typography>
@@ -116,13 +111,5 @@ function GroupComponent({ isDisabled, dir, color, compact }: StoryProps) {
 }
 
 export const Group: Story = {
-  args: { dir: "ltr" },
-  argTypes: {
-    dir: {
-      control: "inline-radio",
-      options: ["ltr", "rtl"],
-      table: { disable: false },
-    },
-  },
   render: (props) => <GroupComponent {...props} />,
 };

@@ -1,3 +1,4 @@
+@use "~/theme";
 @use "~/theme/typography";
 
 .breadcrumbs {
@@ -9,6 +10,9 @@
   --text-color-rgb: var(--black-rgb);
   --text-color: rgb(var(--text-color-rgb));
   color: var(--text-color);
+  @include theme.dark {
+    --text-color-rgb: var(--white-rgb);
+  }
 }
 
 .breadcrumb {

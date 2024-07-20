@@ -1,4 +1,8 @@
 import type { Preview } from "@storybook/react";
+import {
+  darkThemeDecorator,
+  rtlDecorator,
+} from "../src/util/storybook/decorators";
 import "./scss-loader.scss";
 
 const preview: Preview = {
@@ -15,6 +19,19 @@ const preview: Preview = {
       },
     },
   },
+  args: {
+    dark: false,
+    dir: "ltr",
+  },
+  argTypes: {
+    dir: {
+      control: {
+        type: "inline-radio",
+      },
+      options: ["ltr", "rtl"],
+    },
+  },
+  decorators: [darkThemeDecorator, rtlDecorator],
 };
 
 export default preview;

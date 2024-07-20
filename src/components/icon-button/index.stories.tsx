@@ -1,15 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import type { ComponentPropsWithoutRef } from "react";
 import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
-import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
-import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { IconButton } from ".";
-
-interface StoryProps
-  extends ComponentPropsWithoutRef<typeof IconButton>,
-    DarkThemeDecoratorArgs {}
 
 const meta = {
   title: "Components/Icon Button",
@@ -40,10 +33,8 @@ const meta = {
     compact: false,
     isDisabled: false,
     children: <Symbol>edit</Symbol>,
-    dark: false,
   },
-  decorators: [darkThemeDecorator],
-} satisfies Meta<StoryProps>;
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
 

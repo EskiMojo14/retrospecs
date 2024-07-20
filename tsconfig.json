@@ -40,6 +40,7 @@
     "test-setup.ts",
     "tests",
     "vite.config.ts",
-    "server.ts"
+    "server.ts",
+    ".storybook"
   ]
 }

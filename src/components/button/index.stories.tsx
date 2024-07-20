@@ -2,14 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { Symbol } from "~/components/symbol";
-import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
-import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { buttonColors, buttonVariants } from "./constants";
 import { Button, LinkButton } from ".";
 
-interface StoryProps
-  extends ComponentPropsWithoutRef<typeof Button>,
-    DarkThemeDecoratorArgs {
+interface StoryProps extends ComponentPropsWithoutRef<typeof Button> {
   icon?: "leading" | "trailing";
 }
 
@@ -33,10 +29,8 @@ const meta = {
     onPress: fn(),
     children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
-    dark: false,
     compact: false,
   },
-  decorators: [darkThemeDecorator],
 } satisfies Meta<StoryProps>;
 
 export default meta;

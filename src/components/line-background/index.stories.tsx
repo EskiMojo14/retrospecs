@@ -4,15 +4,22 @@ import { backgroundColors } from "./constants";
 import { LineBackground } from ".";
 
 interface StoryProps extends ComponentPropsWithoutRef<typeof LineBackground> {
-  dir?: "rtl" | "ltr";
+  width: number;
+  height: number;
+  opacity: number;
 }
 
 const meta = {
   title: "Components/LineBackground",
-  render: ({ dir, ...props }) => (
+  render: ({ height, width, opacity, ...props }) => (
     <div
-      style={{ height: "50vh", width: "50vw", position: "relative" }}
-      dir={dir}
+      style={{
+        height: `${height}vh`,
+        width: `${width}vw`,
+        opacity,
+        position: "relative",
+        transition: "height 0.25s, width 0.25s",
+      }}
     >
       <LineBackground {...props} />
     </div>
@@ -21,6 +28,30 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
+    width: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 100,
+        step: 10,
+      },
+    },
+    height: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 100,
+        step: 10,
+      },
+    },
+    opacity: {
+      control: {
+        type: "range",
+        min: 0,
+        max: 1,
+        step: 0.1,
+      },
+    },
     scale: {
       control: {
         type: "range",
@@ -29,18 +60,12 @@ const meta = {
         step: 0.5,
       },
     },
-    dir: {
-      control: {
-        type: "inline-radio",
-      },
-      options: ["ltr", "rtl"],
-    },
     color: {
       control: "select",
       options: [undefined, ...backgroundColors],
     },
   },
-  args: { scale: 1, dir: "ltr", color: undefined },
+  args: { scale: 1, opacity: 1, height: 50, width: 50, color: undefined },
 } satisfies Meta<StoryProps>;
 
 export default meta;

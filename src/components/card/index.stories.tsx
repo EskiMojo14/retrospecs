@@ -3,8 +3,6 @@ import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
-import type { DarkThemeDecoratorArgs } from "~/util/storybook/decorators";
-import { darkThemeDecorator } from "~/util/storybook/decorators";
 import { cardColors, cardVariants } from "./constants";
 import {
   Card,
@@ -15,9 +13,7 @@ import {
   CardSection,
 } from ".";
 
-interface StoryArgs
-  extends ComponentPropsWithoutRef<typeof Card>,
-    DarkThemeDecoratorArgs {
+interface StoryArgs extends ComponentPropsWithoutRef<typeof Card> {
   onPrimaryAction?: () => void;
   onActionButton?: () => void;
   onActionIcon?: () => void;
@@ -43,10 +39,7 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
     onActionIcon: { table: { disable: true } },
     style: { table: { disable: true } },
   },
-  args: {
-    dark: false,
-  },
-  decorators: [darkThemeDecorator],
+  args: {},
 };
 
 export default meta;
