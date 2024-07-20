@@ -1,5 +1,6 @@
+import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
 import { TeamCard } from "./team-card";
-import { selectTeamIds, useGetTeamsByOrgQuery } from ".";
+import { injectTeamsApi, selectTeamIds } from ".";
 import styles from "./team-grid.module.scss";
 
 interface TeamGridProps {
@@ -7,6 +8,7 @@ interface TeamGridProps {
 }
 
 export function TeamGrid({ orgId }: TeamGridProps) {
+  const { useGetTeamsByOrgQuery } = useEndpointInjector(injectTeamsApi);
   const { teamIds = [] } = useGetTeamsByOrgQuery(orgId, {
     selectFromResult: ({ data }) => ({
       teamIds: data && selectTeamIds(data),

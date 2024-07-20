@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { createBrowserClient } from "~/db/client";
+import { applyInjector } from "~/hooks/use-endpoint-injector";
 import { makeStore } from "~/store";
 import { createReduxDecorator } from "~/util/storybook/decorators";
 import { TeamCard } from "./team-card";
 import type { Team } from ".";
-import { teamAdapter, teamsApi } from ".";
+import { injectTeamsApi, teamAdapter } from ".";
+
+const supabase = createBrowserClient();
 
 const store = makeStore();
 
@@ -13,6 +17,8 @@ const team: Team = {
   created_at: new Date().toISOString(),
   name: "Team Name",
 };
+
+const teamsApi = applyInjector(injectTeamsApi, supabase, store.dispatch).api;
 
 void store.dispatch(
   teamsApi.util.upsertQueryData(

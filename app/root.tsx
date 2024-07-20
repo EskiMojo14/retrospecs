@@ -19,6 +19,7 @@ import { ensureAuthenticated } from "~/db/auth.server";
 import { SupabaseProvider } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
 import { useIsomorphicLayoutEffect } from "~/hooks/use-isomorphic-layout-effect";
+import { StoreProvider } from "~/store/provider";
 import "~/index.scss";
 
 declare module "react-aria-components" {
@@ -68,7 +69,9 @@ export default function App() {
   return (
     <RouterProvider {...{ useHref, navigate }}>
       <SupabaseProvider>
-        <Outlet />
+        <StoreProvider>
+          <Outlet />
+        </StoreProvider>
       </SupabaseProvider>
     </RouterProvider>
   );

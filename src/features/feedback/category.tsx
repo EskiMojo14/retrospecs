@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { LineBackground } from "~/components/line-background";
-import { useAppSelector } from "~/pretyped";
+import { useAppSelector } from "~/store/pretyped";
 import { FeedbackCard } from "./card";
 import type { Category } from "./slice-old";
 import { categories, selectFeedbackByCategory } from "./slice-old";

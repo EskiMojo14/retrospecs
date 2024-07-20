@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@react-aria/toast": "3.0.0-beta.12",
@@ -22,7 +23,6 @@
     "@remix-run/server-runtime": "^2.10.3",
     "@supabase/ssr": "0.4.0",
     "@supabase/supabase-js": "^2.44.3",
-    "@testing-library/user-event": "^14.5.2",
     "@vercel/remix": "^2.10.2",
     "clsx": "^2.1.1",
     "compression": "^1.7.4",
@@ -59,6 +59,7 @@
     "@testing-library/dom": "^10.3.2",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/compression": "^1.7.5",
     "@types/express": "^4",
     "@types/lodash": "^4.17.7",

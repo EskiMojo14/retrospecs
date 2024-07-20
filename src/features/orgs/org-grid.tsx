@@ -1,8 +1,10 @@
+import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
 import { OrgCard } from "./org-card";
-import { selectOrgIds, useGetOrgsQuery } from ".";
+import { injectOrgsApi, selectOrgIds } from ".";
 import styles from "./org-grid.module.scss";
 
 export function OrgGrid() {
+  const { useGetOrgsQuery } = useEndpointInjector(injectOrgsApi);
   const { orgIds = [] } = useGetOrgsQuery(undefined, {
     selectFromResult: ({ data }) => ({
       orgIds: data && selectOrgIds(data),

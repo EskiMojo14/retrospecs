@@ -11,7 +11,7 @@ import { Dialog, DialogContent } from "~/components/dialog";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading, Typography } from "~/components/typography";
-import { useAppDispatch } from "~/pretyped";
+import { useAppDispatch } from "~/store/pretyped";
 import type { Feedback } from "./slice-old";
 import { feedbackAddressed, feedbackRemoved } from "./slice-old";
 import styles from "./card.module.scss";
@@ -72,7 +72,7 @@ export function FeedbackCard({ feedback }: FeedbackCardProps) {
                         close();
                       }}
                       variant="elevated"
-                      color="sunset"
+                      color="red"
                     >
                       Delete
                     </Button>

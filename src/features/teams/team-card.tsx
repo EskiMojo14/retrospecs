@@ -10,11 +10,8 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import {
-  selectTeamById,
-  useGetTeamMemberCountQuery,
-  useGetTeamsByOrgQuery,
-} from ".";
+import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
+import { injectTeamsApi, selectTeamById } from ".";
 import styles from "./team-card.module.scss";
 
 export interface TeamCardProps {
@@ -23,6 +20,8 @@ export interface TeamCardProps {
 }
 
 export function TeamCard({ orgId, teamId }: TeamCardProps) {
+  const { useGetTeamsByOrgQuery, useGetTeamMemberCountQuery } =
+    useEndpointInjector(injectTeamsApi);
   const { team } = useGetTeamsByOrgQuery(orgId, {
     selectFromResult: ({ data }) => ({
       team: data && selectTeamById(data, teamId),

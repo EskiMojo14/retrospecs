@@ -10,9 +10,10 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { useGetTeamCountByOrgQuery } from "~/features/teams";
+import { injectTeamsApi } from "~/features/teams";
+import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
 import type { Org } from ".";
-import { selectOrgById, useGetOrgMemberCountQuery, useGetOrgsQuery } from ".";
+import { injectOrgsApi, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
 
 interface OrgCardProps {
@@ -20,6 +21,9 @@ interface OrgCardProps {
 }
 
 export function OrgCard({ orgId }: OrgCardProps) {
+  const { useGetOrgMemberCountQuery, useGetOrgsQuery } =
+    useEndpointInjector(injectOrgsApi);
+  const { useGetTeamCountByOrgQuery } = useEndpointInjector(injectTeamsApi);
   const { org } = useGetOrgsQuery(undefined, {
     selectFromResult: ({ data }) => ({
       org: data && selectOrgById(data, orgId),
