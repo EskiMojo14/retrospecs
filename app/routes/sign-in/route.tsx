@@ -1,3 +1,4 @@
+import type { MetaFunction } from "@remix-run/react";
 import { useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { Form } from "react-aria-components";
@@ -7,6 +8,8 @@ import { toastQueue } from "~/components/toast";
 import { useSupabase } from "~/db/provider";
 import { Logo } from "~/features/logo";
 import styles from "./route.module.scss";
+
+export const meta: MetaFunction = () => [{ title: "RetroSpecs - Sign in" }];
 
 export default function SignIn() {
   const supabase = useSupabase();
