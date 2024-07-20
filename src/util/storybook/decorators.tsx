@@ -68,9 +68,10 @@ export const darkThemeDecorator: Decorator<
   <Effect
     deps={[dark]}
     effect={() => {
+      const originalTheme = document.documentElement.dataset.theme;
       document.documentElement.dataset.theme = dark ? "dark" : "light";
       return () => {
-        delete document.documentElement.dataset.theme;
+        document.documentElement.dataset.theme = originalTheme;
       };
     }}
   >
