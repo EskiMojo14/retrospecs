@@ -1,8 +1,16 @@
-import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
+import type {
+  RealtimeChannel,
+  RealtimePostgresChangesPayload,
+} from "@supabase/supabase-js";
 import type { AppDispatch } from "~/store";
 import { toLowerCaseTyped } from "~/util";
 import type { Database, Tables } from "./supabase";
-import { supabase } from ".";
+import type { AppSupabaseClient } from ".";
+
+export type RealtimeHandler = (
+  dispatch: AppDispatch,
+  supabase: AppSupabaseClient,
+) => RealtimeChannel;
 
 export const buildRealtimeHandler =
   <Table extends keyof Database["public"]["Tables"]>(
@@ -16,8 +24,8 @@ export const buildRealtimeHandler =
         dispatch: AppDispatch,
       ) => void;
     },
-  ) =>
-  (dispatch: AppDispatch) =>
+  ): RealtimeHandler =>
+  (dispatch, supabase) =>
     supabase.channel(table).on(
       "postgres_changes",
       {
