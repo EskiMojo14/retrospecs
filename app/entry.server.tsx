@@ -9,7 +9,9 @@ import { PassThrough } from "node:stream";
 import type { AppLoadContext, EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
+import { parseAcceptLanguage } from "intl-parse-accept-language";
 import { isbot } from "isbot";
+import { getLocalizationScript } from "react-aria-components/i18n";
 import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5_000;
@@ -22,20 +24,26 @@ export default function handleRequest(
   // This is ignored so we can keep it in the template for visibility.  Feel
   // free to delete this parameter in your app if you're not using it!
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadContext: AppLoadContext
+  loadContext: AppLoadContext,
 ) {
-  return isbot(request.headers.get("user-agent") || "")
+  const [locale = ""] = parseAcceptLanguage(
+    request.headers.get("accept-language") ?? "",
+  );
+
+  return isbot(request.headers.get("user-agent") ?? "")
     ? handleBotRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext
+        remixContext,
+        locale,
       )
     : handleBrowserRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext
+        remixContext,
+        locale,
       );
 }
 
@@ -43,7 +51,8 @@ function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
+  locale: string,
 ) {
   return new Promise((resolve, reject) => {
     let shellRendered = false;
@@ -54,6 +63,7 @@ function handleBotRequest(
         abortDelay={ABORT_DELAY}
       />,
       {
+        bootstrapScriptContent: getLocalizationScript(locale),
         onAllReady() {
           shellRendered = true;
           const body = new PassThrough();
@@ -65,7 +75,7 @@ function handleBotRequest(
             new Response(stream, {
               headers: responseHeaders,
               status: responseStatusCode,
-            })
+            }),
           );
 
           pipe(body);
@@ -82,7 +92,7 @@ function handleBotRequest(
             console.error(error);
           }
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);
@@ -93,7 +103,8 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
+  locale: string,
 ) {
   return new Promise((resolve, reject) => {
     let shellRendered = false;
@@ -104,6 +115,7 @@ function handleBrowserRequest(
         abortDelay={ABORT_DELAY}
       />,
       {
+        bootstrapScriptContent: getLocalizationScript(locale),
         onShellReady() {
           shellRendered = true;
           const body = new PassThrough();
@@ -115,7 +127,7 @@ function handleBrowserRequest(
             new Response(stream, {
               headers: responseHeaders,
               status: responseStatusCode,
-            })
+            }),
           );
 
           pipe(body);
@@ -132,7 +144,7 @@ function handleBrowserRequest(
             console.error(error);
           }
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);

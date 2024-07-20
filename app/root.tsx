@@ -1,3 +1,4 @@
+import type { LoaderFunction } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   Links,
@@ -5,15 +6,25 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useRouteError,
 } from "@remix-run/react";
+import { parseAcceptLanguage } from "intl-parse-accept-language";
 import { ForeEauFore } from "~/404";
 import { ErrorPage } from "~/error-page";
 import "~/index.scss";
 
+export const loader = (({ request }) => {
+  const [locale = ""] = parseAcceptLanguage(
+    request.headers.get("accept-language") ?? "",
+  );
+  return { locale };
+}) satisfies LoaderFunction;
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { locale = "en" } = useLoaderData<typeof loader>();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
