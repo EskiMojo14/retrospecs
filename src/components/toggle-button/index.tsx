@@ -23,6 +23,10 @@ export interface ToggleButtonProps {
 
 const cls = bemHelper("toggle-button");
 
+export const ToggleButtonContext = createContext<
+  ContextValue<ToggleButtonProps, HTMLElement>
+>({});
+
 const buttonSymbolSlots = makeButtonSymbolSlots(cls);
 
 export const ToggleButton = createGenericComponent<
@@ -33,6 +37,10 @@ export const ToggleButton = createGenericComponent<
     children: ReactNode;
   }
 >("ToggleButton", AriaToggleButton, (props, ref) => {
+  [props, ref] = useContextProps(props, ref as never, ToggleButtonContext) as [
+    typeof props,
+    typeof ref,
+  ];
   [props, ref] = useContextProps(
     props,
     ref as never,

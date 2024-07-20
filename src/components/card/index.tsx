@@ -1,9 +1,11 @@
 import type { ContextType, ReactNode } from "react";
 import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
 import type { ButtonProps } from "~/components/button";
-import { Button } from "~/components/button";
+import { Button, ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
 import { IconButton } from "~/components/icon-button";
+import { Provider } from "~/components/provider";
+import { ToggleButtonContext } from "~/components/toggle-button";
 import { ToolbarContext } from "~/components/toolbar";
 import { bemHelper } from "~/util";
 import type { CardColor, CardVariant } from "./constants";
@@ -24,6 +26,14 @@ const toolbarContextValue: ContextType<typeof ToolbarContext> = {
     buttons: { align: "start" },
     icons: { align: "end" },
   },
+};
+
+const buttonContextValue: ContextType<typeof ButtonContext> = {
+  color: "brown",
+};
+
+const toggleButtonContextValue: ContextType<typeof ToggleButtonContext> = {
+  color: "brown",
 };
 
 export const Card = createGenericComponent<
@@ -51,9 +61,15 @@ export const Card = createGenericComponent<
         extra: className,
       })}
     >
-      <ToolbarContext.Provider value={toolbarContextValue}>
+      <Provider
+        values={[
+          [ToolbarContext.Provider, toolbarContextValue],
+          [ButtonContext.Provider, buttonContextValue],
+          [ToggleButtonContext.Provider, toggleButtonContextValue],
+        ]}
+      >
         {children}
-      </ToolbarContext.Provider>
+      </Provider>
     </As>
   ),
 );

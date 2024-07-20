@@ -17,8 +17,8 @@ export const buttonColors = [
   "green",
   "yellow",
   "orange",
-  "gold",
   "red",
+  "brown",
 ] as const;
 
 export type ButtonColor = (typeof buttonColors)[number];
