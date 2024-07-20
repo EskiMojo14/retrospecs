@@ -8,11 +8,20 @@ import {
   ScrollRestoration,
   useLoaderData,
   useRouteError,
+  useNavigate,
+  useHref,
 } from "@remix-run/react";
 import { parseAcceptLanguage } from "intl-parse-accept-language";
+import { RouterProvider } from "react-aria-components";
+import type { NavigateOptions } from "react-router-dom";
 import { ForeEauFore } from "~/404";
 import { ErrorPage } from "~/error-page";
 import "~/index.scss";
+declare module "react-aria-components" {
+  interface RouterConfig {
+    routerOptions: NavigateOptions;
+  }
+}
 
 export const loader = (({ request }) => {
   const [locale = ""] = parseAcceptLanguage(
@@ -42,7 +51,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const navigate = useNavigate();
+  return (
+    <RouterProvider {...{ useHref, navigate }}>
+      <Outlet />
+    </RouterProvider>
+  );
 }
 
 export function ErrorBoundary() {
