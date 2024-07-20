@@ -4169,17 +4169,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/v1-route-convention@npm:^0.1.3":
-  version: 0.1.4
-  resolution: "@remix-run/v1-route-convention@npm:0.1.4"
-  dependencies:
-    minimatch: "npm:^7.4.3"
-  peerDependencies:
-    "@remix-run/dev": ^1.15.0 || ^2.0.0
-  checksum: 10c0/f9984d9212d6b5c910d2d3a84a37e13cdb0b078c6832bb8b8dc5b1242a0c9ddadf77eebfc3dbdfcc524364e999272ba6d85b998f19c02d5b94db12cff5e54d15
-  languageName: node
-  linkType: hard
-
 "@remix-run/web-blob@npm:^3.1.0":
   version: 3.1.0
   resolution: "@remix-run/web-blob@npm:3.1.0"
@@ -8565,7 +8554,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^11.1.0, fs-extra@npm:^11.1.1":
+"fs-extra@npm:^11.1.0":
   version: 11.2.0
   resolution: "fs-extra@npm:11.2.0"
   dependencies:
@@ -10821,24 +10810,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^5.1.0":
-  version: 5.1.6
-  resolution: "minimatch@npm:5.1.6"
-  dependencies:
-    brace-expansion: "npm:^2.0.1"
-  checksum: 10c0/3defdfd230914f22a8da203747c42ee3c405c39d4d37ffda284dac5e45b7e1f6c49aa8be606509002898e73091ff2a3bbfc59c2c6c71d4660609f63aa92f98e3
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^7.4.3":
-  version: 7.4.6
-  resolution: "minimatch@npm:7.4.6"
-  dependencies:
-    brace-expansion: "npm:^2.0.1"
-  checksum: 10c0/e587bf3d90542555a3d58aca94c549b72d58b0a66545dd00eef808d0d66e5d9a163d3084da7f874e83ca8cc47e91c670e6c6f6593a3e7bb27fcc0e6512e87c67
-  languageName: node
-  linkType: hard
-
 "minimatch@npm:^9.0.0, minimatch@npm:^9.0.4":
   version: 9.0.5
   resolution: "minimatch@npm:9.0.5"
@@ -12595,21 +12566,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remix-flat-routes@npm:^0.6.5":
-  version: 0.6.5
-  resolution: "remix-flat-routes@npm:0.6.5"
-  dependencies:
-    "@remix-run/v1-route-convention": "npm:^0.1.3"
-    fs-extra: "npm:^11.1.1"
-    minimatch: "npm:^5.1.0"
-  peerDependencies:
-    "@remix-run/dev": ^1.15.0 || ^2
-  bin:
-    migrate-flat-routes: dist/cli.js
-  checksum: 10c0/0df68e0dd92ab8f3ca186fb5812b9963b6bbb4a9446fde748776c21387c33bbf25a6e87291cf518ef5028ddb2bbf9ca592eb07953a5ec75cbf21804f21b2580a
-  languageName: node
-  linkType: hard
-
 "require-like@npm:>= 0.1.1":
   version: 0.1.2
   resolution: "require-like@npm:0.1.2"
@@ -12774,7 +12730,6 @@ __metadata:
     react-bem-helper: "npm:^1.4.1"
     react-dom: "npm:^18.3.1"
     react-redux: "npm:^9.1.2"
-    remix-flat-routes: "npm:^0.6.5"
     sass: "npm:^1.77.8"
     storybook: "npm:^8.2.4"
     typescript: "npm:^5.2.2"
