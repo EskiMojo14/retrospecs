@@ -4,6 +4,7 @@ import type { AppSupabaseClient } from "./db";
 import { createServerClient } from "./db/client.server";
 import type { AppStore } from "./store";
 import { makeStore } from "./store";
+import type { Request } from "express";
 
 declare module "@remix-run/node" {
   interface AppLoadContext {
@@ -14,16 +15,8 @@ declare module "@remix-run/node" {
   }
 }
 
-export const getLoadContext = ({
-  request,
-  context,
-}: {
-  request: Request;
-  context: {};
-}): AppLoadContext => ({
-  ...context,
-  lang:
-    parseAcceptLanguage(request.headers.get("accept-language") ?? "")[0] ?? "",
+export const getLoadContext = (request: Request): AppLoadContext => ({
+  lang: parseAcceptLanguage(request.headers["accept-language"] ?? "")[0] ?? "",
   ...createServerClient(request),
   store: makeStore(),
 });

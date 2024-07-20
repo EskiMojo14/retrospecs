@@ -28,7 +28,6 @@ declare module "react-aria-components" {
 const authRoutes = ["/sign-in", "/auth/callback"];
 
 export const loader = (async ({ request, context }) => {
-  console.log(Object.keys(context));
   const { lang, headers } = context;
   const isAuthRoute = authRoutes.some((url) => request.url.endsWith(url));
   if (isAuthRoute) {

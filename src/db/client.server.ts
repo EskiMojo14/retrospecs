@@ -5,6 +5,7 @@ import {
 } from "@supabase/ssr";
 import { VITE_SUPABASE_ANON_KEY, VITE_SUPABASE_URL } from "~/env";
 import type { Database } from "./supabase";
+import { Request } from "express";
 
 export const createServerClient = (request: Request) => {
   const headers = new Headers();
@@ -15,7 +16,7 @@ export const createServerClient = (request: Request) => {
     {
       cookies: {
         getAll() {
-          return parseCookieHeader(request.headers.get("Cookie") ?? "");
+          return parseCookieHeader(request.headers["cookie"] ?? "");
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
