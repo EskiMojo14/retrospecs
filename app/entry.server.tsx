@@ -13,31 +13,17 @@ import { parseAcceptLanguage } from "intl-parse-accept-language";
 import { isbot } from "isbot";
 import { getLocalizationScript } from "react-aria-components/i18n";
 import { renderToPipeableStream } from "react-dom/server";
-import type { AppSupabaseClient } from "~/db";
 import { createServerClient } from "~/db/client.server";
-import type { AppStore } from "~/store";
 import { makeStore } from "~/store";
 import { safeAssign } from "~/util";
 
 const ABORT_DELAY = 5_000;
-
-declare module "@remix-run/node" {
-  interface AppLoadContext {
-    lang: string;
-    supabase: AppSupabaseClient;
-    headers: Headers;
-    store: AppStore;
-  }
-}
 
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  // This is ignored so we can keep it in the template for visibility.  Feel
-  // free to delete this parameter in your app if you're not using it!
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext,
 ) {
   const [lang = ""] = parseAcceptLanguage(

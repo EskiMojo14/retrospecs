@@ -28,17 +28,18 @@ declare module "react-aria-components" {
 const authRoutes = ["/sign-in", "/auth/callback"];
 
 export const loader = (async ({ request, context }) => {
+  console.log(Object.keys(context));
   const { lang, headers } = context;
   const isAuthRoute = authRoutes.some((url) => request.url.endsWith(url));
   if (isAuthRoute) {
-    return json({ lang }, { headers });
+    return json(lang, { headers });
   }
   await ensureAuthenticated(context);
-  return json({ lang }, { headers });
+  return json(lang, { headers });
 }) satisfies LoaderFunction;
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { lang = "en" } = useLoaderData<typeof loader>();
+  const lang = useLoaderData<typeof loader>();
   return (
     <html lang={lang}>
       <head>
