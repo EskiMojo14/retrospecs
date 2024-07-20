@@ -13,11 +13,9 @@ const dotEnvPaths = [
   ".env.local",
 ].filter((file) => existsSync(file));
 
-const test = dotenv.config({
+dotenv.config({
   path: dotEnvPaths,
 });
-
-console.log(test);
 
 const viteDevServer =
   process.env.NODE_ENV === "production"
