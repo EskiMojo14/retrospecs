@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
-import { IconButton } from ".";
+import { IconButton, IconToggleButton } from ".";
 
 const meta = {
   title: "Components/Icon Button",
@@ -11,9 +11,6 @@ const meta = {
     variant: {
       control: "select",
       options: buttonVariants,
-      table: {
-        disable: true,
-      },
     },
     children: {
       table: {
@@ -27,6 +24,7 @@ const meta = {
   },
   args: {
     onPress: fn(),
+    variant: "text",
     compact: false,
     isDisabled: false,
     children: <Symbol>edit</Symbol>,
@@ -47,25 +45,58 @@ export const Default: Story = {
 };
 
 export const Text: Story = {
+  argTypes: {
+    variant: {
+      table: { disable: true },
+    },
+  },
   args: {
     variant: "text",
   },
 };
 
 export const Outlined: Story = {
+  argTypes: {
+    variant: {
+      table: { disable: true },
+    },
+  },
   args: {
     variant: "outlined",
   },
 };
 
 export const Filled: Story = {
+  argTypes: {
+    variant: {
+      table: { disable: true },
+    },
+  },
   args: {
     variant: "filled",
   },
 };
 
 export const Elevated: Story = {
+  argTypes: {
+    variant: {
+      table: { disable: true },
+    },
+  },
   args: {
     variant: "elevated",
   },
+};
+
+export const Toggle: Story = {
+  render: (args) => (
+    <IconToggleButton {...args}>
+      {({ isSelected }) => (
+        <Symbol fill={isSelected} transition>
+          favorite
+        </Symbol>
+      )}
+    </IconToggleButton>
+  ),
+  args: {},
 };

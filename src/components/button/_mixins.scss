@@ -16,7 +16,6 @@
 }
 
 @mixin colors(
-  $filled-selector: "&.button--filled, &.button--elevated",
   $default: variables.$default-color,
   $color-map: variables.$color-map
 ) {

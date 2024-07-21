@@ -94,6 +94,13 @@
     $surface: " .button__ripple",
     $ripple-color: var(--button-text)
   );
+  @include theme.ripple-selected(
+    $surface: " .button__ripple",
+    $ripple-color: var(--button-text)
+  );
+  &[data-selected] {
+    font-weight: 900;
+  }
   &__content {
     position: relative;
   }
@@ -108,6 +115,82 @@
     }
     &--trailing {
       @include util.rtl-box(margin, variables.$icon-spacing);
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  .button {
+    &:first-child {
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+      &::before {
+        border-radius: var(--outline-border-radius) 0 0
+          var(--outline-border-radius);
+      }
+    }
+    &:last-child {
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      &::before {
+        border-radius: 0 var(--outline-border-radius)
+          var(--outline-border-radius) 0;
+      }
+    }
+    &:not(:last-child):not(:first-child) {
+      border-radius: 0;
+      &::before {
+        border-radius: 0;
+      }
+    }
+  }
+  @include util.rtl {
+    .button {
+      &:first-child {
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        &::before {
+          border-radius: 0 var(--outline-border-radius)
+            var(--outline-border-radius) 0;
+        }
+      }
+      &:last-child {
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        &::before {
+          border-radius: var(--outline-border-radius) 0 0
+            var(--outline-border-radius);
+        }
+      }
+    }
+  }
+  &[data-orientation="vertical"] {
+    flex-direction: column;
+    .button {
+      &:first-child {
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        &::before {
+          border-radius: var(--outline-border-radius)
+            var(--outline-border-radius) 0 0;
+        }
+      }
+      &:last-child {
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        &::before {
+          border-radius: 0 0 var(--outline-border-radius)
+            var(--outline-border-radius);
+        }
+      }
+      &:not(:last-child):not(:first-child) {
+        border-radius: 0;
+        &::before {
+          border-radius: 0;
+        }
+      }
     }
   }
 }

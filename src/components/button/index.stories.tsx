@@ -1,12 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import type { ComponentPropsWithoutRef, ComponentType } from "react";
+import {
+  useState,
+  type ComponentPropsWithoutRef,
+  type ComponentType,
+} from "react";
+import { Label, Text } from "react-aria-components";
 import { Symbol } from "~/components/symbol";
+import { Typography } from "../typography";
 import { buttonColors, buttonVariants } from "./constants";
-import { Button, LinkButton } from ".";
+import { Button, ButtonGroup, Buttons, LinkButton, ToggleButton } from ".";
 
 interface StoryProps extends ComponentPropsWithoutRef<typeof Button> {
   icon?: "leading" | "trailing";
+  orientation?: "horizontal" | "vertical";
 }
 
 const meta = {
@@ -38,7 +45,7 @@ export const Default: Story = {
   args: {},
 };
 
-export const Text: Story = {
+export const TextButton: Story = {
   argTypes: {
     variant: {
       table: { disable: true },
@@ -49,7 +56,7 @@ export const Text: Story = {
   },
 };
 
-export const Outlined: Story = {
+export const OutlinedButton: Story = {
   argTypes: {
     variant: {
       table: { disable: true },
@@ -60,7 +67,7 @@ export const Outlined: Story = {
   },
 };
 
-export const Filled: Story = {
+export const FilledButton: Story = {
   argTypes: {
     variant: {
       table: { disable: true },
@@ -71,7 +78,7 @@ export const Filled: Story = {
   },
 };
 
-export const Elevated: Story = {
+export const ElevatedButton: Story = {
   argTypes: {
     variant: {
       table: { disable: true },
@@ -82,7 +89,7 @@ export const Elevated: Story = {
   },
 };
 
-export const WithIcon: Story = {
+export const ButtonWithIcon: Story = {
   argTypes: {
     children: {
       table: {
@@ -108,7 +115,94 @@ export const WithIcon: Story = {
   },
 };
 
-export const AsLink: Story = {
+export const Toggle: Story = {
+  render: (args) => (
+    <ToggleButton {...args}>
+      {({ isSelected }) => (
+        <>
+          <Symbol fill={isSelected} transition slot="leading">
+            favorite
+          </Symbol>
+          {isSelected ? "Active" : "Inactive"}
+        </>
+      )}
+    </ToggleButton>
+  ),
+  args: {},
+};
+
+export const Link: Story = {
   render: (args) => <LinkButton {...args} href="#" />,
   args: {},
+};
+
+function GroupComponent({
+  isDisabled,
+  color,
+  compact,
+  orientation,
+  variant,
+}: StoryProps) {
+  const [value, setValue] = useState("none");
+  return (
+    <ButtonGroup
+      {...{ isDisabled, color, compact, variant }}
+      aria-labelledby="groove-label"
+      aria-describedby="groove-description"
+    >
+      <Typography as={Label} variant="body1" id="groove-label">
+        Groove
+      </Typography>
+      <Buttons orientation={orientation} aria-label="Options">
+        <ToggleButton
+          isSelected={value === "none"}
+          onChange={() => {
+            setValue("none");
+          }}
+        >
+          <Symbol fill={value === "none"} transition slot="leading">
+            volume_mute
+          </Symbol>
+          None
+        </ToggleButton>
+        <ToggleButton
+          isSelected={value === "low"}
+          onChange={() => {
+            setValue("low");
+          }}
+        >
+          <Symbol fill={value === "low"} transition slot="leading">
+            volume_down
+          </Symbol>
+          Low volume
+        </ToggleButton>
+        <ToggleButton
+          isSelected={value === "heavy"}
+          onChange={() => {
+            setValue("heavy");
+          }}
+        >
+          <Symbol fill={value === "heavy"} transition slot="leading">
+            volume_up
+          </Symbol>
+          Heavy
+        </ToggleButton>
+      </Buttons>
+      <Typography as={Text} variant="caption" id="groove-description">
+        Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
+        it down a little.
+      </Typography>
+    </ButtonGroup>
+  );
+}
+
+export const Group: Story = {
+  argTypes: {
+    orientation: {
+      control: "inline-radio",
+      options: ["horizontal", "vertical"],
+    },
+  },
+  args: { orientation: "horizontal" },
+  render: (args) => <GroupComponent {...args} />,
 };
