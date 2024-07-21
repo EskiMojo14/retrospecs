@@ -8,7 +8,7 @@
   height: variables.$normal-size;
   --border-radius: #{variables.$border-radius};
   &::before {
-    border-radius: variables.$outline-border-radius;
+    --outline-border-radius: variables.$outline-border-radius;
   }
   &--compact {
     padding: variables.$compact-padding;
