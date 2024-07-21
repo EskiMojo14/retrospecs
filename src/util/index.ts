@@ -1,3 +1,4 @@
+import type { ForwardedRef, RefCallback } from "react";
 import BEMHelper from "react-bem-helper";
 
 export function assert(
@@ -160,3 +161,15 @@ export function defaultNullish<T>(
   }
   return (changed ? result : value) as never;
 }
+
+export const mergeRefs =
+  <T>(...refs: Array<ForwardedRef<T> | null | undefined>): RefCallback<T> =>
+  (value) => {
+    for (const ref of refs) {
+      if (typeof ref === "function") {
+        ref(value);
+      } else if (ref) {
+        ref.current = value;
+      }
+    }
+  };

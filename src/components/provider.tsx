@@ -38,12 +38,25 @@ function mergeSlottedContext<T, El extends HTMLElement>(
   if (!value) {
     return parentValue;
   }
-  if (!("slots" in parentValue) || !("slots" in value)) {
-    return mergeProps(parentValue, value) as never;
+  if (!("slots" in parentValue)) {
+    if (!("slots" in value)) {
+      return mergeProps(parentValue, value) as never;
+    }
+    const slots = { ...value.slots };
+    for (const slot of Reflect.ownKeys(value.slots ?? {})) {
+      slots[slot] = mergeProps(parentValue, value.slots?.[slot]) as never;
+    }
+    return { ...value, slots };
   }
   const slots = { ...parentValue.slots };
-  for (const slot in value.slots ?? {}) {
-    slots[slot] = mergeProps(slots[slot], value.slots?.[slot]) as never;
+  if (!("slots" in value)) {
+    for (const slot of Reflect.ownKeys(parentValue.slots ?? {})) {
+      slots[slot] = mergeProps(parentValue.slots?.[slot], value) as never;
+    }
+  } else {
+    for (const slot of Reflect.ownKeys(value.slots ?? {})) {
+      slots[slot] = mergeProps(slots[slot], value.slots?.[slot]) as never;
+    }
   }
   return { ...parentValue, slots };
 }
