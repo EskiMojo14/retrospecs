@@ -4,6 +4,7 @@ import { createContext, useMemo } from "react";
 import type { ContextValue } from "react-aria-components";
 import {
   ToggleButton as AriaToggleButton,
+  Group,
   useContextProps,
 } from "react-aria-components";
 import {
@@ -62,8 +63,37 @@ export const ToggleButton = createGenericComponent<
   );
 });
 
+export const ToggleButtons = createGenericComponent<
+  "section",
+  {
+    children?: ReactNode;
+    className?: string;
+    orientation?: "horizontal" | "vertical";
+  },
+  {
+    className: string;
+    children: ReactNode;
+    "data-orientation"?: "horizontal" | "vertical";
+  }
+>(
+  "ToggleButtons",
+  "section",
+  ({ className, as: As, children, orientation, ...props }, ref) => {
+    return (
+      <As
+        ref={ref}
+        {...props}
+        className={clsx("toggle-buttons", className)}
+        data-orientation={orientation}
+      >
+        {children}
+      </As>
+    );
+  },
+);
+
 interface ToggleButtonGroupProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   isDisabled?: boolean;
   className?: string;
   color?: ButtonColor;
@@ -71,7 +101,7 @@ interface ToggleButtonGroupProps {
 }
 
 export const ToggleButtonGroup = createGenericComponent<
-  "section",
+  typeof Group,
   ToggleButtonGroupProps,
   {
     className: string;
@@ -79,7 +109,7 @@ export const ToggleButtonGroup = createGenericComponent<
   }
 >(
   "ToggleButtonGroup",
-  "section",
+  Group,
   (
     { className, as: As, children, isDisabled, color, compact, ...props },
     ref,
@@ -88,6 +118,7 @@ export const ToggleButtonGroup = createGenericComponent<
       () => ({ color, compact, isDisabled }),
       [color, compact, isDisabled],
     );
+
     return (
       <As
         ref={ref}

@@ -1,16 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { useState } from "react";
 import { Label, Text } from "react-aria-components";
 import { buttonColors } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { Typography } from "~/components/typography";
-import { ToggleButton, ToggleButtonGroup } from ".";
+import { ToggleButton, ToggleButtonGroup, ToggleButtons } from ".";
+
+interface StoryProps extends ComponentPropsWithoutRef<typeof ToggleButton> {
+  orientation: "horizontal" | "vertical";
+}
 
 const meta = {
   title: "Components/Toggle Button",
-  component: ToggleButton,
+  component: ToggleButton as ComponentType<StoryProps>,
   argTypes: {
     isDisabled: {
       control: "boolean",
@@ -24,21 +28,40 @@ const meta = {
       control: "select",
       options: [undefined, ...buttonColors],
     },
+    orientation: {
+      control: "radio",
+      options: ["horizontal", "vertical"],
+    },
   },
-  args: { onChange: fn(), isDisabled: false, compact: false },
-} satisfies Meta<typeof ToggleButton>;
+  args: {
+    onChange: fn(),
+    isDisabled: false,
+    compact: false,
+    orientation: "horizontal",
+  },
+} satisfies Meta<StoryProps>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  argTypes: {
+    orientation: {
+      table: { disable: true },
+    },
+  },
   args: {
     children: ({ isSelected }) => (isSelected ? "Active" : "Inactive"),
   },
 };
 
 export const WithIcon: Story = {
+  argTypes: {
+    orientation: {
+      table: { disable: true },
+    },
+  },
   args: {
     children: ({ isSelected }) => (
       <>
@@ -55,17 +78,19 @@ function GroupComponent({
   isDisabled,
   color,
   compact,
-}: ComponentPropsWithoutRef<typeof ToggleButton>) {
+  orientation,
+}: StoryProps) {
   const [value, setValue] = useState("none");
   return (
-    <section>
-      <ToggleButtonGroup
-        {...{ isDisabled, color, compact }}
-        aria-labelledby="groove-label"
-      >
-        <Typography as={Label} variant="body1" id="groove-label">
-          Groove
-        </Typography>
+    <ToggleButtonGroup
+      {...{ isDisabled, color, compact }}
+      aria-labelledby="groove-label"
+      aria-describedby="groove-description"
+    >
+      <Typography as={Label} variant="body1" id="groove-label">
+        Groove
+      </Typography>
+      <ToggleButtons orientation={orientation} aria-label="Options">
         <ToggleButton
           isSelected={value === "none"}
           onChange={() => {
@@ -99,15 +124,15 @@ function GroupComponent({
           </Symbol>
           Heavy
         </ToggleButton>
-        <Typography as={Text} variant="caption" id="groove-label">
-          Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
-          it down a little.
-        </Typography>
-      </ToggleButtonGroup>
-    </section>
+      </ToggleButtons>
+      <Typography as={Text} variant="caption" id="groove-description">
+        Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
+        it down a little.
+      </Typography>
+    </ToggleButtonGroup>
   );
 }
 
-export const Group: Story = {
+export const Grouped: Story = {
   render: (props) => <GroupComponent {...props} />,
 };
