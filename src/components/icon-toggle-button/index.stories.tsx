@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { buttonColors } from "~/components/button/constants";
+import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { IconToggleButton } from ".";
 
@@ -20,11 +20,16 @@ const meta = {
       control: "select",
       options: [undefined, ...buttonColors],
     },
+    variant: {
+      control: "select",
+      options: buttonVariants,
+    },
   },
   args: {
     onChange: fn(),
     isDisabled: false,
     compact: false,
+    variant: "text",
   },
 } satisfies Meta<typeof IconToggleButton>;
 
