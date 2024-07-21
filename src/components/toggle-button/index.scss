@@ -93,6 +93,13 @@
 
 .toggle-button-group {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.toggle-buttons {
+  display: flex;
   .toggle-button {
     &:first-child {
       border-radius: var(--border-radius) 0 0 var(--border-radius);
@@ -129,6 +136,31 @@
         &::before {
           border-radius: var(--outline-border-radius) 0 0
             var(--outline-border-radius);
+        }
+      }
+    }
+  }
+  &[data-orientation="vertical"] {
+    flex-direction: column;
+    .toggle-button {
+      &:first-child {
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        &::before {
+          border-radius: var(--outline-border-radius)
+            var(--outline-border-radius) 0 0;
+        }
+      }
+      &:last-child {
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        &::before {
+          border-radius: 0 0 var(--outline-border-radius)
+            var(--outline-border-radius);
+        }
+      }
+      &:not(:last-child):not(:first-child) {
+        border-radius: 0;
+        &::before {
+          border-radius: 0;
         }
       }
     }
