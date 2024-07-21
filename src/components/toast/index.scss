@@ -125,13 +125,6 @@
       variables.$button-color-map
     );
   }
-  .toggle-button {
-    @include button-mixins.colors(
-      "&[data-selected]",
-      variables.$button-default-color,
-      variables.$button-color-map
-    );
-  }
 }
 
 @keyframes toast-slide-in {
