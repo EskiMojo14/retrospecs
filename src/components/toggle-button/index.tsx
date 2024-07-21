@@ -40,11 +40,6 @@ export const ToggleButton = createGenericComponent<
     typeof props,
     typeof ref,
   ];
-  [props, ref] = useContextProps(
-    props,
-    ref as never,
-    ToggleButtonGroupContext,
-  ) as [typeof props, typeof ref];
   const { className, as: As, color, compact, ...rest } = props;
   return (
     <As
@@ -75,9 +70,6 @@ interface ToggleButtonGroupProps {
   compact?: boolean;
 }
 
-const ToggleButtonGroupContext =
-  createContext<ContextValue<ToggleButtonProps, HTMLElement>>(null);
-
 export const ToggleButtonGroup = createGenericComponent<
   "section",
   ToggleButtonGroupProps,
@@ -102,9 +94,9 @@ export const ToggleButtonGroup = createGenericComponent<
         {...props}
         className={clsx("toggle-button-group", className)}
       >
-        <ToggleButtonGroupContext.Provider value={contextValue}>
+        <ToggleButtonContext.Provider value={contextValue}>
           {children}
-        </ToggleButtonGroupContext.Provider>
+        </ToggleButtonContext.Provider>
       </As>
     );
   },
