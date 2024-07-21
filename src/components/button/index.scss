@@ -93,9 +93,11 @@
     opacity: map.get(typography.$emphasis-map, disabled);
   }
   &__icon {
-    display: inline-flex;
     position: relative;
     vertical-align: middle;
+    .button & {
+      display: inline-flex;
+    }
     &--leading {
       @include util.rtl-box(margin, 0, variables.$icon-spacing);
     }
