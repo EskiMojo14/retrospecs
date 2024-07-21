@@ -22,9 +22,6 @@ interface StoryArgs extends ComponentPropsWithoutRef<typeof Card> {
 const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
   title: "Components/Card",
   component: Card,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     color: {
       control: "select",
@@ -39,7 +36,6 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
     onActionIcon: { table: { disable: true } },
     style: { table: { disable: true } },
   },
-  args: {},
 };
 
 export default meta;

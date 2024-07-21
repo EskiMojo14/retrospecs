@@ -27,9 +27,8 @@ const cls = bemHelper("button");
 
 const buttonSymbolSlots = makeButtonSymbolSlots(cls);
 
-export const ButtonContext = createContext<
-  ContextValue<ButtonProps, HTMLElement>
->({});
+export const ButtonContext =
+  createContext<ContextValue<ButtonProps, HTMLElement>>(null);
 
 export const Button = createGenericComponent<
   typeof AriaButton,

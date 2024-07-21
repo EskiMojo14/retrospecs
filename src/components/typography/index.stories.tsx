@@ -6,9 +6,6 @@ import { Typography } from ".";
 const meta = {
   title: "Components/Typography",
   component: Typography,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     variant: {
       control: "select",

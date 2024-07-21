@@ -12,9 +12,6 @@ const meta = {
   component: Symbol as ComponentType<
     ComponentPropsWithoutRef<typeof Symbol> & StoryProps
   >,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     weight: {
       control: {

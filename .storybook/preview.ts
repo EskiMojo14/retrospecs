@@ -18,6 +18,7 @@ const preview: Preview = {
         method: "alphabetical",
       },
     },
+    layout: "centered",
   },
   args: {
     dark: false,
@@ -29,6 +30,9 @@ const preview: Preview = {
         type: "inline-radio",
       },
       options: ["ltr", "rtl"],
+    },
+    dark: {
+      control: "boolean",
     },
   },
   decorators: [darkThemeDecorator, rtlDecorator],

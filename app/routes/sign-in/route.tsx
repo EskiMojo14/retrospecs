@@ -2,10 +2,12 @@ import type { MetaFunction } from "@remix-run/react";
 import { useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { Form } from "react-aria-components";
+import { AppBar } from "~/components/app-bar";
 import { Button } from "~/components/button";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { toastQueue } from "~/components/toast";
+import { Toolbar } from "~/components/toolbar";
 import { useSupabase } from "~/db/provider";
 import { Logo } from "~/features/logo";
 import styles from "./route.module.scss";
@@ -45,7 +47,12 @@ export default function SignIn() {
   }, [error, setSearchParams]);
 
   return (
-    <LineBackground scale={2}>
+    <LineBackground>
+      <AppBar>
+        <Toolbar slot="nav">
+          <Logo />
+        </Toolbar>
+      </AppBar>
       <Form
         onSubmit={() => {
           void supabase.auth.signInWithOAuth({
@@ -57,7 +64,6 @@ export default function SignIn() {
         }}
         className={styles.form}
       >
-        <Logo className={styles.logo} />
         <Button type="submit" variant="elevated">
           <Symbol slot="leading">
             <svg

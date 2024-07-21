@@ -39,9 +39,6 @@ const meta = {
       </>
     );
   },
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     type: {
       control: "select",

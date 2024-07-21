@@ -1,31 +1,28 @@
 import { clsx } from "clsx";
-import type { ReactNode } from "react";
-import { createGenericComponent } from "~/components/generic";
+import { createContext, forwardRef } from "react";
+import type { ContextValue } from "react-aria-components";
+import { useContextProps } from "react-aria-components";
 // eslint-disable-next-line import/no-unresolved
 import logo from "/assets/retrospecs.png";
+import type { LinkProps } from "~/components/link";
+import { Link } from "~/components/link";
 import { Typography } from "~/components/typography";
 import styles from "./logo.module.scss";
 
-interface LogoProps {
-  className?: string;
-}
+export const LogoContext =
+  createContext<ContextValue<LinkProps, HTMLAnchorElement>>(null);
 
-interface LogoPassedProps {
-  className: string;
-  children: ReactNode;
-}
-
-export const Logo = createGenericComponent<"div", LogoProps, LogoPassedProps>(
-  "Logo",
-  "div",
-  ({ as: As, className, ...props }, ref) => (
-    <As ref={ref} {...props} className={clsx(styles.logo, className)}>
+export const Logo = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
+  [props, ref] = useContextProps(props, ref, LogoContext);
+  const { className, ...rest } = props;
+  return (
+    <Link ref={ref} {...rest} className={clsx(styles.logo, className)}>
       <img src={logo} alt="RetroSpecs" />
       <Typography variant="headline5" className={styles.wordmark}>
         RetroSpecs
       </Typography>
-    </As>
-  ),
-);
+    </Link>
+  );
+});
 
 Logo.displayName = "Logo";

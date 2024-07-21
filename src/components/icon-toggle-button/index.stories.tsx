@@ -7,9 +7,6 @@ import { IconToggleButton } from ".";
 const meta = {
   title: "Components/Icon Toggle Button",
   component: IconToggleButton,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     isDisabled: {
       control: "boolean",

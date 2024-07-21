@@ -17,10 +17,6 @@ const meta = {
       </Breadcrumb>
     </Breadcrumbs>
   ),
-  parameters: {
-    layout: "centered",
-  },
-  args: {},
 } satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;

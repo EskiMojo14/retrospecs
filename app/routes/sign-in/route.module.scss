@@ -1,21 +1,8 @@
-.error {
-  color: var(--red-500);
-}
-
 .form {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 1rem;
-  height: 100vh;
-}
-
-.logo {
-  flex-direction: column;
-  gap: 0;
-  img {
-    width: 192px;
-    height: 192px;
-  }
+  min-height: var(--sans-header-height);
 }

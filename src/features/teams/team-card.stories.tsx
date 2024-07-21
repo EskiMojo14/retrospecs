@@ -38,9 +38,6 @@ void store.dispatch(
 const meta = {
   title: "Features/Teams/TeamCard",
   component: TeamCard,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     orgId: { table: { disable: true } },
     teamId: { table: { disable: true } },
