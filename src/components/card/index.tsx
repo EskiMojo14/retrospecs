@@ -5,7 +5,6 @@ import { Button, ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
 import { IconButton } from "~/components/icon-button";
 import { Provider } from "~/components/provider";
-import { ToggleButtonContext } from "~/components/toggle-button";
 import { ToolbarContext } from "~/components/toolbar";
 import { bemHelper } from "~/util";
 import type { CardColor, CardVariant } from "./constants";
@@ -29,10 +28,6 @@ const toolbarContextValue: ContextType<typeof ToolbarContext> = {
 };
 
 const buttonContextValue: ContextType<typeof ButtonContext> = {
-  color: "brown",
-};
-
-const toggleButtonContextValue: ContextType<typeof ToggleButtonContext> = {
   color: "brown",
 };
 
@@ -65,7 +60,6 @@ export const Card = createGenericComponent<
         values={[
           [ToolbarContext.Provider, toolbarContextValue],
           [ButtonContext.Provider, buttonContextValue],
-          [ToggleButtonContext.Provider, toggleButtonContextValue],
         ]}
       >
         {children}
