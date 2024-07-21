@@ -203,6 +203,6 @@ export const Group: Story = {
       options: ["horizontal", "vertical"],
     },
   },
-  args: { orientation: "horizontal" },
+  args: { orientation: "horizontal", variant: "elevated" },
   render: (args) => <GroupComponent {...args} />,
 };
