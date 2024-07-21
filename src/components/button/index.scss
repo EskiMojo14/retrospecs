@@ -12,17 +12,14 @@
   --button-fill: #{rgb(var(--button-fill-rgb))};
   --button-filled-text: #{rgb(var(--button-filled-text-rgb))};
   --button-filled-outline: #{rgb(var(--button-filled-outline-rgb))};
-  --background-alpha: 0;
-  --background: #{rgba(var(--button-text-rgb), var(--background-alpha))};
   --outline-color: var(--button-outline);
-  background: var(--background);
   color: var(--button-text);
   text-wrap: nowrap;
   padding: variables.$padding;
   min-height: variables.$min-height;
   border-radius: var(--border-radius);
   transition:
-    background 200ms,
+    opacity 200ms,
     outline 200ms,
     outline-offset 200ms,
     box-shadow 200ms,
@@ -31,10 +28,10 @@
   justify-content: center;
   align-items: center;
   vertical-align: middle;
+  position: relative;
   @include typography.style("button");
 
   @include mixins.colors;
-  @include theme.states;
   @include theme.focus-ring;
 
   @at-root button#{&} {
@@ -48,21 +45,22 @@
     outline: none;
   }
 
+  &--text,
+  &--outlined {
+    background: none;
+  }
+
   &--outlined,
   &--filled,
   &--elevated {
-    position: relative;
     @include theme.outline;
   }
   &--filled,
   &--elevated {
-    color: var(--button-filled-text);
+    --button-text: var(--button-filled-text);
     --outline-color: var(--button-filled-outline);
-    --background: color-mix(
-      in srgb,
-      rgb(var(--button-text-rgb)) calc(var(--background-alpha) * 100%),
-      rgb(var(--button-fill-rgb))
-    );
+    --background: var(--button-fill);
+    background: var(--background);
   }
   &--elevated {
     --shadow: var(--background);
@@ -91,6 +89,13 @@
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
+  }
+  @include theme.ripple(
+    $surface: " .button__ripple",
+    $ripple-color: var(--button-text)
+  );
+  &__content {
+    position: relative;
   }
   &__icon {
     position: relative;

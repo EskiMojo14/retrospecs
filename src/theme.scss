@@ -1,21 +1,6 @@
 @use "sass:map";
 @use "sass:meta";
-
-$default-state-opacities: (
-  hovered: 0.15,
-  focused: 0.25,
-  pressed: 0.3,
-);
-
-@mixin states($state-opacities: ()) {
-  @each $state,
-    $opacity in map.merge($default-state-opacities, $state-opacities)
-  {
-    &[data-#{$state}] {
-      --background-alpha: #{$opacity};
-    }
-  }
-}
+@use "@material/ripple";
 
 @mixin dark {
   [data-theme="dark"] &,
@@ -47,3 +32,38 @@ $default-state-opacities: (
     pointer-events: none;
   }
 }
+
+@mixin ripple($ripple-color, $root: &, $surface: "") {
+  &[data-hovered]#{$surface}::before {
+    opacity: ripple.states-opacity(#fff, "hover");
+  }
+  &[data-focused]#{$surface}::before {
+    opacity: ripple.states-opacity(#fff, "focus");
+    transition-duration: 75ms;
+  }
+  &[data-pressed]#{$surface}::before {
+    opacity: #{ripple.states-opacity(#fff, "press")};
+  }
+  #{if($surface != '', $surface, &)} {
+    border-radius: inherit;
+    @include ripple.target-common;
+    @include ripple.surface;
+    &::before,
+    &::after {
+      background-color: $ripple-color;
+    }
+    &::after {
+      --mdc-ripple-fg-opacity: #{ripple.states-opacity(#fff, "press")};
+    }
+    $unbounded-class: #{$root}--unbounded;
+    &:not(#{$unbounded-class}) {
+      overflow: hidden;
+      @include ripple.radius-bounded(50%);
+    }
+    #{$unbounded-class} {
+      @include ripple.radius-unbounded;
+    }
+  }
+}
+
+@include ripple.common;

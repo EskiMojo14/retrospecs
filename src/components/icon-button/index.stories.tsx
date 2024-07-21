@@ -63,3 +63,9 @@ export const Filled: Story = {
     variant: "filled",
   },
 };
+
+export const Elevated: Story = {
+  args: {
+    variant: "elevated",
+  },
+};

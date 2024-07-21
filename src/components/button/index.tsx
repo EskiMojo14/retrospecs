@@ -1,3 +1,4 @@
+import { mergeProps } from "@react-aria/utils";
 import { createContext, type ReactNode } from "react";
 import type { LinkProps, ContextValue } from "react-aria-components";
 import {
@@ -7,13 +8,11 @@ import {
 } from "react-aria-components";
 import { createGenericComponent, renderPropChild } from "~/components/generic";
 import { SymbolContext } from "~/components/symbol";
-import { bemHelper } from "~/util";
+import { useRipple } from "~/hooks/use-ripple";
+import { bemHelper, mergeRefs } from "~/util";
 import type { Overwrite } from "~/util/types";
-import {
-  makeButtonSymbolSlots,
-  type ButtonColor,
-  type ButtonVariant,
-} from "./constants";
+import type { ButtonColor, ButtonVariant } from "./constants";
+import { makeButtonSymbolSlots } from "./constants";
 import "./index.scss";
 
 export interface ButtonProps {
@@ -21,6 +20,8 @@ export interface ButtonProps {
   className?: string;
   color?: ButtonColor;
   compact?: boolean;
+  isDisabled?: boolean;
+  unbounded?: boolean;
 }
 
 const cls = bemHelper("button");
@@ -38,25 +39,32 @@ export const Button = createGenericComponent<
     children: ReactNode;
   }
 >("Button", AriaButton, (props, ref) => {
-  [props, ref] = useContextProps(props, ref as never, ButtonContext) as [
-    typeof props,
-    typeof ref,
-  ];
+  let unbounded;
+  [{ unbounded, ...props }, ref] = useContextProps(
+    props,
+    ref as never,
+    ButtonContext,
+  ) as [typeof props, typeof ref];
+  const { surfaceProps, rootProps } = useRipple({
+    disabled: props.isDisabled,
+    unbounded,
+  });
   const {
     variant = "text",
     color,
     compact,
     className,
     as: As,
+    ref: rootRef,
     ...rest
-  } = props;
+  } = mergeProps(props, rootProps);
   return (
     <As
-      ref={ref}
       {...rest}
+      ref={mergeRefs(ref, rootRef as never)}
       className={cls({
         modifiers: {
-          [variant]: variant !== "text",
+          [variant]: true,
           [color ?? ""]: !!color,
           compact: !!compact,
         },
@@ -65,7 +73,11 @@ export const Button = createGenericComponent<
     >
       {renderPropChild(rest, (children) => (
         <SymbolContext.Provider value={buttonSymbolSlots}>
-          {children}
+          <div
+            className={cls("ripple", { unbounded: !!unbounded })}
+            {...surfaceProps}
+          />
+          <div className={cls("content")}>{children}</div>
         </SymbolContext.Provider>
       ))}
     </As>

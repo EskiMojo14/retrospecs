@@ -1,3 +1,4 @@
+import { mergeProps } from "@react-aria/utils";
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
 import { createContext, useMemo } from "react";
@@ -13,13 +14,16 @@ import {
 } from "~/components/button/constants";
 import { createGenericComponent, renderPropChild } from "~/components/generic";
 import { SymbolContext } from "~/components/symbol";
-import { bemHelper } from "~/util";
+import { useRipple } from "~/hooks/use-ripple";
+import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
 
 export interface ToggleButtonProps {
   className?: string;
   color?: ButtonColor;
   compact?: boolean;
+  unbounded?: boolean;
+  isDisabled?: boolean;
 }
 
 const cls = bemHelper("toggle-button");
@@ -37,25 +41,40 @@ export const ToggleButton = createGenericComponent<
     children: ReactNode;
   }
 >("ToggleButton", AriaToggleButton, (props, ref) => {
-  [props, ref] = useContextProps(props, ref as never, ToggleButtonContext) as [
-    typeof props,
-    typeof ref,
-  ];
-  const { className, as: As, color, compact, ...rest } = props;
+  let unbounded;
+  [{ unbounded, ...props }, ref] = useContextProps(
+    props,
+    ref as never,
+    ToggleButtonContext,
+  ) as [typeof props, typeof ref];
+  const { surfaceProps, rootProps } = useRipple({
+    disabled: props.isDisabled,
+    unbounded,
+  });
+  const {
+    className,
+    as: As,
+    color,
+    compact,
+    ref: rootRef,
+    ...rest
+  } = mergeProps(props, rootProps);
   return (
     <As
-      ref={ref}
+      ref={mergeRefs(ref, rootRef as never)}
       {...rest}
       className={cls({
         modifiers: {
           [color ?? ""]: !!color,
           compact: !!compact,
+          unbounded: !!unbounded,
         },
         extra: className,
       })}
     >
       {renderPropChild(rest, (children) => (
         <SymbolContext.Provider value={buttonSymbolSlots}>
+          <div {...surfaceProps} className={cls("ripple")} />
           {children}
         </SymbolContext.Provider>
       ))}

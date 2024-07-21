@@ -15,6 +15,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@material/ripple": "^14.0.0",
     "@react-aria/toast": "3.0.0-beta.12",
     "@react-stately/toast": "3.0.0-beta.4",
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit/_pkg.tgz",
@@ -36,7 +37,7 @@
     "morgan": "^1.10.0",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
-    "react-aria-components": "^1.2.1",
+    "react-aria-components": "1.2.2-nightly.4734",
     "react-bem-helper": "^1.4.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",

@@ -1,5 +1,7 @@
+import type { ContextType } from "react";
 import { createGenericComponent } from "~/components/generic";
-import { ToggleButton } from "~/components/toggle-button";
+import { MergeProvider } from "~/components/provider";
+import { ToggleButton, ToggleButtonContext } from "~/components/toggle-button";
 import { bemHelper } from "~/util";
 import "~/components/icon-button/index.scss";
 
@@ -9,6 +11,10 @@ export interface IconToggleButtonProps {
 }
 
 const cls = bemHelper("icon-button");
+
+const toggleButtonContextValue: ContextType<typeof ToggleButtonContext> = {
+  unbounded: true,
+};
 
 export const IconToggleButton = createGenericComponent<
   typeof ToggleButton,
@@ -20,10 +26,15 @@ export const IconToggleButton = createGenericComponent<
   "IconToggleButton",
   ToggleButton,
   ({ className, as: As, compact, ...props }, ref) => (
-    <As
-      {...props}
-      ref={ref}
-      className={cls({ modifiers: { compact: !!compact }, extra: className })}
-    />
+    <MergeProvider
+      context={ToggleButtonContext}
+      value={toggleButtonContextValue}
+    >
+      <As
+        {...props}
+        ref={ref}
+        className={cls({ modifiers: { compact: !!compact }, extra: className })}
+      />
+    </MergeProvider>
   ),
 );

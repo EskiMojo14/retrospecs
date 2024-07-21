@@ -11,8 +11,6 @@
   --button-fill: #{rgb(var(--button-fill-rgb))};
   --button-filled-text: #{rgb(var(--button-filled-text-rgb))};
   --button-filled-outline: #{rgb(var(--button-filled-outline-rgb))};
-  --background-alpha: 0;
-  --background: #{rgba(var(--button-text-rgb), var(--background-alpha))};
   --button-text: #{rgb(var(--button-text-rgb))};
   --outline-color: var(--button-text);
   border-radius: var(--border-radius);
@@ -30,14 +28,13 @@
   align-items: center;
 
   transition:
-    background 200ms,
+    opacity 200ms,
     outline 200ms,
     outline-offset 200ms;
 
   @include typography.style("button");
   @include button-mixins.colors("&[data-selected]");
   @include theme.outline;
-  @include theme.states;
   @include theme.focus-ring;
 
   @at-root button#{&} {
@@ -68,17 +65,17 @@
   }
 
   &[data-selected] {
-    color: var(--button-filled-text);
+    --button-text: var(--button-filled-text);
     --outline-color: var(--button-filled-outline);
-    --background: color-mix(
-      in srgb,
-      rgb(var(--button-text-rgb)) calc(var(--background-alpha) * 100%),
-      rgb(var(--button-fill-rgb))
-    );
+    background: var(--button-fill);
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
   }
+  @include theme.ripple(
+    $surface: " .toggle-button__ripple",
+    $ripple-color: var(--button-text)
+  );
   &__icon {
     position: relative;
     vertical-align: middle;
