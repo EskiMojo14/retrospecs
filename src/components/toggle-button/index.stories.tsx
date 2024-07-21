@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { useState } from "react";
+import { Label, Text } from "react-aria-components";
 import { buttonColors } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { Typography } from "~/components/typography";
@@ -58,13 +59,13 @@ function GroupComponent({
   const [value, setValue] = useState("none");
   return (
     <section>
-      <Typography variant="body1" id="groove-label">
-        Groove
-      </Typography>
       <ToggleButtonGroup
         {...{ isDisabled, color, compact }}
         aria-labelledby="groove-label"
       >
+        <Typography as={Label} variant="body1" id="groove-label">
+          Groove
+        </Typography>
         <ToggleButton
           isSelected={value === "none"}
           onChange={() => {
@@ -98,11 +99,11 @@ function GroupComponent({
           </Symbol>
           Heavy
         </ToggleButton>
+        <Typography as={Text} variant="caption" id="groove-label">
+          Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
+          it down a little.
+        </Typography>
       </ToggleButtonGroup>
-      <Typography variant="caption" id="groove-label">
-        Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
-        it down a little.
-      </Typography>
     </section>
   );
 }

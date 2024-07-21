@@ -1,8 +1,8 @@
 import type {
   ComponentPropsWithRef,
   ComponentType,
-  ElementType,
   ForwardedRef,
+  JSXElementConstructor,
   ReactNode,
   Ref,
 } from "react";
@@ -78,6 +78,13 @@ export interface GenericComponent<
   displayName: string;
   readonly $$typeof: symbol;
 }
+
+type ElementType<
+  P = any,
+  Tag extends keyof JSX.IntrinsicElements = keyof JSX.IntrinsicElements,
+> =
+  | { [K in Tag]: P extends JSX.IntrinsicElements[K] ? K : never }[Tag]
+  | JSXElementConstructor<P>;
 
 export function createGenericComponent<
   DefaultComponent extends ElementType<PassedProps>,
