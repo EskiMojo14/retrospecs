@@ -25,6 +25,9 @@ const preview: Preview = {
     dir: "ltr",
   },
   argTypes: {
+    dark: {
+      control: "boolean",
+    },
     dir: {
       control: {
         type: "inline-radio",

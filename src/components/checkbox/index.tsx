@@ -29,9 +29,9 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
               aria-hidden="true"
             >
               {isIndeterminate ? (
-                <rect x={1} y={7.5} width={15} height={3} />
+                <rect x={2.5} y={7.5} width={13} height={3} />
               ) : (
-                <polyline points="1 9 7 14 15 4" />
+                <polyline points="2.7,7.95 7.25,12.45 15.25,4.4" />
               )}
             </svg>
           </div>

@@ -7,7 +7,7 @@ const meta = {
   component: Checkbox,
   args: {
     onChange: fn(),
-    children: "",
+    children: "Label",
     isDisabled: false,
     isIndeterminate: false,
   },

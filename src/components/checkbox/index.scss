@@ -14,7 +14,7 @@
   line-height: 1;
   transition: opacity 200ms;
 
-  @include typography.style("body1");
+  @include typography.style("body2");
 
   @include theme.dark {
     --selected-color: var(--gold-300);
@@ -25,8 +25,8 @@
   }
 
   .checkbox {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 2px solid var(--border-color);
     transition: all 200ms;
     display: flex;
@@ -35,11 +35,11 @@
   }
 
   .checkbox__checkmark {
-    width: 1rem;
-    height: 1rem;
+    width: 18px;
+    height: 18px;
     fill: none;
     stroke: var(--checkmark-color);
-    stroke-width: 3px;
+    stroke-width: 2.75px;
     stroke-dasharray: 22px;
     stroke-dashoffset: 66;
     transition: all 200ms;
