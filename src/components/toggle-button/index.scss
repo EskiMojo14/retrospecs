@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "~/theme";
+@use "~/theme/elevation";
 @use "~/theme/typography";
 @use "~/util";
 @use "~/components/button/mixins" as button-mixins;
@@ -34,8 +35,40 @@
 
   @include typography.style("button");
   @include button-mixins.colors("&[data-selected]");
-  @include theme.outline;
   @include theme.focus-ring;
+
+  &--text,
+  &--outlined {
+    background: none;
+  }
+
+  &--outlined,
+  &--filled,
+  &--elevated {
+    @include theme.outline;
+  }
+
+  &--filled,
+  &--elevated {
+    --button-text: var(--button-filled-text);
+    --outline-color: var(--button-filled-outline);
+    --background: var(--button-fill);
+    background: var(--background);
+  }
+
+  &--elevated {
+    --shadow: var(--background);
+    @include elevation.elevation(2);
+    &[data-hovered] {
+      translate: -2px -2px;
+      @include elevation.elevation(4);
+    }
+    &[data-focus-visible],
+    &[data-pressed] {
+      translate: 0 0;
+      @include elevation.elevation(2);
+    }
+  }
 
   @at-root button#{&} {
     appearance: none;
@@ -63,16 +96,14 @@
       }
     }
   }
-
-  &[data-selected] {
-    --button-text: var(--button-filled-text);
-    --outline-color: var(--button-filled-outline);
-    background: var(--button-fill);
-  }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
   }
   @include theme.ripple(
+    $surface: " .toggle-button__ripple",
+    $ripple-color: var(--button-text)
+  );
+  @include theme.ripple-selected(
     $surface: " .toggle-button__ripple",
     $ripple-color: var(--button-text)
   );

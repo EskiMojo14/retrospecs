@@ -8,10 +8,8 @@ import {
   Group,
   useContextProps,
 } from "react-aria-components";
-import {
-  makeButtonSymbolSlots,
-  type ButtonColor,
-} from "~/components/button/constants";
+import type { ButtonVariant, ButtonColor } from "~/components/button/constants";
+import { makeButtonSymbolSlots } from "~/components/button/constants";
 import { createGenericComponent, renderPropChild } from "~/components/generic";
 import { SymbolContext } from "~/components/symbol";
 import { useRipple } from "~/hooks/use-ripple";
@@ -24,6 +22,7 @@ export interface ToggleButtonProps {
   compact?: boolean;
   unbounded?: boolean;
   isDisabled?: boolean;
+  variant?: ButtonVariant;
 }
 
 const cls = bemHelper("toggle-button");
@@ -55,6 +54,7 @@ export const ToggleButton = createGenericComponent<
     className,
     as: As,
     color,
+    variant = "text",
     compact,
     ref: rootRef,
     ...rest
@@ -66,6 +66,7 @@ export const ToggleButton = createGenericComponent<
       className={cls({
         modifiers: {
           [color ?? ""]: !!color,
+          [variant]: true,
           compact: !!compact,
         },
         extra: className,
@@ -121,6 +122,7 @@ interface ToggleButtonGroupProps {
   className?: string;
   color?: ButtonColor;
   compact?: boolean;
+  variant?: ButtonVariant;
 }
 
 export const ToggleButtonGroup = createGenericComponent<
@@ -134,12 +136,21 @@ export const ToggleButtonGroup = createGenericComponent<
   "ToggleButtonGroup",
   Group,
   (
-    { className, as: As, children, isDisabled, color, compact, ...props },
+    {
+      className,
+      as: As,
+      children,
+      isDisabled,
+      color,
+      compact,
+      variant,
+      ...props
+    },
     ref,
   ) => {
     const contextValue = useMemo<ToggleButtonProps>(
-      () => ({ color, compact, isDisabled }),
-      [color, compact, isDisabled],
+      () => ({ color, compact, isDisabled, variant }),
+      [color, compact, isDisabled, variant],
     );
 
     return (
