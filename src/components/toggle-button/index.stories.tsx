@@ -10,9 +10,6 @@ import { ToggleButton, ToggleButtonGroup } from ".";
 const meta = {
   title: "Components/Toggle Button",
   component: ToggleButton,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     isDisabled: {
       control: "boolean",

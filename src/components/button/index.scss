@@ -93,6 +93,7 @@
     opacity: map.get(typography.$emphasis-map, disabled);
   }
   &__icon {
+    display: inline-flex;
     position: relative;
     vertical-align: middle;
     &--leading {

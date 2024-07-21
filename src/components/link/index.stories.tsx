@@ -5,10 +5,6 @@ import { Link } from ".";
 const meta = {
   title: "Components/Link",
   component: Link,
-  parameters: {
-    layout: "centered",
-  },
-  argTypes: {},
   args: { onPress: fn(), children: "Link", href: "#" },
 } satisfies Meta<typeof Link>;
 

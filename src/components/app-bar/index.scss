@@ -1,0 +1,66 @@
+@use "sass:list";
+@use "~/theme";
+@use "~/util";
+
+$colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
+$outline-width: 4px;
+
+:root {
+  --header-height: #{64px + ((list.length($colors) + 1) * $outline-width)};
+  --sans-header-height: calc(100vh - var(--header-height));
+}
+
+.app-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--brown-700);
+  --text-color-rgb: var(--white-rgb);
+  --text-color: #{rgb(var(--text-color-rgb))};
+  --outline-width: #{$outline-width};
+  color: var(--text-color);
+  display: flex;
+  justify-content: space-between;
+  height: 64px;
+  $shadow: 0 calc(var(--outline-width) * 0.5) 0 0 #ebebeb;
+  @for $i from 1 through list.length($colors) {
+    $shadow:
+      #{$shadow},
+      0 calc(var(--outline-width) * #{$i + 0.5}) 0 0 list.nth($colors, $i);
+  }
+  $shadow:
+    #{$shadow},
+    0 calc(var(--outline-width) * #{list.length($colors) + 1}) 0 0 #ebebeb;
+  box-shadow: $shadow;
+  .link {
+    color: inherit;
+  }
+  &__logo img {
+    height: 192px * 0.25;
+  }
+  &__section {
+    padding: 0.5rem;
+    &--nav {
+      @include util.rtl-box("padding", 1rem);
+      .breadcrumbs {
+        --text-color-rgb: var(--text-color-rgb);
+      }
+    }
+    &--actions {
+      gap: 0.5rem;
+      @include util.rtl-box("padding", 0, 1rem);
+    }
+  }
+  &__spacer {
+    height: var(--header-height);
+  }
+  &__action {
+    --button-text-rgb: var(--text-color-rgb);
+    --button-outline-rgb: var(--text-color-rgb);
+    @include theme.dark {
+      --button-text-rgb: var(--text-color-rgb);
+      --button-outline-rgb: var(--text-color-rgb);
+    }
+  }
+}

@@ -7,9 +7,6 @@ import { IconButton } from ".";
 const meta = {
   title: "Components/Icon Button",
   component: IconButton,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     variant: {
       control: "select",

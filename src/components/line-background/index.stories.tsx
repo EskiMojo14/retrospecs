@@ -24,9 +24,6 @@ const meta = {
       <LineBackground {...props} />
     </div>
   ),
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     width: {
       control: {

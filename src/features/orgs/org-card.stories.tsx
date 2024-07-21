@@ -54,9 +54,6 @@ void store.dispatch(
 const meta = {
   title: "Features/Orgs/OrgCard",
   component: OrgCard,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     orgId: { table: { disable: true } },
   },

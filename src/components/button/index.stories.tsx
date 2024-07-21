@@ -12,9 +12,6 @@ interface StoryProps extends ComponentPropsWithoutRef<typeof Button> {
 const meta = {
   title: "Components/Button",
   component: Button as ComponentType<StoryProps>,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     variant: {
       control: "select",

@@ -23,9 +23,8 @@ export interface ToggleButtonProps {
 
 const cls = bemHelper("toggle-button");
 
-export const ToggleButtonContext = createContext<
-  ContextValue<ToggleButtonProps, HTMLElement>
->({});
+export const ToggleButtonContext =
+  createContext<ContextValue<ToggleButtonProps, HTMLElement>>(null);
 
 const buttonSymbolSlots = makeButtonSymbolSlots(cls);
 
@@ -76,9 +75,8 @@ interface ToggleButtonGroupProps {
   compact?: boolean;
 }
 
-const ToggleButtonGroupContext = createContext<
-  ContextValue<ToggleButtonProps, HTMLElement>
->({});
+const ToggleButtonGroupContext =
+  createContext<ContextValue<ToggleButtonProps, HTMLElement>>(null);
 
 export const ToggleButtonGroup = createGenericComponent<
   "section",

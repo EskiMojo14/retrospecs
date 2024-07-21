@@ -36,9 +36,8 @@ export interface SymbolPassedProps {
 
 const cls = bemHelper("symbol");
 
-export const SymbolContext = createContext<
-  ContextValue<SymbolProps, HTMLElement>
->({});
+export const SymbolContext =
+  createContext<ContextValue<SymbolProps, HTMLElement>>(null);
 
 export const Symbol = createGenericComponent<
   "i",

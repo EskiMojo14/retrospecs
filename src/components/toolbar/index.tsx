@@ -10,9 +10,8 @@ export interface ToolbarProps {
   className?: string;
 }
 
-export const ToolbarContext = createContext<
-  ContextValue<ToolbarProps, HTMLElement>
->({});
+export const ToolbarContext =
+  createContext<ContextValue<ToolbarProps, HTMLElement>>(null);
 
 export interface ToolbarPassedProps {
   className: string;

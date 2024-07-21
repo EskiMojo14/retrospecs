@@ -4,7 +4,9 @@ import { Link as AriaLink } from "react-aria-components";
 import { bemHelper } from "~/util";
 import "./index.scss";
 
-export type LinkProps = AriaLinkProps & { className?: string };
+export interface LinkProps extends Omit<AriaLinkProps, "className"> {
+  className?: string;
+}
 
 const cls = bemHelper("link");
 
