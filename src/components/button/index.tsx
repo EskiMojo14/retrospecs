@@ -1,8 +1,15 @@
 import { mergeProps } from "@react-aria/utils";
-import { createContext, type ReactNode } from "react";
-import type { LinkProps, ContextValue } from "react-aria-components";
+import { clsx } from "clsx";
+import { createContext, forwardRef, useMemo, type ReactNode } from "react";
+import type {
+  LinkProps,
+  ContextValue,
+  ToggleButtonProps as AriaToggleButtonProps,
+} from "react-aria-components";
 import {
   Button as AriaButton,
+  ToggleButton as AriaToggleButton,
+  Group,
   Link,
   useContextProps,
 } from "react-aria-components";
@@ -84,6 +91,88 @@ export const Button = createGenericComponent<
   );
 });
 
-export const LinkButton = (props: Overwrite<LinkProps, ButtonProps>) => (
-  <Button as={Link} {...props} />
+export const LinkButton = forwardRef<
+  HTMLAnchorElement,
+  Overwrite<LinkProps, ButtonProps>
+>((props, ref) => <Button as={Link} {...props} ref={ref} />);
+
+LinkButton.displayName = "LinkButton";
+
+export type ToggleButtonProps = Overwrite<AriaToggleButtonProps, ButtonProps>;
+
+export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
+  (props, ref) => <Button as={AriaToggleButton} {...props} ref={ref} />,
+);
+
+ToggleButton.displayName = "ToggleButton";
+
+export const Buttons = createGenericComponent<
+  "section",
+  {
+    children?: ReactNode;
+    className?: string;
+    orientation?: "horizontal" | "vertical";
+  },
+  {
+    className: string;
+    children: ReactNode;
+    "data-orientation"?: "horizontal" | "vertical";
+  }
+>(
+  "Buttons",
+  "section",
+  ({ className, as: As, children, orientation, ...props }, ref) => (
+    <As
+      ref={ref}
+      {...props}
+      className={clsx("buttons", className)}
+      data-orientation={orientation}
+    >
+      {children}
+    </As>
+  ),
+);
+
+interface ButtonGroupProps
+  extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled"> {
+  children?: ReactNode;
+  className?: string;
+}
+
+export const ButtonGroup = createGenericComponent<
+  typeof Group,
+  ButtonGroupProps,
+  {
+    className: string;
+    children: React.ReactNode;
+  }
+>(
+  "ButtonGroup",
+  Group,
+  (
+    {
+      className,
+      as: As,
+      children,
+      isDisabled,
+      color,
+      compact,
+      variant,
+      ...props
+    },
+    ref,
+  ) => {
+    const contextValue = useMemo<ButtonProps>(
+      () => ({ color, compact, isDisabled, variant }),
+      [color, compact, isDisabled, variant],
+    );
+
+    return (
+      <As ref={ref} {...props} className={clsx("button-group", className)}>
+        <ButtonContext.Provider value={contextValue}>
+          {children}
+        </ButtonContext.Provider>
+      </As>
+    );
+  },
 );

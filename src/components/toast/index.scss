@@ -120,7 +120,6 @@
   }
   .button {
     @include button-mixins.colors(
-      null,
       variables.$button-default-color,
       variables.$button-color-map
     );
