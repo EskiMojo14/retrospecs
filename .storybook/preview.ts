@@ -34,9 +34,6 @@ const preview: Preview = {
       },
       options: ["ltr", "rtl"],
     },
-    dark: {
-      control: "boolean",
-    },
   },
   decorators: [darkThemeDecorator, rtlDecorator],
 };
