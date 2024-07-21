@@ -83,7 +83,6 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
       const { x, y } = e;
       const pageX = x + documentX;
       const pageY = y + documentY;
-      console.log({ x, y, pageX, pageY, left, top });
       foundation?.activate({
         type: "mousedown",
         target: e.target,
