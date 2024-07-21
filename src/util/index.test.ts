@@ -1,5 +1,13 @@
 import { describe, expect, it, vi } from "vitest";
-import { assert, clamp, defaultNullish, emplace, groupBy, mapGroupBy } from ".";
+import {
+  assert,
+  clamp,
+  defaultNullish,
+  emplace,
+  groupBy,
+  mapGroupBy,
+  mergeSlottedContext,
+} from ".";
 
 describe("util / index", () => {
   describe("assert", () => {
@@ -167,6 +175,54 @@ describe("util / index", () => {
         b: 0,
         c: 0,
         d: 0,
+      });
+    });
+  });
+  describe("mergeSlottedContext", () => {
+    it("should return provided value if no parent value", () => {
+      expect(mergeSlottedContext(null, { foo: "bar" })).toEqual({ foo: "bar" });
+    });
+    it("should return parent value if no provided value", () => {
+      expect(mergeSlottedContext({ foo: "bar" }, null)).toEqual({ foo: "bar" });
+    });
+    it("should merge provided and parent values", () => {
+      expect(mergeSlottedContext({ foo: "bar" }, { bar: "baz" })).toEqual({
+        foo: "bar",
+        bar: "baz",
+      });
+    });
+    it("should merge parent value into slots in value", () => {
+      expect(
+        mergeSlottedContext<{ foo?: string; bar?: string }, HTMLElement>(
+          { foo: "bar" },
+          { slots: { slot1: { bar: "baz" }, slot2: {} } },
+        ),
+      ).toEqual({
+        slots: { slot1: { foo: "bar", bar: "baz" }, slot2: { foo: "bar" } },
+      });
+    });
+    it("should merge value into slots in parent", () => {
+      expect(
+        mergeSlottedContext<{ foo?: string; bar?: string }, HTMLElement>(
+          { slots: { slot1: { bar: "baz" }, slot2: {} } },
+          { foo: "bar" },
+        ),
+      ).toEqual({
+        slots: { slot1: { foo: "bar", bar: "baz" }, slot2: { foo: "bar" } },
+      });
+    });
+    it("should merge slots in value and parent", () => {
+      expect(
+        mergeSlottedContext<{ foo?: string; bar?: string }, HTMLElement>(
+          { slots: { slot1: { bar: "baz" }, slot2: {} } },
+          { slots: { slot1: { foo: "bar" }, slot3: { foo: "bar" } } },
+        ),
+      ).toEqual({
+        slots: {
+          slot1: { foo: "bar", bar: "baz" },
+          slot2: {},
+          slot3: { foo: "bar" },
+        },
       });
     });
   });

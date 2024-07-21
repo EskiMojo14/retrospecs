@@ -1,4 +1,6 @@
+import { mergeProps } from "@react-aria/utils";
 import type { ForwardedRef, RefCallback } from "react";
+import type { ContextValue } from "react-aria-components";
 import BEMHelper from "react-bem-helper";
 
 export function assert(
@@ -173,3 +175,36 @@ export const mergeRefs =
       }
     }
   };
+
+export function mergeSlottedContext<T, El extends HTMLElement>(
+  parentValue: ContextValue<T, El>,
+  value: ContextValue<T, El>,
+): ContextValue<T, El> {
+  if (!parentValue) {
+    return value;
+  }
+  if (!value) {
+    return parentValue;
+  }
+  if (!("slots" in parentValue)) {
+    if (!("slots" in value)) {
+      return mergeProps(parentValue, value) as never;
+    }
+    const slots = { ...value.slots };
+    for (const slot of Reflect.ownKeys(value.slots ?? {})) {
+      slots[slot] = mergeProps(parentValue, value.slots?.[slot]) as never;
+    }
+    return { slots };
+  }
+  const slots = { ...parentValue.slots };
+  if (!("slots" in value)) {
+    for (const slot of Reflect.ownKeys(slots)) {
+      slots[slot] = mergeProps(slots[slot], value) as never;
+    }
+  } else {
+    for (const slot of Reflect.ownKeys(value.slots ?? {})) {
+      slots[slot] = mergeProps(slots[slot], value.slots?.[slot]) as never;
+    }
+  }
+  return { slots };
+}
