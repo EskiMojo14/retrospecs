@@ -3,7 +3,7 @@ import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { useState } from "react";
 import { Label, Text } from "react-aria-components";
-import { buttonColors } from "~/components/button/constants";
+import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { Typography } from "~/components/typography";
 import { ToggleButton, ToggleButtonGroup, ToggleButtons } from ".";
@@ -32,12 +32,17 @@ const meta = {
       control: "radio",
       options: ["horizontal", "vertical"],
     },
+    variant: {
+      control: "select",
+      options: buttonVariants,
+    },
   },
   args: {
     onChange: fn(),
     isDisabled: false,
     compact: false,
     orientation: "horizontal",
+    variant: "text",
   },
 } satisfies Meta<StoryProps>;
 
@@ -79,11 +84,12 @@ function GroupComponent({
   color,
   compact,
   orientation,
+  variant,
 }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
     <ToggleButtonGroup
-      {...{ isDisabled, color, compact }}
+      {...{ isDisabled, color, compact, variant }}
       aria-labelledby="groove-label"
       aria-describedby="groove-description"
     >

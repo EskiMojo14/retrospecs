@@ -33,16 +33,28 @@
   }
 }
 
-@mixin ripple($ripple-color, $root: &, $surface: "") {
+$state-opacities: (
+  hover: 0.08,
+  focus: 0.24,
+  press: 0.24,
+  selected: 0.2,
+  activated: 0.24,
+);
+
+@function states-opacity($state, $opacity-modifier: 0) {
+  @return map.get($state-opacities, $state) + $opacity-modifier;
+}
+
+@mixin ripple($ripple-color, $surface: "") {
   &[data-hovered]#{$surface}::before {
-    opacity: ripple.states-opacity(#fff, "hover");
+    opacity: states-opacity("hover");
   }
   &[data-focused]#{$surface}::before {
-    opacity: ripple.states-opacity(#fff, "focus");
+    opacity: states-opacity("focus");
     transition-duration: 75ms;
   }
   &[data-pressed]#{$surface}::before {
-    opacity: #{ripple.states-opacity(#fff, "press")};
+    opacity: #{states-opacity("press")};
   }
   #{if($surface != '', $surface, &)} {
     border-radius: inherit;
@@ -53,7 +65,7 @@
       background-color: $ripple-color;
     }
     &::after {
-      --mdc-ripple-fg-opacity: #{ripple.states-opacity(#fff, "press")};
+      --mdc-ripple-fg-opacity: #{states-opacity("press")};
     }
     $unbounded-class: #{& + --unbounded};
     &:not(#{$unbounded-class}) {
@@ -62,6 +74,25 @@
     }
     &--unbounded {
       @include ripple.radius-unbounded;
+    }
+  }
+}
+
+@mixin ripple-selected($ripple-color, $surface: "") {
+  $selected-opacity: states-opacity("selected");
+  &[data-selected] {
+    &#{$surface}::before {
+      opacity: $selected-opacity;
+    }
+    &[data-hovered]#{$surface}::before {
+      opacity: states-opacity("hover", $selected-opacity);
+    }
+    &[data-focused]#{$surface}::before {
+      opacity: states-opacity("focus", $selected-opacity);
+      transition-duration: 75ms;
+    }
+    &[data-pressed]#{$surface}::before {
+      opacity: states-opacity("press", $selected-opacity);
     }
   }
 }
