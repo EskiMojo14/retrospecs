@@ -67,14 +67,18 @@ export const ToggleButton = createGenericComponent<
         modifiers: {
           [color ?? ""]: !!color,
           compact: !!compact,
-          unbounded: !!unbounded,
         },
         extra: className,
       })}
     >
       {renderPropChild(rest, (children) => (
         <SymbolContext.Provider value={buttonSymbolSlots}>
-          <div {...surfaceProps} className={cls("ripple")} />
+          <div
+            {...surfaceProps}
+            className={cls("ripple", {
+              unbounded: !!unbounded,
+            })}
+          />
           {children}
         </SymbolContext.Provider>
       ))}
