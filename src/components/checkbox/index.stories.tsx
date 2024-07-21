@@ -5,7 +5,12 @@ import { Checkbox } from ".";
 const meta = {
   title: "Components/Checkbox",
   component: Checkbox,
-  args: { onChange: fn(), children: "" },
+  args: {
+    onChange: fn(),
+    children: "",
+    isDisabled: false,
+    isIndeterminate: false,
+  },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
