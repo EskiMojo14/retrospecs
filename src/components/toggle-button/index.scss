@@ -29,6 +29,7 @@
   align-items: center;
 
   transition:
+    font-weight 200ms,
     opacity 200ms,
     outline 200ms,
     outline-offset 200ms;
@@ -98,6 +99,9 @@
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
+  }
+  &[data-selected] {
+    font-weight: 900;
   }
   @include theme.ripple(
     $surface: " .toggle-button__ripple",
