@@ -10,7 +10,10 @@ import {
   Modal,
   ModalOverlay,
 } from "react-aria-components";
-import { createGenericComponent, renderPropChild } from "~/components/generic";
+import {
+  createGenericComponent,
+  renderGenericPropChild,
+} from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
 import { MergeProvider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
@@ -69,7 +72,7 @@ export const Dialog = ({
       className={overlayCls("modal", undefined, modalProps?.className)}
     >
       <AriaDialog {...props} className={cls({ extra: className })}>
-        {renderPropChild(props, (children) => (
+        {renderGenericPropChild(props, (children) => (
           <MergeProvider context={HeadingContext} value={headingContextValue}>
             <ToolbarContext.Provider value={toolbarContextValue}>
               <LineBackground className={cls("background")}>

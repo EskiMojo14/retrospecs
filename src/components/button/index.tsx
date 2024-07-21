@@ -13,7 +13,10 @@ import {
   Link,
   useContextProps,
 } from "react-aria-components";
-import { createGenericComponent, renderPropChild } from "~/components/generic";
+import {
+  createGenericComponent,
+  renderGenericPropChild,
+} from "~/components/generic";
 import { SymbolContext } from "~/components/symbol";
 import { useRipple } from "~/hooks/use-ripple";
 import { bemHelper, mergeRefs } from "~/util";
@@ -78,7 +81,7 @@ export const Button = createGenericComponent<
         extra: className,
       })}
     >
-      {renderPropChild(rest, (children) => (
+      {renderGenericPropChild(rest, (children) => (
         <SymbolContext.Provider value={buttonSymbolSlots}>
           <div
             className={cls("ripple", { unbounded: !!unbounded })}

@@ -113,7 +113,7 @@ export function createGenericComponent<
 /**
  * Handle React ARIA's callback children while allowing wrapping in more markup
  */
-export const renderPropChild = <RenderProps,>(
+export const renderGenericPropChild = <RenderProps,>(
   {
     children,
   }: {

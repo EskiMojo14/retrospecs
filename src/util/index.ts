@@ -1,5 +1,5 @@
 import { mergeProps } from "@react-aria/utils";
-import type { ForwardedRef, RefCallback } from "react";
+import type { ForwardedRef, ReactNode, RefCallback } from "react";
 import type { ContextValue } from "react-aria-components";
 import BEMHelper from "react-bem-helper";
 
@@ -208,3 +208,17 @@ export function mergeSlottedContext<T, El extends HTMLElement>(
   }
   return { slots };
 }
+
+type RenderChild<RenderProps> = ReactNode | ((props: RenderProps) => ReactNode);
+
+export const renderPropsChild =
+  <RenderProps>(
+    children: RenderChild<RenderProps>,
+    render: (children: ReactNode, props: RenderProps) => ReactNode,
+  ) =>
+  (renderProps: RenderProps) => {
+    if (typeof children === "function") {
+      return render(children(renderProps), renderProps);
+    }
+    return render(children, renderProps);
+  };

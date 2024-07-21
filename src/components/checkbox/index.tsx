@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import type { CheckboxProps as AriaCheckboxProps } from "react-aria-components";
 import { Checkbox as AriaCheckbox } from "react-aria-components";
-import { bemHelper } from "~/util";
+import { bemHelper, renderPropsChild } from "~/util";
 import "./index.scss";
 
 export interface CheckboxProps extends Omit<AriaCheckboxProps, "className"> {
@@ -20,7 +20,7 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
         extra: className,
       })}
     >
-      {({ isIndeterminate }) => (
+      {renderPropsChild(children, (children, { isIndeterminate }) => (
         <>
           <div className={cls()}>
             <svg
@@ -37,7 +37,7 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
           </div>
           {children}
         </>
-      )}
+      ))}
     </AriaCheckbox>
   ),
 );
