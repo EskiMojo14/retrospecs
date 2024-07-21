@@ -55,12 +55,12 @@
     &::after {
       --mdc-ripple-fg-opacity: #{ripple.states-opacity(#fff, "press")};
     }
-    $unbounded-class: #{$root}--unbounded;
+    $unbounded-class: #{& + --unbounded};
     &:not(#{$unbounded-class}) {
       overflow: hidden;
       @include ripple.radius-bounded(50%);
     }
-    #{$unbounded-class} {
+    &--unbounded {
       @include ripple.radius-unbounded;
     }
   }
