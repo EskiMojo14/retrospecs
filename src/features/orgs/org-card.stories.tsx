@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { createBrowserClient } from "~/db/client";
+import { makeApi } from "~/features/api";
 import { makeStore } from "~/store";
 import { applyInjector } from "~/store/endpoint-injector";
 import {
@@ -13,11 +14,15 @@ import { injectOrgsApi, orgAdapter } from ".";
 
 const supabase = createBrowserClient();
 
-const store = makeStore();
+const api = makeApi();
 
-const orgsApi = applyInjector(injectOrgsApi, supabase, store.dispatch).api;
+const store = makeStore({ api });
 
-const teamsApi = applyInjector(injectTeamsApi, supabase, store.dispatch).api;
+const context = { supabase, store, api };
+
+const orgsApi = applyInjector(injectOrgsApi, context).api;
+
+const teamsApi = applyInjector(injectTeamsApi, context).api;
 
 interface OrgWithCounts extends Org {
   memberCount: number;

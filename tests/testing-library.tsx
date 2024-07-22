@@ -19,7 +19,7 @@ export const renderWithProvider = (
   ui: React.ReactElement,
   {
     preloadedState,
-    store = makeStore(preloadedState),
+    store = makeStore({ preloadedState }),
     wrapper: Wrapper,
     ...options
   }: RenderWithProviderOptions = {},

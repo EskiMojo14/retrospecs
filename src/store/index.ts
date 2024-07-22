@@ -1,15 +1,21 @@
-import type { ThunkAction, UnknownAction } from "@reduxjs/toolkit";
-import { configureStore } from "@reduxjs/toolkit";
-import { emptyApi } from "~/features/api";
-import { rootReducer } from "~/store/reducers";
+import type { ThunkAction, UnknownAction, WithSlice } from "@reduxjs/toolkit";
+import { combineSlices, configureStore } from "@reduxjs/toolkit";
+import type { BaseApi } from "~/features/api";
+import { makeApi } from "~/features/api";
 
-export type PreloadedState = Parameters<typeof rootReducer>[0];
+export type PreloadedState = Partial<WithSlice<BaseApi>>;
 
-export const makeStore = (preloadedState?: PreloadedState) =>
+export const makeStore = ({
+  preloadedState,
+  api = makeApi(),
+}: {
+  preloadedState?: PreloadedState;
+  api?: BaseApi;
+} = {}) =>
   configureStore({
-    reducer: rootReducer,
+    reducer: combineSlices(api),
     preloadedState,
-    middleware: (gDM) => gDM().concat(emptyApi.middleware),
+    middleware: (gDM) => gDM().concat(api.middleware),
   });
 
 export type AppStore = ReturnType<typeof makeStore>;

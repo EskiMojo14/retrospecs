@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { createBrowserClient } from "~/db/client";
+import { makeApi } from "~/features/api";
 import { makeStore } from "~/store";
 import { applyInjector } from "~/store/endpoint-injector";
 import {
@@ -12,7 +13,11 @@ import { injectTeamsApi, teamAdapter } from ".";
 
 const supabase = createBrowserClient();
 
+const api = makeApi();
+
 const store = makeStore();
+
+const context = { supabase, store, api };
 
 const team: Team = {
   org_id: 1,
@@ -21,7 +26,7 @@ const team: Team = {
   name: "Team Name",
 };
 
-const teamsApi = applyInjector(injectTeamsApi, supabase, store.dispatch).api;
+const teamsApi = applyInjector(injectTeamsApi, context).api;
 
 void store.dispatch(
   teamsApi.util.upsertQueryData(

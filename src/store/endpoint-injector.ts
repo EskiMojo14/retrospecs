@@ -1,19 +1,19 @@
+import type { AppLoadContext } from "@remix-run/server-runtime";
 import type { AppSupabaseClient } from "~/db";
+import type { BaseApi } from "~/features/api";
+import type { Unsubscribable } from "~/util";
 import { emplace } from "~/util";
-import type { AppDispatch } from ".";
-
-export interface Unsubscribable {
-  unsubscribe: () => void;
-}
+import type { AppStore } from ".";
 
 export interface InjectorResult<T extends {}> {
   api: T;
   realtime?: () => Unsubscribable;
 }
 
+type InjectorContext = Pick<AppLoadContext, "supabase" | "store" | "api">;
+
 export type EndpointInjector<T extends {}> = (
-  supabase: AppSupabaseClient,
-  dispatch: AppDispatch,
+  context: InjectorContext,
 ) => InjectorResult<T>;
 
 export const createEndpointInjector = <T extends {}>(
@@ -22,27 +22,36 @@ export const createEndpointInjector = <T extends {}>(
 
 const injectorWeakMap = new WeakMap<
   AppSupabaseClient,
-  WeakMap<AppDispatch, WeakMap<EndpointInjector<any>, InjectorResult<any>>>
+  WeakMap<
+    AppStore,
+    WeakMap<BaseApi, WeakMap<EndpointInjector<any>, InjectorResult<any>>>
+  >
 >();
 
 export const applyInjector = <T extends {}>(
   injector: EndpointInjector<T>,
-  supabase: AppSupabaseClient,
-  dispatch: AppDispatch,
+  context: InjectorContext,
 ): InjectorResult<T> => {
+  const { supabase, store, api } = context;
   const result = emplace(
     emplace(
-      emplace(injectorWeakMap, supabase, {
-        insert: () => new WeakMap(),
-      }),
-      dispatch,
+      emplace(
+        emplace(injectorWeakMap, supabase, {
+          insert: () => new WeakMap(),
+        }),
+        store,
+        {
+          insert: () => new WeakMap(),
+        },
+      ),
+      api,
       {
         insert: () => new WeakMap(),
       },
     ),
     injector,
     {
-      insert: () => injector(supabase, dispatch),
+      insert: () => injector(context),
     },
   );
   return result as never;

@@ -35,7 +35,7 @@ interface ReduxDecoratorConfig {
 export const createReduxDecorator =
   ({
     preloadedState,
-    store = makeStore(preloadedState),
+    store = makeStore({ preloadedState }),
   }: ReduxDecoratorConfig): Decorator =>
   // eslint-disable-next-line react/display-name
   (Story, { args }) => (

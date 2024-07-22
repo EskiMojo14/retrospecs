@@ -16,7 +16,10 @@ const fakeBaseQuery: BaseQueryFn<
   throw new Error("fakeBaseQuery should never be called, use a queryFn");
 };
 
-export const emptyApi = createApi({
-  baseQuery: fakeBaseQuery,
-  endpoints: () => ({}),
-});
+export const makeApi = () =>
+  createApi({
+    baseQuery: fakeBaseQuery,
+    endpoints: () => ({}),
+  });
+
+export type BaseApi = ReturnType<typeof makeApi>;

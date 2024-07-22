@@ -2,15 +2,16 @@ import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { buildRealtimeHandler } from "~/db/realtime";
 import type { Enums, Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
-import { emptyApi } from "~/features/api";
 import type { Sprint } from "~/features/sprints";
 import { createEndpointInjector } from "~/store/endpoint-injector";
 import { groupBy } from "~/util";
 import { compoundKey, supabaseQuery } from "~/util/supabase-query";
 import type { PickRequired } from "~/util/types";
 
+export type Category = Enums<"category">;
 export type Feedback = Tables<"feedback">;
-export type Reaction = Tables<"reactions">;
+export type ReactionEntry = Tables<"reactions">;
+export type Reaction = Enums<"reaction">;
 
 const feedbackAdapter = createEntityAdapter<Feedback>();
 
@@ -32,13 +33,13 @@ export const selectFeedbackByCategory = (
   category: Enums<"category">,
 ) => selectFeedbackByCategories(state)[category];
 
-const selectReactionId = compoundKey<Reaction>()(
+const selectReactionId = compoundKey<ReactionEntry>()(
   "feedback_id",
   "user_id",
   "reaction",
 );
 
-const reactionAdapter = createEntityAdapter<Reaction, string>({
+const reactionAdapter = createEntityAdapter<ReactionEntry, string>({
   selectId: selectReactionId,
 });
 
@@ -56,12 +57,12 @@ export const selectReactionsByTypes = createSelector(
 );
 
 export const selectReactionsByType = (
-  state: EntityState<Reaction, string>,
+  state: EntityState<ReactionEntry, string>,
   reaction: Enums<"reaction">,
 ) => selectReactionsByTypes(state)[reaction];
 
 export const injectFeedbackApi = createEndpointInjector(
-  (supabase, dispatch) => {
+  ({ api: emptyApi, store: { dispatch }, supabase }) => {
     const api = emptyApi
       .enhanceEndpoints({ addTagTypes: ["Feedback", "Reaction"] })
       .injectEndpoints({
@@ -114,7 +115,7 @@ export const injectFeedbackApi = createEndpointInjector(
           }),
 
           getReactionsByFeedback: build.query<
-            EntityState<Reaction, string>,
+            EntityState<ReactionEntry, string>,
             Feedback["id"]
           >({
             queryFn: supabaseQuery(

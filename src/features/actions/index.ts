@@ -2,7 +2,6 @@ import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { buildRealtimeHandler } from "~/db/realtime";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
-import { emptyApi } from "~/features/api";
 import type { Sprint } from "~/features/sprints";
 import { createEndpointInjector } from "~/store/endpoint-injector";
 import { supabaseQuery } from "~/util/supabase-query";
@@ -21,7 +20,7 @@ export const {
 } = actionAdapter.getSelectors();
 
 export const injectActionsEndpoints = createEndpointInjector(
-  (supabase, dispatch) => {
+  ({ api: emptyApi, store: { dispatch }, supabase }) => {
     const api = emptyApi
       .enhanceEndpoints({ addTagTypes: ["Action"] })
       .injectEndpoints({

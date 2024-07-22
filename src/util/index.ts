@@ -222,3 +222,28 @@ export const renderPropsChild =
     }
     return render(children, renderProps);
   };
+export interface Unsubscribable {
+  unsubscribe: () => void;
+}
+
+export const makeDisposable = <T extends Unsubscribable>(
+  unsubscribable: T,
+): T & Disposable =>
+  Object.assign(unsubscribable, {
+    [Symbol.dispose]() {
+      unsubscribable.unsubscribe();
+    },
+  });
+
+export interface AsyncUnsubscribable {
+  unsubscribe: () => PromiseLike<void>;
+}
+
+export const makeAsyncDisposable = <T extends AsyncUnsubscribable>(
+  unsubscribable: T,
+): T & AsyncDisposable =>
+  Object.assign(unsubscribable, {
+    async [Symbol.asyncDispose]() {
+      await unsubscribable.unsubscribe();
+    },
+  });
