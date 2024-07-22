@@ -5,11 +5,9 @@ import {
   type ComponentPropsWithoutRef,
   type ComponentType,
 } from "react";
-import { Label, Text } from "react-aria-components";
 import { Symbol } from "~/components/symbol";
-import { Typography } from "../typography";
 import { buttonColors, buttonVariants } from "./constants";
-import { Button, ButtonGroup, Buttons, LinkButton, ToggleButton } from ".";
+import { Button, ButtonGroup, LinkButton, ToggleButton } from ".";
 
 interface StoryProps extends ComponentPropsWithoutRef<typeof Button> {
   icon?: "leading" | "trailing";
@@ -146,52 +144,43 @@ function GroupComponent({
   const [value, setValue] = useState("none");
   return (
     <ButtonGroup
-      {...{ isDisabled, color, compact, variant }}
-      aria-labelledby="groove-label"
-      aria-describedby="groove-description"
+      {...{ isDisabled, color, compact, variant, orientation }}
+      label="Groove"
+      description="Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones it down a little."
     >
-      <Typography as={Label} variant="body1" id="groove-label">
-        Groove
-      </Typography>
-      <Buttons orientation={orientation} aria-label="Options">
-        <ToggleButton
-          isSelected={value === "none"}
-          onChange={() => {
-            setValue("none");
-          }}
-        >
-          <Symbol fill={value === "none"} transition slot="leading">
-            volume_mute
-          </Symbol>
-          None
-        </ToggleButton>
-        <ToggleButton
-          isSelected={value === "low"}
-          onChange={() => {
-            setValue("low");
-          }}
-        >
-          <Symbol fill={value === "low"} transition slot="leading">
-            volume_down
-          </Symbol>
-          Low volume
-        </ToggleButton>
-        <ToggleButton
-          isSelected={value === "heavy"}
-          onChange={() => {
-            setValue("heavy");
-          }}
-        >
-          <Symbol fill={value === "heavy"} transition slot="leading">
-            volume_up
-          </Symbol>
-          Heavy
-        </ToggleButton>
-      </Buttons>
-      <Typography as={Text} variant="caption" id="groove-description">
-        Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones
-        it down a little.
-      </Typography>
+      <ToggleButton
+        isSelected={value === "none"}
+        onChange={() => {
+          setValue("none");
+        }}
+      >
+        <Symbol fill={value === "none"} transition slot="leading">
+          volume_mute
+        </Symbol>
+        None
+      </ToggleButton>
+      <ToggleButton
+        isSelected={value === "low"}
+        onChange={() => {
+          setValue("low");
+        }}
+      >
+        <Symbol fill={value === "low"} transition slot="leading">
+          volume_down
+        </Symbol>
+        Low volume
+      </ToggleButton>
+      <ToggleButton
+        isSelected={value === "heavy"}
+        onChange={() => {
+          setValue("heavy");
+        }}
+      >
+        <Symbol fill={value === "heavy"} transition slot="leading">
+          volume_up
+        </Symbol>
+        Heavy
+      </ToggleButton>
     </ButtonGroup>
   );
 }

@@ -5,12 +5,19 @@ import type {
   LinkProps,
   ContextValue,
   ToggleButtonProps as AriaToggleButtonProps,
+  LabelProps,
+  TextProps,
+  ValidationResult,
+  FieldErrorProps,
 } from "react-aria-components";
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
+  FieldError,
   Group,
+  Label,
   Link,
+  Text,
   useContextProps,
 } from "react-aria-components";
 import {
@@ -18,6 +25,8 @@ import {
   renderGenericPropChild,
 } from "~/components/generic";
 import { SymbolContext } from "~/components/symbol";
+import type { TypographyProps } from "~/components/typography";
+import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import { bemHelper, mergeRefs } from "~/util";
 import type { Overwrite } from "~/util/types";
@@ -109,35 +118,15 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 
 ToggleButton.displayName = "ToggleButton";
 
-export const Buttons = createGenericComponent<
-  "section",
-  {
-    children?: ReactNode;
-    className?: string;
-    orientation?: "horizontal" | "vertical";
-  },
-  {
-    className: string;
-    children: ReactNode;
-    "data-orientation"?: "horizontal" | "vertical";
-  }
->(
-  "Buttons",
-  "section",
-  ({ className, as: As, children, orientation, ...props }, ref) => (
-    <As
-      ref={ref}
-      {...props}
-      className={clsx("buttons", className)}
-      data-orientation={orientation}
-    >
-      {children}
-    </As>
-  ),
-);
-
 interface ButtonGroupProps
   extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled"> {
+  orientation?: "horizontal" | "vertical";
+  label?: ReactNode;
+  labelProps?: Overwrite<LabelProps, TypographyProps>;
+  description?: ReactNode;
+  descriptionProps?: Overwrite<TextProps, TypographyProps>;
+  errorMessage?: ReactNode | ((validation: ValidationResult) => ReactNode);
+  errorMessageProps?: Overwrite<FieldErrorProps, TypographyProps>;
   children?: ReactNode;
   className?: string;
 }
@@ -157,10 +146,19 @@ export const ButtonGroup = createGenericComponent<
       className,
       as: As,
       children,
+
       isDisabled,
       color,
       compact,
       variant,
+
+      orientation = "horizontal",
+      label,
+      labelProps,
+      description,
+      descriptionProps,
+      errorMessage,
+      errorMessageProps,
       ...props
     },
     ref,
@@ -171,10 +169,31 @@ export const ButtonGroup = createGenericComponent<
     );
 
     return (
-      <As ref={ref} {...props} className={clsx("button-group", className)}>
+      <As
+        ref={ref}
+        {...props}
+        className={clsx("button-group", className)}
+        data-orientation={orientation}
+      >
+        <Typography as={Label} variant="overline" {...labelProps}>
+          {label}
+        </Typography>
         <ButtonContext.Provider value={contextValue}>
-          {children}
+          <div className="button-group__buttons">{children}</div>
         </ButtonContext.Provider>
+        {description && (
+          <Typography
+            as={Text}
+            slot="description"
+            variant="caption"
+            {...descriptionProps}
+          >
+            {description}
+          </Typography>
+        )}
+        <Typography as={FieldError} variant="caption" {...errorMessageProps}>
+          {errorMessage}
+        </Typography>
       </As>
     );
   },
