@@ -106,6 +106,10 @@
   }
   &__content {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
   }
   &__icon {
     position: relative;
@@ -193,6 +197,71 @@
           }
         }
       }
+    }
+  }
+}
+
+.floating-action-button {
+  position: fixed;
+  @include elevation.elevation(8);
+  --shadow: black;
+  $size: 4rem;
+  border-radius: $size * 0.5;
+  height: $size;
+  width: $size;
+  bottom: 1rem;
+  transition:
+    opacity 200ms,
+    outline 200ms,
+    outline-offset 200ms,
+    box-shadow 200ms,
+    translate 200ms,
+    transform 300ms ease-in;
+  @include util.rtl-position(right, 1rem);
+  &[data-hovered] {
+    translate: -2px -2px;
+    @include elevation.elevation(10);
+  }
+  &[data-focus-visible],
+  &[data-pressed] {
+    translate: 0 0;
+    @include elevation.elevation(8);
+  }
+  &::before {
+    border-radius: inherit;
+  }
+  &--exited {
+    transition:
+      opacity 200ms,
+      outline 200ms,
+      outline-offset 200ms,
+      box-shadow 200ms,
+      translate 200ms,
+      transform 200ms ease-out;
+    opacity: 0;
+    transform: scale(0);
+  }
+  @include util.desktop {
+    &--extended {
+      height: 3.5rem;
+      width: auto;
+      padding: 0 calc((var(--outline-width) * 4) + 0.5rem);
+    }
+    &:not(.floating-action-button--extended) {
+      .button__icon {
+        margin: 0;
+      }
+      .floating-action-button__label {
+        @include util.visually-hidden;
+      }
+    }
+  }
+  @include util.mobile {
+    .button__icon {
+      margin: 0;
+    }
+    .floating-action-button__label {
+      @include util.visually-hidden;
     }
   }
 }

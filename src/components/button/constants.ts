@@ -15,7 +15,7 @@ export type ButtonVariant = (typeof buttonVariants)[number];
 export const buttonColors = [
   "blue",
   "green",
-  "yellow",
+  "amber",
   "orange",
   "red",
   "brown",

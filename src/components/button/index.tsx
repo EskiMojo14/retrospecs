@@ -1,14 +1,14 @@
 import { mergeProps } from "@react-aria/utils";
 import { clsx } from "clsx";
-import { createContext, forwardRef, useMemo, type ReactNode } from "react";
+import type { ContextType, ReactNode } from "react";
+import { createContext, forwardRef, useMemo } from "react";
 import type {
   LinkProps,
   ContextValue,
   ToggleButtonProps as AriaToggleButtonProps,
   LabelProps,
   TextProps,
-  ValidationResult,
-  FieldErrorProps,
+  ButtonProps as AriaButtonProps,
 } from "react-aria-components";
 import {
   Button as AriaButton,
@@ -17,17 +17,19 @@ import {
   Label,
   Link,
   Text,
+  TextContext,
   useContextProps,
 } from "react-aria-components";
 import {
   createGenericComponent,
   renderGenericPropChild,
 } from "~/components/generic";
+import { MergeProvider } from "~/components/provider";
 import { SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
-import { bemHelper, mergeRefs } from "~/util";
+import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import { makeButtonSymbolSlots } from "./constants";
@@ -190,3 +192,53 @@ export const ButtonGroup = createGenericComponent<
     );
   },
 );
+
+export interface FloatingActionButtonProps
+  extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {
+  extended?: boolean;
+  exited?: boolean;
+}
+
+const floatingCls = bemHelper("floating-action-button");
+
+const textContextValue: ContextType<typeof TextContext> = {
+  slots: {
+    label: { className: floatingCls("label") },
+  },
+};
+
+const symbolContextValue: ContextType<typeof SymbolContext> = {
+  size: 24,
+  weight: 400,
+};
+
+export const FloatingActionButton = forwardRef<
+  HTMLButtonElement,
+  FloatingActionButtonProps
+>(({ className, extended, exited, children, ...props }, ref) => {
+  return (
+    <Button
+      variant="filled"
+      {...props}
+      ref={ref}
+      className={floatingCls({
+        modifiers: {
+          extended: !!extended,
+          exited: !!exited,
+        },
+        extra: className,
+      })}
+      aria-hidden={exited}
+    >
+      {renderPropsChild(children, (children) => (
+        <TextContext.Provider value={textContextValue}>
+          <MergeProvider context={SymbolContext} value={symbolContextValue}>
+            {children}
+          </MergeProvider>
+        </TextContext.Provider>
+      ))}
+    </Button>
+  );
+});
+
+FloatingActionButton.displayName = "FloatingActionButton";

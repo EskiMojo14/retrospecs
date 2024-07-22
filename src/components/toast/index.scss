@@ -21,7 +21,7 @@
   min-height: 48px;
   overflow: hidden;
   @include elevation.elevation(8);
-  @media (max-width: 592px) {
+  @include util.mobile {
     max-width: calc(100vw - 32px);
   }
   &-region {

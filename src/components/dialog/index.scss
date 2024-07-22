@@ -2,6 +2,7 @@
 @use "~/theme/animation";
 @use "~/theme/elevation";
 @use "~/theme/typography";
+@use "~/util";
 
 .dialog {
   position: relative;
@@ -11,10 +12,10 @@
   max-height: calc(100% - 32px);
   min-width: 280px;
   @include elevation.elevation(8);
-  @media (max-width: 592px) {
+  @include util.mobile {
     max-width: calc(100vw - 32px);
   }
-  @media (min-width: 592px) {
+  @include util.desktop {
     max-width: 560px;
   }
   &:focus-visible {

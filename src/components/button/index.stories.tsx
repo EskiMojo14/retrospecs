@@ -5,15 +5,26 @@ import {
   type ComponentPropsWithoutRef,
   type ComponentType,
 } from "react";
+import { Text } from "react-aria-components";
 import { Symbol } from "~/components/symbol";
 import { buttonColors, buttonVariants } from "./constants";
-import { Button, ButtonGroup, LinkButton, ToggleButton } from ".";
+import {
+  Button,
+  ButtonGroup,
+  FloatingActionButton,
+  LinkButton,
+  ToggleButton,
+} from ".";
 
 interface StoryProps
   extends ComponentPropsWithoutRef<typeof Button>,
     Pick<
       ComponentPropsWithoutRef<typeof ButtonGroup>,
       "orientation" | "label" | "description"
+    >,
+    Pick<
+      ComponentPropsWithoutRef<typeof FloatingActionButton>,
+      "extended" | "exited"
     > {
   icon?: "leading" | "trailing";
 }
@@ -30,6 +41,7 @@ const meta = {
       control: "select",
       options: [undefined, ...buttonColors],
     },
+    onPress: { table: { disable: true } },
   },
   args: {
     onPress: fn(),
@@ -212,4 +224,19 @@ export const Group: Story = {
       'Whether to use loud backgrounds or not. "Low volume" tones it down a little.',
   },
   render: (args) => <GroupComponent {...args} />,
+};
+
+export const Floating: Story = {
+  argTypes: {
+    variant: { table: { disable: true } },
+    children: { table: { disable: true } },
+    isDisabled: { table: { disable: true } },
+  },
+  args: { extended: true, exited: false },
+  render: ({ ...args }) => (
+    <FloatingActionButton {...args}>
+      <Symbol slot="leading">add</Symbol>
+      <Text slot="label">Create</Text>
+    </FloatingActionButton>
+  ),
 };
