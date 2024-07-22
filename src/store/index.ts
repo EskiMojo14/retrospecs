@@ -11,12 +11,14 @@ export const makeStore = ({
 }: {
   preloadedState?: PreloadedState;
   api?: BaseApi;
-} = {}) =>
-  configureStore({
-    reducer: combineSlices(api),
+} = {}) => {
+  const reducer = combineSlices(api);
+  return configureStore({
+    reducer,
     preloadedState,
     middleware: (gDM) => gDM().concat(api.middleware),
   });
+};
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type AppDispatch = AppStore["dispatch"];
