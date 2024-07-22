@@ -54,6 +54,9 @@
   }
   &__content {
     padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
   &__actions {
     padding: 4px 8px;

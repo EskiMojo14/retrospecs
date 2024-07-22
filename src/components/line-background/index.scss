@@ -64,3 +64,7 @@ $background-size: 128px;
     position: relative;
   }
 }
+
+[data-groove="none"] .line-background {
+  display: none;
+}

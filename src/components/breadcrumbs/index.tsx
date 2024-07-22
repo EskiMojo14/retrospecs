@@ -1,6 +1,9 @@
 import { clsx } from "clsx";
 import { forwardRef } from "react";
-import type { BreadcrumbsProps, BreadcrumbProps } from "react-aria-components";
+import type {
+  BreadcrumbsProps,
+  BreadcrumbProps as AriaBreadcrumbProps,
+} from "react-aria-components";
 import {
   Breadcrumbs as AriaBreadcrumbs,
   Breadcrumb as AriaBreadcrumb,
@@ -22,6 +25,10 @@ export const Breadcrumbs = forwardRef<HTMLOListElement, BreadcrumbsProps<any>>(
 Breadcrumbs.displayName = "Breadcrumbs";
 
 const cls = bemHelper("breadcrumb");
+
+interface BreadcrumbProps extends Omit<AriaBreadcrumbProps, "className"> {
+  className?: string;
+}
 
 export const Breadcrumb = forwardRef<HTMLLIElement, BreadcrumbProps>(
   ({ className, children, ...props }, ref) => (

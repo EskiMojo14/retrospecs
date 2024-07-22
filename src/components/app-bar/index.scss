@@ -42,6 +42,7 @@ $outline-width: 4px;
   &__section {
     padding: 0.5rem;
     &--nav {
+      gap: 0.5rem;
       @include util.rtl-box("padding", 1rem);
       .breadcrumbs {
         --text-color-rgb: var(--text-color-rgb);

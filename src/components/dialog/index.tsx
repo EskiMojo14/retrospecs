@@ -10,12 +10,13 @@ import {
   Modal,
   ModalOverlay,
 } from "react-aria-components";
+import { ButtonContext } from "~/components/button";
 import {
   createGenericComponent,
   renderGenericPropChild,
 } from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
-import { MergeProvider } from "~/components/provider";
+import { MergeProvider, Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
 import { bemHelper } from "~/util";
 import "./index.scss";
@@ -49,6 +50,8 @@ const toolbarContextValue: ContextType<typeof ToolbarContext> = {
   },
 };
 
+const emptyObj = {};
+
 export const Dialog = ({
   className,
   modalOverlayProps,
@@ -74,11 +77,18 @@ export const Dialog = ({
       <AriaDialog {...props} className={cls({ extra: className })}>
         {renderGenericPropChild(props, (children) => (
           <MergeProvider context={HeadingContext} value={headingContextValue}>
-            <ToolbarContext.Provider value={toolbarContextValue}>
+            <Provider
+              values={[
+                [ToolbarContext.Provider, toolbarContextValue],
+                // clear any influence we're getting from outside - dialogs are outside the tree
+                // so they shouldn't inherit any context from the parent
+                [ButtonContext.Provider, emptyObj],
+              ]}
+            >
               <LineBackground className={cls("background")}>
                 {children}
               </LineBackground>
-            </ToolbarContext.Provider>
+            </Provider>
           </MergeProvider>
         ))}
       </AriaDialog>

@@ -13,6 +13,7 @@ import type {
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
+  DEFAULT_SLOT,
   Group,
   Label,
   Link,
@@ -25,6 +26,7 @@ import {
   renderGenericPropChild,
 } from "~/components/generic";
 import { MergeProvider } from "~/components/provider";
+import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
@@ -32,7 +34,6 @@ import { useRipple } from "~/hooks/use-ripple";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
-import { makeButtonSymbolSlots } from "./constants";
 import "./index.scss";
 
 export interface ButtonProps {
@@ -46,7 +47,17 @@ export interface ButtonProps {
 
 const cls = bemHelper("button");
 
-const buttonSymbolSlots = makeButtonSymbolSlots(cls);
+const sharedIconProps: SymbolProps = {
+  size: 20,
+};
+
+const buttonSymbolSlots = {
+  slots: {
+    [DEFAULT_SLOT]: {},
+    leading: { ...sharedIconProps, className: cls("icon", "leading") },
+    trailing: { ...sharedIconProps, className: cls("icon", "trailing") },
+  },
+};
 
 export const ButtonContext =
   createContext<ContextValue<ButtonProps, HTMLElement>>(null);
