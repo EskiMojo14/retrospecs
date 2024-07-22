@@ -43,6 +43,7 @@ export const loader = (async ({ request, context }) => {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const lang = useRouteLoaderData<typeof loader>("root");
+  const navigate = useNavigate();
   return (
     <html lang={lang}>
       <head>
@@ -53,7 +54,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <RouterProvider {...{ useHref, navigate }}>
+          <SupabaseProvider>
+            <StoreProvider>
+              {children}
+              <GlobalToastRegion />
+            </StoreProvider>
+          </SupabaseProvider>
+        </RouterProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -62,17 +70,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const navigate = useNavigate();
-  return (
-    <RouterProvider {...{ useHref, navigate }}>
-      <SupabaseProvider>
-        <StoreProvider>
-          <Outlet />
-          <GlobalToastRegion />
-        </StoreProvider>
-      </SupabaseProvider>
-    </RouterProvider>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary() {
