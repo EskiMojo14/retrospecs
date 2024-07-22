@@ -9,9 +9,13 @@ import { Symbol } from "~/components/symbol";
 import { buttonColors, buttonVariants } from "./constants";
 import { Button, ButtonGroup, LinkButton, ToggleButton } from ".";
 
-interface StoryProps extends ComponentPropsWithoutRef<typeof Button> {
+interface StoryProps
+  extends ComponentPropsWithoutRef<typeof Button>,
+    Pick<
+      ComponentPropsWithoutRef<typeof ButtonGroup>,
+      "orientation" | "label" | "description"
+    > {
   icon?: "leading" | "trailing";
-  orientation?: "horizontal" | "vertical";
 }
 
 const meta = {
@@ -140,13 +144,21 @@ function GroupComponent({
   compact,
   orientation,
   variant,
+  label,
+  description,
 }: StoryProps) {
   const [value, setValue] = useState("none");
   return (
     <ButtonGroup
-      {...{ isDisabled, color, compact, variant, orientation }}
-      label="Groove"
-      description="Whether to use loud backgrounds or not. &ldquo;Low volume&rdquo; tones it down a little."
+      {...{
+        isDisabled,
+        color,
+        compact,
+        variant,
+        orientation,
+        label,
+        description,
+      }}
     >
       <ToggleButton
         isSelected={value === "none"}
@@ -192,6 +204,12 @@ export const Group: Story = {
       options: ["horizontal", "vertical"],
     },
   },
-  args: { orientation: "horizontal", variant: "elevated" },
+  args: {
+    orientation: "horizontal",
+    variant: "elevated",
+    label: "Groove",
+    description:
+      'Whether to use loud backgrounds or not. "Low volume" tones it down a little.',
+  },
   render: (args) => <GroupComponent {...args} />,
 };

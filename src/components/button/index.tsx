@@ -13,7 +13,6 @@ import type {
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
-  FieldError,
   Group,
   Label,
   Link,
@@ -125,8 +124,6 @@ interface ButtonGroupProps
   labelProps?: Overwrite<LabelProps, TypographyProps>;
   description?: ReactNode;
   descriptionProps?: Overwrite<TextProps, TypographyProps>;
-  errorMessage?: ReactNode | ((validation: ValidationResult) => ReactNode);
-  errorMessageProps?: Overwrite<FieldErrorProps, TypographyProps>;
   children?: ReactNode;
   className?: string;
 }
@@ -157,8 +154,6 @@ export const ButtonGroup = createGenericComponent<
       labelProps,
       description,
       descriptionProps,
-      errorMessage,
-      errorMessageProps,
       ...props
     },
     ref,
@@ -175,7 +170,7 @@ export const ButtonGroup = createGenericComponent<
         className={clsx("button-group", className)}
         data-orientation={orientation}
       >
-        <Typography as={Label} variant="overline" {...labelProps}>
+        <Typography as={Label} variant="subtitle2" {...labelProps}>
           {label}
         </Typography>
         <ButtonContext.Provider value={contextValue}>
@@ -191,9 +186,6 @@ export const ButtonGroup = createGenericComponent<
             {description}
           </Typography>
         )}
-        <Typography as={FieldError} variant="caption" {...errorMessageProps}>
-          {errorMessage}
-        </Typography>
       </As>
     );
   },
