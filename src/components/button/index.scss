@@ -89,6 +89,9 @@
   }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
+    &.button--elevated {
+      @include elevation.elevation(0);
+    }
   }
   @include theme.ripple(
     $surface: " .button__ripple",
