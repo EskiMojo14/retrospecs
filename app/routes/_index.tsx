@@ -15,7 +15,8 @@ import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
-import { injectOrgsApi, selectAllOrgs } from "~/features/orgs";
+import { injectOrgsApi, selectOrgIds } from "~/features/orgs";
+import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/preferences";
 import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
 import { useHydratingLoaderData } from "~/hooks/use-hydrating-loader-data";
@@ -51,9 +52,9 @@ export default function Orgs() {
   const { useGetOrgsQuery, useAddOrgMutation } =
     useEndpointInjector(injectOrgsApi);
   const { data: dataFromLoader } = useHydratingLoaderData<typeof loader>();
-  const { orgs = [] } = useGetOrgsQuery(undefined, {
+  const { orgIds } = useGetOrgsQuery(undefined, {
     selectFromResult: ({ data = dataFromLoader }) => ({
-      orgs: selectAllOrgs(data),
+      orgIds: selectOrgIds(data),
     }),
   });
   const [createOrg, { isLoading, isError }] = useAddOrgMutation({
@@ -97,9 +98,10 @@ export default function Orgs() {
           <PreferencesDialog />
         </Toolbar>
       </AppBar>
+      <OrgGrid orgIds={orgIds} />
       <DialogTrigger>
-        <FloatingActionButton extended>
-          <Symbol>add</Symbol>
+        <FloatingActionButton extended color="green">
+          <Symbol slot="leading">add</Symbol>
           <Text slot="label">Create</Text>
         </FloatingActionButton>
         <Dialog>
