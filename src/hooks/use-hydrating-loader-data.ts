@@ -6,7 +6,9 @@ import type { HydratingLoader } from "~/store/hydrate";
 import { hydrate } from "~/store/hydrate";
 import { useAppDispatch } from "~/store/pretyped";
 
-function useHydrate(state: RootState | SerializeFrom<RootState> | undefined) {
+export function useHydrate(
+  state: RootState | SerializeFrom<RootState> | undefined,
+) {
   const dispatch = useAppDispatch();
   const hydrated = useRef(false);
   if (!hydrated.current && state) {

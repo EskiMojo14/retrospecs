@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, TypedResponse } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   Links,
@@ -19,7 +19,13 @@ import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
 import { SupabaseProvider } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
+import { HydrationBoundary } from "~/features/hydration";
+import type { UserConfig } from "~/features/user_config";
+import { injectUserConfigApi } from "~/features/user_config";
+import type { RootState } from "~/store";
+import { applyInjector } from "~/store/endpoint-injector";
 import { StoreProvider } from "~/store/provider";
+import { makeDisposable } from "~/util";
 import "~/index.scss";
 
 declare module "react-aria-components" {
@@ -30,22 +36,43 @@ declare module "react-aria-components" {
 
 const authRoutes = ["/sign-in", "/auth/callback"];
 
-export const loader = (async ({ request, context }) => {
-  const { lang, headers } = context;
+export const loader = (async ({
+  request,
+  context,
+}): Promise<
+  TypedResponse<{
+    lang: string;
+    state?: RootState;
+    config?: UserConfig | null;
+  }>
+> => {
+  const { lang, headers, store } = context;
   const url = new URL(request.url);
   const isAuthRoute = authRoutes.some((pathname) => url.pathname === pathname);
   if (isAuthRoute) {
-    return json(lang, { headers });
+    return json({ lang }, { headers });
   }
-  await ensureAuthenticated(context);
-  return json(lang, { headers });
+  const user = await ensureAuthenticated(context);
+
+  const { api: userConfigApi } = applyInjector(injectUserConfigApi, context);
+
+  using promise = makeDisposable(
+    store.dispatch(userConfigApi.endpoints.getUserConfig.initiate(user.id)),
+  );
+
+  return json(
+    { lang, state: store.getState(), config: await promise.unwrap() },
+    { headers },
+  );
 }) satisfies LoaderFunction;
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const lang = useRouteLoaderData<typeof loader>("root");
+  const { lang, state, config } = useRouteLoaderData<typeof loader>("root") ?? {
+    lang: "en",
+  };
   const navigate = useNavigate();
   return (
-    <html lang={lang}>
+    <html lang={lang} data-groove={config?.groove} data-theme={config?.theme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -57,8 +84,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <RouterProvider {...{ useHref, navigate }}>
           <SupabaseProvider>
             <StoreProvider>
-              {children}
-              <GlobalToastRegion />
+              <HydrationBoundary state={state}>
+                {children}
+                <GlobalToastRegion />
+              </HydrationBoundary>
             </StoreProvider>
           </SupabaseProvider>
         </RouterProvider>

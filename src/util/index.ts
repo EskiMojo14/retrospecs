@@ -142,7 +142,7 @@ type NullishDefaults<T> = {
   >;
 };
 
-type WithoutNullish<T> = {
+export type WithoutNullish<T> = {
   [K in keyof T]-?: NonNullable<T[K]>;
 };
 

@@ -18,7 +18,7 @@ import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
 import { injectOrgsApi, selectOrgIds } from "~/features/orgs";
 import { OrgGrid } from "~/features/orgs/org-grid";
-import { PreferencesDialog } from "~/features/preferences";
+import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
 import { useHydratingLoaderData } from "~/hooks/use-hydrating-loader-data";
 import { applyInjector } from "~/store/endpoint-injector";

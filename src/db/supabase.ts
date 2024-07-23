@@ -312,16 +312,19 @@ export type Database = {
         Row: {
           created_at: string;
           groove: Database["public"]["Enums"]["groove"] | null;
+          theme: Database["public"]["Enums"]["theme"] | null;
           user_id: string;
         };
         Insert: {
           created_at?: string;
           groove?: Database["public"]["Enums"]["groove"] | null;
+          theme?: Database["public"]["Enums"]["theme"] | null;
           user_id: string;
         };
         Update: {
           created_at?: string;
           groove?: Database["public"]["Enums"]["groove"] | null;
+          theme?: Database["public"]["Enums"]["theme"] | null;
           user_id?: string;
         };
         Relationships: [
@@ -346,6 +349,7 @@ export type Database = {
       groove: "none" | "low_volume" | "heavy";
       member_role: "admin" | "member";
       reaction: "like";
+      theme: "light" | "dark";
     };
     CompositeTypes: {
       [_ in never]: never;

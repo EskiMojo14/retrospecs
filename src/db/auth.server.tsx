@@ -13,4 +13,5 @@ export async function ensureAuthenticated({
     // eslint-disable-next-line @typescript-eslint/only-throw-error
     throw redirect("/sign-in", { headers });
   }
+  return user;
 }
