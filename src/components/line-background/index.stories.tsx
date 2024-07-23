@@ -11,12 +11,11 @@ interface StoryProps extends ComponentPropsWithoutRef<typeof LineBackground> {
 
 const meta = {
   title: "Components/LineBackground",
-  render: ({ height, width, opacity, ...props }) => (
+  render: ({ height, width, ...props }) => (
     <div
       style={{
         height: `${height}vh`,
         width: `${width}vw`,
-        opacity,
         position: "relative",
         transition: "height 0.25s, width 0.25s",
       }}

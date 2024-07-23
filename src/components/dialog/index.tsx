@@ -85,9 +85,7 @@ export const Dialog = ({
                 [ButtonContext.Provider, emptyObj],
               ]}
             >
-              <LineBackground className={cls("background")}>
-                {children}
-              </LineBackground>
+              <LineBackground opacity={0.3}>{children}</LineBackground>
             </Provider>
           </MergeProvider>
         ))}

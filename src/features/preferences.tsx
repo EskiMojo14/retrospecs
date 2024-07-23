@@ -21,7 +21,7 @@ export function PreferencesDialog() {
   return (
     <DialogTrigger>
       <IconButton aria-label="User preferences">
-        <Symbol>settings</Symbol>
+        <Symbol>settings_account_box</Symbol>
       </IconButton>
       <Dialog isDismissable>
         {({ close }) => (

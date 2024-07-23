@@ -10,11 +10,13 @@ export function LineBackground({
   color,
   className,
   children,
+  opacity = 1,
 }: {
   scale?: number;
   color?: BackgroundColor;
   className?: string;
   children?: ReactNode;
+  opacity?: number;
 }) {
   return (
     <>
@@ -24,7 +26,10 @@ export function LineBackground({
           modifiers: { [color ?? ""]: !!color },
           extra: className,
         })}
-        style={{ "--scale": scale }}
+        style={{
+          "--scale": scale,
+          opacity,
+        }}
         dir="ltr"
       >
         <div className={cls("line", "vertical")} />

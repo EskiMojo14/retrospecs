@@ -62,9 +62,6 @@
     padding: 4px 8px;
     gap: 4px;
   }
-  &__background {
-    opacity: 0.3;
-  }
   [data-entering] & {
     animation:
       dialog-fade 300ms,

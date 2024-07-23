@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import {
   Card,
@@ -47,7 +48,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
   return (
     <Card className={styles.orgCard}>
       <CardPrimaryAction
-        as={LinkButton}
+        as={Link}
         href={`/orgs/${orgId}`}
         className={styles.primaryAction}
       >
