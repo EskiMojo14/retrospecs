@@ -5,17 +5,14 @@ import type { RootState } from "~/store";
 import type { HydratingLoader } from "~/store/hydrate";
 import { hydrate } from "~/store/hydrate";
 import { useAppDispatch } from "~/store/pretyped";
-import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 function useHydrate(state: RootState | SerializeFrom<RootState> | undefined) {
   const dispatch = useAppDispatch();
   const hydrated = useRef(false);
-  useIsomorphicLayoutEffect(() => {
-    if (!hydrated.current && state) {
-      dispatch(hydrate(state));
-      hydrated.current = true;
-    }
-  }, [dispatch, state]);
+  if (!hydrated.current && state) {
+    dispatch(hydrate(state));
+    hydrated.current = true;
+  }
 }
 
 export function useHydratingLoaderData<T extends HydratingLoader<unknown>>() {
