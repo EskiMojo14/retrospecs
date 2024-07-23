@@ -1,3 +1,4 @@
+@use "~/theme";
 @use "~/theme/elevation";
 @use "~/util";
 @use "./mixins";
@@ -100,6 +101,17 @@ $hover-time: 0.2s;
         gap: 8px;
         min-height: util.to-rem(52px - 8px);
       }
+    }
+    @include theme.ripple(
+      $surface: " .card__section-ripple",
+      $ripple-color: var(--card-text)
+    );
+    &-ripple {
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
     }
   }
   &__action {

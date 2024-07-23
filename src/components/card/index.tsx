@@ -1,3 +1,5 @@
+import { mergeProps } from "@react-aria/utils";
+import { clsx } from "clsx";
 import type { ContextType, ReactNode } from "react";
 import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
 import type { ButtonProps } from "~/components/button";
@@ -6,7 +8,8 @@ import { createGenericComponent } from "~/components/generic";
 import { IconButton } from "~/components/icon-button";
 import { Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
-import { bemHelper } from "~/util";
+import { useRipple } from "~/hooks/use-ripple";
+import { bemHelper, mergeRefs } from "~/util";
 import type { CardColor, CardVariant } from "./constants";
 import "./index.scss";
 
@@ -71,6 +74,7 @@ export const Card = createGenericComponent<
 interface CardSectionProps {
   className?: string;
   children?: ReactNode;
+  outsideContent?: ReactNode;
 }
 
 interface CardSectionPassedProps {
@@ -85,27 +89,47 @@ export const CardSection = createGenericComponent<
 >(
   "CardSection",
   "section",
-  ({ children, as: As, className, ...props }, ref) => (
+  ({ children, as: As, className, outsideContent, ...props }, ref) => (
     <As ref={ref} {...props} className={cls("section", undefined, className)}>
-      <span className={cls("section__bg")} aria-hidden />
+      <span className={cls("section__bg")} />
+      {outsideContent}
       <div className={cls("section-content")}>{children}</div>
     </As>
   ),
 );
 
+type RootProps = ReturnType<typeof useRipple>["rootProps"];
+
+interface CardPrimaryActionProps extends CardSectionProps {
+  isDisabled?: boolean;
+}
+
+interface CardPrimaryActionPassedProps
+  extends CardSectionPassedProps,
+    RootProps {}
+
 export const CardPrimaryAction = createGenericComponent<
   typeof AriaButton,
-  CardSectionProps,
-  CardSectionPassedProps
->("CardPrimaryAction", AriaButton, ({ children, className, ...props }, ref) => (
-  <CardSection
-    ref={ref}
-    {...props}
-    className={cls("section", "primary-action", className)}
-  >
-    {children}
-  </CardSection>
-));
+  CardPrimaryActionProps,
+  CardPrimaryActionPassedProps
+>("CardPrimaryAction", AriaButton, ({ children, className, ...props }, ref) => {
+  const {
+    rootProps: { ref: rootRef, ...rootProps },
+    surfaceProps,
+  } = useRipple({ disabled: props.isDisabled });
+  return (
+    <CardSection
+      {...(mergeProps(props, rootProps) as any)}
+      ref={mergeRefs(ref, rootRef as never)}
+      className={clsx("section--primary-action", className)}
+      outsideContent={
+        <span {...surfaceProps} className={cls("section-ripple")} />
+      }
+    >
+      {children}
+    </CardSection>
+  );
+});
 
 export const CardActions = createGenericComponent<
   "section",
