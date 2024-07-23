@@ -3,17 +3,16 @@ import { clsx } from "clsx";
 import type { ContextType, ReactNode } from "react";
 import { createContext, forwardRef, useMemo } from "react";
 import type {
+  ToggleButtonProps as AriaToggleButtonProps,
+  ButtonProps as AriaButtonProps,
   LinkProps,
   ContextValue,
-  ToggleButtonProps as AriaToggleButtonProps,
-  LabelProps,
-  TextProps,
-  ButtonProps as AriaButtonProps,
 } from "react-aria-components";
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
   DEFAULT_SLOT,
+  FieldError,
   Group,
   Label,
   Link,
@@ -25,10 +24,10 @@ import {
   createGenericComponent,
   renderGenericPropChild,
 } from "~/components/generic";
+import type { FormGroupProps } from "~/components/input/text-field";
 import { MergeProvider } from "~/components/provider";
 import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
-import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
@@ -131,12 +130,9 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 ToggleButton.displayName = "ToggleButton";
 
 interface ButtonGroupProps
-  extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled"> {
+  extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled">,
+    FormGroupProps {
   orientation?: "horizontal" | "vertical";
-  label?: ReactNode;
-  labelProps?: Overwrite<LabelProps, TypographyProps>;
-  description?: ReactNode;
-  descriptionProps?: Overwrite<TextProps, TypographyProps>;
   children?: ReactNode;
   className?: string;
 }
@@ -167,6 +163,9 @@ export const ButtonGroup = createGenericComponent<
       labelProps,
       description,
       descriptionProps,
+      errorMessage,
+      errorMessageProps,
+
       ...props
     },
     ref,
@@ -199,6 +198,9 @@ export const ButtonGroup = createGenericComponent<
             {description}
           </Typography>
         )}
+        <Typography as={FieldError} variant="caption" {...errorMessageProps}>
+          {errorMessage}
+        </Typography>
       </As>
     );
   },

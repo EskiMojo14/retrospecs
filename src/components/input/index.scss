@@ -1,0 +1,44 @@
+@use "~/theme";
+@use "~/theme/typography";
+
+.text-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  &__input,
+  &__textarea {
+    appearance: none;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    background-color: rgba(var(--white-rgb), 0.75);
+    color: inherit;
+    caret-color: currentColor;
+    border: var(--outline-width) solid var(--gold-500);
+    @include typography.style("body1");
+    max-width: 100%;
+    max-height: 60vh;
+    @include theme.dark {
+      background-color: rgba(var(--black-rgb), 0.75);
+      border-color: var(--gold-300);
+    }
+    &:focus {
+      outline: none;
+    }
+    &::selection {
+      background-color: var(--gold-500);
+      color: var(--white);
+      @include theme.dark {
+        background-color: var(--gold-300);
+      }
+    }
+    @include theme.focus-ring;
+  }
+  &__error-message {
+    font-weight: 600;
+    color: var(--red-700);
+    @include theme.dark {
+      color: var(--red-200);
+    }
+  }
+}

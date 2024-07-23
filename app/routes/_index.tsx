@@ -1,12 +1,19 @@
 import type { MetaFunction } from "@remix-run/react";
-import { Text } from "react-aria-components";
+import type { FormEvent } from "react";
+import { DialogTrigger, Form, Text } from "react-aria-components";
+import type { BaseSchema } from "valibot";
+import { minLength, object, pipe, safeParse, string } from "valibot";
 import { AppBar } from "~/components/app-bar";
 import { Breadcrumb, Breadcrumbs } from "~/components/breadcrumbs";
-import { FloatingActionButton, LinkButton } from "~/components/button";
+import { Button, FloatingActionButton, LinkButton } from "~/components/button";
+import { Dialog, DialogContent } from "~/components/dialog";
 import { IconButton } from "~/components/icon-button";
+import { TextField } from "~/components/input/text-field";
 import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
+import { Heading } from "~/components/typography";
+import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
 import { injectOrgsApi, selectAllOrgs } from "~/features/orgs";
 import { PreferencesDialog } from "~/features/preferences";
@@ -36,14 +43,42 @@ export const loader = createHydratingLoader(
   },
 );
 
+const createOrgSchema = object({
+  name: pipe(string(), minLength(1)),
+}) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
+
 export default function Orgs() {
-  const { useGetOrgsQuery } = useEndpointInjector(injectOrgsApi);
+  const { useGetOrgsQuery, useAddOrgMutation } =
+    useEndpointInjector(injectOrgsApi);
   const { data: dataFromLoader } = useHydratingLoaderData<typeof loader>();
   const { orgs = [] } = useGetOrgsQuery(undefined, {
     selectFromResult: ({ data = dataFromLoader }) => ({
       orgs: selectAllOrgs(data),
     }),
   });
+  const [createOrg, { isLoading, isError }] = useAddOrgMutation({
+    selectFromResult: ({ isLoading, isError }) => ({
+      isLoading,
+      isError,
+    }),
+  });
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const unparsedData = new FormData(event.currentTarget);
+    const parsedData = safeParse(
+      createOrgSchema,
+      Object.fromEntries(unparsedData),
+    );
+    if (parsedData.success) {
+      const { error } = await createOrg(parsedData.output);
+      if (error) {
+        console.error(error.message);
+      }
+    } else {
+      console.error(parsedData.issues);
+    }
+  };
+
   return (
     <main>
       <AppBar>
@@ -62,10 +97,42 @@ export default function Orgs() {
           <PreferencesDialog />
         </Toolbar>
       </AppBar>
-      <FloatingActionButton extended>
-        <Symbol>add</Symbol>
-        <Text slot="label">Create</Text>
-      </FloatingActionButton>
+      <DialogTrigger>
+        <FloatingActionButton extended>
+          <Symbol>add</Symbol>
+          <Text slot="label">Create</Text>
+        </FloatingActionButton>
+        <Dialog>
+          {({ close }) => (
+            <>
+              <Heading variant="headline6" slot="title">
+                Create organisation
+              </Heading>
+              <DialogContent
+                as={Form}
+                id="create-org-form"
+                onSubmit={handleSubmit}
+              >
+                <TextField label="Name" name="name" isRequired />
+              </DialogContent>
+              <Toolbar slot="actions">
+                <Button onPress={close} variant="outlined">
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  form="create-org-form"
+                  variant="elevated"
+                  isDisabled={isLoading}
+                  color={isError ? "red" : undefined}
+                >
+                  Create
+                </Button>
+              </Toolbar>
+            </>
+          )}
+        </Dialog>
+      </DialogTrigger>
     </main>
   );
 }
