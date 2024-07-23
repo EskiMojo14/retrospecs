@@ -308,6 +308,32 @@ export type Database = {
           },
         ];
       };
+      user_config: {
+        Row: {
+          created_at: string;
+          groove: Database["public"]["Enums"]["groove"] | null;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          groove?: Database["public"]["Enums"]["groove"] | null;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          groove?: Database["public"]["Enums"]["groove"] | null;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_config_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -317,6 +343,7 @@ export type Database = {
     };
     Enums: {
       category: "good" | "improvement" | "neutral";
+      groove: "none" | "low_volume" | "heavy";
       member_role: "admin" | "member";
       reaction: "like";
     };
