@@ -1,24 +1,29 @@
-import type { ReactNode } from "react";
+import type { ContextType, ReactNode } from "react";
+import { useMemo, useRef } from "react";
 import type {
   TextFieldProps as AriaTextFieldProps,
   FieldErrorProps,
   TextProps,
   ValidationResult,
   LabelProps,
+  InputProps,
 } from "react-aria-components";
 import {
   TextField as AriaTextField,
+  DEFAULT_SLOT,
   FieldError,
   Input,
   Label,
   Text,
   TextArea,
 } from "react-aria-components";
+import { ButtonContext } from "~/components/button";
+import { Provider } from "~/components/provider";
+import { SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
 import { bemHelper } from "~/util";
 import type { Overwrite } from "~/util/types";
-
 import "./index.scss";
 
 export interface FormGroupProps {
@@ -28,6 +33,8 @@ export interface FormGroupProps {
   descriptionProps?: Overwrite<TextProps, Partial<TypographyProps>>;
   errorMessage?: ReactNode | ((validation: ValidationResult) => ReactNode);
   errorMessageProps?: Overwrite<FieldErrorProps, Partial<TypographyProps>>;
+  icon?: ReactNode;
+  trailingIcon?: ReactNode;
 }
 
 export interface TextFieldProps
@@ -39,6 +46,24 @@ export interface TextFieldProps
 
 const cls = bemHelper("text-field");
 
+const symbolContextValue: ContextType<typeof SymbolContext> = {
+  className: cls("icon"),
+};
+
+const buttonContextValue: ContextType<typeof ButtonContext> = {
+  slots: {
+    [DEFAULT_SLOT]: {},
+    leading: {
+      compact: true,
+      className: cls("icon-button", "leading"),
+    },
+    trailing: {
+      compact: true,
+      className: cls("icon-button", "trailing"),
+    },
+  },
+};
+
 export function TextField({
   className,
   label,
@@ -48,8 +73,28 @@ export function TextField({
   errorMessage,
   errorMessageProps,
   textarea,
+  icon,
+  trailingIcon,
   ...props
 }: TextFieldProps) {
+  const containerRef = useRef<HTMLLabelElement>(null);
+  const inputEventProps = useMemo(() => {
+    const setContainerState = (state: string, value: boolean) => () => {
+      if (!containerRef.current) return;
+      if (value) {
+        containerRef.current.dataset[state] = String(value);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete containerRef.current.dataset[state];
+      }
+    };
+    return {
+      onHoverStart: setContainerState("hovered", true),
+      onHoverEnd: setContainerState("hovered", false),
+      onFocus: setContainerState("focused", true),
+      onBlur: setContainerState("focused", false),
+    } satisfies InputProps;
+  }, []);
   return (
     <AriaTextField
       {...props}
@@ -68,11 +113,22 @@ export function TextField({
       >
         {label}
       </Typography>
-      {textarea ? (
-        <TextArea className={cls("textarea")} />
-      ) : (
-        <Input className={cls("input")} />
-      )}
+      <label ref={containerRef} className={cls("input-container")}>
+        <Provider
+          values={[
+            [SymbolContext.Provider, symbolContextValue],
+            [ButtonContext.Provider, buttonContextValue],
+          ]}
+        >
+          {icon}
+          {textarea ? (
+            <TextArea className={cls("textarea")} {...inputEventProps} />
+          ) : (
+            <Input className={cls("input")} {...inputEventProps} />
+          )}
+          {trailingIcon}
+        </Provider>
+      </label>
       {description && (
         <Typography
           as={Text}
