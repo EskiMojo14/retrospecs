@@ -13,6 +13,10 @@ import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { teamsApi } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-query-options";
+import {
+  Permission,
+  useCurrentUserPermissions,
+} from "~/hooks/use-user-permissions";
 import type { Org } from ".";
 import { orgsApi, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
@@ -32,6 +36,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
   const { data: teamCount } = useQuery(
     useOptionsCreator(teamsApi.getTeamCountByOrg, orgId),
   );
+  const permissions = useCurrentUserPermissions(orgId);
   if (!org) return null;
   return (
     <Card className={styles.orgCard}>
@@ -57,14 +62,16 @@ export function OrgCard({ orgId }: OrgCardProps) {
             Members: {memberCount}
           </CardActionButton>
         </Toolbar>
-        <Toolbar slot="icons">
-          <CardActionIcon>
-            <Symbol>edit</Symbol>
-          </CardActionIcon>
-          <CardActionIcon>
-            <Symbol>delete</Symbol>
-          </CardActionIcon>
-        </Toolbar>
+        {permissions >= Permission.Admin ? (
+          <Toolbar slot="icons">
+            <CardActionIcon>
+              <Symbol>edit</Symbol>
+            </CardActionIcon>
+            <CardActionIcon>
+              <Symbol>delete</Symbol>
+            </CardActionIcon>
+          </Toolbar>
+        ) : null}
       </CardActions>
     </Card>
   );
