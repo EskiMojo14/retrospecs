@@ -65,7 +65,7 @@ const meta = {
   args: { orgId: 1 },
   decorators: [
     createSupabaseDecorator(supabase),
-    createReduxDecorator({ store }),
+    createReduxDecorator({ store, api }),
   ],
 } satisfies Meta<typeof OrgCard>;
 

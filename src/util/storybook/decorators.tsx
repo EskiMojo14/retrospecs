@@ -7,8 +7,11 @@ import {
 import { Provider } from "react-redux";
 import type { AppSupabaseClient } from "~/db";
 import { OriginalSupabaseProvider } from "~/db/provider";
+import type { BaseApi } from "~/features/api";
+import { makeApi } from "~/features/api";
 import type { AppStore, PreloadedState } from "~/store";
 import { makeStore } from "~/store";
+import { ApiProvider } from "~/store/provider";
 
 type Decorator<
   ArgsConstraint extends {} = {},
@@ -30,18 +33,22 @@ export const createSupabaseDecorator =
 interface ReduxDecoratorConfig {
   preloadedState?: PreloadedState;
   store?: AppStore;
+  api?: BaseApi;
 }
 
 export const createReduxDecorator =
   ({
     preloadedState,
     store = makeStore({ preloadedState }),
+    api = makeApi(),
   }: ReduxDecoratorConfig): Decorator =>
   // eslint-disable-next-line react/display-name
   (Story, { args }) => (
-    <Provider store={store}>
-      <Story {...args} />
-    </Provider>
+    <ApiProvider api={api}>
+      <Provider store={store}>
+        <Story {...args} />
+      </Provider>
+    </ApiProvider>
   );
 
 function Effect({

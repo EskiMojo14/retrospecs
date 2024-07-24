@@ -50,7 +50,7 @@ const meta = {
   args: { orgId: team.org_id, teamId: team.id },
   decorators: [
     createSupabaseDecorator(supabase),
-    createReduxDecorator({ store }),
+    createReduxDecorator({ store, api }),
   ],
 } satisfies Meta<typeof TeamCard>;
 
