@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { FormEvent } from "react";
 import { DialogTrigger, Form, Text } from "react-aria-components";
 import type { BaseSchema } from "valibot";
@@ -15,7 +15,6 @@ import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
-import { useSupabase } from "~/db/provider";
 import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
 import {
@@ -25,6 +24,7 @@ import {
 } from "~/features/orgs";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
+import { useOptionsCreator } from "~/hooks/use-query-options";
 import { createHydratingLoader } from "~/store/hydrate";
 
 export const meta: MetaFunction = () => [
@@ -36,8 +36,8 @@ export const meta: MetaFunction = () => [
 ];
 
 export const loader = createHydratingLoader(
-  async ({ context: { queryClient, supabase } }) => {
-    await queryClient.prefetchQuery(getOrgsOptions(supabase));
+  async ({ context, context: { queryClient } }) => {
+    await queryClient.prefetchQuery(getOrgsOptions(context));
     return null;
   },
 );
@@ -47,16 +47,15 @@ const createOrgSchema = object({
 }) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
 
 export default function Orgs() {
-  const supabase = useSupabase();
   const { data: orgIds = [] } = useQuery({
-    ...getOrgsOptions(supabase),
+    ...useOptionsCreator(getOrgsOptions),
     select: selectOrgIds,
   });
   const {
     mutate: addOrg,
     isError,
     isPending,
-  } = useMutation(addOrgMutationOptions(supabase, useQueryClient()));
+  } = useMutation(useOptionsCreator(addOrgMutationOptions));
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);

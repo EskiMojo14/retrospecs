@@ -1,6 +1,5 @@
 import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter } from "@reduxjs/toolkit";
-import type { QueryClient } from "@tanstack/react-query";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import { createEndpointInjector } from "~/store/endpoint-injector";
 import {
@@ -163,7 +162,7 @@ export const injectOrgsApi = createEndpointInjector(
   },
 );
 
-export const getOrgsOptions = supabaseQueryOptions((supabase) => ({
+export const getOrgsOptions = supabaseQueryOptions(({ supabase }) => ({
   queryKey: ["orgs"],
   queryFn: supabaseFn(
     () => supabase.from("orgs").select(),
@@ -172,7 +171,7 @@ export const getOrgsOptions = supabaseQueryOptions((supabase) => ({
 }));
 
 export const addOrgMutationOptions = supabaseMutationOptions(
-  (supabase, queryClient: QueryClient) => ({
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn((org: TablesInsert<"orgs">) =>
       supabase.from("orgs").insert(org),
     ),

@@ -11,7 +11,7 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { useSupabase } from "~/db/provider";
+import { useOptionsCreator } from "~/hooks/use-query-options";
 import type { Org } from ".";
 import { getOrgsOptions, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
@@ -21,9 +21,8 @@ interface OrgCardProps {
 }
 
 export function OrgCard({ orgId }: OrgCardProps) {
-  const supabase = useSupabase();
   const { data: org } = useQuery({
-    ...getOrgsOptions(supabase),
+    ...useOptionsCreator(getOrgsOptions),
     select: (data) => selectOrgById(data, orgId),
   });
   if (!org) return null;

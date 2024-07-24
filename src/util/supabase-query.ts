@@ -13,6 +13,7 @@ import type {
   QueryOptions,
   UndefinedInitialDataOptions,
   MutationOptions,
+  QueryClient,
 } from "@tanstack/react-query";
 import type { AppSupabaseClient } from "~/db";
 
@@ -102,13 +103,18 @@ export function supabaseFn<FnData, TData = FnData, TVariables = void>(
   };
 }
 
+export interface AppContext {
+  supabase: AppSupabaseClient;
+  queryClient: QueryClient;
+}
+
 export function supabaseQueryOptions<
   QueryFnData,
   const TQueryKey extends QueryKey,
   Args extends Array<any> = [],
 >(
   getOptions: (
-    supabase: AppSupabaseClient,
+    context: AppContext,
     ...args: Args
   ) => UndefinedInitialDataOptions<
     QueryFnData,
@@ -117,7 +123,7 @@ export function supabaseQueryOptions<
     TQueryKey
   >,
 ): (
-  supabase: AppSupabaseClient,
+  context: AppContext,
   ...args: Args
 ) => UndefinedInitialDataOptions<
   QueryFnData,
@@ -133,7 +139,7 @@ export function supabaseQueryOptions<
   Args extends Array<any> = [],
 >(
   getOptions: (
-    supabase: AppSupabaseClient,
+    context: AppContext,
     ...args: Args
   ) => DefinedInitialDataOptions<
     QueryFnData,
@@ -142,7 +148,7 @@ export function supabaseQueryOptions<
     TQueryKey
   >,
 ): (
-  supabase: AppSupabaseClient,
+  context: AppContext,
   ...args: Args
 ) => DefinedInitialDataOptions<
   QueryFnData,
@@ -158,7 +164,7 @@ export function supabaseQueryOptions<
   Args extends Array<any> = [],
 >(
   getOptions: (
-    supabase: AppSupabaseClient,
+    context: AppContext,
     ...args: Args
   ) => QueryOptions<
     QueryFnData,
@@ -176,7 +182,7 @@ export function supabaseMutationOptions<
   Args extends Array<any> = [],
 >(
   getOptions: (
-    supabase: AppSupabaseClient,
+    context: AppContext,
     ...args: Args
   ) => MutationOptions<MutationFnData, PostgrestErrorWithMeta, TVariables>,
 ) {

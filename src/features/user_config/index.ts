@@ -1,4 +1,3 @@
-import type { QueryClient } from "@tanstack/react-query";
 import { skipToken } from "@tanstack/react-query";
 import { toastQueue } from "~/components/toast";
 import type { Enums, Tables, TablesInsert } from "~/db/supabase";
@@ -79,7 +78,7 @@ export const injectUserConfigApi = createEndpointInjector(
 );
 
 export const getUserConfigOptions = supabaseQueryOptions(
-  (supabase, userId: string | undefined) => ({
+  ({ supabase }, userId: string | undefined) => ({
     queryKey: ["userConfig", userId],
     queryFn: userId
       ? supabaseFn(
@@ -91,7 +90,7 @@ export const getUserConfigOptions = supabaseQueryOptions(
 );
 
 export const updateUserConfigOptions = supabaseMutationOptions(
-  (supabase, queryClient: QueryClient) => ({
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn((update: TablesInsert<"user_config">) =>
       supabase
         .from("user_config")
@@ -101,7 +100,7 @@ export const updateUserConfigOptions = supabaseMutationOptions(
     ),
     onMutate({ user_id, groove, theme }: TablesInsert<"user_config">) {
       queryClient.setQueryData(
-        getUserConfigOptions(supabase, user_id).queryKey,
+        getUserConfigOptions({ supabase, queryClient }, user_id).queryKey,
         (prevConfig) => {
           const res: UserConfig = {
             user_id,

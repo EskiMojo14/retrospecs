@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { DialogTrigger } from "react-aria-components";
 import { Button, ButtonGroup, ToggleButton } from "~/components/button";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -6,19 +6,18 @@ import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
-import { useSession, useSupabase } from "~/db/provider";
+import { useSession } from "~/db/provider";
+import { useOptionsCreator } from "~/hooks/use-query-options";
 import type { Groove, Theme } from ".";
 import { getUserConfigOptions, updateUserConfigOptions } from ".";
 
 export function PreferencesDialog() {
-  const queryClient = useQueryClient();
-  const supabase = useSupabase();
   const session = useSession();
   const userId = session?.user.id;
-  const { data: config } = useQuery(getUserConfigOptions(supabase, userId));
-  const { mutate } = useMutation(
-    updateUserConfigOptions(supabase, queryClient),
+  const { data: config } = useQuery(
+    useOptionsCreator(getUserConfigOptions, userId),
   );
+  const { mutate } = useMutation(useOptionsCreator(updateUserConfigOptions));
   const setTheme = (theme: Theme) => {
     userId && mutate({ theme, user_id: userId });
   };
