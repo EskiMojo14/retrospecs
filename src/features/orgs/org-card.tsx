@@ -11,10 +11,10 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { teamsApi } from "~/features/teams";
+import { getTeamCountByOrg } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-query-options";
 import type { Org } from ".";
-import { orgsApi, selectOrgById } from ".";
+import { getOrgMemberCount, getOrgs, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
 
 interface OrgCardProps {
@@ -23,14 +23,14 @@ interface OrgCardProps {
 
 export function OrgCard({ orgId }: OrgCardProps) {
   const { data: org } = useQuery({
-    ...useOptionsCreator(orgsApi.getOrgs),
+    ...useOptionsCreator(getOrgs),
     select: (data) => selectOrgById(data, orgId),
   });
   const { data: memberCount } = useQuery(
-    useOptionsCreator(orgsApi.getOrgMemberCount, orgId),
+    useOptionsCreator(getOrgMemberCount, orgId),
   );
   const { data: teamCount } = useQuery(
-    useOptionsCreator(teamsApi.getTeamCountByOrg, orgId),
+    useOptionsCreator(getTeamCountByOrg, orgId),
   );
   if (!org) return null;
   return (

@@ -9,15 +9,13 @@ import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-query-options";
 import type { Groove, Theme } from ".";
-import { configApi } from ".";
+import { getUserConfig, updateUserConfig } from ".";
 
 export function PreferencesDialog() {
   const session = useSession();
   const userId = session?.user.id;
-  const { data: config } = useQuery(
-    useOptionsCreator(configApi.getUserConfig, userId),
-  );
-  const { mutate } = useMutation(useOptionsCreator(configApi.updateUserConfig));
+  const { data: config } = useQuery(useOptionsCreator(getUserConfig, userId));
+  const { mutate } = useMutation(useOptionsCreator(updateUserConfig));
   const setTheme = (theme: Theme) => {
     userId && mutate({ theme, user_id: userId });
   };

@@ -17,7 +17,7 @@ import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
-import { orgsApi, selectOrgIds } from "~/features/orgs";
+import { addOrg, getOrgs, selectOrgIds } from "~/features/orgs";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-query-options";
@@ -33,7 +33,7 @@ export const meta: MetaFunction = () => [
 
 export const loader = createHydratingLoader(
   async ({ context, context: { queryClient } }) => {
-    await queryClient.prefetchQuery(orgsApi.getOrgs(context));
+    await queryClient.prefetchQuery(getOrgs(context));
     return null;
   },
 );
@@ -44,14 +44,14 @@ const createOrgSchema = object({
 
 export default function Orgs() {
   const { data: orgIds = [] } = useQuery({
-    ...useOptionsCreator(orgsApi.getOrgs),
+    ...useOptionsCreator(getOrgs),
     select: selectOrgIds,
   });
   const {
-    mutate: addOrg,
+    mutate: addOrgFn,
     isError,
     isPending,
-  } = useMutation(useOptionsCreator(orgsApi.addOrg));
+  } = useMutation(useOptionsCreator(addOrg));
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);
@@ -60,7 +60,7 @@ export default function Orgs() {
       Object.fromEntries(unparsedData),
     );
     if (parsedData.success) {
-      addOrg(parsedData.output);
+      addOrgFn(parsedData.output);
     } else {
       console.error(parsedData.issues);
     }

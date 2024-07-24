@@ -7,7 +7,7 @@ import {
 } from "~/util/storybook/decorators";
 import { TeamCard } from "./team-card";
 import type { Team } from ".";
-import { teamAdapter, teamsApi } from ".";
+import { getTeamMemberCount, getTeamsByOrg, teamAdapter } from ".";
 
 const supabase = createBrowserClient();
 
@@ -22,12 +22,12 @@ const team: Team = {
   name: "Team Name",
 };
 
-queryClient.setQueryData(teamsApi.getTeamsByOrg(context, 1).queryKey, () =>
+queryClient.setQueryData(getTeamsByOrg(context, 1).queryKey, () =>
   teamAdapter.getInitialState(undefined, [team]),
 );
 
 queryClient.setQueryData(
-  teamsApi.getTeamMemberCount(context, team.id).queryKey,
+  getTeamMemberCount(context, team.id).queryKey,
   () => 5,
 );
 

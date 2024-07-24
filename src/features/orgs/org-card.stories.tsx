@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { createBrowserClient } from "~/db/client";
 import { makeQueryClient } from "~/db/query";
-import { teamsApi } from "~/features/teams";
+import { getTeamCountByOrg } from "~/features/teams";
 import {
   createQueryClientDecorator,
   createSupabaseDecorator,
 } from "~/util/storybook/decorators";
 import { OrgCard } from "./org-card";
-import { orgAdapter, orgsApi } from ".";
+import { getOrgMemberCount, getOrgs, orgAdapter } from ".";
 
 const supabase = createBrowserClient();
 
@@ -15,7 +15,7 @@ const queryClient = makeQueryClient(Infinity);
 
 const context = { supabase, queryClient };
 
-queryClient.setQueryData(orgsApi.getOrgs(context).queryKey, () =>
+queryClient.setQueryData(getOrgs(context).queryKey, () =>
   orgAdapter.getInitialState(undefined, [
     {
       id: 1,
@@ -26,15 +26,9 @@ queryClient.setQueryData(orgsApi.getOrgs(context).queryKey, () =>
   ]),
 );
 
-queryClient.setQueryData(
-  orgsApi.getOrgMemberCount(context, 1).queryKey,
-  () => 5,
-);
+queryClient.setQueryData(getOrgMemberCount(context, 1).queryKey, () => 5);
 
-queryClient.setQueryData(
-  teamsApi.getTeamCountByOrg(context, 1).queryKey,
-  () => 3,
-);
+queryClient.setQueryData(getTeamCountByOrg(context, 1).queryKey, () => 3);
 
 const meta = {
   title: "Features/Orgs/OrgCard",

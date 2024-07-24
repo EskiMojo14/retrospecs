@@ -36,15 +36,18 @@ export const {
   selectTotal: selectTotalTeamMembers,
 } = teamMemberAdapter.getSelectors();
 
-export const teamsApi = {
-  getTeamsByOrg: supabaseQueryOptions(({ supabase }, orgId: Org["id"]) => ({
+export const getTeamsByOrg = supabaseQueryOptions(
+  ({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["teams", orgId],
     queryFn: supabaseFn(
       () => supabase.from("teams").select().eq("org_id", orgId),
       (teams) => teamAdapter.getInitialState(undefined, teams),
     ),
-  })),
-  getTeamCountByOrg: supabaseQueryOptions(({ supabase }, orgId: Org["id"]) => ({
+  }),
+);
+
+export const getTeamCountByOrg = supabaseQueryOptions(
+  ({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["teams", orgId],
     queryFn: supabaseFn(
       () =>
@@ -54,18 +57,22 @@ export const teamsApi = {
           .eq("org_id", orgId),
       (_res, { count }) => count ?? 0,
     ),
-  })),
-  addTeam: supabaseMutationOptions(({ supabase, queryClient }) => ({
-    mutationFn: supabaseFn((team: TablesInsert<"teams">) =>
-      supabase.from("teams").insert(team),
-    ),
-    async onSuccess(_: null, { org_id }: TablesInsert<"teams">) {
-      await queryClient.invalidateQueries({
-        queryKey: ["teams", org_id],
-      });
-    },
-  })),
-  updateTeam: supabaseMutationOptions(({ supabase, queryClient }) => ({
+  }),
+);
+
+export const addTeam = supabaseMutationOptions(({ supabase, queryClient }) => ({
+  mutationFn: supabaseFn((team: TablesInsert<"teams">) =>
+    supabase.from("teams").insert(team),
+  ),
+  async onSuccess(_: null, { org_id }: TablesInsert<"teams">) {
+    await queryClient.invalidateQueries({
+      queryKey: ["teams", org_id],
+    });
+  },
+}));
+
+export const updateTeam = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn(
       ({ id, ...team }: PickRequired<TablesUpdate<"teams">, "id">) =>
         supabase.from("teams").update(team).eq("id", id),
@@ -78,8 +85,11 @@ export const teamsApi = {
         queryKey: ["teams", org_id],
       });
     },
-  })),
-  deleteTeam: supabaseMutationOptions(({ supabase, queryClient }) => ({
+  }),
+);
+
+export const deleteTeam = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn((id: Team["id"]) =>
       supabase.from("teams").delete().eq("id", id),
     ),
@@ -88,29 +98,35 @@ export const teamsApi = {
         queryKey: ["teams"],
       });
     },
-  })),
+  }),
+);
 
-  getTeamMembers: supabaseQueryOptions(({ supabase }, teamId: Team["id"]) => ({
+export const getTeamMembers = supabaseQueryOptions(
+  ({ supabase }, teamId: Team["id"]) => ({
     queryKey: ["teamMembers", teamId],
     queryFn: supabaseFn(
       () => supabase.from("team_members").select().eq("team_id", teamId),
       (members) => teamMemberAdapter.getInitialState(undefined, members),
     ),
-  })),
-  getTeamMemberCount: supabaseQueryOptions(
-    ({ supabase }, teamId: Team["id"]) => ({
-      queryKey: ["teamMembers", teamId],
-      queryFn: supabaseFn(
-        () =>
-          supabase
-            .from("team_members")
-            .select("*", { count: "exact", head: true })
-            .eq("team_id", teamId),
-        (_res, { count }) => count ?? 0,
-      ),
-    }),
-  ),
-  addTeamMember: supabaseMutationOptions(({ supabase, queryClient }) => ({
+  }),
+);
+
+export const getTeamMemberCount = supabaseQueryOptions(
+  ({ supabase }, teamId: Team["id"]) => ({
+    queryKey: ["teamMembers", teamId],
+    queryFn: supabaseFn(
+      () =>
+        supabase
+          .from("team_members")
+          .select("*", { count: "exact", head: true })
+          .eq("team_id", teamId),
+      (_res, { count }) => count ?? 0,
+    ),
+  }),
+);
+
+export const addTeamMember = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn((member: TablesInsert<"team_members">) =>
       supabase.from("team_members").insert(member),
     ),
@@ -119,8 +135,11 @@ export const teamsApi = {
         queryKey: ["teamMembers", team_id],
       });
     },
-  })),
-  updateTeamMember: supabaseMutationOptions(({ supabase, queryClient }) => ({
+  }),
+);
+
+export const updateTeamMember = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn(
       ({
         team_id,
@@ -143,8 +162,11 @@ export const teamsApi = {
         queryKey: ["teamMembers", team_id],
       });
     },
-  })),
-  deleteTeamMember: supabaseMutationOptions(({ supabase, queryClient }) => ({
+  }),
+);
+
+export const deleteTeamMember = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn((member: Pick<TeamMember, "team_id" | "user_id">) =>
       supabase
         .from("team_members")
@@ -160,5 +182,5 @@ export const teamsApi = {
         queryKey: ["teamMembers", team_id],
       });
     },
-  })),
-};
+  }),
+);
