@@ -80,13 +80,13 @@ export function supabaseFn<
     context: QueryFunctionContext<TQueryKey>,
   ) => PromiseLike<PostgrestSingleResponse<QueryFnData>>,
   transformResponse?: (data: QueryFnData, meta: PostgrestMeta) => TData,
-): QueryFunction<NoInfer<TData>, NoInfer<TQueryKey>>;
+): QueryFunction<TData, TQueryKey>;
 export function supabaseFn<MutationFnData, TVariables, TData = MutationFnData>(
   mutationFn: (
     variables: TVariables,
   ) => PromiseLike<PostgrestSingleResponse<MutationFnData>>,
   transformResponse?: (data: MutationFnData, meta: PostgrestMeta) => TData,
-): MutationFunction<NoInfer<TData>, NoInfer<TVariables>>;
+): MutationFunction<TData, TVariables>;
 export function supabaseFn<FnData, TData = FnData, TVariables = void>(
   queryFn: (
     variables: TVariables,
