@@ -1,23 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { createBrowserClient } from "~/db/client";
-import { makeApi } from "~/features/api";
-import { makeStore } from "~/store";
-import { applyInjector } from "~/store/endpoint-injector";
+import { makeQueryClient } from "~/db/query";
 import {
-  createReduxDecorator,
+  createQueryClientDecorator,
   createSupabaseDecorator,
 } from "~/util/storybook/decorators";
 import { TeamCard } from "./team-card";
 import type { Team } from ".";
-import { injectTeamsApi, teamAdapter } from ".";
+import { teamAdapter, teamsApi } from ".";
 
 const supabase = createBrowserClient();
 
-const api = makeApi();
+const queryClient = makeQueryClient(Infinity);
 
-const store = makeStore();
-
-const context = { supabase, store, api };
+const context = { supabase, queryClient };
 
 const team: Team = {
   org_id: 1,
@@ -26,18 +22,13 @@ const team: Team = {
   name: "Team Name",
 };
 
-const teamsApi = applyInjector(injectTeamsApi, context).api;
-
-void store.dispatch(
-  teamsApi.util.upsertQueryData(
-    "getTeamsByOrg",
-    team.org_id,
-    teamAdapter.getInitialState(undefined, [team]),
-  ),
+queryClient.setQueryData(teamsApi.getTeamsByOrg(context, 1).queryKey, () =>
+  teamAdapter.getInitialState(undefined, [team]),
 );
 
-void store.dispatch(
-  teamsApi.util.upsertQueryData("getTeamMemberCount", team.id, 5),
+queryClient.setQueryData(
+  teamsApi.getTeamMemberCount(context, team.id).queryKey,
+  () => 5,
 );
 
 const meta = {
@@ -50,7 +41,7 @@ const meta = {
   args: { orgId: team.org_id, teamId: team.id },
   decorators: [
     createSupabaseDecorator(supabase),
-    createReduxDecorator({ store, api }),
+    createQueryClientDecorator(queryClient),
   ],
 } satisfies Meta<typeof TeamCard>;
 

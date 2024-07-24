@@ -17,11 +17,7 @@ import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
-import {
-  addOrgMutationOptions,
-  getOrgsOptions,
-  selectOrgIds,
-} from "~/features/orgs";
+import { orgsApi, selectOrgIds } from "~/features/orgs";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-query-options";
@@ -37,7 +33,7 @@ export const meta: MetaFunction = () => [
 
 export const loader = createHydratingLoader(
   async ({ context, context: { queryClient } }) => {
-    await queryClient.prefetchQuery(getOrgsOptions(context));
+    await queryClient.prefetchQuery(orgsApi.getOrgs(context));
     return null;
   },
 );
@@ -48,14 +44,14 @@ const createOrgSchema = object({
 
 export default function Orgs() {
   const { data: orgIds = [] } = useQuery({
-    ...useOptionsCreator(getOrgsOptions),
+    ...useOptionsCreator(orgsApi.getOrgs),
     select: selectOrgIds,
   });
   const {
     mutate: addOrg,
     isError,
     isPending,
-  } = useMutation(useOptionsCreator(addOrgMutationOptions));
+  } = useMutation(useOptionsCreator(orgsApi.addOrg));
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);

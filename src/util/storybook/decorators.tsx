@@ -1,3 +1,5 @@
+import type { QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   useEffect,
   type ComponentType,
@@ -28,6 +30,15 @@ export const createSupabaseDecorator =
     <OriginalSupabaseProvider supabase={supabase}>
       <Story {...args} />
     </OriginalSupabaseProvider>
+  );
+
+export const createQueryClientDecorator =
+  (queryClient: QueryClient): Decorator =>
+  // eslint-disable-next-line react/display-name
+  (Story, { args }) => (
+    <QueryClientProvider client={queryClient}>
+      <Story {...args} />
+    </QueryClientProvider>
   );
 
 interface ReduxDecoratorConfig {

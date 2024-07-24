@@ -11,9 +11,10 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
+import { teamsApi } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-query-options";
 import type { Org } from ".";
-import { getOrgsOptions, selectOrgById } from ".";
+import { orgsApi, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
 
 interface OrgCardProps {
@@ -22,9 +23,15 @@ interface OrgCardProps {
 
 export function OrgCard({ orgId }: OrgCardProps) {
   const { data: org } = useQuery({
-    ...useOptionsCreator(getOrgsOptions),
+    ...useOptionsCreator(orgsApi.getOrgs),
     select: (data) => selectOrgById(data, orgId),
   });
+  const { data: memberCount } = useQuery(
+    useOptionsCreator(orgsApi.getOrgMemberCount, orgId),
+  );
+  const { data: teamCount } = useQuery(
+    useOptionsCreator(teamsApi.getTeamCountByOrg, orgId),
+  );
   if (!org) return null;
   return (
     <Card className={styles.orgCard}>
@@ -34,7 +41,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
         className={styles.primaryAction}
       >
         <Typography variant="overline" className={styles.teamCount}>
-          {0} Teams
+          {teamCount} Teams
         </Typography>
         <Typography variant="headline6" className={styles.title}>
           {org.name}
@@ -47,7 +54,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
             variant="outlined"
             href={`/orgs/${orgId}/members`}
           >
-            Members: {0}
+            Members: {memberCount}
           </CardActionButton>
         </Toolbar>
         <Toolbar slot="icons">

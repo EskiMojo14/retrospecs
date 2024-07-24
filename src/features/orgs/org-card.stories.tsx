@@ -1,59 +1,39 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { createBrowserClient } from "~/db/client";
-import { makeApi } from "~/features/api";
-import { makeStore } from "~/store";
-import { applyInjector } from "~/store/endpoint-injector";
+import { makeQueryClient } from "~/db/query";
+import { teamsApi } from "~/features/teams";
 import {
-  createReduxDecorator,
+  createQueryClientDecorator,
   createSupabaseDecorator,
 } from "~/util/storybook/decorators";
-import { injectTeamsApi } from "../teams";
 import { OrgCard } from "./org-card";
-import type { Org } from ".";
-import { injectOrgsApi, orgAdapter } from ".";
+import { orgAdapter, orgsApi } from ".";
 
 const supabase = createBrowserClient();
 
-const api = makeApi();
+const queryClient = makeQueryClient(Infinity);
 
-const store = makeStore({ api });
+const context = { supabase, queryClient };
 
-const context = { supabase, store, api };
+queryClient.setQueryData(orgsApi.getOrgs(context).queryKey, () =>
+  orgAdapter.getInitialState(undefined, [
+    {
+      id: 1,
+      created_at: new Date().toISOString(),
+      name: "Org name",
+      owner_id: "1",
+    },
+  ]),
+);
 
-const orgsApi = applyInjector(injectOrgsApi, context).api;
+queryClient.setQueryData(
+  orgsApi.getOrgMemberCount(context, 1).queryKey,
+  () => 5,
+);
 
-const teamsApi = applyInjector(injectTeamsApi, context).api;
-
-interface OrgWithCounts extends Org {
-  memberCount: number;
-  teamCount: number;
-}
-
-const orgs: Array<OrgWithCounts> = [
-  {
-    id: 1,
-    created_at: new Date().toISOString(),
-    owner_id: "owner",
-    name: "Org Name",
-    teamCount: 3,
-    memberCount: 5,
-  },
-];
-
-for (const org of orgs) {
-  void store.dispatch(
-    orgsApi.util.upsertQueryData("getOrgMemberCount", org.id, org.memberCount),
-  );
-  void store.dispatch(
-    teamsApi.util.upsertQueryData("getTeamCountByOrg", org.id, org.teamCount),
-  );
-}
-void store.dispatch(
-  orgsApi.util.upsertQueryData(
-    "getOrgs",
-    undefined,
-    orgAdapter.getInitialState(undefined, orgs),
-  ),
+queryClient.setQueryData(
+  teamsApi.getTeamCountByOrg(context, 1).queryKey,
+  () => 3,
 );
 
 const meta = {
@@ -65,7 +45,7 @@ const meta = {
   args: { orgId: 1 },
   decorators: [
     createSupabaseDecorator(supabase),
-    createReduxDecorator({ store, api }),
+    createQueryClientDecorator(queryClient),
   ],
 } satisfies Meta<typeof OrgCard>;
 

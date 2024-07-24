@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { LinkButton } from "~/components/button";
 import {
   Card,
@@ -9,8 +10,8 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
-import { injectTeamsApi, selectTeamById } from ".";
+import { useOptionsCreator } from "~/hooks/use-query-options";
+import { selectTeamById, teamsApi } from ".";
 import styles from "./team-card.module.scss";
 
 export interface TeamCardProps {
@@ -19,16 +20,13 @@ export interface TeamCardProps {
 }
 
 export function TeamCard({ orgId, teamId }: TeamCardProps) {
-  const { useGetTeamsByOrgQuery, useGetTeamMemberCountQuery } =
-    useEndpointInjector(injectTeamsApi);
-  const { team } = useGetTeamsByOrgQuery(orgId, {
-    selectFromResult: ({ data }) => ({
-      team: data && selectTeamById(data, teamId),
-    }),
+  const { data: team } = useQuery({
+    ...useOptionsCreator(teamsApi.getTeamsByOrg, orgId),
+    select: (data) => selectTeamById(data, teamId),
   });
-  const { memberCount } = useGetTeamMemberCountQuery(teamId, {
-    selectFromResult: ({ data }) => ({ memberCount: data ?? 0 }),
-  });
+  const { data: memberCount = 0 } = useQuery(
+    useOptionsCreator(teamsApi.getTeamMemberCount, teamId),
+  );
   if (!team) return null;
   return (
     <Card className={styles.teamCard}>

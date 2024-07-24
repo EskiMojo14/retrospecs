@@ -25,7 +25,8 @@ import {
   SessionProvider,
 } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
-import { getUserConfigOptions, type UserConfig } from "~/features/user_config";
+import type { UserConfig } from "~/features/user_config";
+import { configApi } from "~/features/user_config";
 import { StoreProvider } from "~/store/provider";
 import "~/index.scss";
 
@@ -46,7 +47,7 @@ export const loader = (async ({
     config?: UserConfig | null;
   }>
 > => {
-  const { lang, headers, supabase, queryClient } = context;
+  const { lang, headers, queryClient } = context;
   const url = new URL(request.url);
   const isNoAuthRoute = noAuthRoutes.some(
     (pathname) => url.pathname === pathname,
@@ -61,7 +62,7 @@ export const loader = (async ({
     {
       lang,
       config: await queryClient.ensureQueryData(
-        getUserConfigOptions(supabase, user.id),
+        configApi.getUserConfig(context, user.id),
       ),
       dehydratedState: dehydrate(queryClient),
     },
