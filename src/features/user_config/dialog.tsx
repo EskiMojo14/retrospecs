@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { DialogTrigger } from "react-aria-components";
 import { Button, ButtonGroup, ToggleButton } from "~/components/button";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -6,18 +6,27 @@ import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
+import { useSession, useSupabase } from "~/db/provider";
+import type { Groove, Theme } from ".";
+import { getUserConfigOptions, updateUserConfigOptions } from ".";
 
 export function PreferencesDialog() {
-  const [theme, _setTheme] = useState("light");
-  const setTheme = (theme: string) => {
-    document.documentElement.dataset.theme = theme;
-    _setTheme(theme);
+  const queryClient = useQueryClient();
+  const supabase = useSupabase();
+  const session = useSession();
+  const userId = session?.user.id;
+  const { data: config } = useQuery(getUserConfigOptions(supabase, userId));
+  const { mutate } = useMutation(
+    updateUserConfigOptions(supabase, queryClient),
+  );
+  const setTheme = (theme: Theme) => {
+    userId && mutate({ theme, user_id: userId });
   };
-  const [groove, _setGroove] = useState("heavy");
-  const setGroove = (groove: string) => {
-    document.documentElement.dataset.groove = groove;
-    _setGroove(groove);
+  const setGroove = (groove: Groove) => {
+    userId && mutate({ groove, user_id: userId });
   };
+  const theme = config?.theme ?? "light";
+  const groove = config?.groove ?? "none";
   return (
     <DialogTrigger>
       <IconButton aria-label="User preferences">

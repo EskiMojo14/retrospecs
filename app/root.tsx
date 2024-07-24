@@ -19,7 +19,11 @@ import { useDehydratedState } from "use-dehydrated-state";
 import { ForeEauFore } from "~/404";
 import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
-import { SupabaseProvider, QueryClientProvider } from "~/db/provider";
+import {
+  SupabaseProvider,
+  QueryClientProvider,
+  SessionProvider,
+} from "~/db/provider";
 import { ErrorPage } from "~/error-page";
 import { getUserConfigOptions, type UserConfig } from "~/features/user_config";
 import { StoreProvider } from "~/store/provider";
@@ -83,12 +87,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <RouterProvider {...{ useHref, navigate }}>
           <SupabaseProvider>
-            <StoreProvider>
-              <QueryClientProvider>
-                {children}
-                <GlobalToastRegion />
-              </QueryClientProvider>
-            </StoreProvider>
+            <SessionProvider>
+              <StoreProvider>
+                <QueryClientProvider>
+                  {children}
+                  <GlobalToastRegion />
+                </QueryClientProvider>
+              </StoreProvider>
+            </SessionProvider>
           </SupabaseProvider>
         </RouterProvider>
         <ScrollRestoration />
