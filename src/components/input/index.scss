@@ -54,14 +54,9 @@
   &__icon {
     color: typography.emphasis("text", "medium");
   }
-  &__icon-button {
+  &__action {
     margin: -0.5rem;
-    &--leading {
-      @include util.rtl-position(right, 0);
-    }
-    &--trailing {
-      @include util.rtl-position(left, 0);
-    }
+    @include util.rtl-position(left, 0, -0.5rem);
   }
   &__input,
   &__textarea {

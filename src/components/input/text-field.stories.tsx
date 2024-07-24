@@ -6,23 +6,20 @@ import { Symbol } from "~/components/symbol";
 import { TextField } from "./text-field";
 
 interface StoryProps
-  extends Omit<
-    ComponentPropsWithoutRef<typeof TextField>,
-    "icon" | "trailingIcon"
-  > {
+  extends Omit<ComponentPropsWithoutRef<typeof TextField>, "icon" | "action"> {
   icon: boolean;
-  trailingIcon: boolean;
+  action: boolean;
 }
 
 const meta = {
   title: "Components/TextField",
-  render: ({ icon, trailingIcon, ...args }) => (
+  render: ({ icon, action, ...args }) => (
     <TextField
       {...args}
       icon={icon ? <Symbol>id_card</Symbol> : undefined}
-      trailingIcon={
-        trailingIcon ? (
-          <IconButton slot="trailing" aria-label="Clear">
+      action={
+        action ? (
+          <IconButton slot="clear" aria-label="Clear">
             <Symbol>cancel</Symbol>
           </IconButton>
         ) : undefined
@@ -34,7 +31,7 @@ const meta = {
     isDisabled: false,
     textarea: false,
     icon: true,
-    trailingIcon: true,
+    action: true,
     label: "Label",
     description: "Description",
   },

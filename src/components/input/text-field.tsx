@@ -10,7 +10,6 @@ import type {
 } from "react-aria-components";
 import {
   TextField as AriaTextField,
-  DEFAULT_SLOT,
   FieldError,
   Input,
   Label,
@@ -34,7 +33,7 @@ export interface FormGroupProps {
   errorMessage?: ReactNode | ((validation: ValidationResult) => ReactNode);
   errorMessageProps?: Overwrite<FieldErrorProps, Partial<TypographyProps>>;
   icon?: ReactNode;
-  trailingIcon?: ReactNode;
+  action?: ReactNode;
 }
 
 export interface TextFieldProps
@@ -52,14 +51,9 @@ const symbolContextValue: ContextType<typeof SymbolContext> = {
 
 const buttonContextValue: ContextType<typeof ButtonContext> = {
   slots: {
-    [DEFAULT_SLOT]: {},
-    leading: {
+    actions: {
       compact: true,
-      className: cls("icon-button", "leading"),
-    },
-    trailing: {
-      compact: true,
-      className: cls("icon-button", "trailing"),
+      className: cls("action"),
     },
   },
 };
@@ -74,10 +68,11 @@ export function TextField({
   errorMessageProps,
   textarea,
   icon,
-  trailingIcon,
+  action,
   ...props
 }: TextFieldProps) {
   const containerRef = useRef<HTMLLabelElement>(null);
+  const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   const inputEventProps = useMemo(() => {
     const setContainerState = (state: string, value: boolean) => () => {
       if (!containerRef.current) return;
@@ -122,11 +117,19 @@ export function TextField({
         >
           {icon}
           {textarea ? (
-            <TextArea className={cls("textarea")} {...inputEventProps} />
+            <TextArea
+              ref={inputRef}
+              className={cls("textarea")}
+              {...inputEventProps}
+            />
           ) : (
-            <Input className={cls("input")} {...inputEventProps} />
+            <Input
+              ref={inputRef}
+              className={cls("input")}
+              {...inputEventProps}
+            />
           )}
-          {trailingIcon}
+          {action}
         </Provider>
       </label>
       {description && (
