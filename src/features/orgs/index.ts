@@ -1,4 +1,5 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import { skipToken } from "@tanstack/react-query";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import {
   compoundKey,
@@ -84,6 +85,25 @@ export const orgsApi = {
       (_res, { count }) => count ?? 0,
     ),
   })),
+  getOrgMember: supabaseQueryOptions(
+    (
+      { supabase },
+      orgId: Org["id"],
+      userId: OrgMember["user_id"] | undefined,
+    ) => ({
+      queryKey: ["orgMembers", orgId, userId],
+      queryFn: userId
+        ? supabaseFn(() =>
+            supabase
+              .from("org_members")
+              .select()
+              .eq("org_id", orgId)
+              .eq("user_id", userId)
+              .single(),
+          )
+        : skipToken,
+    }),
+  ),
   getOrgMembers: supabaseQueryOptions(({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["orgMembers", orgId],
     queryFn: supabaseFn(
