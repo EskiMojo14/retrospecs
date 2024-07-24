@@ -28,6 +28,7 @@ const meta = {
   ),
   args: {
     onChange: fn(),
+    onAction: fn(),
     isDisabled: false,
     textarea: false,
     icon: true,
