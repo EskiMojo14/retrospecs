@@ -28,6 +28,9 @@ $background-size: 128px;
   &__line {
     flex: 1 1 auto;
     background-position: center;
+    &:nth-child(2) {
+      flex-basis: 50%;
+    }
     &--vertical {
       width: var(--size);
       background-image: var(--vertical-img);
