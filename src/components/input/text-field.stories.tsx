@@ -19,7 +19,7 @@ const meta = {
       icon={icon ? <Symbol>id_card</Symbol> : undefined}
       action={
         action ? (
-          <IconButton slot="clear" aria-label="Clear">
+          <IconButton slot="action" aria-label="Clear">
             <Symbol>cancel</Symbol>
           </IconButton>
         ) : undefined

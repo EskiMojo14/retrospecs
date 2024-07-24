@@ -87,7 +87,7 @@ export function TextField({
   const buttonContextValue = useMemo<ContextType<typeof ButtonContext>>(
     () => ({
       slots: {
-        actions: {
+        action: {
           compact: true,
           className: cls("action"),
           onPress: onAction,
