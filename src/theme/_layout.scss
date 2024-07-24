@@ -1,0 +1,81 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass-map-get-next-prev/map-get-functions";
+
+$breakpoints: (
+  phone: 0,
+  tablet-s: 600px,
+  tablet-l: 905px,
+  laptop: 1240px,
+  desktop: 1440px,
+);
+
+@mixin breakpoint($breakpoint, $direction) {
+  @if $direction == "only" {
+    @media (min-width: map.get($breakpoints, $breakpoint)) and (max-width: map-get-functions.map-get-next($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else if $direction == "above" {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else if $direction == "below" {
+    @media (max-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+$columns: (
+  phone: 4,
+  tablet-s: 8,
+  tablet-l: 12,
+  laptop: 12,
+  desktop: 12,
+);
+
+$margin-x: (
+  phone: 16px,
+  tablet-s: 32px,
+  tablet-l: auto,
+  laptop: 200px,
+  desktop: auto,
+);
+
+$margin-y: (
+  phone: 16px,
+  tablet-s: 32px,
+  tablet-l: 32px,
+  laptop: 32px,
+  desktop: 32px,
+);
+
+$max-width: (
+  phone: none,
+  tablet-s: none,
+  tablet-l: 840px,
+  laptop: none,
+  desktop: 1040px,
+);
+
+@mixin responsive-grid($gutter: 16px) {
+  display: grid;
+  @each $breakpoint, $px in $breakpoints {
+    @include breakpoint(
+      $breakpoint,
+      if($breakpoint == "desktop", "above", "only")
+    ) {
+      gap: if(
+        meta.type-of($gutter) == "map" and map.has-key($gutter, $breakpoint),
+        map.get($gutter, $breakpoint),
+        $gutter
+      );
+      grid-template-columns: repeat(
+        map.get($columns, $breakpoint),
+        minmax(0, 1fr)
+      );
+      margin: map.get($margin-y, $breakpoint) map.get($margin-x, $breakpoint);
+      max-width: map.get($max-width, $breakpoint);
+    }
+  }
+}

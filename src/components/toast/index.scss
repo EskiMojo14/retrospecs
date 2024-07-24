@@ -3,6 +3,7 @@
 @use "~/theme";
 @use "~/theme/animation";
 @use "~/theme/elevation";
+@use "~/theme/layout";
 @use "~/theme/typography";
 @use "~/util";
 @use "./variables";
@@ -21,8 +22,9 @@
   min-height: 48px;
   overflow: hidden;
   @include elevation.elevation(8);
-  @include util.mobile {
-    max-width: calc(100vw - 32px);
+  @include layout.breakpoint("phone", "only") {
+    max-width: none;
+    width: calc(100vw - 32px);
   }
   &-region {
     position: fixed;

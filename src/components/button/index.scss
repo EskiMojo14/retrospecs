@@ -2,6 +2,7 @@
 @use "~/theme";
 @use "~/theme/typography";
 @use "~/theme/elevation";
+@use "~/theme/layout";
 @use "~/util";
 @use "./mixins";
 @use "./variables";
@@ -203,13 +204,13 @@
 
 .floating-action-button {
   position: fixed;
-  @include elevation.elevation(8);
+  @include elevation.elevation(6);
   --shadow: black;
   $size: 4rem;
   border-radius: $size * 0.5;
   height: $size;
   width: $size;
-  bottom: 1rem;
+  bottom: 32px;
   transition:
     opacity 200ms,
     outline 200ms,
@@ -217,15 +218,19 @@
     box-shadow 200ms,
     translate 200ms,
     transform 300ms ease-in;
-  @include util.rtl-position(right, 1rem);
+  @include util.rtl-position(right, 32px);
+  @include layout.breakpoint("phone", "only") {
+    bottom: 16px;
+    @include util.rtl-position(right, 16px);
+  }
   &[data-hovered] {
     translate: -2px -2px;
-    @include elevation.elevation(10);
+    @include elevation.elevation(8);
   }
   &[data-focus-visible],
   &[data-pressed] {
     translate: 0 0;
-    @include elevation.elevation(8);
+    @include elevation.elevation(6);
   }
   &::before {
     border-radius: inherit;
@@ -241,7 +246,7 @@
     opacity: 0;
     transform: scale(0);
   }
-  @include util.desktop {
+  @include layout.breakpoint("tablet-l", "above") {
     &--extended {
       height: 3.5rem;
       width: auto;
@@ -256,7 +261,7 @@
       }
     }
   }
-  @include util.mobile {
+  @include layout.breakpoint("tablet-l", "below") {
     .button__icon {
       margin: 0;
     }

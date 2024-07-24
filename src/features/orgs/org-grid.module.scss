@@ -1,6 +1,5 @@
+@use "~/theme/layout";
+
 .orgGrid {
-  display: flex;
-  padding: 16px;
-  gap: 16px;
-  flex-wrap: wrap;
+  @include layout.responsive-grid();
 }
