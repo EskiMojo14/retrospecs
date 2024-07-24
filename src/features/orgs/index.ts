@@ -1,8 +1,15 @@
 import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import type { QueryClient } from "@tanstack/react-query";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import { createEndpointInjector } from "~/store/endpoint-injector";
-import { compoundKey, supabaseQuery } from "~/util/supabase-query";
+import {
+  compoundKey,
+  supabaseQuery,
+  supabaseFn,
+  supabaseQueryOptions,
+  supabaseMutationOptions,
+} from "~/util/supabase-query";
 import type { PickRequired } from "~/util/types";
 
 export type Org = Tables<"orgs">;
@@ -131,7 +138,7 @@ export const injectOrgsApi = createEndpointInjector(
                 .eq("user_id", user_id),
             ),
             invalidatesTags: (_result, _err, member) => [
-              { type: "OrgMember", id: selectOrgMemberId(member) },
+              { type: "OrgMember" as const, id: selectOrgMemberId(member) },
             ],
           }),
           deleteOrgMember: build.mutation<
@@ -154,4 +161,25 @@ export const injectOrgsApi = createEndpointInjector(
       });
     return { api };
   },
+);
+
+export const getOrgsOptions = supabaseQueryOptions((supabase) => ({
+  queryKey: ["orgs"],
+  queryFn: supabaseFn(
+    () => supabase.from("orgs").select(),
+    (orgs) => orgAdapter.getInitialState(undefined, orgs),
+  ),
+}));
+
+export const addOrgMutationOptions = supabaseMutationOptions(
+  (supabase, queryClient: QueryClient) => ({
+    mutationFn: supabaseFn((org: TablesInsert<"orgs">) =>
+      supabase.from("orgs").insert(org),
+    ),
+    async onSuccess() {
+      await queryClient.invalidateQueries({
+        queryKey: ["orgs"],
+      });
+    },
+  }),
 );

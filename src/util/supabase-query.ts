@@ -3,6 +3,18 @@ import type {
   PostgrestError,
   PostgrestSingleResponse,
 } from "@supabase/supabase-js";
+import type {
+  MutationFunction,
+  QueryFunction,
+  DataTag,
+  DefinedInitialDataOptions,
+  QueryFunctionContext,
+  QueryKey,
+  QueryOptions,
+  UndefinedInitialDataOptions,
+  MutationOptions,
+} from "@tanstack/react-query";
+import type { AppSupabaseClient } from "~/db";
 
 export interface PostgrestMeta {
   count: number | null;
@@ -52,6 +64,123 @@ export function supabaseQuery<
       meta,
     };
   };
+}
+
+export interface PostgrestErrorWithMeta extends PostgrestError {
+  meta: PostgrestMeta;
+}
+
+export function supabaseFn<
+  QueryFnData,
+  TQueryKey extends QueryKey,
+  TData = QueryFnData,
+>(
+  queryFn: (
+    context: QueryFunctionContext<TQueryKey>,
+  ) => PromiseLike<PostgrestSingleResponse<QueryFnData>>,
+  transformResponse?: (data: QueryFnData, meta: PostgrestMeta) => TData,
+): QueryFunction<TData, TQueryKey>;
+export function supabaseFn<MutationFnData, TVariables, TData = MutationFnData>(
+  mutationFn: (
+    variables: TVariables,
+  ) => PromiseLike<PostgrestSingleResponse<MutationFnData>>,
+  transformResponse?: (data: MutationFnData, meta: PostgrestMeta) => TData,
+): MutationFunction<TData, TVariables>;
+export function supabaseFn<FnData, TData = FnData, TVariables = void>(
+  queryFn: (
+    variables: TVariables,
+  ) => PromiseLike<PostgrestSingleResponse<FnData>>,
+  transformResponse: (data: FnData, meta: PostgrestMeta) => TData = (data) =>
+    data as unknown as TData,
+) {
+  return async (context: TVariables) => {
+    const { data, error, count, status, statusText } = await queryFn(context);
+    const meta: PostgrestMeta = { count, status, statusText };
+    // eslint-disable-next-line @typescript-eslint/only-throw-error
+    if (error) throw { ...error, meta };
+    return transformResponse(data, meta);
+  };
+}
+
+export function supabaseQueryOptions<
+  QueryFnData,
+  const TQueryKey extends QueryKey,
+  Args extends Array<any> = [],
+>(
+  getOptions: (
+    supabase: AppSupabaseClient,
+    ...args: Args
+  ) => UndefinedInitialDataOptions<
+    QueryFnData,
+    PostgrestErrorWithMeta,
+    QueryFnData,
+    TQueryKey
+  >,
+): (
+  supabase: AppSupabaseClient,
+  ...args: Args
+) => UndefinedInitialDataOptions<
+  QueryFnData,
+  PostgrestErrorWithMeta,
+  QueryFnData,
+  TQueryKey
+> & {
+  queryKey: DataTag<TQueryKey, QueryFnData>;
+};
+export function supabaseQueryOptions<
+  QueryFnData,
+  const TQueryKey extends QueryKey,
+  Args extends Array<any> = [],
+>(
+  getOptions: (
+    supabase: AppSupabaseClient,
+    ...args: Args
+  ) => DefinedInitialDataOptions<
+    QueryFnData,
+    PostgrestErrorWithMeta,
+    QueryFnData,
+    TQueryKey
+  >,
+): (
+  supabase: AppSupabaseClient,
+  ...args: Args
+) => DefinedInitialDataOptions<
+  QueryFnData,
+  PostgrestErrorWithMeta,
+  QueryFnData,
+  TQueryKey
+> & {
+  queryKey: DataTag<TQueryKey, QueryFnData>;
+};
+export function supabaseQueryOptions<
+  QueryFnData,
+  const TQueryKey extends QueryKey,
+  Args extends Array<any> = [],
+>(
+  getOptions: (
+    supabase: AppSupabaseClient,
+    ...args: Args
+  ) => QueryOptions<
+    QueryFnData,
+    PostgrestErrorWithMeta,
+    QueryFnData,
+    TQueryKey
+  >,
+): typeof getOptions {
+  return getOptions;
+}
+
+export function supabaseMutationOptions<
+  MutationFnData,
+  TVariables,
+  Args extends Array<any> = [],
+>(
+  getOptions: (
+    supabase: AppSupabaseClient,
+    ...args: Args
+  ) => MutationOptions<MutationFnData, PostgrestErrorWithMeta, TVariables>,
+) {
+  return getOptions;
 }
 
 export const compoundKey =

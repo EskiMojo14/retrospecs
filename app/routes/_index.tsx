@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { FormEvent } from "react";
 import { DialogTrigger, Form, Text } from "react-aria-components";
 import type { BaseSchema } from "valibot";
@@ -14,16 +15,17 @@ import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
+import { useSupabase } from "~/db/provider";
 import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
-import { injectOrgsApi, selectOrgIds } from "~/features/orgs";
+import {
+  addOrgMutationOptions,
+  getOrgsOptions,
+  selectOrgIds,
+} from "~/features/orgs";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
-import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
-import { useHydratingLoaderData } from "~/hooks/use-hydrating-loader-data";
-import { applyInjector } from "~/store/endpoint-injector";
 import { createHydratingLoader } from "~/store/hydrate";
-import { makeDisposable } from "~/util";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Organisations" },
@@ -34,14 +36,9 @@ export const meta: MetaFunction = () => [
 ];
 
 export const loader = createHydratingLoader(
-  async ({ context, context: { store } }) => {
-    const { api: orgsApi } = applyInjector(injectOrgsApi, context);
-
-    using promise = makeDisposable(
-      store.dispatch(orgsApi.endpoints.getOrgs.initiate()),
-    );
-
-    return { data: await promise.unwrap() };
+  async ({ context: { queryClient, supabase } }) => {
+    await queryClient.prefetchQuery(getOrgsOptions(supabase));
+    return null;
   },
 );
 
@@ -50,21 +47,17 @@ const createOrgSchema = object({
 }) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
 
 export default function Orgs() {
-  const { useGetOrgsQuery, useAddOrgMutation } =
-    useEndpointInjector(injectOrgsApi);
-  const { data: dataFromLoader } = useHydratingLoaderData<typeof loader>();
-  const { orgIds } = useGetOrgsQuery(undefined, {
-    selectFromResult: ({ data = dataFromLoader }) => ({
-      orgIds: selectOrgIds(data),
-    }),
+  const supabase = useSupabase();
+  const { data: orgIds = [] } = useQuery({
+    ...getOrgsOptions(supabase),
+    select: selectOrgIds,
   });
-  const [createOrg, { isLoading, isError }] = useAddOrgMutation({
-    selectFromResult: ({ isLoading, isError }) => ({
-      isLoading,
-      isError,
-    }),
-  });
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const {
+    mutate: addOrg,
+    isError,
+    isPending,
+  } = useMutation(addOrgMutationOptions(supabase, useQueryClient()));
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);
     const parsedData = safeParse(
@@ -72,10 +65,7 @@ export default function Orgs() {
       Object.fromEntries(unparsedData),
     );
     if (parsedData.success) {
-      const { error } = await createOrg(parsedData.output);
-      if (error) {
-        console.error(error.message);
-      }
+      addOrg(parsedData.output);
     } else {
       console.error(parsedData.issues);
     }
@@ -127,7 +117,7 @@ export default function Orgs() {
                     type="submit"
                     form="create-org-form"
                     variant="elevated"
-                    isDisabled={isLoading}
+                    isDisabled={isPending}
                     color={isError ? "red" : undefined}
                   >
                     Create

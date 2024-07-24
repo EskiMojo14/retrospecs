@@ -12,20 +12,17 @@ import {
   json,
   useRouteLoaderData,
 } from "@remix-run/react";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
+import { useDehydratedState } from "use-dehydrated-state";
 import { ForeEauFore } from "~/404";
 import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
-import { SupabaseProvider } from "~/db/provider";
+import { SupabaseProvider, QueryClientProvider } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
-import { HydrationBoundary } from "~/features/hydration";
-import type { UserConfig } from "~/features/user_config";
-import { injectUserConfigApi } from "~/features/user_config";
-import type { RootState } from "~/store";
-import { applyInjector } from "~/store/endpoint-injector";
+import { getUserConfigOptions, type UserConfig } from "~/features/user_config";
 import { StoreProvider } from "~/store/provider";
-import { makeDisposable } from "~/util";
 import "~/index.scss";
 
 declare module "react-aria-components" {
@@ -34,7 +31,7 @@ declare module "react-aria-components" {
   }
 }
 
-const authRoutes = ["/sign-in", "/auth/callback"];
+const noAuthRoutes = ["/sign-in", "/auth/callback"];
 
 export const loader = (async ({
   request,
@@ -42,35 +39,38 @@ export const loader = (async ({
 }): Promise<
   TypedResponse<{
     lang: string;
-    state?: RootState;
     config?: UserConfig | null;
   }>
 > => {
-  const { lang, headers, store } = context;
+  const { lang, headers, supabase, queryClient } = context;
   const url = new URL(request.url);
-  const isAuthRoute = authRoutes.some((pathname) => url.pathname === pathname);
-  if (isAuthRoute) {
+  const isNoAuthRoute = noAuthRoutes.some(
+    (pathname) => url.pathname === pathname,
+  );
+  if (isNoAuthRoute) {
     return json({ lang }, { headers });
   }
+
   const user = await ensureAuthenticated(context);
 
-  const { api: userConfigApi } = applyInjector(injectUserConfigApi, context);
-
-  using promise = makeDisposable(
-    store.dispatch(userConfigApi.endpoints.getUserConfig.initiate(user.id)),
-  );
-
   return json(
-    { lang, state: store.getState(), config: await promise.unwrap() },
+    {
+      lang,
+      config: await queryClient.ensureQueryData(
+        getUserConfigOptions(supabase, user.id),
+      ),
+      dehydratedState: dehydrate(queryClient),
+    },
     { headers },
   );
 }) satisfies LoaderFunction;
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { lang, state, config } = useRouteLoaderData<typeof loader>("root") ?? {
+  const { lang, config } = useRouteLoaderData<typeof loader>("root") ?? {
     lang: "en",
   };
   const navigate = useNavigate();
+
   return (
     <html lang={lang} data-groove={config?.groove} data-theme={config?.theme}>
       <head>
@@ -84,10 +84,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <RouterProvider {...{ useHref, navigate }}>
           <SupabaseProvider>
             <StoreProvider>
-              <HydrationBoundary state={state}>
+              <QueryClientProvider>
                 {children}
                 <GlobalToastRegion />
-              </HydrationBoundary>
+              </QueryClientProvider>
             </StoreProvider>
           </SupabaseProvider>
         </RouterProvider>
@@ -99,7 +99,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const dehydratedState = useDehydratedState();
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <Outlet />
+    </HydrationBoundary>
+  );
 }
 
 export function ErrorBoundary() {

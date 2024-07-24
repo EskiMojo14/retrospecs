@@ -5182,6 +5182,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.51.9":
+  version: 5.51.9
+  resolution: "@tanstack/query-core@npm:5.51.9"
+  checksum: 10c0/05ae00d0f4c80ea82991b7624551da543abbe8782b9b3910867d1d142076e2ac8892f50c37f2bde0bfa70ada3be1ad2f74472aece945a0237d2c86b729a02a1c
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.51.11":
+  version: 5.51.11
+  resolution: "@tanstack/react-query@npm:5.51.11"
+  dependencies:
+    "@tanstack/query-core": "npm:5.51.9"
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 10c0/318aea36ffafc3e5123d970442c1358058137c069ef65dddcef87ea2406bc2f943f5e6da286df581885ba192b962b96eb785e57ef29366ee2178f18e39190f76
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:10.1.0":
   version: 10.1.0
   resolution: "@testing-library/dom@npm:10.1.0"
@@ -13125,6 +13143,7 @@ __metadata:
     "@storybook/test": "npm:^8.2.4"
     "@supabase/ssr": "npm:0.4.0"
     "@supabase/supabase-js": "npm:^2.44.3"
+    "@tanstack/react-query": "npm:^5.51.11"
     "@testing-library/dom": "npm:^10.3.2"
     "@testing-library/jest-dom": "npm:^6.4.6"
     "@testing-library/react": "npm:^16.0.0"
@@ -13172,6 +13191,7 @@ __metadata:
     storybook: "npm:^8.2.4"
     tsx: "npm:^4.16.2"
     typescript: "npm:^5.2.2"
+    use-dehydrated-state: "npm:^0.1.0"
     valibot: "npm:^0.36.0"
     vite: "npm:^5.3.1"
     vite-tsconfig-paths: "npm:^4.3.2"
@@ -14706,6 +14726,15 @@ __metadata:
     querystringify: "npm:^2.1.1"
     requires-port: "npm:^1.0.0"
   checksum: 10c0/bd5aa9389f896974beb851c112f63b466505a04b4807cea2e5a3b7092f6fbb75316f0491ea84e44f66fed55f1b440df5195d7e3a8203f64fcefa19d182f5be87
+  languageName: node
+  linkType: hard
+
+"use-dehydrated-state@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "use-dehydrated-state@npm:0.1.0"
+  dependencies:
+    deepmerge: "npm:^4.2.2"
+  checksum: 10c0/1ce800b76d3a2f43e9bbd49048802d8a231b728d73da4d1b432df37350ec555fbb2709a817e92323abea55bd587fcdb00b5887f8d8673438f5d19747cf861ba3
   languageName: node
   linkType: hard
 

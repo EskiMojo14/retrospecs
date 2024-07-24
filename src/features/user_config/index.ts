@@ -1,7 +1,11 @@
 import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert } from "~/db/supabase";
 import { createEndpointInjector } from "~/store/endpoint-injector";
-import { supabaseQuery } from "~/util/supabase-query";
+import {
+  supabaseQuery,
+  supabaseFn,
+  supabaseQueryOptions,
+} from "~/util/supabase-query";
 
 export type UserConfig = Tables<"user_config">;
 
@@ -67,4 +71,14 @@ export const injectUserConfigApi = createEndpointInjector(
       });
     return { api: userConfigApi };
   },
+);
+
+export const getUserConfigOptions = supabaseQueryOptions(
+  (supabase, userId: string) => ({
+    queryKey: ["userConfig", userId],
+    queryFn: supabaseFn(
+      () => supabase.from("user_config").select().eq("user_id", userId),
+      (response) => response[0] ?? null,
+    ),
+  }),
 );

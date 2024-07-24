@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import {
@@ -11,10 +11,9 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { injectTeamsApi } from "~/features/teams";
-import { useEndpointInjector } from "~/hooks/use-endpoint-injector";
+import { useSupabase } from "~/db/provider";
 import type { Org } from ".";
-import { injectOrgsApi, selectOrgById } from ".";
+import { getOrgsOptions, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
 
 interface OrgCardProps {
@@ -22,28 +21,11 @@ interface OrgCardProps {
 }
 
 export function OrgCard({ orgId }: OrgCardProps) {
-  const { useGetOrgMemberCountQuery, useGetOrgsQuery } =
-    useEndpointInjector(injectOrgsApi);
-  const { useGetTeamCountByOrgQuery } = useEndpointInjector(injectTeamsApi);
-  const { org } = useGetOrgsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      org: data && selectOrgById(data, orgId),
-    }),
+  const supabase = useSupabase();
+  const { data: org } = useQuery({
+    ...getOrgsOptions(supabase),
+    select: (data) => selectOrgById(data, orgId),
   });
-  const { memberCount } = useGetOrgMemberCountQuery(orgId, {
-    selectFromResult: ({ data }) => ({ memberCount: data ?? 0 }),
-  });
-  const { teamCount } = useGetTeamCountByOrgQuery(orgId, {
-    selectFromResult: ({ data }) => ({ teamCount: data ?? 0 }),
-  });
-  const formattedDate = useMemo(
-    () =>
-      org?.created_at &&
-      new Date(org.created_at).toLocaleDateString(undefined, {
-        dateStyle: "short",
-      }),
-    [org?.created_at],
-  );
   if (!org) return null;
   return (
     <Card className={styles.orgCard}>
@@ -53,13 +35,10 @@ export function OrgCard({ orgId }: OrgCardProps) {
         className={styles.primaryAction}
       >
         <Typography variant="overline" className={styles.teamCount}>
-          {teamCount} Teams
+          {0} Teams
         </Typography>
         <Typography variant="headline6" className={styles.title}>
           {org.name}
-        </Typography>
-        <Typography variant="caption" className={styles.date}>
-          Created {formattedDate}
         </Typography>
       </CardPrimaryAction>
       <CardActions>
@@ -69,7 +48,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
             variant="outlined"
             href={`/orgs/${orgId}/members`}
           >
-            Members: {memberCount}
+            Members: {0}
           </CardActionButton>
         </Toolbar>
         <Toolbar slot="icons">

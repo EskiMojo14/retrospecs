@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { LinkButton } from "~/components/button";
 import {
   Card,
@@ -30,14 +29,6 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
   const { memberCount } = useGetTeamMemberCountQuery(teamId, {
     selectFromResult: ({ data }) => ({ memberCount: data ?? 0 }),
   });
-  const formattedDate = useMemo(
-    () =>
-      team?.created_at &&
-      new Date(team.created_at).toLocaleDateString(undefined, {
-        dateStyle: "short",
-      }),
-    [team?.created_at],
-  );
   if (!team) return null;
   return (
     <Card className={styles.teamCard}>
@@ -48,9 +39,6 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
       >
         <Typography variant="headline6" className={styles.title}>
           {team.name}
-        </Typography>
-        <Typography variant="caption" className={styles.date}>
-          Created {formattedDate}
         </Typography>
       </CardPrimaryAction>
       <CardActions>

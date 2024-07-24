@@ -24,6 +24,7 @@
     "@remix-run/server-runtime": "^2.10.3",
     "@supabase/ssr": "0.4.0",
     "@supabase/supabase-js": "^2.44.3",
+    "@tanstack/react-query": "^5.51.11",
     "@vercel/remix": "^2.10.2",
     "clsx": "^2.1.1",
     "compression": "^1.7.4",
@@ -42,6 +43,7 @@
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
     "required-react-context": "^1.4.1",
+    "use-dehydrated-state": "^0.1.0",
     "valibot": "^0.36.0"
   },
   "devDependencies": {
