@@ -82,7 +82,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
                 </CardActionIcon>
                 <ConfirmationDialog
                   title="Delete organisation"
-                  description={`Are you sure you want to delete ${org.name}?`}
+                  description={`Are you sure you want to delete "${org.name}"?`}
                   onConfirm={(close) => {
                     deleteOrgFn(orgId);
                     close();
