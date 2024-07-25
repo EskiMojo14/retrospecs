@@ -60,7 +60,7 @@ export default function SignIn() {
   }, [error, setSearchParams]);
 
   return (
-    <LineBackground>
+    <LineBackground opacity={0.5}>
       <AppBar>
         <Toolbar slot="nav">
           <Logo />
