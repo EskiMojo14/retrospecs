@@ -48,7 +48,9 @@ export function PreferencesDialog() {
                     setTheme("system");
                   }}
                 >
-                  <Symbol slot="leading">brightness_auto</Symbol>
+                  <Symbol slot="leading" transition fill={theme === "system"}>
+                    brightness_auto
+                  </Symbol>
                   System
                 </ToggleButton>
                 <ToggleButton
@@ -57,7 +59,9 @@ export function PreferencesDialog() {
                     setTheme("light");
                   }}
                 >
-                  <Symbol slot="leading">light_mode</Symbol>
+                  <Symbol slot="leading" transition fill={theme === "light"}>
+                    light_mode
+                  </Symbol>
                   Light
                 </ToggleButton>
                 <ToggleButton
@@ -66,7 +70,9 @@ export function PreferencesDialog() {
                     setTheme("dark");
                   }}
                 >
-                  <Symbol slot="leading">dark_mode</Symbol>
+                  <Symbol slot="leading" transition fill={theme === "dark"}>
+                    dark_mode
+                  </Symbol>
                   Dark
                 </ToggleButton>
               </ButtonGroup>
@@ -84,6 +90,9 @@ export function PreferencesDialog() {
                     setGroove("none");
                   }}
                 >
+                  <Symbol slot="leading" transition fill={groove === "none"}>
+                    volume_off
+                  </Symbol>
                   None
                 </ToggleButton>
                 <ToggleButton
@@ -92,6 +101,13 @@ export function PreferencesDialog() {
                     setGroove("low_volume");
                   }}
                 >
+                  <Symbol
+                    slot="leading"
+                    transition
+                    fill={groove === "low_volume"}
+                  >
+                    volume_down
+                  </Symbol>
                   Low volume
                 </ToggleButton>
                 <ToggleButton
@@ -100,6 +116,9 @@ export function PreferencesDialog() {
                     setGroove("heavy");
                   }}
                 >
+                  <Symbol slot="leading" transition fill={groove === "heavy"}>
+                    volume_up
+                  </Symbol>
                   Heavy
                 </ToggleButton>
               </ButtonGroup>
