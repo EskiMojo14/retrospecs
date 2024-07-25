@@ -8,7 +8,7 @@ interface TeamGridProps {
 
 export function TeamGrid({ orgId, teamIds }: TeamGridProps) {
   return (
-    <div className={styles.orgGrid}>
+    <div className={styles.teamGrid}>
       {teamIds.map((teamId) => (
         <TeamCard key={teamId} orgId={orgId} teamId={teamId} />
       ))}

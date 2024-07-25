@@ -1,5 +1,5 @@
+@use "~/theme/layout";
+
 .teamGrid {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  @include layout.responsive-grid();
 }
