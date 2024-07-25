@@ -78,7 +78,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang={lang}
-      data-groove={config?.groove}
+      data-groove={config?.groove ?? "heavy"}
       data-theme={config?.theme ?? "system"}
     >
       <head>

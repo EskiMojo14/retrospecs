@@ -23,7 +23,7 @@ export function PreferencesDialog() {
     userId && mutate({ groove, user_id: userId });
   };
   const theme = config?.theme ?? "system";
-  const groove = config?.groove ?? "none";
+  const groove = config?.groove ?? "heavy";
   return (
     <DialogTrigger>
       <IconButton aria-label="User preferences">
