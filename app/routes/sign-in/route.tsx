@@ -32,15 +32,17 @@ export default function SignIn() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const error = searchParams.get("error");
+  const errorDescription = searchParams.get("error_description");
 
   const toastKeyRef = useRef<string>();
 
   useEffect(() => {
-    if (error && !toastKeyRef.current) {
+    if ((error ?? errorDescription) && !toastKeyRef.current) {
       toastKeyRef.current = toastQueue.add(
         {
           type: "error",
-          description: error,
+          title: error,
+          description: errorDescription,
         },
         {
           onClose: () => {
@@ -52,12 +54,13 @@ export default function SignIn() {
         (prev) => {
           const searchParams = new URLSearchParams(prev);
           searchParams.delete("error");
+          searchParams.delete("error_description");
           return searchParams;
         },
         { replace: true },
       );
     }
-  }, [error, setSearchParams]);
+  }, [error, errorDescription, setSearchParams]);
 
   return (
     <LineBackground opacity={0.5}>
