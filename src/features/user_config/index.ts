@@ -58,7 +58,7 @@ export const updateUserConfig = supabaseMutationOptions(
     onError(err, { user_id }, context) {
       toastQueue.add({
         type: "error",
-        title: "Failed to update user config",
+        title: "Failed to sync preferences",
         description: err.message,
       });
       if (context?.prevConfig) {
