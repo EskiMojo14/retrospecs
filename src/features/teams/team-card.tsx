@@ -10,7 +10,7 @@ import {
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { useOptionsCreator } from "~/hooks/use-query-options";
+import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { getTeamMemberCount, getTeamsByOrg, selectTeamById } from ".";
 import styles from "./team-card.module.scss";
 

@@ -12,7 +12,7 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { getTeamCountByOrg } from "~/features/teams";
-import { useOptionsCreator } from "~/hooks/use-query-options";
+import { useOptionsCreator } from "~/hooks/use-options-creator";
 import {
   Permission,
   useCurrentUserPermissions,

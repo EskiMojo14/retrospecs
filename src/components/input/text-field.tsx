@@ -117,8 +117,8 @@ export function TextField({
       <label ref={containerRef} className={cls("input-container")}>
         <Provider
           values={[
-            [SymbolContext.Provider, symbolContextValue],
-            [ButtonContext.Provider, buttonContextValue],
+            [SymbolContext, symbolContextValue],
+            [ButtonContext, buttonContextValue],
           ]}
         >
           {icon}

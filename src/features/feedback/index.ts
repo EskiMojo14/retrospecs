@@ -1,11 +1,15 @@
 import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
-import { buildRealtimeHandler } from "~/db/realtime";
+import { makeRealtimeHandler } from "~/db/realtime";
 import type { Enums, Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
-import type { Sprint } from "~/features/sprints";
-import { createEndpointInjector } from "~/store/endpoint-injector";
 import { groupBy } from "~/util";
-import { compoundKey, supabaseQuery } from "~/util/supabase-query";
+import type { AppContext } from "~/util/supabase-query";
+import {
+  compoundKey,
+  supabaseFn,
+  supabaseMutationOptions,
+  supabaseQueryOptions,
+} from "~/util/supabase-query";
 import type { PickRequired } from "~/util/types";
 
 export type Category = Enums<"category">;
@@ -61,191 +65,179 @@ export const selectReactionsByType = (
   reaction: Enums<"reaction">,
 ) => selectReactionsByTypes(state)[reaction];
 
-export const injectFeedbackApi = createEndpointInjector(
-  ({ api: emptyApi, store: { dispatch }, supabase }) => {
-    const api = emptyApi
-      .enhanceEndpoints({ addTagTypes: ["Feedback", "Reaction"] })
-      .injectEndpoints({
-        endpoints: (build) => ({
-          getFeedbackBySprint: build.query<
-            EntityState<Feedback, Feedback["id"]>,
-            Sprint["id"]
-          >({
-            queryFn: supabaseQuery(
-              (sprintId) =>
-                supabase.from("feedback").select().eq("sprint_id", sprintId),
-              {
-                transformResponse: (feedback) =>
-                  feedbackAdapter.getInitialState(undefined, feedback),
-              },
-            ),
-            providesTags: (result, _err, sprintId) =>
-              result
-                ? [
-                    ...result.ids.map((id) => ({
-                      type: "Feedback" as const,
-                      id,
-                    })),
-                    { type: "Feedback" as const, id: `SPRINT-${sprintId}` },
-                  ]
-                : [{ type: "Feedback" as const, id: `SPRINT-${sprintId}` }],
-          }),
-          addFeedback: build.mutation<null, TablesInsert<"feedback">>({
-            queryFn: supabaseQuery((feedback) =>
-              supabase.from("feedback").insert(feedback),
-            ),
-            invalidatesTags: (_result, _error, { sprint_id }) => [
-              { type: "Feedback", id: `SPRINT-${sprint_id}` },
-            ],
-          }),
-          updateFeedback: build.mutation<
-            null,
-            PickRequired<TablesUpdate<"feedback">, "id">
-          >({
-            queryFn: supabaseQuery(({ id, ...feedback }) =>
-              supabase.from("feedback").update(feedback).eq("id", id),
-            ),
-            invalidatesTags: (_res, _err, { id }) => [{ type: "Feedback", id }],
-          }),
-          deleteFeedback: build.mutation<null, Feedback["id"]>({
-            queryFn: supabaseQuery((id) =>
-              supabase.from("feedback").delete().eq("id", id),
-            ),
-            invalidatesTags: (_res, _err, id) => [{ type: "Feedback", id }],
-          }),
-
-          getReactionsByFeedback: build.query<
-            EntityState<ReactionEntry, string>,
-            Feedback["id"]
-          >({
-            queryFn: supabaseQuery(
-              (feedbackId) =>
-                supabase
-                  .from("reactions")
-                  .select()
-                  .eq("feedback_id", feedbackId),
-              {
-                transformResponse: (reactions) =>
-                  reactionAdapter.getInitialState(undefined, reactions),
-              },
-            ),
-            providesTags: (result, _err, feedbackId) =>
-              result
-                ? [
-                    ...result.ids.map((id) => ({
-                      type: "Reaction" as const,
-                      id,
-                    })),
-                    { type: "Reaction" as const, id: `FEEDBACK-${feedbackId}` },
-                  ]
-                : [{ type: "Reaction" as const, id: `FEEDBACK-${feedbackId}` }],
-          }),
-          addReaction: build.mutation<null, TablesInsert<"reactions">>({
-            queryFn: supabaseQuery((reaction) =>
-              supabase.from("reactions").insert(reaction),
-            ),
-            invalidatesTags: (_result, _err, { feedback_id }) => [
-              { type: "Reaction", id: `FEEDBACK-${feedback_id}` },
-            ],
-          }),
-          deleteReaction: build.mutation<
-            null,
-            Parameters<typeof selectReactionId>[0]
-          >({
-            queryFn: supabaseQuery(({ feedback_id, user_id, reaction }) =>
-              supabase
-                .from("reactions")
-                .delete()
-                .eq("feedback_id", feedback_id)
-                .eq("user_id", user_id)
-                .eq("reaction", reaction),
-            ),
-            invalidatesTags: (_result, _err, reaction) => [
-              { type: "Reaction" as const, id: selectReactionId(reaction) },
-            ],
-          }),
-        }),
-        overrideExisting: true,
-      });
-
-    const setupFeedbackRealtime = buildRealtimeHandler(supabase, "feedback", {
-      insert: (payload) =>
-        dispatch(
-          api.util.updateQueryData(
-            "getFeedbackBySprint",
-            payload.new.sprint_id,
-            (draft) => feedbackAdapter.addOne(draft, payload.new),
-          ),
-        ),
-      update: (payload) =>
-        dispatch(
-          api.util.updateQueryData(
-            "getFeedbackBySprint",
-            payload.new.sprint_id,
-            (draft) =>
-              feedbackAdapter.updateOne(draft, {
-                id: payload.old.id ?? payload.new.id,
-                changes: payload.new,
-              }),
-          ),
-        ),
-      delete: (payload) => {
-        const sprintId = payload.old.sprint_id;
-        const feedbackId = payload.old.id;
-        if (
-          typeof sprintId === "undefined" ||
-          typeof feedbackId === "undefined"
-        )
-          return;
-        dispatch(
-          api.util.updateQueryData("getFeedbackBySprint", sprintId, (draft) =>
-            feedbackAdapter.removeOne(draft, feedbackId),
-          ),
-        );
-      },
-    });
-    const setupReactionRealtime = buildRealtimeHandler(supabase, "reactions", {
-      insert: (payload) =>
-        dispatch(
-          api.util.updateQueryData(
-            "getReactionsByFeedback",
-            payload.new.feedback_id,
-            (draft) => reactionAdapter.addOne(draft, payload.new),
-          ),
-        ),
-      delete: (payload) => {
-        const { user_id, feedback_id, reaction } = payload.old;
-        if (
-          typeof reaction === "undefined" ||
-          typeof user_id === "undefined" ||
-          typeof feedback_id === "undefined"
-        )
-          return;
-        dispatch(
-          api.util.updateQueryData(
-            "getReactionsByFeedback",
-            feedback_id,
-            (draft) =>
-              reactionAdapter.removeOne(
-                draft,
-                selectReactionId({ user_id, feedback_id, reaction }),
-              ),
-          ),
-        );
-      },
-    });
-    return {
-      api,
-      realtime() {
-        const feedbackChannel = setupFeedbackRealtime();
-        const reactionChannel = setupReactionRealtime();
-        return {
-          unsubscribe() {
-            void feedbackChannel.unsubscribe();
-            void reactionChannel.unsubscribe();
-          },
-        };
-      },
-    };
-  },
+export const getFeedbackBySprint = supabaseQueryOptions(
+  ({ supabase }, sprintId: number) => ({
+    queryKey: ["feedback", sprintId],
+    queryFn: supabaseFn(
+      () => supabase.from("feedback").select().eq("sprint_id", sprintId),
+      (feedback) => feedbackAdapter.getInitialState(undefined, feedback),
+    ),
+  }),
 );
+
+export const addFeedback = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn((feedback: TablesInsert<"feedback">) =>
+      supabase.from("feedback").insert(feedback),
+    ),
+    async onSuccess() {
+      await queryClient.invalidateQueries({
+        queryKey: ["feedback"],
+      });
+    },
+  }),
+);
+
+export const updateFeedback = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn(
+      ({ id, ...feedback }: PickRequired<TablesUpdate<"feedback">, "id">) =>
+        supabase.from("feedback").update(feedback).eq("id", id),
+    ),
+    async onSuccess(
+      _: null,
+      { id }: PickRequired<TablesUpdate<"feedback">, "id">,
+    ) {
+      await queryClient.invalidateQueries({
+        queryKey: ["feedback", id],
+      });
+    },
+  }),
+);
+
+export const deleteFeedback = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn((id: Feedback["id"]) =>
+      supabase.from("feedback").delete().eq("id", id),
+    ),
+    async onSuccess() {
+      await queryClient.invalidateQueries({
+        queryKey: ["feedback"],
+      });
+    },
+  }),
+);
+
+export const getReactionsByFeedback = supabaseQueryOptions(
+  ({ supabase }, feedbackId: Feedback["id"]) => ({
+    queryKey: ["reactions", feedbackId],
+    queryFn: supabaseFn(
+      () => supabase.from("reactions").select().eq("feedback_id", feedbackId),
+      (reactions) => reactionAdapter.getInitialState(undefined, reactions),
+    ),
+  }),
+);
+
+export const addReaction = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn((reaction: TablesInsert<"reactions">) =>
+      supabase.from("reactions").insert(reaction),
+    ),
+    async onSuccess(_: null, { feedback_id }: TablesInsert<"reactions">) {
+      await queryClient.invalidateQueries({
+        queryKey: ["reactions", feedback_id],
+      });
+    },
+  }),
+);
+
+export const deleteReaction = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn(
+      ({
+        feedback_id,
+        user_id,
+        reaction,
+      }: Parameters<typeof selectReactionId>[0]) =>
+        supabase
+          .from("reactions")
+          .delete()
+          .eq("feedback_id", feedback_id)
+          .eq("user_id", user_id)
+          .eq("reaction", reaction),
+    ),
+    async onSuccess(
+      _: null,
+      { feedback_id }: Parameters<typeof selectReactionId>[0],
+    ) {
+      await queryClient.invalidateQueries({
+        queryKey: ["reactions", feedback_id],
+      });
+    },
+  }),
+);
+
+const _feedbackRealtime = makeRealtimeHandler("feedback", (context) => {
+  const { queryClient } = context;
+  return {
+    insert: (payload) => {
+      queryClient.setQueryData(
+        getFeedbackBySprint(context, payload.new.sprint_id).queryKey,
+        (draft = feedbackAdapter.getInitialState()) =>
+          feedbackAdapter.addOne(draft, payload.new),
+      );
+    },
+    update: (payload) => {
+      queryClient.setQueryData(
+        getFeedbackBySprint(context, payload.new.sprint_id).queryKey,
+        (draft = feedbackAdapter.getInitialState()) =>
+          feedbackAdapter.updateOne(draft, {
+            id: payload.old.id ?? payload.new.id,
+            changes: payload.new,
+          }),
+      );
+    },
+    delete: (payload) => {
+      const sprintId = payload.old.sprint_id;
+      const feedbackId = payload.old.id;
+      if (typeof sprintId === "undefined" || typeof feedbackId === "undefined")
+        return;
+      queryClient.setQueryData(
+        getFeedbackBySprint(context, sprintId).queryKey,
+        (draft = feedbackAdapter.getInitialState()) =>
+          feedbackAdapter.removeOne(draft, feedbackId),
+      );
+    },
+  };
+});
+
+const reactionRealtime = makeRealtimeHandler("reactions", (context) => {
+  const { queryClient } = context;
+  return {
+    insert: (payload) => {
+      queryClient.setQueryData(
+        getReactionsByFeedback(context, payload.new.feedback_id).queryKey,
+        (draft = reactionAdapter.getInitialState()) =>
+          reactionAdapter.addOne(draft, payload.new),
+      );
+    },
+    delete: (payload) => {
+      const { user_id, feedback_id, reaction } = payload.old;
+      if (
+        typeof reaction === "undefined" ||
+        typeof user_id === "undefined" ||
+        typeof feedback_id === "undefined"
+      )
+        return;
+      queryClient.setQueryData(
+        getReactionsByFeedback(context, feedback_id).queryKey,
+        (draft = reactionAdapter.getInitialState()) =>
+          reactionAdapter.removeOne(
+            draft,
+            selectReactionId({ user_id, feedback_id, reaction }),
+          ),
+      );
+    },
+  };
+});
+
+export const feedbackRealtime = (context: AppContext) => {
+  const feedbackChannel = _feedbackRealtime(context);
+  const reactionChannel = reactionRealtime(context);
+  return {
+    unsubscribe() {
+      void feedbackChannel.unsubscribe();
+      void reactionChannel.unsubscribe();
+    },
+  };
+};

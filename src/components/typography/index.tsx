@@ -40,7 +40,6 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
   (props, ref) => (
     <Typography
       ref={ref}
-      // @ts-expect-error TODO: not quite sure why this is unhappy
       as={AriaHeading}
       level={levelMapping[props.variant]}
       {...props}

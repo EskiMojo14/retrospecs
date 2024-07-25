@@ -1,10 +1,12 @@
-import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter } from "@reduxjs/toolkit";
-import { buildRealtimeHandler } from "~/db/realtime";
+import { makeRealtimeHandler } from "~/db/realtime";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Sprint } from "~/features/sprints";
-import { createEndpointInjector } from "~/store/endpoint-injector";
-import { supabaseQuery } from "~/util/supabase-query";
+import {
+  supabaseFn,
+  supabaseMutationOptions,
+  supabaseQueryOptions,
+} from "~/util/supabase-query";
 import type { PickRequired } from "~/util/types";
 
 export type Action = Tables<"actions">;
@@ -19,97 +21,89 @@ export const {
   selectTotal: selectTotalActions,
 } = actionAdapter.getSelectors();
 
-export const injectActionsEndpoints = createEndpointInjector(
-  ({ api: emptyApi, store: { dispatch }, supabase }) => {
-    const api = emptyApi
-      .enhanceEndpoints({ addTagTypes: ["Action"] })
-      .injectEndpoints({
-        endpoints: (build) => ({
-          getActionsBySprint: build.query<
-            EntityState<Action, Action["id"]>,
-            Sprint["id"]
-          >({
-            queryFn: supabaseQuery(
-              (sprintId) =>
-                supabase.from("actions").select().eq("sprint_id", sprintId),
-              {
-                transformResponse: (actions) =>
-                  actionAdapter.getInitialState(undefined, actions),
-              },
-            ),
-            providesTags: (result, _err, sprintId) =>
-              result
-                ? [
-                    ...result.ids.map((id) => ({
-                      type: "Action" as const,
-                      id,
-                    })),
-                    { type: "Action" as const, id: `SPRINT-${sprintId}` },
-                  ]
-                : [{ type: "Action" as const, id: `SPRINT-${sprintId}` }],
-          }),
-          addAction: build.mutation<null, TablesInsert<"actions">>({
-            queryFn: supabaseQuery((action) =>
-              supabase.from("actions").insert(action),
-            ),
-            invalidatesTags: ["Action"],
-          }),
-          updateAction: build.mutation<
-            null,
-            PickRequired<TablesUpdate<"actions">, "id">
-          >({
-            queryFn: supabaseQuery(({ id, ...action }) =>
-              supabase.from("actions").update(action).eq("id", id),
-            ),
-            invalidatesTags: (_res, _err, { id }) => [{ type: "Action", id }],
-          }),
-          deleteAction: build.mutation<null, Action["id"]>({
-            queryFn: supabaseQuery((id) =>
-              supabase.from("actions").delete().eq("id", id),
-            ),
-            invalidatesTags: (_res, _err, id) => [{ type: "Action", id }],
-          }),
-        }),
-        overrideExisting: true,
-      });
-    return {
-      api,
-      realtime: buildRealtimeHandler(supabase, "actions", {
-        insert: (payload) =>
-          dispatch(
-            api.util.updateQueryData(
-              "getActionsBySprint",
-              payload.new.sprint_id,
-              (draft) => actionAdapter.addOne(draft, payload.new),
-            ),
-          ),
-        update: (payload) =>
-          dispatch(
-            api.util.updateQueryData(
-              "getActionsBySprint",
-              payload.new.sprint_id,
-              (draft) =>
-                actionAdapter.updateOne(draft, {
-                  id: payload.old.id ?? payload.new.id,
-                  changes: payload.new,
-                }),
-            ),
-          ),
-        delete: (payload) => {
-          const sprintId = payload.old.sprint_id;
-          const actionId = payload.old.id;
-          if (
-            typeof sprintId === "undefined" ||
-            typeof actionId === "undefined"
-          )
-            return;
-          dispatch(
-            api.util.updateQueryData("getActionsBySprint", sprintId, (draft) =>
-              actionAdapter.removeOne(draft, actionId),
-            ),
-          );
-        },
-      }),
-    };
-  },
+export const getActionsBySprint = supabaseQueryOptions(
+  ({ supabase }, sprintId: Sprint["id"]) => ({
+    queryKey: ["actions", sprintId],
+    queryFn: supabaseFn(
+      () => supabase.from("actions").select().eq("sprint_id", sprintId),
+      (actions) => actionAdapter.getInitialState(undefined, actions),
+    ),
+  }),
 );
+
+export const addAction = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn((action: TablesInsert<"actions">) =>
+      supabase.from("actions").insert(action),
+    ),
+    async onSuccess(_: null, { sprint_id }: TablesInsert<"actions">) {
+      await queryClient.invalidateQueries({
+        queryKey: ["actions", sprint_id],
+      });
+    },
+  }),
+);
+
+export const updateAction = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn(
+      ({ id, ...action }: PickRequired<TablesUpdate<"actions">, "id">) =>
+        supabase.from("actions").update(action).eq("id", id),
+    ),
+    async onSuccess(
+      _: null,
+      { sprint_id }: PickRequired<TablesUpdate<"actions">, "id">,
+    ) {
+      await queryClient.invalidateQueries({
+        queryKey: ["actions", sprint_id],
+      });
+    },
+  }),
+);
+
+export const deleteAction = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn((id: Action["id"]) =>
+      supabase.from("actions").delete().eq("id", id),
+    ),
+    async onSuccess() {
+      await queryClient.invalidateQueries({
+        queryKey: ["actions"],
+      });
+    },
+  }),
+);
+
+export const actionRealtime = makeRealtimeHandler("actions", (context) => {
+  const { queryClient } = context;
+  return {
+    insert(payload) {
+      queryClient.setQueryData(
+        getActionsBySprint(context, payload.new.sprint_id).queryKey,
+        (draft = actionAdapter.getInitialState()) =>
+          actionAdapter.addOne(draft, payload.new),
+      );
+    },
+    update(payload) {
+      queryClient.setQueryData(
+        getActionsBySprint(context, payload.new.sprint_id).queryKey,
+        (draft = actionAdapter.getInitialState()) =>
+          actionAdapter.updateOne(draft, {
+            id: payload.old.id ?? payload.new.id,
+            changes: payload.new,
+          }),
+      );
+    },
+    delete(payload) {
+      const sprintId = payload.old.sprint_id;
+      const actionId = payload.old.id;
+      if (typeof sprintId === "undefined" || typeof actionId === "undefined")
+        return;
+      queryClient.setQueryData(
+        getActionsBySprint(context, sprintId).queryKey,
+        (draft = actionAdapter.getInitialState()) =>
+          actionAdapter.removeOne(draft, actionId),
+      );
+    },
+  };
+});

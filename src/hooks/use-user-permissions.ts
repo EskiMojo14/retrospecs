@@ -8,7 +8,7 @@ import {
   selectOrgById,
   selectOrgMemberById,
 } from "~/features/orgs";
-import { useOptionsCreator } from "./use-query-options";
+import { useOptionsCreator } from "./use-options-creator";
 
 export enum Permission {
   Unauthenticated,

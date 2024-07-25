@@ -27,7 +27,6 @@ import {
 import { ErrorPage } from "~/error-page";
 import type { UserConfig } from "~/features/user_config";
 import { getUserConfig } from "~/features/user_config";
-import { StoreProvider } from "~/store/provider";
 import "~/index.scss";
 
 declare module "react-aria-components" {
@@ -89,12 +88,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <RouterProvider {...{ useHref, navigate }}>
           <SupabaseProvider>
             <SessionProvider>
-              <StoreProvider>
-                <QueryClientProvider>
-                  {children}
-                  <GlobalToastRegion aria-label="Notifications" />
-                </QueryClientProvider>
-              </StoreProvider>
+              <QueryClientProvider>
+                {children}
+                <GlobalToastRegion aria-label="Notifications" />
+              </QueryClientProvider>
             </SessionProvider>
           </SupabaseProvider>
         </RouterProvider>

@@ -7,7 +7,7 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
-import { useOptionsCreator } from "~/hooks/use-query-options";
+import { useOptionsCreator } from "~/hooks/use-options-creator";
 import type { Groove, Theme } from ".";
 import { getUserConfig, updateUserConfig } from ".";
 

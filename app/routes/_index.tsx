@@ -15,13 +15,13 @@ import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
+import { createHydratingLoader } from "~/db/query";
 import type { TablesInsert } from "~/db/supabase";
 import { Logo } from "~/features/logo";
 import { addOrg, getOrgs, selectOrgIds } from "~/features/orgs";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
-import { useOptionsCreator } from "~/hooks/use-query-options";
-import { createHydratingLoader } from "~/store/hydrate";
+import { useOptionsCreator } from "~/hooks/use-options-creator";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Organisations" },
