@@ -92,7 +92,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <StoreProvider>
                 <QueryClientProvider>
                   {children}
-                  <GlobalToastRegion />
+                  <GlobalToastRegion aria-label="Notifications" />
                 </QueryClientProvider>
               </StoreProvider>
             </SessionProvider>
