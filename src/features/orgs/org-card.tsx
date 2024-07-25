@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { DialogTrigger, Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import {
@@ -8,6 +8,7 @@ import {
   CardActions,
   CardPrimaryAction,
 } from "~/components/card";
+import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
@@ -19,7 +20,7 @@ import {
 } from "~/hooks/use-user-permissions";
 import { EditOrg } from "./edit-org";
 import type { Org } from ".";
-import { getOrgMemberCount, getOrgs, selectOrgById } from ".";
+import { deleteOrg, getOrgMemberCount, getOrgs, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
 
 interface OrgCardProps {
@@ -38,6 +39,9 @@ export function OrgCard({ orgId }: OrgCardProps) {
     useOptionsCreator(getTeamCountByOrg, orgId),
   );
   const permissions = useCurrentUserPermissions(orgId);
+  const { mutate: deleteOrgFn, isPending } = useMutation(
+    useOptionsCreator(deleteOrg),
+  );
   if (!org) return null;
   return (
     <Card className={styles.orgCard}>
@@ -71,9 +75,25 @@ export function OrgCard({ orgId }: OrgCardProps) {
               </CardActionIcon>
               <EditOrg orgId={orgId} />
             </DialogTrigger>
-            <CardActionIcon>
-              <Symbol>delete</Symbol>
-            </CardActionIcon>
+            {permissions >= Permission.Owner ? (
+              <DialogTrigger>
+                <CardActionIcon>
+                  <Symbol>delete</Symbol>
+                </CardActionIcon>
+                <ConfirmationDialog
+                  title="Delete organisation"
+                  description={`Are you sure you want to delete ${org.name}?`}
+                  onConfirm={(close) => {
+                    deleteOrgFn(orgId);
+                    close();
+                  }}
+                  confirmButtonProps={{
+                    isDisabled: isPending,
+                    color: "red",
+                  }}
+                />
+              </DialogTrigger>
+            ) : null}
           </Toolbar>
         ) : null}
       </CardActions>
