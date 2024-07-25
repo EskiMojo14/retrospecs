@@ -247,3 +247,8 @@ export const makeAsyncDisposable = <T extends AsyncUnsubscribable>(
       await unsubscribable.unsubscribe();
     },
   });
+
+export const sortByCreatedAt = (
+  a: { created_at: string },
+  b: { created_at: string },
+) => a.created_at.localeCompare(b.created_at);

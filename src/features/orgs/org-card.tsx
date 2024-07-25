@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-aria-components";
+import { DialogTrigger, Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import {
   Card,
@@ -17,6 +17,7 @@ import {
   Permission,
   useCurrentUserPermissions,
 } from "~/hooks/use-user-permissions";
+import { EditOrg } from "./edit-org";
 import type { Org } from ".";
 import { getOrgMemberCount, getOrgs, selectOrgById } from ".";
 import styles from "./org-card.module.scss";
@@ -64,9 +65,12 @@ export function OrgCard({ orgId }: OrgCardProps) {
         </Toolbar>
         {permissions >= Permission.Admin ? (
           <Toolbar slot="icons">
-            <CardActionIcon>
-              <Symbol>edit</Symbol>
-            </CardActionIcon>
+            <DialogTrigger>
+              <CardActionIcon>
+                <Symbol>edit</Symbol>
+              </CardActionIcon>
+              <EditOrg orgId={orgId} />
+            </DialogTrigger>
             <CardActionIcon>
               <Symbol>delete</Symbol>
             </CardActionIcon>

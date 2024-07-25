@@ -2,6 +2,7 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 import { makeRealtimeHandler } from "~/db/realtime";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Sprint } from "~/features/sprints";
+import { sortByCreatedAt } from "~/util";
 import {
   supabaseFn,
   supabaseMutationOptions,
@@ -11,7 +12,9 @@ import type { PickRequired } from "~/util/types";
 
 export type Action = Tables<"actions">;
 
-const actionAdapter = createEntityAdapter<Action>();
+const actionAdapter = createEntityAdapter<Action>({
+  sortComparer: sortByCreatedAt,
+});
 
 export const {
   selectAll: selectAllActions,

@@ -1,6 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Org } from "~/features/orgs";
+import { sortByCreatedAt } from "~/util";
 import {
   compoundKey,
   supabaseFn,
@@ -12,7 +13,9 @@ import type { PickRequired } from "~/util/types";
 export type Team = Tables<"teams">;
 export type TeamMember = Tables<"team_members">;
 
-export const teamAdapter = createEntityAdapter<Team>();
+export const teamAdapter = createEntityAdapter<Team>({
+  sortComparer: sortByCreatedAt,
+});
 
 export const {
   selectAll: selectAllTeams,
@@ -26,6 +29,7 @@ const selectTeamMemberId = compoundKey<TeamMember>()("team_id", "user_id");
 
 const teamMemberAdapter = createEntityAdapter<TeamMember, string>({
   selectId: selectTeamMemberId,
+  sortComparer: sortByCreatedAt,
 });
 
 export const {

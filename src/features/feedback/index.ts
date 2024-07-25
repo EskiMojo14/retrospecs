@@ -2,7 +2,7 @@ import type { EntityState } from "@reduxjs/toolkit";
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { makeRealtimeHandler } from "~/db/realtime";
 import type { Enums, Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
-import { groupBy } from "~/util";
+import { groupBy, sortByCreatedAt } from "~/util";
 import type { AppContext } from "~/util/supabase-query";
 import {
   compoundKey,
@@ -17,7 +17,9 @@ export type Feedback = Tables<"feedback">;
 export type ReactionEntry = Tables<"reactions">;
 export type Reaction = Enums<"reaction">;
 
-const feedbackAdapter = createEntityAdapter<Feedback>();
+const feedbackAdapter = createEntityAdapter<Feedback>({
+  sortComparer: sortByCreatedAt,
+});
 
 export const {
   selectAll: selectAllFeedback,
@@ -45,6 +47,7 @@ const selectReactionId = compoundKey<ReactionEntry>()(
 
 const reactionAdapter = createEntityAdapter<ReactionEntry, string>({
   selectId: selectReactionId,
+  sortComparer: sortByCreatedAt,
 });
 
 export const {

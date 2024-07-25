@@ -1,6 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { skipToken } from "@tanstack/react-query";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
+import { sortByCreatedAt } from "~/util";
 import {
   compoundKey,
   supabaseFn,
@@ -12,7 +13,9 @@ import type { PickRequired } from "~/util/types";
 export type Org = Tables<"orgs">;
 export type OrgMember = Tables<"org_members">;
 
-export const orgAdapter = createEntityAdapter<Org>();
+export const orgAdapter = createEntityAdapter<Org>({
+  sortComparer: sortByCreatedAt,
+});
 
 export const {
   selectAll: selectAllOrgs,
