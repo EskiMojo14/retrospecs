@@ -1,4 +1,5 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Org } from "~/features/orgs";
 import { sortByCreatedAt } from "~/util";
@@ -68,12 +69,29 @@ export const addTeam = supabaseMutationOptions(({ supabase, queryClient }) => ({
   mutationFn: supabaseFn((team: TablesInsert<"teams">) =>
     supabase.from("teams").insert(team),
   ),
-  async onSuccess(_: null, { org_id }: TablesInsert<"teams">) {
+  async onSuccess(_: null, { org_id, name }: TablesInsert<"teams">) {
+    toastQueue.add(
+      {
+        type: "success",
+        title: "Team added",
+        description: `Successfully added team "${name}"`,
+      },
+      {
+        timeout: 5000,
+      },
+    );
     await queryClient.invalidateQueries({
       queryKey: ["teams", org_id],
     });
     await queryClient.invalidateQueries({
       queryKey: ["teamCount", org_id],
+    });
+  },
+  onError(error) {
+    toastQueue.add({
+      type: "error",
+      title: "Failed to add team",
+      description: error.message,
     });
   },
 }));
@@ -84,15 +102,35 @@ export const updateTeam = supabaseMutationOptions(
       ({ id, ...team }: PickRequired<TablesUpdate<"teams">, "id">) =>
         supabase.from("teams").update(team).eq("id", id),
     ),
-    async onSuccess(
-      _: null,
-      { org_id }: PickRequired<TablesUpdate<"teams">, "id">,
-    ) {
+    onMutate({ id }: PickRequired<TablesUpdate<"teams">, "id">) {
+      const { queryKey } = getTeamsByOrg({ supabase, queryClient }, id);
+      const prevTeams = queryClient.getQueryData(queryKey);
+      return { prevTeam: prevTeams && selectTeamById(prevTeams, id) };
+    },
+    async onSuccess(_: null, { org_id, name: newName }, { prevTeam }) {
+      const name = newName ?? prevTeam?.name;
+      toastQueue.add(
+        {
+          type: "success",
+          title: "Team updated",
+          description: `Successfully updated team${name ? ` "${name}"` : ""}`,
+        },
+        {
+          timeout: 5000,
+        },
+      );
       await queryClient.invalidateQueries({
         queryKey: ["teams", org_id],
       });
       await queryClient.invalidateQueries({
         queryKey: ["teamCount", org_id],
+      });
+    },
+    onError(error) {
+      toastQueue.add({
+        type: "error",
+        title: "Failed to update team",
+        description: error.message,
       });
     },
   }),
@@ -103,12 +141,34 @@ export const deleteTeam = supabaseMutationOptions(
     mutationFn: supabaseFn((id: Team["id"]) =>
       supabase.from("teams").delete().eq("id", id),
     ),
-    async onSuccess() {
+    onMutate(id: Team["id"]) {
+      const { queryKey } = getTeamsByOrg({ supabase, queryClient }, id);
+      const prevTeams = queryClient.getQueryData(queryKey);
+      return { prevTeam: prevTeams && selectTeamById(prevTeams, id) };
+    },
+    async onSuccess(_: null, _id, { prevTeam }) {
+      toastQueue.add(
+        {
+          type: "success",
+          title: "Team deleted",
+          description: `Successfully deleted team${prevTeam ? ` "${prevTeam.name}"` : ""}`,
+        },
+        {
+          timeout: 5000,
+        },
+      );
       await queryClient.invalidateQueries({
         queryKey: ["teams"],
       });
       await queryClient.invalidateQueries({
         queryKey: ["teamCount"],
+      });
+    },
+    onError(error) {
+      toastQueue.add({
+        type: "error",
+        title: "Failed to delete team",
+        description: error.message,
       });
     },
   }),

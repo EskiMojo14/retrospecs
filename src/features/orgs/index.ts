@@ -1,5 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { skipToken } from "@tanstack/react-query";
+import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import { sortByCreatedAt } from "~/util";
 import {
@@ -7,6 +8,7 @@ import {
   supabaseFn,
   supabaseQueryOptions,
   supabaseMutationOptions,
+  PostgrestErrorWithMeta,
 } from "~/util/supabase-query";
 import type { PickRequired } from "~/util/types";
 
@@ -58,9 +60,26 @@ export const addOrg = supabaseMutationOptions(({ supabase, queryClient }) => ({
   mutationFn: supabaseFn((org: TablesInsert<"orgs">) =>
     supabase.from("orgs").insert(org),
   ),
-  async onSuccess() {
+  async onSuccess(_: null, { name }: TablesInsert<"orgs">) {
+    toastQueue.add(
+      {
+        type: "success",
+        title: "Organisation created",
+        description: `Successfully created organisation "${name}"`,
+      },
+      {
+        timeout: 5000,
+      },
+    );
     await queryClient.invalidateQueries({
       queryKey: ["orgs"],
+    });
+  },
+  onError(error) {
+    toastQueue.add({
+      type: "error",
+      title: "Failed to create organisation",
+      description: error.message,
     });
   },
 }));
@@ -70,9 +89,32 @@ export const updateOrg = supabaseMutationOptions(
     mutationFn: supabaseFn((org: PickRequired<TablesUpdate<"orgs">, "id">) =>
       supabase.from("orgs").update(org).eq("id", org.id),
     ),
-    async onSuccess() {
+    onMutate({ id }: PickRequired<TablesUpdate<"orgs">, "id">) {
+      const { queryKey } = getOrgs({ supabase, queryClient });
+      const prevOrgs = queryClient.getQueryData(queryKey);
+      return { prevOrg: prevOrgs && selectOrgById(prevOrgs, id) };
+    },
+    async onSuccess(_res: null, { name: newName }, { prevOrg }) {
+      const name = newName ?? prevOrg?.name;
+      toastQueue.add(
+        {
+          type: "success",
+          title: "Organisation updated",
+          description: `Successfully updated organisation${name ? ` "${name}"` : ""}`,
+        },
+        {
+          timeout: 5000,
+        },
+      );
       await queryClient.invalidateQueries({
         queryKey: ["orgs"],
+      });
+    },
+    onError(error) {
+      toastQueue.add({
+        type: "error",
+        title: "Failed to update organisation",
+        description: error.message,
       });
     },
   }),
@@ -83,7 +125,23 @@ export const deleteOrg = supabaseMutationOptions(
     mutationFn: supabaseFn((id: Org["id"]) =>
       supabase.from("orgs").delete().eq("id", id),
     ),
-    async onSuccess() {
+    onMutate(id: Org["id"]) {
+      const { queryKey } = getOrgs({ supabase, queryClient });
+      const prevOrgs = queryClient.getQueryData(queryKey);
+      return { prevOrg: prevOrgs && selectOrgById(prevOrgs, id) };
+    },
+    async onSuccess(_res: null, _id, { prevOrg }) {
+      const name = prevOrg?.name;
+      toastQueue.add(
+        {
+          type: "success",
+          title: "Organisation deleted",
+          description: `Successfully deleted organisation${name ? ` "${name}"` : ""}`,
+        },
+        {
+          timeout: 5000,
+        },
+      );
       await queryClient.invalidateQueries({
         queryKey: ["orgs"],
       });

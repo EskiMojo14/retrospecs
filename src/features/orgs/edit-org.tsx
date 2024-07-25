@@ -6,6 +6,7 @@ import { minLength, number, object, pipe, safeParse, string } from "valibot";
 import { Button } from "~/components/button";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
+import { toastQueue } from "~/components/toast";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import type { TablesUpdate } from "~/db/supabase";
@@ -31,7 +32,10 @@ export function EditOrg({ orgId }: EditOrgProps) {
     isError,
     isPending,
   } = useMutation(useOptionsCreator(updateOrg));
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>,
+    close: () => void,
+  ) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);
     const parsedData = safeParse(editSchema, {
@@ -39,7 +43,28 @@ export function EditOrg({ orgId }: EditOrgProps) {
       id: orgId,
     });
     if (parsedData.success) {
-      editOrg(parsedData.output);
+      editOrg(parsedData.output, {
+        onError(error) {
+          toastQueue.add({
+            type: "error",
+            title: "Failed to update organisation",
+            description: error.message,
+          });
+        },
+        onSuccess(_, { name }) {
+          toastQueue.add(
+            {
+              type: "success",
+              title: "Organisation updated",
+              description: `Successfully updated organisation "${name}"`,
+            },
+            {
+              timeout: 5000,
+            },
+          );
+          close();
+        },
+      });
     } else {
       console.error(parsedData.issues);
     }
@@ -52,7 +77,13 @@ export function EditOrg({ orgId }: EditOrgProps) {
           <Heading variant="headline6" slot="title">
             Edit organisation
           </Heading>
-          <DialogContent as={Form} id="edit-org-form" onSubmit={handleSubmit}>
+          <DialogContent
+            as={Form}
+            id="edit-org-form"
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
+              handleSubmit(e, close);
+            }}
+          >
             <TextField
               label="Name"
               name="name"

@@ -22,7 +22,10 @@ export function CreateOrg() {
     isError,
     isPending,
   } = useMutation(useOptionsCreator(addOrg));
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>,
+    close: () => void,
+  ) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);
     const parsedData = safeParse(
@@ -30,7 +33,11 @@ export function CreateOrg() {
       Object.fromEntries(unparsedData),
     );
     if (parsedData.success) {
-      addOrgFn(parsedData.output);
+      addOrgFn(parsedData.output, {
+        onSuccess() {
+          close();
+        },
+      });
     } else {
       console.error(parsedData.issues);
     }
@@ -42,7 +49,13 @@ export function CreateOrg() {
           <Heading variant="headline6" slot="title">
             Create organisation
           </Heading>
-          <DialogContent as={Form} id="create-org-form" onSubmit={handleSubmit}>
+          <DialogContent
+            as={Form}
+            id="create-org-form"
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
+              handleSubmit(e, close);
+            }}
+          >
             <TextField label="Name" name="name" isRequired />
           </DialogContent>
           <Toolbar slot="actions">

@@ -8,7 +8,7 @@ import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import type { Groove, Theme } from ".";
+import type { Groove, Theme, UserConfig } from ".";
 import { getUserConfig, updateUserConfig } from ".";
 
 export function PreferencesDialog() {
@@ -16,11 +16,14 @@ export function PreferencesDialog() {
   const userId = session?.user.id;
   const { data: config } = useQuery(useOptionsCreator(getUserConfig, userId));
   const { mutate } = useMutation(useOptionsCreator(updateUserConfig));
+  const handleChange = (update: Partial<UserConfig>) => {
+    userId && mutate({ ...update, user_id: userId });
+  };
   const setTheme = (theme: Theme) => {
-    userId && mutate({ theme, user_id: userId });
+    handleChange({ theme });
   };
   const setGroove = (groove: Groove) => {
-    userId && mutate({ groove, user_id: userId });
+    handleChange({ groove });
   };
   const theme = config?.theme ?? "system";
   const groove = config?.groove ?? "heavy";

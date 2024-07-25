@@ -1,6 +1,7 @@
 import { skipToken } from "@tanstack/react-query";
 import { toastQueue } from "~/components/toast";
 import type { Enums, Tables, TablesInsert } from "~/db/supabase";
+import type { PostgrestErrorWithMeta } from "~/util/supabase-query";
 import {
   supabaseFn,
   supabaseQueryOptions,
@@ -20,10 +21,11 @@ export const getUserConfig = supabaseQueryOptions(
           (response) => response[0] ?? null,
         )
       : skipToken,
-    onError() {
+    onError(err: PostgrestErrorWithMeta) {
       toastQueue.add({
         type: "error",
         title: "Failed to retrieve user preferences",
+        description: err.message,
       });
     },
   }),
