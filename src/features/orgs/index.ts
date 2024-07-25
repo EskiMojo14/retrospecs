@@ -44,6 +44,13 @@ export const getOrgs = supabaseQueryOptions(({ supabase }) => ({
   ),
 }));
 
+export const getOrg = supabaseQueryOptions(({ supabase }, id: Org["id"]) => ({
+  queryKey: ["orgs", id],
+  queryFn: supabaseFn(() =>
+    supabase.from("orgs").select().eq("id", id).single(),
+  ),
+}));
+
 export const addOrg = supabaseMutationOptions(({ supabase, queryClient }) => ({
   mutationFn: supabaseFn((org: TablesInsert<"orgs">) =>
     supabase.from("orgs").insert(org),
@@ -83,7 +90,7 @@ export const deleteOrg = supabaseMutationOptions(
 
 export const getOrgMemberCount = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
-    queryKey: ["orgMembers", orgId],
+    queryKey: ["orgMembersCount", orgId],
     queryFn: supabaseFn(
       () =>
         supabase
@@ -134,6 +141,9 @@ export const addOrgMember = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["orgMembers", org_id],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["orgMembersCount", org_id],
+      });
     },
   }),
 );
@@ -161,6 +171,9 @@ export const updateOrgMember = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["orgMembers", org_id],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["orgMembersCount", org_id],
+      });
     },
   }),
 );
@@ -180,6 +193,9 @@ export const deleteOrgMember = supabaseMutationOptions(
     ) {
       await queryClient.invalidateQueries({
         queryKey: ["orgMembers", org_id],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["orgMembersCount", org_id],
       });
     },
   }),
