@@ -1,7 +1,11 @@
 @use "~/theme/typography" as typography;
+@use "~/theme/layout";
 
 .orgCard {
+  min-width: 0;
+  grid-column: span 4;
   .primaryAction {
+    flex-grow: 1;
     align-items: flex-start;
     padding: 8px 24px;
     text-decoration: none;

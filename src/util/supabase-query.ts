@@ -179,12 +179,18 @@ export function supabaseQueryOptions<
 export function supabaseMutationOptions<
   MutationFnData,
   TVariables,
+  TContext,
   Args extends Array<any> = [],
 >(
   getOptions: (
     context: AppContext,
     ...args: Args
-  ) => MutationOptions<MutationFnData, PostgrestErrorWithMeta, TVariables>,
+  ) => MutationOptions<
+    MutationFnData,
+    PostgrestErrorWithMeta,
+    TVariables,
+    TContext
+  >,
 ) {
   return getOptions;
 }

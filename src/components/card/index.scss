@@ -98,6 +98,7 @@ $hover-time: 0.2s;
       .card__section-content {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 8px;
         min-height: util.to-rem(52px - 8px);
       }

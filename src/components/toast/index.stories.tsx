@@ -5,10 +5,10 @@ import { toastTypes, type Toast } from "./constants";
 import { GlobalToastRegion } from "./toast-region";
 import { toastQueue } from ".";
 
-interface StoryProps extends Toast {
+type StoryProps = Toast & {
   hasAction?: boolean;
   timeout?: number;
-}
+};
 
 const meta = {
   title: "Components/Toast",

@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "~/db/provider";
 import type { Org, OrgMember } from "~/features/orgs";
-import { orgsApi, selectOrgById, selectOrgMemberById } from "~/features/orgs";
+import {
+  getOrgMember,
+  getOrgMembers,
+  getOrgs,
+  selectOrgById,
+  selectOrgMemberById,
+} from "~/features/orgs";
 import { useOptionsCreator } from "./use-query-options";
 
 export enum Permission {
@@ -20,11 +26,11 @@ const getPermission = (org: Org | undefined, member: OrgMember | undefined) => {
 
 export function useUserPermissions(orgId: number, userId: string | undefined) {
   const { data: org } = useQuery({
-    ...useOptionsCreator(orgsApi.getOrgs),
+    ...useOptionsCreator(getOrgs),
     select: (orgs) => selectOrgById(orgs, orgId),
   });
   const { data: member } = useQuery({
-    ...useOptionsCreator(orgsApi.getOrgMembers, orgId),
+    ...useOptionsCreator(getOrgMembers, orgId),
     select: (members) =>
       userId ? selectOrgMemberById(members, userId) : undefined,
   });
@@ -34,11 +40,11 @@ export function useUserPermissions(orgId: number, userId: string | undefined) {
 export function useCurrentUserPermissions(orgId: number) {
   const session = useSession();
   const { data: org } = useQuery({
-    ...useOptionsCreator(orgsApi.getOrgs),
+    ...useOptionsCreator(getOrgs),
     select: (orgs) => selectOrgById(orgs, orgId),
   });
   const { data: member } = useQuery(
-    useOptionsCreator(orgsApi.getOrgMember, orgId, session?.user.id),
+    useOptionsCreator(getOrgMember, orgId, session?.user.id),
   );
   return getPermission(org, member);
 }

@@ -79,10 +79,10 @@ export const Dialog = ({
           <MergeProvider context={HeadingContext} value={headingContextValue}>
             <Provider
               values={[
-                [ToolbarContext.Provider, toolbarContextValue],
+                [ToolbarContext, toolbarContextValue],
                 // clear any influence we're getting from outside - dialogs are outside the tree
                 // so they shouldn't inherit any context from the parent
-                [ButtonContext.Provider, emptyObj],
+                [ButtonContext, emptyObj],
               ]}
             >
               <LineBackground opacity={0.3}>{children}</LineBackground>

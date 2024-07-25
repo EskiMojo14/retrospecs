@@ -51,9 +51,9 @@ export function AppBar({ children }: AppBarProps) {
       <header className={cls()}>
         <Provider
           values={[
-            [ToolbarContext.Provider, toolbarContextValue],
-            [LogoContext.Provider, logoContextValue],
-            [ButtonContext.Provider, buttonContextValue],
+            [ToolbarContext, toolbarContextValue],
+            [LogoContext, logoContextValue],
+            [ButtonContext, buttonContextValue],
           ]}
         >
           {children}

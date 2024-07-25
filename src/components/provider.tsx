@@ -8,7 +8,7 @@ import {
 import type { ContextValue } from "react-aria-components";
 import { mergeSlottedContext } from "~/util";
 
-type ProviderTuple<T> = [Provider<T>, T];
+type ProviderTuple<T> = [Context<T>, T];
 
 /**
  * A component that wraps a tree of components with multiple context providers.
@@ -23,7 +23,9 @@ export function Provider<ContextValues extends Array<any>>({
   };
 }) {
   return values.reduceRight(
-    (acc, [Provider, value]) => <Provider value={value}>{acc}</Provider>,
+    (acc, [context, value]) => (
+      <context.Provider value={value}>{acc}</context.Provider>
+    ),
     children,
   );
 }

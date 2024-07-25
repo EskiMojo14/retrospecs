@@ -26,7 +26,7 @@ import {
 } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
 import type { UserConfig } from "~/features/user_config";
-import { configApi } from "~/features/user_config";
+import { getUserConfig } from "~/features/user_config";
 import { StoreProvider } from "~/store/provider";
 import "~/index.scss";
 
@@ -62,7 +62,7 @@ export const loader = (async ({
     {
       lang,
       config: await queryClient.ensureQueryData(
-        configApi.getUserConfig(context, user.id),
+        getUserConfig(context, user.id),
       ),
       dehydratedState: dehydrate(queryClient),
     },
@@ -92,7 +92,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <StoreProvider>
                 <QueryClientProvider>
                   {children}
-                  <GlobalToastRegion />
+                  <GlobalToastRegion aria-label="Notifications" />
                 </QueryClientProvider>
               </StoreProvider>
             </SessionProvider>

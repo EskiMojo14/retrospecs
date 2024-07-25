@@ -11,7 +11,7 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useOptionsCreator } from "~/hooks/use-query-options";
-import { selectTeamById, teamsApi } from ".";
+import { getTeamMemberCount, getTeamsByOrg, selectTeamById } from ".";
 import styles from "./team-card.module.scss";
 
 export interface TeamCardProps {
@@ -21,11 +21,11 @@ export interface TeamCardProps {
 
 export function TeamCard({ orgId, teamId }: TeamCardProps) {
   const { data: team } = useQuery({
-    ...useOptionsCreator(teamsApi.getTeamsByOrg, orgId),
+    ...useOptionsCreator(getTeamsByOrg, orgId),
     select: (data) => selectTeamById(data, teamId),
   });
   const { data: memberCount = 0 } = useQuery(
-    useOptionsCreator(teamsApi.getTeamMemberCount, teamId),
+    useOptionsCreator(getTeamMemberCount, teamId),
   );
   if (!team) return null;
   return (

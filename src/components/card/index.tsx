@@ -61,8 +61,8 @@ export const Card = createGenericComponent<
     >
       <Provider
         values={[
-          [ToolbarContext.Provider, toolbarContextValue],
-          [ButtonContext.Provider, buttonContextValue],
+          [ToolbarContext, toolbarContextValue],
+          [ButtonContext, buttonContextValue],
         ]}
       >
         {children}
