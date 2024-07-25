@@ -22,7 +22,7 @@ export function PreferencesDialog() {
   const setGroove = (groove: Groove) => {
     userId && mutate({ groove, user_id: userId });
   };
-  const theme = config?.theme ?? "light";
+  const theme = config?.theme ?? "system";
   const groove = config?.groove ?? "none";
   return (
     <DialogTrigger>
@@ -42,6 +42,15 @@ export function PreferencesDialog() {
                 variant="elevated"
                 color="blue"
               >
+                <ToggleButton
+                  isSelected={theme === "system"}
+                  onPress={() => {
+                    setTheme("system");
+                  }}
+                >
+                  <Symbol slot="leading">brightness_auto</Symbol>
+                  System
+                </ToggleButton>
                 <ToggleButton
                   isSelected={theme === "light"}
                   onPress={() => {
@@ -67,7 +76,7 @@ export function PreferencesDialog() {
                   'Whether to use loud backgrounds or not. "Low volume" tones it down a little.'
                 }
                 variant="elevated"
-                color="green"
+                color="amber"
               >
                 <ToggleButton
                   isSelected={groove === "none"}

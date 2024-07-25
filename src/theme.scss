@@ -7,6 +7,12 @@
   &[data-theme="dark"] {
     @content;
   }
+  [data-theme="system"] &,
+  &[data-theme="system"] {
+    @media (prefers-color-scheme: dark) {
+      @content;
+    }
+  }
 }
 
 @mixin focus-ring {

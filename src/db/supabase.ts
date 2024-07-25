@@ -282,23 +282,33 @@ export type Database = {
       teams: {
         Row: {
           created_at: string;
+          created_by: string | null;
           id: number;
           name: string;
           org_id: number;
         };
         Insert: {
           created_at?: string;
+          created_by?: string | null;
           id?: number;
           name: string;
           org_id: number;
         };
         Update: {
           created_at?: string;
+          created_by?: string | null;
           id?: number;
           name?: string;
           org_id?: number;
         };
         Relationships: [
+          {
+            foreignKeyName: "teams_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "teams_org_id_fkey";
             columns: ["org_id"];
@@ -349,7 +359,7 @@ export type Database = {
       groove: "none" | "low_volume" | "heavy";
       member_role: "admin" | "member";
       reaction: "like";
-      theme: "light" | "dark";
+      theme: "light" | "dark" | "system";
     };
     CompositeTypes: {
       [_ in never]: never;
