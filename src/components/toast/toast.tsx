@@ -85,13 +85,15 @@ export function Toast({ state, ...props }: ToastProps) {
               {title}
             </Heading>
           )}
-          <Typography
-            variant="body2"
-            className={cls("description")}
-            {...descriptionProps}
-          >
-            {description}
-          </Typography>
+          {description && (
+            <Typography
+              variant="body2"
+              className={cls("description")}
+              {...descriptionProps}
+            >
+              {description}
+            </Typography>
+          )}
         </div>
         {actions ?? (
           <IconButton

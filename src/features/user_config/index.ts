@@ -20,6 +20,12 @@ export const getUserConfig = supabaseQueryOptions(
           (response) => response[0] ?? null,
         )
       : skipToken,
+    onError() {
+      toastQueue.add({
+        type: "error",
+        title: "Failed to retrieve user preferences",
+      });
+    },
   }),
 );
 

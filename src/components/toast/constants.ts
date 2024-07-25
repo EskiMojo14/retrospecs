@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { ButtonColor } from "~/components/button/constants";
+import type { AtLeastOneKey } from "~/util/types";
 
 export const toastTypes = [
   "success",
@@ -15,13 +16,14 @@ export interface ToastActionsRenderProps {
   close: () => void;
 }
 
-export interface Toast {
+export type Toast = AtLeastOneKey<{
+  title?: ReactNode;
+  description?: ReactNode;
+}> & {
   type?: ToastType;
   symbol?: ReactNode;
-  title?: ReactNode;
-  description: ReactNode;
   actions?: ReactNode | ((props: ToastActionsRenderProps) => ReactNode);
-}
+};
 
 export const toastSymbols: Record<ToastType, string> = {
   success: "check_circle",
@@ -33,8 +35,8 @@ export const toastSymbols: Record<ToastType, string> = {
 
 export const toastButtonColor: Record<ToastType, ButtonColor | undefined> = {
   success: "green",
-  info: undefined,
+  info: "blue",
   warning: "amber",
   error: "red",
-  default: "gold",
+  default: undefined,
 };

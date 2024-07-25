@@ -7,3 +7,7 @@ export type PickRequired<T, K extends keyof T> = Compute<
 >;
 
 export type MaybePromise<T> = T | Promise<T>;
+
+export type AtLeastOneKey<T> = {
+  [K in keyof T]: PickRequired<T, K>;
+}[keyof T];
