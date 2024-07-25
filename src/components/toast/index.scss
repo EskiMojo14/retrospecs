@@ -35,7 +35,7 @@
     align-items: flex-end;
     gap: 16px;
     width: auto;
-    @include util.rtl-position("right", 0);
+    @include util.rtl-position("left", 0);
     &:focus-visible {
       outline: none;
     }
@@ -145,7 +145,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(100% + 16px));
+    transform: translateX(calc(-100% + 16px));
   }
 }
 
@@ -154,7 +154,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-100% - 16px));
+    transform: translateX(calc(100% - 16px));
   }
 }
 
