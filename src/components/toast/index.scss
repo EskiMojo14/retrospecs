@@ -80,6 +80,9 @@
       background-color: var(--text);
       animation: timeout-progress var(--timeout) linear forwards;
     }
+    &:hover::after {
+      animation-play-state: paused;
+    }
     @include util.rtl {
       &::after {
         left: unset;
