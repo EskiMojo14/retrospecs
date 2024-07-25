@@ -171,6 +171,35 @@ export type Database = {
           },
         ];
       };
+      profiles: {
+        Row: {
+          avatar_url: string | null;
+          display_name: string;
+          email: string;
+          user_id: string;
+        };
+        Insert: {
+          avatar_url?: string | null;
+          display_name: string;
+          email: string;
+          user_id: string;
+        };
+        Update: {
+          avatar_url?: string | null;
+          display_name?: string;
+          email?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "profiles_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       reactions: {
         Row: {
           created_at: string;
