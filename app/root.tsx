@@ -74,10 +74,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
     lang: "en",
   };
   const navigate = useNavigate();
+  const locale = new Intl.Locale(lang);
 
   return (
     <html
       lang={lang}
+      dir={locale.getTextInfo?.().direction ?? locale.textInfo?.direction}
       data-groove={config?.groove ?? "heavy"}
       data-theme={config?.theme ?? "system"}
     >
