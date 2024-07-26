@@ -37,7 +37,7 @@ export const Avatar = createGenericComponent<
       })}
       aria-label={"Avatar for " + name}
     >
-      {src ? <img src={src} /> : <span aria-hidden>{name[0]}</span>}
+      {src ? <img src={src} aria-hidden /> : <span aria-hidden>{name[0]}</span>}
     </As>
   ),
 );
