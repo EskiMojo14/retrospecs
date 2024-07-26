@@ -101,7 +101,7 @@ export function PreferencesDialog() {
                   <Select
                     id="color-group"
                     label="Profile color"
-                    description="The color used for or around your profile picture."
+                    description="The color used for, or around, your profile picture."
                     selectedKey={profile.color}
                     onSelectionChange={(color) => {
                       handleProfileChange({ color: color as Color });
