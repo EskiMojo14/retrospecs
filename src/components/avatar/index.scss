@@ -31,6 +31,7 @@ $colors: ("green", "blue", "orange", "amber", "gold", "teal", "pink");
   border-radius: 50%;
   overflow: hidden;
   border: var(--outline-width) solid var(--outline-color);
+  user-select: none;
 
   @include typography.style("headline6");
 
