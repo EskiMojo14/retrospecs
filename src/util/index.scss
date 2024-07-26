@@ -52,18 +52,6 @@ $base-size: 16px;
   @return math.div($number, ($number * 0 + 1));
 }
 
-@mixin mobile {
-  @media (max-width: 592px) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: 592px) {
-    @content;
-  }
-}
-
 @mixin visually-hidden {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
