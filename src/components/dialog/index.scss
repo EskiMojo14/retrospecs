@@ -8,7 +8,7 @@
 .dialog {
   position: relative;
   border-radius: 4px;
-  background-color: var(--background);
+  background-color: var(--surface);
   color: typography.emphasis("text", "high");
   max-height: calc(100% - 32px);
   min-width: 280px;
@@ -19,9 +19,6 @@
   }
   &:focus-visible {
     outline: none;
-  }
-  @include theme.dark {
-    --background-rgb: var(--brown-800-rgb);
   }
   &-overlay {
     --overlay-rgb: var(--black-rgb);
@@ -72,7 +69,7 @@
   }
   .button--text,
   .button--outlined {
-    background-color: rgba(var(--background-rgb), 0.75);
+    background-color: rgba(var(--surface-rgb), 0.75);
   }
 }
 

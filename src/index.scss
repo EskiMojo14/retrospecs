@@ -62,6 +62,8 @@
 body {
   --background-rgb: var(--white-rgb);
   --background: rgb(var(--background-rgb));
+  --surface-rgb: var(--white-rgb);
+  --surface: rgb(var(--surface-rgb));
   --text-rgb: var(--black-rgb);
   --text: rgb(var(--text-rgb));
   background-color: var(--background);
@@ -71,6 +73,7 @@ body {
   }
   @include theme.dark {
     --background-rgb: var(--brown-900-rgb);
+    --surface-rgb: var(--brown-800-rgb);
     --text-rgb: var(--white-rgb);
   }
 }
