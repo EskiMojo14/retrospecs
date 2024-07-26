@@ -171,6 +171,7 @@ function GroupComponent({
         label,
         description,
       }}
+      id="groove-group"
     >
       <ToggleButton
         isSelected={value === "none"}

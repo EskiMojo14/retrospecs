@@ -135,15 +135,19 @@ interface ButtonGroupProps
   orientation?: "horizontal" | "vertical";
   children?: ReactNode;
   className?: string;
+  id: string;
+}
+
+interface ButtonGroupPassedProps {
+  className: string;
+  children: ReactNode;
+  id: string;
 }
 
 export const ButtonGroup = createGenericComponent<
   typeof Group,
   ButtonGroupProps,
-  {
-    className: string;
-    children: React.ReactNode;
-  }
+  ButtonGroupPassedProps
 >(
   "ButtonGroup",
   Group,
@@ -152,6 +156,7 @@ export const ButtonGroup = createGenericComponent<
       className,
       as: As,
       children,
+      id,
 
       isDisabled,
       color,
@@ -180,19 +185,32 @@ export const ButtonGroup = createGenericComponent<
         ref={ref}
         {...props}
         className={clsx("button-group", className)}
+        id={id}
         data-orientation={orientation}
       >
-        <Typography as={Label} variant="subtitle2" {...labelProps}>
+        <Typography
+          as={Label}
+          variant="subtitle2"
+          {...labelProps}
+          id={`${id}-label`}
+        >
           {label}
         </Typography>
         <ButtonContext.Provider value={contextValue}>
-          <div className="button-group__buttons">{children}</div>
+          <section
+            className="button-group__buttons"
+            aria-labelledby={label ? `${id}-label` : undefined}
+            aria-describedby={description ? `${id}-description` : undefined}
+          >
+            {children}
+          </section>
         </ButtonContext.Provider>
         {description && (
           <Typography
             as={Text}
             slot="description"
             variant="caption"
+            id={`${id}-description`}
             {...descriptionProps}
           >
             {description}

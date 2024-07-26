@@ -40,6 +40,7 @@ export function PreferencesDialog() {
             </Heading>
             <DialogContent>
               <ButtonGroup
+                id="theme-group"
                 label="Theme"
                 description="The color scheme to use."
                 variant="elevated"
@@ -80,6 +81,7 @@ export function PreferencesDialog() {
                 </ToggleButton>
               </ButtonGroup>
               <ButtonGroup
+                id="groove-group"
                 label="Groove"
                 description={
                   'Whether to use loud backgrounds or not. "Low volume" tones it down a little.'
