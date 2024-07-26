@@ -21,7 +21,7 @@ const preview: Preview = {
     layout: "centered",
   },
   args: {
-    dark: false,
+    dark: window.matchMedia("(prefers-color-scheme: dark)").matches,
     dir: "ltr",
   },
   argTypes: {
