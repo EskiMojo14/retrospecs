@@ -36,7 +36,7 @@ export const toastSymbols: Record<ToastType, string> = {
 export const toastButtonColor: Record<ToastType, ButtonColor | undefined> = {
   success: "green",
   info: "blue",
-  warning: "amber",
+  warning: "orange",
   error: "red",
   default: undefined,
 };

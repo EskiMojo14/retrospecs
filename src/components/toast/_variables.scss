@@ -57,7 +57,7 @@ $type-colors: (
 );
 
 $button-default-color: (
-  color: "blue",
+  color: "gold",
   light: (
     text: 50,
     outline: 50,
@@ -74,6 +74,22 @@ $button-default-color: (
   ),
 );
 $button-color-map: (
+  "blue": (
+    light: (
+      text: 50,
+      outline: 50,
+      fill: 900,
+      filled-text: 50,
+      filled-outline: 50,
+    ),
+    dark: (
+      text: 900,
+      outline: 900,
+      fill: 200,
+      filled-text: 900,
+      filled-outline: 900,
+    ),
+  ),
   "green": (
     light: (
       text: 50,
