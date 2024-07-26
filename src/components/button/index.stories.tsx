@@ -134,9 +134,7 @@ export const Toggle: Story = {
     <ToggleButton {...args}>
       {({ isSelected }) => (
         <>
-          <Symbol fill={isSelected} transition slot="leading">
-            favorite
-          </Symbol>
+          <Symbol slot="leading">favorite</Symbol>
           {isSelected ? "Active" : "Inactive"}
         </>
       )}
@@ -179,9 +177,7 @@ function GroupComponent({
           setValue("none");
         }}
       >
-        <Symbol fill={value === "none"} transition slot="leading">
-          volume_mute
-        </Symbol>
+        <Symbol slot="leading">volume_mute</Symbol>
         None
       </ToggleButton>
       <ToggleButton
@@ -190,9 +186,7 @@ function GroupComponent({
           setValue("low");
         }}
       >
-        <Symbol fill={value === "low"} transition slot="leading">
-          volume_down
-        </Symbol>
+        <Symbol slot="leading">volume_down</Symbol>
         Low volume
       </ToggleButton>
       <ToggleButton
@@ -201,9 +195,7 @@ function GroupComponent({
           setValue("heavy");
         }}
       >
-        <Symbol fill={value === "heavy"} transition slot="leading">
-          volume_up
-        </Symbol>
+        <Symbol slot="leading">volume_up</Symbol>
         Heavy
       </ToggleButton>
     </ButtonGroup>

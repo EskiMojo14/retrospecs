@@ -91,11 +91,7 @@ export const Elevated: Story = {
 export const Toggle: Story = {
   render: (args) => (
     <IconToggleButton {...args}>
-      {({ isSelected }) => (
-        <Symbol fill={isSelected} transition>
-          favorite
-        </Symbol>
-      )}
+      <Symbol>favorite</Symbol>
     </IconToggleButton>
   ),
   args: {},

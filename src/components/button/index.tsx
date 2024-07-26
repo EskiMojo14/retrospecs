@@ -102,13 +102,13 @@ export const Button = createGenericComponent<
       })}
     >
       {renderGenericPropChild(rest, (children) => (
-        <SymbolContext.Provider value={buttonSymbolSlots}>
+        <MergeProvider context={SymbolContext} value={buttonSymbolSlots}>
           <div
             className={cls("ripple", { unbounded: !!unbounded })}
             {...surfaceProps}
           />
           <div className={cls("content")}>{children}</div>
-        </SymbolContext.Provider>
+        </MergeProvider>
       ))}
     </As>
   );
@@ -123,8 +123,30 @@ LinkButton.displayName = "LinkButton";
 
 export type ToggleButtonProps = Overwrite<AriaToggleButtonProps, ButtonProps>;
 
+const stateSymbolContexts: Record<`${boolean}`, SymbolProps> = {
+  true: {
+    transition: true,
+    fill: true,
+  },
+  false: {
+    transition: true,
+    fill: false,
+  },
+};
+
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
-  (props, ref) => <Button as={AriaToggleButton} {...props} ref={ref} />,
+  ({ children, ...props }, ref) => (
+    <Button as={AriaToggleButton} {...props} ref={ref}>
+      {(renderProps) => (
+        <MergeProvider
+          context={SymbolContext}
+          value={stateSymbolContexts[`${renderProps.isSelected}`]}
+        >
+          {typeof children === "function" ? children(renderProps) : children}
+        </MergeProvider>
+      )}
+    </Button>
+  ),
 );
 
 ToggleButton.displayName = "ToggleButton";
