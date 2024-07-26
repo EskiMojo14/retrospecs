@@ -140,10 +140,17 @@ const symbolContextStates: {
 
 export function SelectItem<T extends object>({
   children,
+  className,
   ...props
-}: ListBoxItemProps<T>) {
+}: Omit<ListBoxItemProps<T>, "className"> & { className?: string }) {
   return (
-    <ListBoxItem {...props} className={cls("item")}>
+    <ListBoxItem
+      {...props}
+      className={cls({
+        element: "item",
+        extra: className,
+      })}
+    >
       {renderPropsChild(children, (children, { isSelected }) => (
         <SymbolContext.Provider value={symbolContextStates[`${isSelected}`]}>
           {children}

@@ -98,6 +98,7 @@
     }
   }
   &__dropdown-icon {
+    @include util.rtl-box(margin, auto, 0);
     color: typography.emphasis("text", "medium");
     transition: transform 200ms;
     .select[data-open] & {
@@ -152,6 +153,9 @@
     &[data-focused] {
       --background-alpha: #{theme.states-opacity("focus")};
     }
+    &[data-pressed] {
+      --background-alpha: #{theme.states-opacity("press")};
+    }
     &[data-selected] {
       $selected-opacity: theme.states-opacity("selected");
       --background-alpha: #{$selected-opacity};
@@ -161,6 +165,9 @@
       }
       &[data-focused] {
         --background-alpha: #{theme.states-opacity("focus", $selected-opacity)};
+      }
+      &[data-pressed] {
+        --background-alpha: #{theme.states-opacity("press", $selected-opacity)};
       }
     }
     &:focus {

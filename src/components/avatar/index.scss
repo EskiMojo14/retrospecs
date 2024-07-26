@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "~/theme/typography";
+@use "~/theme/palette";
 @use "~/theme";
 
 $sizes: (
@@ -21,8 +22,6 @@ $sizes: (
   ),
 );
 
-$colors: ("green", "blue", "orange", "amber", "gold", "teal", "pink");
-
 .avatar {
   box-sizing: content-box;
   display: inline-flex;
@@ -43,7 +42,7 @@ $colors: ("green", "blue", "orange", "amber", "gold", "teal", "pink");
       font-family: "Super Dream", "Raleway", sans-serif;
     }
   }
-  @each $color in $colors {
+  @each $color in palette.$colors {
     &--#{$color} {
       background-color: var(--#{$color}-900);
       color: var(--#{$color}-100);

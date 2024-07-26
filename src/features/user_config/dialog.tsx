@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { clsx } from "clsx";
 import debounce from "lodash/debounce";
 import startCase from "lodash/startCase";
 import { useCallback, useMemo } from "react";
@@ -7,6 +8,7 @@ import { Avatar } from "~/components/avatar";
 import { Button, ButtonGroup, ToggleButton } from "~/components/button";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { IconButton } from "~/components/icon-button";
+import { Select, SelectItem } from "~/components/input/select";
 import { TextField } from "~/components/input/text-field";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
@@ -14,8 +16,9 @@ import { Heading, Typography } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import type { Profile } from "~/features/profiles";
 import { updateProfile } from "~/features/profiles";
-import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentProfile } from "~/hooks/use-current-profile";
+import { useOptionsCreator } from "~/hooks/use-options-creator";
+import type { Color } from "~/theme/colors";
 import { colors } from "~/theme/colors";
 import type { Groove, Theme, UserConfig } from ".";
 import { getUserConfig, updateUserConfig } from ".";
@@ -95,26 +98,37 @@ export function PreferencesDialog() {
                       </Typography>
                     </div>
                   </div>
-                  <ButtonGroup
+                  <Select
                     id="color-group"
                     label="Profile color"
                     description="The color used for or around your profile picture."
-                    variant="outlined"
+                    selectedKey={profile.color}
+                    onSelectionChange={(color) => {
+                      handleProfileChange({ color: color as Color });
+                    }}
+                    renderSelected={({ defaultChildren }) => (
+                      <span
+                        className={clsx(
+                          styles.selectValue,
+                          styles[profile.color],
+                        )}
+                      >
+                        {defaultChildren}
+                      </span>
+                    )}
                   >
                     {colors.map((color) => (
-                      <ToggleButton
+                      <SelectItem
                         key={color}
-                        color={color === "gold" ? undefined : color}
-                        isSelected={profile.color === color}
-                        onPress={() => {
-                          handleProfileChange({ color });
-                        }}
+                        id={color}
+                        className={clsx(styles.selectItem, styles[color])}
+                        textValue={startCase(color)}
                       >
-                        <Symbol slot="leading">circle</Symbol>
+                        <Symbol fill>circle</Symbol>
                         {startCase(color)}
-                      </ToggleButton>
+                      </SelectItem>
                     ))}
-                  </ButtonGroup>
+                  </Select>
                 </section>
               )}
               <section className={styles.section}>
