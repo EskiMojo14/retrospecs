@@ -94,10 +94,7 @@
       @include elevation.elevation(0);
     }
   }
-  @include theme.ripple(
-    $surface: " .button__ripple",
-    $ripple-color: var(--button-text)
-  );
+  @include theme.ripple(var(--button-text), " .button__ripple");
   @include theme.ripple-selected(
     $surface: " .button__ripple",
     $ripple-color: var(--button-text)

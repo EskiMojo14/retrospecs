@@ -1,9 +1,11 @@
 @use "sass:map";
 @use "~/theme";
+@use "~/theme/animation";
+@use "~/theme/elevation";
 @use "~/theme/typography";
 @use "~/util";
 
-.text-field {
+.input-group {
   --border-color: var(--gold-500);
   --hover-border-color: var(--gold-300);
   --focus-border-color: var(--gold-200);
@@ -50,6 +52,23 @@
   &__icon {
     color: typography.emphasis("text", "medium");
   }
+  &__error-message {
+    font-weight: 600;
+    color: var(--red-700);
+    @include theme.dark {
+      color: var(--red-200);
+    }
+  }
+  &__description {
+    white-space: pre-wrap;
+    color: typography.emphasis("text", "medium");
+    @include theme.dark {
+      color: typography.emphasis("text", "medium");
+    }
+  }
+}
+
+.text-field {
   &__action {
     margin: -0.5rem;
     @include util.rtl-position(left, 0, -0.5rem);
@@ -70,18 +89,94 @@
       outline: none;
     }
   }
-  &__error-message {
-    font-weight: 600;
-    color: var(--red-700);
-    @include theme.dark {
-      color: var(--red-200);
+}
+
+.select {
+  .input-group__input-container {
+    &:focus-visible {
+      outline: none;
     }
   }
-  &__description {
-    white-space: pre-wrap;
+  &__dropdown-icon {
     color: typography.emphasis("text", "medium");
-    @include theme.dark {
-      color: typography.emphasis("text", "medium");
+    transition: transform 200ms;
+    .select[data-open] & {
+      transform: rotate(180deg);
     }
   }
+  &__select-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    .select__ripple {
+      display: none;
+    }
+  }
+  &__popover {
+    background-color: var(--surface);
+    border-radius: var(--border-radius);
+    @include elevation.elevation(6);
+    min-width: var(--trigger-width);
+    padding: 0.5rem 0;
+    &[data-entering] {
+      transform-origin: top center;
+      animation:
+        popover-fade 250ms,
+        popover-enter 100ms ease-in;
+    }
+    &[data-exiting] {
+      animation:
+        popover-fade 250ms reverse 50ms,
+        popover-exit 100ms ease-out forwards 50ms;
+    }
+  }
+  &__item {
+    --selected-background-rgb: var(--gold-500-rgb);
+    --background-alpha: 0;
+    --selected-text-rgb: var(--gold-900-rgb);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    .input-group__icon {
+      @include util.rtl-box(margin, -0.5rem);
+    }
+    color: typography.emphasis("text", "high");
+    background-color: rgba(
+      var(--selected-background-rgb),
+      var(--background-alpha)
+    );
+    &[data-hovered] {
+      --background-alpha: #{theme.states-opacity("hover")};
+    }
+    &[data-focused] {
+      --background-alpha: #{theme.states-opacity("focus")};
+    }
+    &[data-selected] {
+      $selected-opacity: theme.states-opacity("selected");
+      --background-alpha: #{$selected-opacity};
+      --text-rgb: var(--selected-text-rgb);
+      &[data-hovered] {
+        --background-alpha: #{theme.states-opacity("hover", $selected-opacity)};
+      }
+      &[data-focused] {
+        --background-alpha: #{theme.states-opacity("focus", $selected-opacity)};
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+@keyframes popover-fade {
+  @include animation.fade-in;
+}
+
+@keyframes popover-enter {
+  @include animation.spring-in;
+}
+
+@keyframes popover-exit {
+  @include animation.shrink-back;
 }

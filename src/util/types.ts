@@ -12,9 +12,9 @@ export type AtLeastOneKey<T> = {
   [K in keyof T]: PickRequired<T, K>;
 }[keyof T];
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I,
-) => void
+export type UnionToIntersection<U> = (
+  U extends any ? (k: U) => void : never
+) extends (k: infer I) => void
   ? I
   : never;
 type LastOf<T> =

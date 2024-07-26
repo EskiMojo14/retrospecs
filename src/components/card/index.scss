@@ -103,10 +103,7 @@ $hover-time: 0.2s;
         min-height: util.to-rem(52px - 8px);
       }
     }
-    @include theme.ripple(
-      $surface: " .card__section-ripple",
-      $ripple-color: var(--card-text)
-    );
+    @include theme.ripple(var(--card-text), " .card__section-ripple");
     &-ripple {
       top: 0;
       left: 0;

@@ -1,12 +1,11 @@
 import type { ContextType, ReactNode } from "react";
-import { useMemo, useRef } from "react";
+import { forwardRef, useMemo } from "react";
 import type {
   TextFieldProps as AriaTextFieldProps,
   FieldErrorProps,
   TextProps,
   ValidationResult,
   LabelProps,
-  InputProps,
   PressEvent,
 } from "react-aria-components";
 import {
@@ -24,6 +23,8 @@ import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
 import { bemHelper } from "~/util";
 import type { Overwrite } from "~/util/types";
+import type { EventMap } from ".";
+import { inputGroupCls, useLiftInputState } from ".";
 import "./index.scss";
 
 export interface FormGroupProps {
@@ -48,121 +49,115 @@ export interface TextFieldProps
 const cls = bemHelper("text-field");
 
 const symbolContextValue: ContextType<typeof SymbolContext> = {
-  className: cls("icon"),
+  className: inputGroupCls("icon"),
 };
 
-export function TextField({
-  className,
-  label,
-  labelProps,
-  description,
-  descriptionProps,
-  errorMessage,
-  errorMessageProps,
-  textarea,
-  icon,
-  action,
-  onAction,
-  ...props
-}: TextFieldProps) {
-  const containerRef = useRef<HTMLLabelElement>(null);
-  const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
-  const inputEventProps = useMemo(() => {
-    const setContainerState = (state: string, value: boolean) => () => {
-      if (!containerRef.current) return;
-      if (value) {
-        containerRef.current.dataset[state] = String(value);
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete containerRef.current.dataset[state];
-      }
-    };
-    return {
-      onHoverStart: setContainerState("hovered", true),
-      onHoverEnd: setContainerState("hovered", false),
-      onFocus: setContainerState("focused", true),
-      onBlur: setContainerState("focused", false),
-    } satisfies InputProps;
-  }, []);
-  const buttonContextValue = useMemo<ContextType<typeof ButtonContext>>(
-    () => ({
-      slots: {
-        action: {
-          compact: true,
-          className: cls("action"),
-          onPress: onAction,
+const textFieldEvents = {
+  hovered: { hoverStart: true, hoverEnd: false },
+  focused: { focus: true, blur: false },
+} satisfies EventMap;
+
+export const TextField = forwardRef<
+  HTMLInputElement & HTMLTextAreaElement,
+  TextFieldProps
+>(
+  (
+    {
+      className,
+      label,
+      labelProps,
+      description,
+      descriptionProps,
+      errorMessage,
+      errorMessageProps,
+      textarea,
+      icon,
+      action,
+      onAction,
+      ...props
+    },
+    ref,
+  ) => {
+    const { containerRef, inputEventProps } =
+      useLiftInputState(textFieldEvents);
+    const buttonContextValue = useMemo<ContextType<typeof ButtonContext>>(
+      () => ({
+        slots: {
+          action: {
+            compact: true,
+            className: cls("action"),
+            onPress: onAction,
+          },
         },
-      },
-    }),
-    [onAction],
-  );
-  return (
-    <AriaTextField
-      {...props}
-      className={cls({
-        extra: className,
-      })}
-    >
-      <Typography
-        as={Label}
-        variant="subtitle2"
-        {...labelProps}
-        className={cls({
-          element: "label",
-          extra: labelProps?.className,
+      }),
+      [onAction],
+    );
+    return (
+      <AriaTextField
+        {...props}
+        className={inputGroupCls({
+          extra: cls({ extra: className }),
         })}
       >
-        {label}
-      </Typography>
-      <label ref={containerRef} className={cls("input-container")}>
-        <Provider
-          values={[
-            [SymbolContext, symbolContextValue],
-            [ButtonContext, buttonContextValue],
-          ]}
-        >
-          {icon}
-          {textarea ? (
-            <TextArea
-              ref={inputRef}
-              className={cls("textarea")}
-              {...inputEventProps}
-            />
-          ) : (
-            <Input
-              ref={inputRef}
-              className={cls("input")}
-              {...inputEventProps}
-            />
-          )}
-          {action}
-        </Provider>
-      </label>
-      {description && (
         <Typography
-          as={Text}
-          variant="caption"
-          slot="description"
-          {...descriptionProps}
-          className={cls({
-            element: "description",
-            extra: descriptionProps?.className,
+          as={Label}
+          variant="subtitle2"
+          {...labelProps}
+          className={inputGroupCls({
+            element: "label",
+            extra: labelProps?.className,
           })}
         >
-          {description}
+          {label}
         </Typography>
-      )}
-      <Typography
-        as={FieldError}
-        variant="body2"
-        {...errorMessageProps}
-        className={cls({
-          element: "error-message",
-          extra: errorMessageProps?.className,
-        })}
-      >
-        {errorMessage}
-      </Typography>
-    </AriaTextField>
-  );
-}
+        <label ref={containerRef} className={inputGroupCls("input-container")}>
+          <Provider
+            values={[
+              [SymbolContext, symbolContextValue],
+              [ButtonContext, buttonContextValue],
+            ]}
+          >
+            {icon}
+            {textarea ? (
+              <TextArea
+                ref={ref}
+                className={cls("textarea")}
+                {...inputEventProps}
+              />
+            ) : (
+              <Input ref={ref} className={cls("input")} {...inputEventProps} />
+            )}
+            {action}
+          </Provider>
+        </label>
+        {description && (
+          <Typography
+            as={Text}
+            variant="caption"
+            slot="description"
+            {...descriptionProps}
+            className={inputGroupCls({
+              element: "description",
+              extra: descriptionProps?.className,
+            })}
+          >
+            {description}
+          </Typography>
+        )}
+        <Typography
+          as={FieldError}
+          variant="body2"
+          {...errorMessageProps}
+          className={inputGroupCls({
+            element: "error-message",
+            extra: errorMessageProps?.className,
+          })}
+        >
+          {errorMessage}
+        </Typography>
+      </AriaTextField>
+    );
+  },
+);
+
+TextField.displayName = "TextField";
