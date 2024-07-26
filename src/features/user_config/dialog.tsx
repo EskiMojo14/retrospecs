@@ -15,7 +15,7 @@ import { useSession } from "~/db/provider";
 import type { Profile } from "~/features/profiles";
 import { updateProfile } from "~/features/profiles";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import { useCurrentProfile } from "~/hooks/use_current_profile";
+import { useCurrentProfile } from "~/hooks/use-current-profile";
 import { colors } from "~/theme/colors";
 import type { Groove, Theme, UserConfig } from ".";
 import { getUserConfig, updateUserConfig } from ".";

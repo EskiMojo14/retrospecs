@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { createGenericComponent } from "~/components/generic";
 import type { Enums } from "~/db/supabase";
+import { useImageIsLoaded } from "~/hooks/use-image-is-loaded";
 import { bemHelper } from "~/util";
 import "./index.scss";
 
@@ -27,17 +28,24 @@ export const Avatar = createGenericComponent<
 >(
   "Avatar",
   "span",
-  ({ as: As, src, name, size = "medium", color, className, ...props }, ref) => (
-    <As
-      {...props}
-      ref={ref}
-      className={cls({
-        modifiers: [size, color],
-        extra: className,
-      })}
-      aria-label={"Avatar for " + name}
-    >
-      {src ? <img src={src} aria-hidden /> : <span aria-hidden>{name[0]}</span>}
-    </As>
-  ),
+  ({ as: As, src, name, size = "medium", color, className, ...props }, ref) => {
+    const imageLoaded = useImageIsLoaded(src);
+    return (
+      <As
+        {...props}
+        ref={ref}
+        className={cls({
+          modifiers: [size, color],
+          extra: className,
+        })}
+        aria-label={"Avatar for " + name}
+      >
+        {src && imageLoaded ? (
+          <img src={src} aria-hidden />
+        ) : (
+          <span aria-hidden>{name[0]}</span>
+        )}
+      </As>
+    );
+  },
 );
