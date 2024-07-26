@@ -174,18 +174,21 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null;
+          color: Database["public"]["Enums"]["color"];
           display_name: string;
           email: string;
           user_id: string;
         };
         Insert: {
           avatar_url?: string | null;
+          color?: Database["public"]["Enums"]["color"];
           display_name: string;
           email: string;
           user_id: string;
         };
         Update: {
           avatar_url?: string | null;
+          color?: Database["public"]["Enums"]["color"];
           display_name?: string;
           email?: string;
           user_id?: string;
@@ -381,10 +384,14 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_random_color: {
+        Args: Record<PropertyKey, never>;
+        Returns: Database["public"]["Enums"]["color"];
+      };
     };
     Enums: {
       category: "good" | "improvement" | "neutral";
+      color: "green" | "blue" | "orange" | "amber" | "gold" | "teal" | "pink";
       groove: "none" | "low_volume" | "heavy";
       member_role: "admin" | "member";
       reaction: "like";
