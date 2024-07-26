@@ -17,6 +17,7 @@
 
 @mixin focus-ring {
   &[data-focus-visible] {
+    z-index: 9999;
     outline: var(--outline-width) solid var(--focus-ring-color);
     outline-offset: var(--outline-width);
   }
