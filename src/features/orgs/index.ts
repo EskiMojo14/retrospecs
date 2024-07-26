@@ -2,18 +2,22 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 import { skipToken } from "@tanstack/react-query";
 import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
+import type { Profile } from "~/features/profiles";
 import { sortByCreatedAt } from "~/util";
 import {
   compoundKey,
   supabaseFn,
   supabaseQueryOptions,
   supabaseMutationOptions,
-  PostgrestErrorWithMeta,
 } from "~/util/supabase-query";
 import type { PickRequired } from "~/util/types";
 
 export type Org = Tables<"orgs">;
 export type OrgMember = Tables<"org_members">;
+
+export interface OrgMemberWithProfile extends OrgMember {
+  profiles: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
+}
 
 export const orgAdapter = createEntityAdapter<Org>({
   sortComparer: sortByCreatedAt,
@@ -29,7 +33,10 @@ export const {
 
 const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
 
-export const orgMemberAdapter = createEntityAdapter<OrgMember, string>({
+export const orgMemberAdapter = createEntityAdapter<
+  OrgMemberWithProfile,
+  string
+>({
   selectId: selectOrgMemberId,
 });
 
@@ -187,7 +194,11 @@ export const getOrgMembers = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["orgMembers", orgId],
     queryFn: supabaseFn(
-      () => supabase.from("org_members").select().eq("org_id", orgId),
+      () =>
+        supabase
+          .from("org_members")
+          .select(`*, profiles (display_name, avatar_url, color)`)
+          .eq("org_id", orgId),
       (members) => orgMemberAdapter.getInitialState(undefined, members),
     ),
   }),

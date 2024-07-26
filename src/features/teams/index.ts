@@ -2,6 +2,7 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Org } from "~/features/orgs";
+import type { Profile } from "~/features/profiles";
 import { sortByCreatedAt } from "~/util";
 import {
   compoundKey,
@@ -13,6 +14,10 @@ import type { PickRequired } from "~/util/types";
 
 export type Team = Tables<"teams">;
 export type TeamMember = Tables<"team_members">;
+
+export interface TeamMemberWithProfile extends TeamMember {
+  profiles: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
+}
 
 export const teamAdapter = createEntityAdapter<Team>({
   sortComparer: sortByCreatedAt,
@@ -28,7 +33,7 @@ export const {
 
 const selectTeamMemberId = compoundKey<TeamMember>()("team_id", "user_id");
 
-const teamMemberAdapter = createEntityAdapter<TeamMember, string>({
+const teamMemberAdapter = createEntityAdapter<TeamMemberWithProfile, string>({
   selectId: selectTeamMemberId,
   sortComparer: sortByCreatedAt,
 });
@@ -178,7 +183,11 @@ export const getTeamMembers = supabaseQueryOptions(
   ({ supabase }, teamId: Team["id"]) => ({
     queryKey: ["teamMembers", teamId],
     queryFn: supabaseFn(
-      () => supabase.from("team_members").select().eq("team_id", teamId),
+      () =>
+        supabase
+          .from("team_members")
+          .select(`*, profiles (display_name, avatar_url, color)`)
+          .eq("team_id", teamId),
       (members) => teamMemberAdapter.getInitialState(undefined, members),
     ),
   }),
