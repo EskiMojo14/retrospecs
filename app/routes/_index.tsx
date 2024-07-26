@@ -59,9 +59,15 @@ export default function Orgs() {
         </AppBar>
         <OrgGrid orgIds={orgIds} />
         <DialogTrigger>
-          <FloatingActionButton extended color="green">
+          <FloatingActionButton
+            extended
+            color="green"
+            aria-label="Create organisation"
+          >
             <Symbol slot="leading">add</Symbol>
-            <Text slot="label">Create</Text>
+            <Text slot="label" aria-hidden>
+              Create
+            </Text>
           </FloatingActionButton>
           <CreateOrg />
         </DialogTrigger>

@@ -113,9 +113,11 @@ export default function Org() {
         </AppBar>
         <TeamGrid orgId={orgId} teamIds={teamIds} />
         <DialogTrigger>
-          <FloatingActionButton extended color="green">
+          <FloatingActionButton extended color="green" aria-label="Create team">
             <Symbol slot="leading">add</Symbol>
-            <Text slot="label">Create</Text>
+            <Text slot="label" aria-hidden>
+              Create
+            </Text>
           </FloatingActionButton>
           <Dialog>
             {({ close }) => (
