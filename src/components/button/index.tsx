@@ -123,14 +123,16 @@ LinkButton.displayName = "LinkButton";
 
 export type ToggleButtonProps = Overwrite<AriaToggleButtonProps, ButtonProps>;
 
-const stateSymbolContexts: Record<`${boolean}`, SymbolProps> = {
-  true: {
-    transition: true,
-    fill: true,
-  },
+const stateSymbolContexts: {
+  [K in boolean as `${K}`]: SymbolProps & { fill: K };
+} = {
   false: {
     transition: true,
     fill: false,
+  },
+  true: {
+    transition: true,
+    fill: true,
   },
 };
 
