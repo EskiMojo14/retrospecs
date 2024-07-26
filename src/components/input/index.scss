@@ -4,25 +4,20 @@
 @use "~/util";
 
 .text-field {
-  --background-rgb: var(--white-rgb);
   --border-color: var(--gold-500);
   --hover-border-color: var(--gold-300);
   --focus-border-color: var(--gold-200);
   --selection-color: var(--gold-500);
   --selection-text-color: var(--white);
-  --text-rgb: var(--black-rgb);
-  --text: rgb(var(--text-rgb));
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   @include theme.dark {
-    --background-rgb: var(--black-rgb);
     --border-color: var(--gold-300);
     --hover-border-color: var(--gold-200);
     --focus-border-color: var(--gold-100);
     --selection-color: var(--gold-300);
     --selection-text-color: var(--black);
-    --text-rgb: var(--white-rgb);
   }
   &__input-container {
     display: flex;
@@ -79,6 +74,13 @@
     color: var(--red-700);
     @include theme.dark {
       color: var(--red-200);
+    }
+  }
+  &__description {
+    white-space: pre-wrap;
+    color: typography.emphasis("text", "medium");
+    @include theme.dark {
+      color: typography.emphasis("text", "medium");
     }
   }
 }

@@ -39,7 +39,7 @@ const meta = {
     },
     color: {
       control: "select",
-      options: [undefined, ...buttonColors],
+      options: buttonColors,
     },
     onPress: { table: { disable: true } },
   },
@@ -48,6 +48,7 @@ const meta = {
     children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
     compact: false,
+    color: "gold",
   },
 } satisfies Meta<StoryProps>;
 

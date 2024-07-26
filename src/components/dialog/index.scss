@@ -8,8 +8,8 @@
 .dialog {
   position: relative;
   border-radius: 4px;
-  background-color: var(--white);
-  color: typography.emphasis("black", "high");
+  background-color: var(--background);
+  color: typography.emphasis("text", "high");
   max-height: calc(100% - 32px);
   min-width: 280px;
   max-width: 600px;
@@ -21,8 +21,7 @@
     outline: none;
   }
   @include theme.dark {
-    background-color: var(--brown-800);
-    color: typography.emphasis("white", "high");
+    --background-rgb: var(--brown-800-rgb);
   }
   &-overlay {
     --overlay-rgb: var(--black-rgb);
@@ -70,6 +69,10 @@
     animation:
       dialog-fade 300ms reverse,
       dialog-exit 150ms ease-out forwards;
+  }
+  .button--text,
+  .button--outlined {
+    background-color: rgba(var(--background-rgb), 0.75);
   }
 }
 

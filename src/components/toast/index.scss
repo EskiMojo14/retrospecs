@@ -124,10 +124,7 @@
     @include util.rtl-box("margin", 0, -8px);
   }
   .button {
-    @include button-mixins.colors(
-      variables.$button-default-color,
-      variables.$button-color-map
-    );
+    @include button-mixins.colors(variables.$button-color-map);
   }
 }
 

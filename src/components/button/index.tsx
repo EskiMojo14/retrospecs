@@ -1,5 +1,4 @@
 import { mergeProps } from "@react-aria/utils";
-import { clsx } from "clsx";
 import type { ContextType, ReactNode } from "react";
 import { createContext, forwardRef, useMemo } from "react";
 import type {
@@ -81,7 +80,7 @@ export const Button = createGenericComponent<
   });
   const {
     variant = "text",
-    color,
+    color = "gold",
     compact,
     className,
     as: As,
@@ -95,7 +94,7 @@ export const Button = createGenericComponent<
       className={cls({
         modifiers: {
           [variant]: true,
-          [color ?? ""]: !!color,
+          [color]: true,
           compact: !!compact,
         },
         extra: className,
@@ -168,6 +167,8 @@ interface ButtonGroupPassedProps {
   id: string;
 }
 
+const clsGroup = bemHelper("button-group");
+
 export const ButtonGroup = createGenericComponent<
   typeof Group,
   ButtonGroupProps,
@@ -208,21 +209,27 @@ export const ButtonGroup = createGenericComponent<
       <As
         ref={ref}
         {...props}
-        className={clsx("button-group", className)}
+        className={clsGroup({
+          extra: className,
+        })}
         id={id}
         data-orientation={orientation}
       >
         <Typography
           as={Label}
           variant="subtitle2"
-          {...labelProps}
           id={`${id}-label`}
+          {...labelProps}
+          className={clsGroup({
+            element: "label",
+            extra: labelProps?.className,
+          })}
         >
           {label}
         </Typography>
         <ButtonContext.Provider value={contextValue}>
           <section
-            className="button-group__buttons"
+            className={clsGroup("buttons")}
             aria-labelledby={label ? `${id}-label` : undefined}
             aria-describedby={description ? `${id}-description` : undefined}
           >
@@ -236,6 +243,10 @@ export const ButtonGroup = createGenericComponent<
             variant="caption"
             id={`${id}-description`}
             {...descriptionProps}
+            className={clsGroup({
+              element: "description",
+              extra: descriptionProps?.className,
+            })}
           >
             {description}
           </Typography>

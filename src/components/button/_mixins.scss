@@ -15,11 +15,7 @@
   }
 }
 
-@mixin colors(
-  $default: variables.$default-color,
-  $color-map: variables.$color-map
-) {
-  @include color(map.get($default, color), $default);
+@mixin colors($color-map: variables.$color-map) {
   @each $variant, $color in $color-map {
     &--#{$variant} {
       @include color($variant, $color);

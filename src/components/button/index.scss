@@ -67,7 +67,7 @@
     --shadow: var(--background);
     @include elevation.elevation(2);
     &[data-hovered] {
-      translate: -2px -2px;
+      translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
       @include elevation.elevation(4);
     }
     &[data-focus-visible],
@@ -200,6 +200,10 @@
       }
     }
   }
+  &__description {
+    white-space: pre-wrap;
+    color: typography.emphasis("text", "medium");
+  }
 }
 
 .floating-action-button {
@@ -224,7 +228,7 @@
     @include util.rtl-position(right, 16px);
   }
   &[data-hovered] {
-    translate: -2px -2px;
+    translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
     @include elevation.elevation(8);
   }
   &[data-focus-visible],

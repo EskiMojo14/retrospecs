@@ -60,13 +60,17 @@
 }
 
 body {
-  background-color: var(--white);
-  color: var(--black);
+  --background-rgb: var(--white-rgb);
+  --background: rgb(var(--background-rgb));
+  --text-rgb: var(--black-rgb);
+  --text: rgb(var(--text-rgb));
+  background-color: var(--background);
+  color: var(--text);
   @each $prop, $value in typography.$defaults {
     #{$prop}: var(--typography-default-#{$prop});
   }
   @include theme.dark {
-    background-color: var(--brown-900);
-    color: var(--white);
+    --background-rgb: var(--brown-900-rgb);
+    --text-rgb: var(--white-rgb);
   }
 }

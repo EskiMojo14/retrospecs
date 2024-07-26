@@ -25,6 +25,7 @@ import {
   SessionProvider,
 } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
+import { getProfile } from "~/features/profiles";
 import type { UserConfig } from "~/features/user_config";
 import { getUserConfig } from "~/features/user_config";
 import "~/index.scss";
@@ -56,6 +57,8 @@ export const loader = (async ({
   }
 
   const user = await ensureAuthenticated(context);
+
+  await queryClient.prefetchQuery(getProfile(context, user.id));
 
   return json(
     {
