@@ -40,7 +40,7 @@ export const Avatar = createGenericComponent<
         })}
         aria-label={"Avatar for " + name}
       >
-        {src && imageLoaded ? (
+        {src && imageLoaded === "loaded" ? (
           <img src={src} aria-hidden />
         ) : (
           <span aria-hidden>{name[0]}</span>

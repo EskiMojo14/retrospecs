@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
 
+type LoadStatus = "pending" | "loaded" | "error" | "none";
+
 export function useImageIsLoaded(src?: string | null) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState<LoadStatus>("pending");
 
   useEffect(() => {
     if (!src) {
-      setIsLoaded(false);
+      setIsLoaded("none");
       return;
     }
 
     let isMounted = true;
     const image = new window.Image();
 
-    const createStatusHandler = (status: boolean) => () => {
+    const createStatusHandler = (status: LoadStatus) => () => {
       if (isMounted) setIsLoaded(status);
     };
 
-    setIsLoaded(false);
-    image.onload = createStatusHandler(true);
-    image.onerror = createStatusHandler(false);
+    setIsLoaded("pending");
+    image.onload = createStatusHandler("loaded");
+    image.onerror = createStatusHandler("error");
     image.src = src;
 
     return () => {
