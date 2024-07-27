@@ -33,6 +33,23 @@ export const getSprintsForTeam = supabaseQueryOptions(
   }),
 );
 
+export const getSprintCountForTeam = supabaseQueryOptions(
+  ({ supabase }, teamId: number) => ({
+    queryKey: ["sprints", teamId, "count"],
+    queryFn: supabaseFn(
+      () =>
+        supabase
+          .from("sprints")
+          .select("*", {
+            head: true,
+            count: "exact",
+          })
+          .eq("team_id", teamId),
+      (_data, { count }) => count ?? 0,
+    ),
+  }),
+);
+
 export const getSprintById = supabaseQueryOptions(
   ({ supabase }, sprintId: Sprint["id"]) => ({
     queryKey: ["sprint", sprintId],

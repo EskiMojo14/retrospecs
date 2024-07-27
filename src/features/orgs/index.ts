@@ -158,7 +158,7 @@ export const deleteOrg = supabaseMutationOptions(
 
 export const getOrgMemberCount = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
-    queryKey: ["orgMembersCount", orgId],
+    queryKey: ["orgMembers", orgId, "count"],
     queryFn: supabaseFn(
       () =>
         supabase
@@ -213,9 +213,6 @@ export const addOrgMember = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["orgMembers", org_id],
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["orgMembersCount", org_id],
-      });
     },
   }),
 );
@@ -243,9 +240,6 @@ export const updateOrgMember = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["orgMembers", org_id],
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["orgMembersCount", org_id],
-      });
     },
   }),
 );
@@ -265,9 +259,6 @@ export const deleteOrgMember = supabaseMutationOptions(
     ) {
       await queryClient.invalidateQueries({
         queryKey: ["orgMembers", org_id],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: ["orgMembersCount", org_id],
       });
     },
   }),

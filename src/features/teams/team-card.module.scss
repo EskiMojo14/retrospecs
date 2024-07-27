@@ -1,9 +1,16 @@
 @use "~/theme/typography" as typography;
 
 .teamCard {
+  min-width: 0;
+  grid-column: span 4;
   .primaryAction {
+    flex-grow: 1;
     align-items: flex-start;
     padding: 8px 24px;
+    text-decoration: none;
+    &:focus {
+      outline: none;
+    }
     :global(.card__section-content) {
       flex-grow: 1;
       display: flex;

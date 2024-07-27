@@ -5189,6 +5189,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-devtools@npm:5.51.15":
+  version: 5.51.15
+  resolution: "@tanstack/query-devtools@npm:5.51.15"
+  checksum: 10c0/9f7d8cbaf82d95f8d5999fe57164de0a736538e3d9ad3a1efbcd017be3151330dd9e7a3450926c013e76769f973fb8da75bda4a7b4a6c02b374ec7abbee35584
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:^5.51.15":
+  version: 5.51.15
+  resolution: "@tanstack/react-query-devtools@npm:5.51.15"
+  dependencies:
+    "@tanstack/query-devtools": "npm:5.51.15"
+  peerDependencies:
+    "@tanstack/react-query": ^5.51.15
+    react: ^18 || ^19
+  checksum: 10c0/cafe075d664402bcb4612c317c9b0925589d86b23d3f72d9c581aa256009ac944af6580a2ee54e13f97bdcf8d4a9c3e9433e29db602339888858c2a8981cf70d
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query@npm:^5.51.11":
   version: 5.51.11
   resolution: "@tanstack/react-query@npm:5.51.11"
@@ -13144,6 +13163,7 @@ __metadata:
     "@supabase/ssr": "npm:0.4.0"
     "@supabase/supabase-js": "npm:^2.44.3"
     "@tanstack/react-query": "npm:^5.51.11"
+    "@tanstack/react-query-devtools": "npm:^5.51.15"
     "@testing-library/dom": "npm:^10.3.2"
     "@testing-library/jest-dom": "npm:^6.4.6"
     "@testing-library/react": "npm:^16.0.0"

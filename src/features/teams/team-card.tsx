@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import {
   Card,
@@ -31,7 +32,7 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
   return (
     <Card className={styles.teamCard}>
       <CardPrimaryAction
-        as={LinkButton}
+        as={Link}
         href={`/orgs/${orgId}/teams/${teamId}`}
         className={styles.primaryAction}
       >

@@ -56,9 +56,9 @@ export const getTeamsByOrg = supabaseQueryOptions(
   }),
 );
 
-export const getTeamCountByOrg = supabaseQueryOptions(
+export const getteamsByOrg = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
-    queryKey: ["teamCount", orgId],
+    queryKey: ["teams", orgId, "count"],
     queryFn: supabaseFn(
       () =>
         supabase
@@ -87,9 +87,6 @@ export const addTeam = supabaseMutationOptions(({ supabase, queryClient }) => ({
     );
     await queryClient.invalidateQueries({
       queryKey: ["teams", org_id],
-    });
-    await queryClient.invalidateQueries({
-      queryKey: ["teamCount", org_id],
     });
   },
   onError(error) {
@@ -127,9 +124,6 @@ export const updateTeam = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["teams", org_id],
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["teamCount", org_id],
-      });
     },
     onError(error) {
       toastQueue.add({
@@ -165,9 +159,6 @@ export const deleteTeam = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["teams"],
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["teamCount"],
-      });
     },
     onError(error) {
       toastQueue.add({
@@ -193,9 +184,9 @@ export const getTeamMembers = supabaseQueryOptions(
   }),
 );
 
-export const getTeamMemberCount = supabaseQueryOptions(
+export const getteamMembers = supabaseQueryOptions(
   ({ supabase }, teamId: Team["id"]) => ({
-    queryKey: ["teamMemberCount", teamId],
+    queryKey: ["teamMembers", teamId, "count"],
     queryFn: supabaseFn(
       () =>
         supabase
@@ -215,9 +206,6 @@ export const addTeamMember = supabaseMutationOptions(
     async onSuccess(_: null, { team_id }: TablesInsert<"team_members">) {
       await queryClient.invalidateQueries({
         queryKey: ["teamMembers", team_id],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: ["teamMemberCount", team_id],
       });
     },
   }),
@@ -246,9 +234,6 @@ export const updateTeamMember = supabaseMutationOptions(
       await queryClient.invalidateQueries({
         queryKey: ["teamMembers", team_id],
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["teamMemberCount", team_id],
-      });
     },
   }),
 );
@@ -268,9 +253,6 @@ export const deleteTeamMember = supabaseMutationOptions(
     ) {
       await queryClient.invalidateQueries({
         queryKey: ["teamMembers", team_id],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: ["teamMemberCount", team_id],
       });
     },
   }),

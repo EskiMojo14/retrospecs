@@ -5,7 +5,8 @@ import { useOptionsCreator } from "./use-options-creator";
 
 export function useCurrentProfile() {
   const session = useSession();
-  const userId = session?.user.id;
-  const { data: profile } = useQuery(useOptionsCreator(getProfile, userId));
+  const { data: profile } = useQuery(
+    useOptionsCreator(getProfile, session?.user.id),
+  );
   return profile;
 }
