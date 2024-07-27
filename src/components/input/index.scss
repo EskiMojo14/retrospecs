@@ -139,14 +139,15 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    .input-group__icon {
-      @include util.rtl-box(margin, -0.5rem);
-    }
     color: typography.emphasis("text", "high");
     background-color: rgba(
       var(--selected-background-rgb),
       var(--background-alpha)
     );
+    transition: background-color 200ms;
+    .input-group__icon {
+      @include util.rtl-box(margin, -0.5rem);
+    }
     &[data-hovered] {
       --background-alpha: #{theme.states-opacity("hover")};
     }
