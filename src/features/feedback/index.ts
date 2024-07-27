@@ -131,6 +131,25 @@ export const getReactionsByFeedback = supabaseQueryOptions(
   }),
 );
 
+export const toggleReaction = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn(
+      ({ reaction, feedback_id, user_id }: TablesInsert<"reactions">) =>
+        supabase.rpc("toggle_reaction", {
+          react: reaction,
+          u_id: user_id,
+          f_id: feedback_id,
+        }),
+      () => null,
+    ),
+    async onSuccess(_: null, { feedback_id }: TablesInsert<"reactions">) {
+      await queryClient.invalidateQueries({
+        queryKey: ["reactions", feedback_id],
+      });
+    },
+  }),
+);
+
 export const addReaction = supabaseMutationOptions(
   ({ supabase, queryClient }) => ({
     mutationFn: supabaseFn((reaction: TablesInsert<"reactions">) =>
