@@ -19,6 +19,7 @@ const team: Team = {
   org_id: 1,
   id: 1,
   created_at: new Date().toISOString(),
+  created_by: null,
   name: "Team Name",
 };
 
