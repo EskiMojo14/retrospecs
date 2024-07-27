@@ -98,6 +98,13 @@ export type Database = {
         };
         Relationships: [
           {
+            foreignKeyName: "feedback_sprint_id_fkey";
+            columns: ["sprint_id"];
+            isOneToOne: false;
+            referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "feedback_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
@@ -436,6 +443,14 @@ export type Database = {
       get_random_color: {
         Args: Record<PropertyKey, never>;
         Returns: Database["public"]["Enums"]["color"];
+      };
+      toggle_reaction: {
+        Args: {
+          react: Database["public"]["Enums"]["reaction"];
+          f_id: number;
+          u_id: string;
+        };
+        Returns: undefined;
       };
     };
     Enums: {
