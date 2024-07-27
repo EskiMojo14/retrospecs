@@ -65,7 +65,8 @@ export function OrgCard({ orgId }: OrgCardProps) {
             variant="outlined"
             href={`/orgs/${orgId}/members`}
           >
-            Members: {memberCount}
+            <Symbol slot="leading">group</Symbol>
+            {pluralize`${memberCount} ${[memberCount, "member"]}`}
           </CardActionButton>
         </Toolbar>
         {permissions >= Permission.Admin ? (

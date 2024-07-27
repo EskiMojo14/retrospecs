@@ -14,6 +14,7 @@ import { Typography } from "~/components/typography";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { getTeamMemberCount, getTeamsByOrg, selectTeamById } from ".";
 import styles from "./team-card.module.scss";
+import { pluralize } from "~/util";
 
 export interface TeamCardProps {
   orgId: number;
@@ -47,7 +48,8 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
             variant="outlined"
             href={`/orgs/${orgId}/teams/${teamId}/members`}
           >
-            Members: {memberCount}
+            <Symbol slot="leading">people</Symbol>
+            {pluralize`${memberCount} ${[memberCount, "member"]}`}
           </CardActionButton>
         </Toolbar>
         <Toolbar slot="icons">
