@@ -1,9 +1,8 @@
 import type { Enums } from "~/db/supabase";
-import type { TuplifyUnion } from "~/util/types";
 
 export type Color = Enums<"color">;
 
-export const colors: TuplifyUnion<Color> = [
+export const colors = [
   "green",
   "blue",
   "orange",
@@ -11,4 +10,4 @@ export const colors: TuplifyUnion<Color> = [
   "gold",
   "teal",
   "pink",
-] as const;
+] as const satisfies Array<Color>;

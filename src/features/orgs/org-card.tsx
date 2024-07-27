@@ -18,6 +18,7 @@ import {
   Permission,
   useCurrentUserPermissions,
 } from "~/hooks/use-user-permissions";
+import { pluralize } from "~/util";
 import { EditOrg } from "./edit-org";
 import type { Org } from ".";
 import { deleteOrg, getOrgMemberCount, getOrgs, selectOrgById } from ".";
@@ -51,7 +52,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
         className={styles.primaryAction}
       >
         <Typography variant="overline" className={styles.teamCount}>
-          {teamCount} Teams
+          {pluralize`${teamCount} ${[teamCount, "team"]}`}
         </Typography>
         <Typography variant="headline6" className={styles.title}>
           {org.name}

@@ -252,3 +252,30 @@ export const sortByCreatedAt = (
   a: { created_at: string },
   b: { created_at: string },
 ) => a.created_at.localeCompare(b.created_at);
+
+type PluraliseTuple = [count: number, singular: string, plural?: string];
+
+const isPluralizeTuple = (value: unknown): value is PluraliseTuple =>
+  Array.isArray(value) &&
+  value.length >= 2 &&
+  typeof value[0] === "number" &&
+  typeof value[1] === "string";
+
+export const pluralize = (
+  strings: TemplateStringsArray,
+  ...values: Array<unknown>
+) => {
+  let result = strings[0] ?? "";
+  for (let i = 0; i < values.length; i++) {
+    const value = values[i];
+    if (isPluralizeTuple(value)) {
+      const [count, singular, plural = `${singular}s`] = value;
+      result += count === 1 ? singular : plural;
+    } else {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      result += `${value}`;
+    }
+    result += strings[i + 1] ?? "";
+  }
+  return result;
+};

@@ -56,7 +56,7 @@ export const getTeamsByOrg = supabaseQueryOptions(
   }),
 );
 
-export const getteamsByOrg = supabaseQueryOptions(
+export const getTeamCountByOrg = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["teams", orgId, "count"],
     queryFn: supabaseFn(
@@ -184,7 +184,7 @@ export const getTeamMembers = supabaseQueryOptions(
   }),
 );
 
-export const getteamMembers = supabaseQueryOptions(
+export const getTeamMemberCount = supabaseQueryOptions(
   ({ supabase }, teamId: Team["id"]) => ({
     queryKey: ["teamMembers", teamId, "count"],
     queryFn: supabaseFn(
