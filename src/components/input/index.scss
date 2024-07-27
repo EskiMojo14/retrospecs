@@ -98,9 +98,9 @@
     }
   }
   &__dropdown-icon {
-    @include util.rtl-box(margin, auto, 0);
     color: typography.emphasis("text", "medium");
     transition: transform 200ms;
+    @include util.rtl-box(margin, auto, 0);
     .select[data-open] & {
       transform: rotate(180deg);
     }
