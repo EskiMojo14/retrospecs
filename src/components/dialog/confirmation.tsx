@@ -47,7 +47,7 @@ export function ConfirmationDialog({
               variant="outlined"
               {...cancelButtonProps}
             >
-              Cancel
+              {cancelButtonProps?.children ?? "Cancel"}
             </Button>
             <Button
               onPress={() => {
@@ -56,7 +56,7 @@ export function ConfirmationDialog({
               variant="elevated"
               {...confirmButtonProps}
             >
-              Confirm
+              {confirmButtonProps?.children ?? "Confirm"}
             </Button>
           </Toolbar>
         </>

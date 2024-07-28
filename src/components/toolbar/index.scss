@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   flex-grow: 1;
+  gap: 0.25rem;
   &--align-start {
     justify-content: flex-start;
   }

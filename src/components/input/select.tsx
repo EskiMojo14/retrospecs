@@ -19,7 +19,8 @@ import {
   FieldError,
   Text,
 } from "react-aria-components";
-import { Symbol, SymbolContext, SymbolProps } from "~/components/symbol";
+import type { SymbolProps } from "~/components/symbol";
+import { Symbol, SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
 import { bemHelper, renderPropsChild } from "~/util";
@@ -71,17 +72,19 @@ export function Select<T extends object>({
         extra: cls({ extra: className }),
       })}
     >
-      <Typography
-        as={Label}
-        variant="subtitle2"
-        {...labelProps}
-        className={inputGroupCls({
-          element: "label",
-          extra: labelProps?.className,
-        })}
-      >
-        {label}
-      </Typography>
+      {label && (
+        <Typography
+          as={Label}
+          variant="subtitle2"
+          {...labelProps}
+          className={inputGroupCls({
+            element: "label",
+            extra: labelProps?.className,
+          })}
+        >
+          {label}
+        </Typography>
+      )}
       <Button className={inputGroupCls("input-container")}>
         <SymbolContext.Provider value={symbolContextValue}>
           {icon}

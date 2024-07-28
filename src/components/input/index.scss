@@ -108,6 +108,7 @@
   &__select-value {
     display: flex;
     align-items: center;
+    line-height: 1;
     gap: 0.5rem;
     .select__ripple {
       display: none;

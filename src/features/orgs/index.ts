@@ -41,6 +41,16 @@ export const getOrg = supabaseQueryOptions(({ supabase }, id: Org["id"]) => ({
   ),
 }));
 
+export const getOrgName = supabaseQueryOptions(
+  ({ supabase }, id: Org["id"]) => ({
+    queryKey: ["orgs", id, "name"],
+    queryFn: supabaseFn(
+      () => supabase.from("orgs").select("name").eq("id", id).single(),
+      (org) => org.name,
+    ),
+  }),
+);
+
 export const addOrg = supabaseMutationOptions(({ supabase, queryClient }) => ({
   mutationFn: supabaseFn((org: TablesInsert<"orgs">) =>
     supabase.from("orgs").insert(org),
@@ -137,7 +147,7 @@ export const deleteOrg = supabaseMutationOptions(
 export type OrgMember = Tables<"org_members">;
 
 export interface OrgMemberWithProfile extends OrgMember {
-  profile: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
+  profile: Profile | null;
 }
 
 const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
@@ -198,7 +208,7 @@ export const getOrgMembers = supabaseQueryOptions(
       () =>
         supabase
           .from("org_members")
-          .select(`*, profile:profiles(display_name, avatar_url, color)`)
+          .select(`*, profile:profiles(*)`)
           .eq("org_id", orgId),
       (members) => orgMemberAdapter.getInitialState(undefined, members),
     ),

@@ -3,7 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import type { ComponentType, DependencyList, EffectCallback } from "react";
 import { useEffect } from "react";
 import type { AppSupabaseClient } from "~/db";
-import { OriginalSupabaseProvider } from "~/db/provider";
+import { OriginalSupabaseProvider, SessionProvider } from "~/db/provider";
 
 type Decorator<
   ArgsConstraint extends {} = {},
@@ -18,7 +18,9 @@ export const createSupabaseDecorator =
   // eslint-disable-next-line react/display-name
   (Story, { args }) => (
     <OriginalSupabaseProvider supabase={supabase}>
-      <Story {...args} />
+      <SessionProvider>
+        <Story {...args} />
+      </SessionProvider>
     </OriginalSupabaseProvider>
   );
 

@@ -33,6 +33,8 @@ $sizes: (
   user-select: none;
 
   @include typography.style("headline6");
+  line-height: 1;
+  flex-shrink: 0;
 
   @each $size, $values in $sizes {
     &--#{$size} {
