@@ -13,11 +13,6 @@ import {
 import type { PickRequired } from "~/util/types";
 
 export type Org = Tables<"orgs">;
-export type OrgMember = Tables<"org_members">;
-
-export interface OrgMemberWithProfile extends OrgMember {
-  profiles: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
-}
 
 export const orgAdapter = createEntityAdapter<Org>({
   sortComparer: sortByCreatedAt,
@@ -30,23 +25,6 @@ export const {
   selectEntities: selectOrgEntities,
   selectTotal: selectTotalOrgs,
 } = orgAdapter.getSelectors();
-
-const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
-
-export const orgMemberAdapter = createEntityAdapter<
-  OrgMemberWithProfile,
-  string
->({
-  selectId: selectOrgMemberId,
-});
-
-export const {
-  selectAll: selectAllOrgMembers,
-  selectById: selectOrgMemberById,
-  selectIds: selectOrgMemberIds,
-  selectEntities: selectOrgMemberEntities,
-  selectTotal: selectTotalOrgMembers,
-} = orgMemberAdapter.getSelectors();
 
 export const getOrgs = supabaseQueryOptions(({ supabase }) => ({
   queryKey: ["orgs"],
@@ -156,6 +134,29 @@ export const deleteOrg = supabaseMutationOptions(
   }),
 );
 
+export type OrgMember = Tables<"org_members">;
+
+export interface OrgMemberWithProfile extends OrgMember {
+  profile: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
+}
+
+const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
+
+export const orgMemberAdapter = createEntityAdapter<
+  OrgMemberWithProfile,
+  string
+>({
+  selectId: selectOrgMemberId,
+});
+
+export const {
+  selectAll: selectAllOrgMembers,
+  selectById: selectOrgMemberById,
+  selectIds: selectOrgMemberIds,
+  selectEntities: selectOrgMemberEntities,
+  selectTotal: selectTotalOrgMembers,
+} = orgMemberAdapter.getSelectors();
+
 export const getOrgMemberCount = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["orgMembers", orgId, "count"],
@@ -197,7 +198,7 @@ export const getOrgMembers = supabaseQueryOptions(
       () =>
         supabase
           .from("org_members")
-          .select(`*, profiles (display_name, avatar_url, color)`)
+          .select(`*, profile:profiles(display_name, avatar_url, color)`)
           .eq("org_id", orgId),
       (members) => orgMemberAdapter.getInitialState(undefined, members),
     ),

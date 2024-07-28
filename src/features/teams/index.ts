@@ -13,11 +13,6 @@ import {
 import type { PickRequired } from "~/util/types";
 
 export type Team = Tables<"teams">;
-export type TeamMember = Tables<"team_members">;
-
-export interface TeamMemberWithProfile extends TeamMember {
-  profiles: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
-}
 
 export const teamAdapter = createEntityAdapter<Team>({
   sortComparer: sortByCreatedAt,
@@ -30,21 +25,6 @@ export const {
   selectEntities: selectTeamEntities,
   selectTotal: selectTotalTeams,
 } = teamAdapter.getSelectors();
-
-const selectTeamMemberId = compoundKey<TeamMember>()("team_id", "user_id");
-
-const teamMemberAdapter = createEntityAdapter<TeamMemberWithProfile, string>({
-  selectId: selectTeamMemberId,
-  sortComparer: sortByCreatedAt,
-});
-
-export const {
-  selectAll: selectAllTeamMembers,
-  selectById: selectTeamMemberById,
-  selectIds: selectTeamMemberIds,
-  selectEntities: selectTeamMemberEntities,
-  selectTotal: selectTotalTeamMembers,
-} = teamMemberAdapter.getSelectors();
 
 export const getTeamsByOrg = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
@@ -170,6 +150,27 @@ export const deleteTeam = supabaseMutationOptions(
   }),
 );
 
+export type TeamMember = Tables<"team_members">;
+
+export interface TeamMemberWithProfile extends TeamMember {
+  profile: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
+}
+
+const selectTeamMemberId = compoundKey<TeamMember>()("team_id", "user_id");
+
+const teamMemberAdapter = createEntityAdapter<TeamMemberWithProfile, string>({
+  selectId: selectTeamMemberId,
+  sortComparer: sortByCreatedAt,
+});
+
+export const {
+  selectAll: selectAllTeamMembers,
+  selectById: selectTeamMemberById,
+  selectIds: selectTeamMemberIds,
+  selectEntities: selectTeamMemberEntities,
+  selectTotal: selectTotalTeamMembers,
+} = teamMemberAdapter.getSelectors();
+
 export const getTeamMembers = supabaseQueryOptions(
   ({ supabase }, teamId: Team["id"]) => ({
     queryKey: ["teamMembers", teamId],
@@ -177,7 +178,7 @@ export const getTeamMembers = supabaseQueryOptions(
       () =>
         supabase
           .from("team_members")
-          .select(`*, profiles (display_name, avatar_url, color)`)
+          .select(`*, profile:profiles(display_name, avatar_url, color)`)
           .eq("team_id", teamId),
       (members) => teamMemberAdapter.getInitialState(undefined, members),
     ),
