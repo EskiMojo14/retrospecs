@@ -11,14 +11,11 @@ import {
   ModalOverlay,
 } from "react-aria-components";
 import { ButtonContext } from "~/components/button";
-import {
-  createGenericComponent,
-  renderGenericPropChild,
-} from "~/components/generic";
+import { createGenericComponent } from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
 import { MergeProvider, Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
-import { bemHelper } from "~/util";
+import { bemHelper, renderPropsChild } from "~/util";
 import "./index.scss";
 
 export interface DialogProps
@@ -59,6 +56,7 @@ export const Dialog = ({
   isDismissable,
   isKeyboardDismissDisabled,
   shouldCloseOnInteractOutside,
+  children,
   ...props
 }: DialogProps) => (
   <ModalOverlay
@@ -75,7 +73,7 @@ export const Dialog = ({
       className={overlayCls("modal", undefined, modalProps?.className)}
     >
       <AriaDialog {...props} className={cls({ extra: className })}>
-        {renderGenericPropChild(props, (children) => (
+        {renderPropsChild(children, (children) => (
           <MergeProvider context={HeadingContext} value={headingContextValue}>
             <Provider
               values={[

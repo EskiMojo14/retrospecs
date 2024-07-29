@@ -117,16 +117,16 @@ export const renderGenericPropChild = <RenderProps,>(
   {
     children,
   }: {
-    [propSymbol]?: true;
+    [propSymbol]: true;
     children?: ((props: RenderProps) => ReactNode) | ReactNode;
   },
-  render: (children: ReactNode) => ReactNode,
+  render: (children: ReactNode, props?: RenderProps) => ReactNode,
 ) => {
   if (typeof children === "function") {
     // whatever made the children thinks it's fine to pass a function
     // so we'll do the same
     return ((renderProps: RenderProps) =>
-      render(children(renderProps))) as never;
+      render(children(renderProps), renderProps)) as never;
   }
   return render(children);
 };
