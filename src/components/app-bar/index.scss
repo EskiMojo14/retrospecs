@@ -3,10 +3,12 @@
 @use "~/util";
 
 $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
-$outline-width: 4px;
 
 :root {
-  --header-height: #{64px + ((list.length($colors) + 1) * $outline-width)};
+  --header-height: calc(
+    64px + (#{list.length($colors) + 1} * var(--header-outline-width))
+  );
+  --header-outline-width: calc(var(--outline-width) * 2);
   --sans-header-height: calc(100vh - var(--header-height));
 }
 
@@ -19,20 +21,24 @@ $outline-width: 4px;
   background-color: var(--background);
   --text-color-rgb: var(--white-rgb);
   --text-color: #{rgb(var(--text-color-rgb))};
-  --outline-width: #{$outline-width};
   color: var(--text-color);
   display: flex;
   justify-content: space-between;
   height: 64px;
-  $shadow: 0 calc(var(--outline-width) * 0.5) 0 0 #ebebeb;
+  $shadow: 0 calc(var(--header-outline-width) * 0.5) 0 0 #ebebeb;
   @for $i from 1 through list.length($colors) {
     $shadow:
       #{$shadow},
-      0 calc(var(--outline-width) * #{$i + 0.5}) 0 0 list.nth($colors, $i);
+      0
+        calc(var(--header-outline-width) * #{$i + 0.5})
+        0
+        0
+        list.nth($colors, $i);
   }
   $shadow:
     #{$shadow},
-    0 calc(var(--outline-width) * #{list.length($colors) + 1}) 0 0 #ebebeb;
+    0 calc(var(--header-outline-width) * #{list.length($colors) + 1}) 0 0
+      #ebebeb;
   box-shadow: $shadow;
   .link {
     color: inherit;
