@@ -11,6 +11,12 @@ $defaults: (
   font-feature-settings: '"lnum" 1',
 );
 
+@mixin defaults {
+  @each $prop, $value in $defaults {
+    #{$prop}: var(--typography-default-#{$prop});
+  }
+}
+
 $type-scale: (
   headline1: (
     font-size: util.to-rem(99px),

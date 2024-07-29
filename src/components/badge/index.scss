@@ -1,0 +1,63 @@
+@use "~/theme";
+@use "~/theme/palette";
+@use "~/theme/typography";
+@use "~/util";
+
+.badge {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  flex-shrink: 0;
+  @each $color in palette.$colors {
+    &--#{$color} {
+      --badge-color: var(--#{$color}-700);
+      --badge-text: var(--#{$color}-50);
+      @include theme.dark {
+        --badge-color: var(--#{$color}-200);
+        --badge-text: var(--#{$color}-900);
+      }
+    }
+  }
+  &--overlap-circle {
+    .badge__badge {
+      top: 14%;
+      @include util.rtl-position(right, 14%);
+    }
+  }
+  &--dot {
+    .badge__badge {
+      --size: calc(8px + (var(--border-width) * 2));
+      padding: 0;
+    }
+  }
+  &--collapsed {
+    .badge__badge {
+      transform: scale(0) translate(50%, -50%);
+    }
+  }
+  &__badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1;
+    background-color: var(--badge-color);
+    color: var(--badge-text);
+    --size: 16px;
+    height: var(--size);
+    min-width: var(--size);
+    border-radius: calc(var(--size) / 2);
+    padding: 0 6px;
+    @include typography.defaults;
+    @include typography.style("overline");
+    position: absolute;
+    transition: transform 200ms;
+    transform: scale(1) translate(50%, -50%);
+    transform-origin: 100% 0%;
+    top: 0;
+    @include util.rtl-position(right, 0);
+    @include util.rtl {
+      transform: scale(1) translate(-50%, -50%);
+    }
+  }
+}

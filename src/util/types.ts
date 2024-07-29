@@ -29,3 +29,17 @@ export type TuplifyUnion<
   L = LastOf<T>,
   N = [T] extends [never] ? true : false,
 > = true extends N ? [] : Push<TuplifyUnion<Exclude<T, L>>, L>;
+
+export type KeyofUnion<T> = T extends any ? keyof T : never;
+
+export type OneOf<
+  Union extends object,
+  // stored here to avoid distribution - don't provide this parameter yourself
+  AllKeys extends KeyofUnion<Union> = KeyofUnion<Union>,
+> = Union extends infer Item
+  ? Compute<Item & { [K in Exclude<AllKeys, keyof Item>]?: never }>
+  : never;
+
+export type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Badge } from "~/components/badge";
 import { Breadcrumb, Breadcrumbs } from "~/components/breadcrumbs";
-import { Button } from "~/components/button";
 import { IconButton } from "~/components/icon-button";
 import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
@@ -27,9 +27,16 @@ const meta = {
           </Breadcrumbs>
         </Toolbar>
         <Toolbar slot="actions">
-          <Button>Sign in</Button>
           <IconButton>
-            <Symbol>search</Symbol>
+            <Badge badgeContent={1} color="blue" overlap="circle">
+              <Symbol>notifications</Symbol>
+            </Badge>
+          </IconButton>
+          <IconButton>
+            <Symbol>logout</Symbol>
+          </IconButton>
+          <IconButton>
+            <Symbol>settings_account_box</Symbol>
           </IconButton>
         </Toolbar>
       </AppBar>
