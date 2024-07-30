@@ -1,6 +1,6 @@
 // @ts-check
 import { existsSync } from "fs";
-import { createRequestHandler } from "@remix-run/express";
+import { createRequestHandler } from "@vercel/remix/server";
 import compression from "compression";
 import dotenv from "dotenv";
 import express from "express";
@@ -28,9 +28,10 @@ const viteDevServer =
 
 const remixHandler = createRequestHandler({
   build: viteDevServer
-    ? () => viteDevServer.ssrLoadModule("virtual:remix/server-build")
+    ? await viteDevServer.ssrLoadModule("virtual:remix/server-build")
     : // @ts-ignore
       await import("./build/server/index.js"),
+  mode: process.env.NODE_ENV,
   getLoadContext: await import("./src/load-context.server").then(
     (m) => m.getLoadContext,
   ),

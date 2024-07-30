@@ -3,11 +3,10 @@ import {
   parseCookieHeader,
   serializeCookieHeader,
 } from "@supabase/ssr";
-import type { Request as ExpressRequest } from "express";
 import { VITE_SUPABASE_ANON_KEY, VITE_SUPABASE_URL } from "~/env";
 import type { Database } from "./supabase";
 
-export const createServerClient = (request: Request | ExpressRequest) => {
+export const createServerClient = (request: Request) => {
   const headers = new Headers();
 
   const supabase = createClient<Database>(
@@ -16,11 +15,7 @@ export const createServerClient = (request: Request | ExpressRequest) => {
     {
       cookies: {
         getAll() {
-          const cookie =
-            request.headers instanceof Headers
-              ? request.headers.get("cookie")
-              : request.headers.cookie;
-          return parseCookieHeader(cookie ?? "");
+          return parseCookieHeader(request.headers.get("cookie") ?? "");
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
