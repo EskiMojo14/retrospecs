@@ -7,6 +7,8 @@ import morgan from "morgan";
 import "./dotenv-setup";
 import { getLoadContext } from "./src/load-context.server";
 
+console.error("setting up server");
+
 const viteDevServer =
   process.env.NODE_ENV === "production"
     ? undefined
