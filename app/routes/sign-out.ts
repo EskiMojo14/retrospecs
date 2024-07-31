@@ -1,5 +1,5 @@
-import type { LoaderFunction } from "@remix-run/server-runtime";
-import { redirect } from "@remix-run/server-runtime";
+import type { LoaderFunction } from "@vercel/remix";
+import { redirect } from "@vercel/remix";
 
 export const loader = (async ({ context }) => {
   const { supabase } = context;

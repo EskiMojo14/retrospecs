@@ -1,6 +1,6 @@
-import type { LoaderFunctionArgs } from "@remix-run/server-runtime";
 import type { DehydratedState } from "@tanstack/react-query";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 import type { MaybePromise } from "~/util/types";
 
 /**

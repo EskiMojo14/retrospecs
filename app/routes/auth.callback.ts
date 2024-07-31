@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/server-runtime";
-import { redirect } from "@remix-run/server-runtime";
+import type { LoaderFunctionArgs } from "@vercel/remix";
+import { redirect } from "@vercel/remix";
 
 export const loader = async ({
   request,

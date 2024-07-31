@@ -1,5 +1,5 @@
-import type { AppLoadContext } from "@remix-run/node";
 import { redirect } from "@remix-run/react";
+import type { AppLoadContext } from "@vercel/remix";
 
 export async function ensureAuthenticated({
   supabase,

@@ -1,6 +1,6 @@
 // @ts-check
 import { existsSync } from "fs";
-import type { ServerBuild } from "@remix-run/server-runtime";
+import type { ServerBuild } from "@vercel/remix";
 import { createRequestHandler } from "@vercel/remix/server";
 import compression from "compression";
 import dotenv from "dotenv";
@@ -68,7 +68,7 @@ app.use(morgan("tiny"));
 // handle SSR requests
 app.all("*", remixHandler);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT ?? 3000;
 app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);
 });
