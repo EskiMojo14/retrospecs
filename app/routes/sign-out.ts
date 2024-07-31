@@ -6,3 +6,5 @@ export const loader = (async ({ context }) => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 }) satisfies LoaderFunction;
+
+export default () => null;

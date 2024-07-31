@@ -24,3 +24,5 @@ export const loader = async ({
   }
   return redirect("/sign-in?error=No code provided");
 };
+
+export default () => null;

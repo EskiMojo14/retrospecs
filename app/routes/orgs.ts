@@ -4,3 +4,5 @@ export const loader = () =>
   redirect("/", {
     status: 301,
   });
+
+export default () => null;

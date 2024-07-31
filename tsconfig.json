@@ -29,13 +29,5 @@
       "~/*": ["src/*"]
     }
   },
-  "include": [
-    "app",
-    "src",
-    "test-setup.ts",
-    "tests",
-    "vite.config.ts",
-    "server.ts",
-    ".storybook"
-  ]
+  "include": ["app", "src", "tests", "*.ts", ".storybook"]
 }

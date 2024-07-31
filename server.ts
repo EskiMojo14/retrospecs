@@ -1,22 +1,11 @@
 // @ts-check
-import { existsSync } from "fs";
 import type { ServerBuild } from "@vercel/remix";
 import { createRequestHandler } from "@vercel/remix/server";
 import compression from "compression";
-import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
-
-const dotEnvPaths = [
-  `.env.${process.env.NODE_ENV}`,
-  `.env.${process.env.NODE_ENV}.local`,
-  ".env",
-  ".env.local",
-].filter((file) => existsSync(file));
-
-dotenv.config({
-  path: dotEnvPaths,
-});
+import "./dotenv-setup";
+import { getLoadContext } from "./src/load-context.server";
 
 const viteDevServer =
   process.env.NODE_ENV === "production"
@@ -36,9 +25,7 @@ const remixHandler = createRequestHandler({
         "./build/server/nodejs-eyJydW50aW1lIjoibm9kZWpzIn0/index.js"
       ),
   mode: process.env.NODE_ENV,
-  getLoadContext: await import("./src/load-context.server").then(
-    (m) => m.getLoadContext,
-  ),
+  getLoadContext,
 });
 
 const app = express();
