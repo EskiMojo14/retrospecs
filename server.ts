@@ -4,8 +4,8 @@ import { createRequestHandler } from "@vercel/remix/server";
 import compression from "compression";
 import express from "express";
 import morgan from "morgan";
-import "./dotenv-setup";
-import { getLoadContext } from "./src/load-context.server";
+import "./src/dotenv-setup.js";
+import { getLoadContext } from "./src/load-context";
 
 console.error("setting up server");
 
@@ -23,9 +23,12 @@ const remixHandler = createRequestHandler({
     ? ((await viteDevServer.ssrLoadModule(
         "virtual:remix/server-build",
       )) as ServerBuild)
-    : await import(
+    : ((await import(
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // eslint-disable-next-line import/no-unresolved
         "./build/server/nodejs-eyJydW50aW1lIjoibm9kZWpzIn0/index.js"
-      ),
+      )) as ServerBuild),
   mode: process.env.NODE_ENV,
   getLoadContext,
 });
