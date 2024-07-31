@@ -74,9 +74,8 @@ export const loader = (async ({
 }) satisfies LoaderFunction;
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { lang, config } = useRouteLoaderData<typeof loader>("root") ?? {
-    lang: "en",
-  };
+  const { lang = "en", config } =
+    useRouteLoaderData<typeof loader>("root") ?? {};
   const navigate = useNavigate();
   const locale = new Intl.Locale(lang);
 

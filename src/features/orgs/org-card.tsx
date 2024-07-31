@@ -33,10 +33,10 @@ export function OrgCard({ orgId }: OrgCardProps) {
     ...useOptionsCreator(getOrgs),
     select: (data) => selectOrgById(data, orgId),
   });
-  const { data: memberCount } = useQuery(
+  const { data: memberCount = 0 } = useQuery(
     useOptionsCreator(getOrgMemberCount, orgId),
   );
-  const { data: teamCount } = useQuery(
+  const { data: teamCount = 0 } = useQuery(
     useOptionsCreator(getTeamCountByOrg, orgId),
   );
   const permissions = useCurrentUserPermissions(orgId);

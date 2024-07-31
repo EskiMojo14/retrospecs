@@ -12,9 +12,9 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { pluralize } from "~/util";
 import { getTeamMemberCount, getTeamsByOrg, selectTeamById } from ".";
 import styles from "./team-card.module.scss";
-import { pluralize } from "~/util";
 
 export interface TeamCardProps {
   orgId: number;
