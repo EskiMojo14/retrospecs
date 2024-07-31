@@ -33,4 +33,4 @@ dist-ssr
 !.yarn/sdks
 !.yarn/versions
 build/
-.vercel/remix-build-result.json
+.vercel
