@@ -5,6 +5,7 @@ import compression from "compression";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
+import { ServerBuild } from "@remix-run/server-runtime";
 
 const dotEnvPaths = [
   `.env.${process.env.NODE_ENV}`,
@@ -28,9 +29,12 @@ const viteDevServer =
 
 const remixHandler = createRequestHandler({
   build: viteDevServer
-    ? await viteDevServer.ssrLoadModule("virtual:remix/server-build")
-    : // @ts-ignore
-      await import("./build/server/index.js"),
+    ? ((await viteDevServer.ssrLoadModule(
+        "virtual:remix/server-build",
+      )) as ServerBuild)
+    : await import(
+        "./build/server/nodejs-eyJydW50aW1lIjoibm9kZWpzIn0/index.js"
+      ),
   mode: process.env.NODE_ENV,
   getLoadContext: await import("./src/load-context.server").then(
     (m) => m.getLoadContext,
