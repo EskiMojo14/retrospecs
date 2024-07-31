@@ -1,11 +1,11 @@
 // @ts-check
 import { existsSync } from "fs";
+import type { ServerBuild } from "@remix-run/server-runtime";
 import { createRequestHandler } from "@vercel/remix/server";
 import compression from "compression";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
-import { ServerBuild } from "@remix-run/server-runtime";
 
 const dotEnvPaths = [
   `.env.${process.env.NODE_ENV}`,
@@ -72,3 +72,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);
 });
+
+export default remixHandler;
