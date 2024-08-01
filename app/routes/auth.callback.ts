@@ -29,5 +29,3 @@ export const loader = createLoader(
     return redirect("/sign-in?error=No code provided");
   },
 );
-
-export default () => null;
