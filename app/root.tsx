@@ -13,7 +13,6 @@ import {
 } from "@remix-run/react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import type { LoaderFunction, TypedResponse } from "@vercel/remix";
 import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
 import { useDehydratedState } from "use-dehydrated-state";
