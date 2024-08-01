@@ -14,11 +14,17 @@ export const loader = createLoader(
     const code = url.searchParams.get("code");
     const next = url.searchParams.get("next") ?? "/";
     if (code) {
-      const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if (!error) {
-        return redirect(next, { headers });
+      try {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (!error) {
+          return redirect(next, { headers });
+        }
+        return redirect(`/sign-in?error=${error.message}`);
+      } catch (error) {
+        return redirect(
+          `/sign-in?error=${error instanceof Error ? error.message : String(error)}`,
+        );
       }
-      return redirect(`/sign-in?error=${error.message}`);
     }
     return redirect("/sign-in?error=No code provided");
   },
