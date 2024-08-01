@@ -1,10 +1,9 @@
-import type { LoaderFunction } from "@vercel/remix";
 import { redirect } from "@vercel/remix";
+import { createLoader } from "~/db/loader.server";
 
-export const loader = (async ({ context }) => {
-  const { supabase } = context;
+export const loader = createLoader(async ({ context: { supabase } }) => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
-}) satisfies LoaderFunction;
+});
 
 export default () => null;

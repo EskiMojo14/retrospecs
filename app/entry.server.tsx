@@ -8,10 +8,12 @@ import { PassThrough } from "node:stream";
 
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import type { AppLoadContext, EntryContext } from "@vercel/remix";
+import type { EntryContext } from "@vercel/remix";
 import { isbot } from "isbot";
 import { getLocalizationScript } from "react-aria-components/i18n";
 import { renderToPipeableStream } from "react-dom/server";
+import type { AppLoadContext } from "~/load-context.server";
+import { getLoadContext } from "~/load-context.server";
 
 const ABORT_DELAY = 5_000;
 
@@ -20,8 +22,8 @@ export default function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  loadContext: AppLoadContext,
 ) {
+  const loadContext = getLoadContext(request);
   return isbot(request.headers.get("user-agent") ?? "")
     ? handleBotRequest(
         request,

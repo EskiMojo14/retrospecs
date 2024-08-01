@@ -20,6 +20,7 @@ import { useDehydratedState } from "use-dehydrated-state";
 import { ForeEauFore } from "~/404";
 import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
+import { createLoader } from "~/db/loader.server";
 import {
   SupabaseProvider,
   QueryClientProvider,
@@ -39,16 +40,10 @@ declare module "react-aria-components" {
 
 const noAuthRoutes = ["/sign-in", "/auth/callback"];
 
-export const loader = (async ({
-  request,
-  context,
-}): Promise<
-  TypedResponse<{
-    lang: string;
-    config?: UserConfig | null;
-  }>
-> => {
-  const { lang, headers, queryClient } = context;
+export const loader = createLoader<{
+  lang: string;
+  config?: UserConfig | null;
+}>(async ({ request, context, context: { lang, headers, queryClient } }) => {
   const url = new URL(request.url);
   const isNoAuthRoute = noAuthRoutes.some(
     (pathname) => url.pathname === pathname,
@@ -71,7 +66,7 @@ export const loader = (async ({
     },
     { headers },
   );
-}) satisfies LoaderFunction;
+});
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { lang = "en", config } =

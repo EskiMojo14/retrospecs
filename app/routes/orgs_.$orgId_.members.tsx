@@ -9,7 +9,7 @@ import { LineBackground } from "~/components/line-background";
 import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
-import { createHydratingLoader } from "~/db/query";
+import { createHydratingLoader } from "~/db/loader.server";
 import { Logo } from "~/features/logo";
 import { getOrgMembers, getOrgName, selectOrgMemberIds } from "~/features/orgs";
 import { MemberList } from "~/features/orgs/member-list";
