@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/react";
-import { useSearchParams } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { Form } from "react-aria-components";
 import { AppBar } from "~/components/app-bar";
@@ -18,9 +18,7 @@ const getURL = () => {
   if (typeof process === "undefined") return "http://localhost:5173/";
   let url =
     process.env.SITE_URL ??
-    process.env.VITE_SITE_URL ?? // Set this to your site URL in production env.
     process.env.VERCEL_URL ?? // Automatically set by Vercel.
-    process.env.VITE_VERCEL_URL ?? // Automatically set by Vercel.
     "http://localhost:5173/";
   // Make sure to include `https://` when not localhost.
   url = url.startsWith("http") ? url : `https://${url}`;
@@ -29,7 +27,12 @@ const getURL = () => {
   return url;
 };
 
+export const loader = () => ({
+  url: getURL(),
+});
+
 export default function SignIn() {
+  const { url } = useLoaderData<typeof loader>();
   const supabase = useSupabase();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -76,7 +79,7 @@ export default function SignIn() {
           void supabase.auth.signInWithOAuth({
             provider: "github",
             options: {
-              redirectTo: `${getURL()}auth/callback`,
+              redirectTo: `${url}auth/callback`,
             },
           });
         }}
