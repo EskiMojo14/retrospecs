@@ -34,5 +34,4 @@ dist-ssr
 !.yarn/versions
 build/
 .vercel
-server.js
 server.js.map
