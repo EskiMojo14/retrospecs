@@ -1,4 +1,3 @@
-// @ts-check
 import type { ServerBuild } from "@vercel/remix";
 import { createRequestHandler } from "@vercel/remix/server";
 import compression from "compression";
@@ -6,8 +5,6 @@ import express from "express";
 import morgan from "morgan";
 import "./src/dotenv-setup.js";
 import { getLoadContext } from "./src/load-context";
-
-throw new Error("nuh uh");
 
 const viteDevServer =
   process.env.NODE_ENV === "production"
@@ -65,4 +62,4 @@ app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);
 });
 
-export default remixHandler;
+export default app;
