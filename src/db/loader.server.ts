@@ -23,15 +23,7 @@ export const createLoader =
   };
 
 export const createHydratingLoader = <T extends object | null>(
-  loader: (
-    args: Overwrite<
-      LoaderFunctionArgs,
-      {
-        context: AppLoadContext;
-        originalContext: LoaderFunctionArgs["context"];
-      }
-    >,
-  ) => MaybePromise<T>,
+  loader: (args: CustomLoaderArgs) => MaybePromise<T>,
 ) =>
   createLoader<
     (T extends null ? object : T) & { dehydratedState: DehydratedState }
