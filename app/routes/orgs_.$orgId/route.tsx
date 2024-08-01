@@ -29,6 +29,7 @@ import { addTeam, getTeamsByOrg, selectTeamIds } from "~/features/teams";
 import { TeamGrid } from "~/features/teams/team-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { promiseOwnProperties } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   { title: `RetroSpecs - ${data?.org.name ?? "Org"}` },
@@ -42,13 +43,12 @@ export const loader = createHydratingLoader(
   async ({ context, context: { queryClient }, params }) => {
     const orgId = Number(params.orgId);
     if (Number.isNaN(orgId)) {
-      return redirect("/");
+      throw new Error("Invalid orgId");
     }
-    const org = await queryClient.ensureQueryData(getOrg(context, orgId));
-    const teams = await queryClient.ensureQueryData(
-      getTeamsByOrg(context, orgId),
-    );
-    return { org, teams };
+    return promiseOwnProperties({
+      org: queryClient.ensureQueryData(getOrg(context, orgId)),
+      teams: queryClient.ensureQueryData(getTeamsByOrg(context, orgId)),
+    });
   },
 );
 

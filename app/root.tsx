@@ -11,6 +11,7 @@ import {
   json,
   useRouteLoaderData,
 } from "@remix-run/react";
+import type { DehydratedState } from "@tanstack/react-query";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "react-aria-components";
@@ -26,9 +27,11 @@ import {
   SessionProvider,
 } from "~/db/provider";
 import { ErrorPage } from "~/error-page";
+import type { Profile } from "~/features/profiles";
 import { getProfile } from "~/features/profiles";
 import type { UserConfig } from "~/features/user_config";
 import { getUserConfig } from "~/features/user_config";
+import { promiseOwnProperties } from "~/util";
 import "~/index.scss";
 
 declare module "react-aria-components" {
@@ -42,6 +45,8 @@ const noAuthRoutes = ["/sign-in", "/auth/callback"];
 export const loader = createLoader<{
   lang: string;
   config?: UserConfig | null;
+  profile?: Profile;
+  dehydratedState?: DehydratedState;
 }>(async ({ request, context, context: { lang, headers, queryClient } }) => {
   const url = new URL(request.url);
   const isNoAuthRoute = noAuthRoutes.some(
@@ -53,14 +58,13 @@ export const loader = createLoader<{
 
   const user = await ensureAuthenticated(context);
 
-  await queryClient.prefetchQuery(getProfile(context, user.id));
-
   return json(
     {
       lang,
-      config: await queryClient.ensureQueryData(
-        getUserConfig(context, user.id),
-      ),
+      ...(await promiseOwnProperties({
+        profile: queryClient.ensureQueryData(getProfile(context, user.id)),
+        config: queryClient.ensureQueryData(getUserConfig(context, user.id)),
+      })),
       dehydratedState: dehydrate(queryClient),
     },
     { headers },

@@ -279,3 +279,20 @@ export const pluralize = (
   }
   return result;
 };
+
+export const promiseFromEntries = async <V>(
+  entries: ReadonlyArray<readonly [string, V]>,
+) =>
+  Object.fromEntries(
+    await Promise.all(
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+      entries.map(async ([key, value]) => [key, await value] as const),
+    ),
+  );
+
+export const promiseOwnProperties = <T extends Record<string, unknown>>(
+  obj: T,
+) =>
+  promiseFromEntries(Object.entries(obj)) as Promise<{
+    [K in keyof T]: Awaited<T[K]>;
+  }>;

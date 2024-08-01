@@ -7,6 +7,8 @@ import {
   groupBy,
   mapGroupBy,
   mergeSlottedContext,
+  promiseFromEntries,
+  promiseOwnProperties,
 } from ".";
 
 describe("util / index", () => {
@@ -224,6 +226,46 @@ describe("util / index", () => {
           slot3: { foo: "bar" },
         },
       });
+    });
+  });
+  describe("promiseFromEntries", () => {
+    it("should resolve with the entries", async () => {
+      const map = {
+        foo: 1,
+        bar: Promise.resolve(2),
+      };
+      const promise = promiseFromEntries(Object.entries(map));
+      expect(promise).toBeInstanceOf(Promise);
+      await expect(promise).resolves.toEqual({ foo: 1, bar: 2 });
+    });
+    it("should throw if any entry rejects", async () => {
+      const map = {
+        foo: 1,
+        bar: Promise.reject(new Error("bar")),
+      };
+      const promise = promiseFromEntries(Object.entries(map));
+      expect(promise).toBeInstanceOf(Promise);
+      await expect(promise).rejects.toThrow("bar");
+    });
+  });
+  describe("promiseOwnProperties", () => {
+    it("should resolve with the resolved properties", async () => {
+      const obj = {
+        foo: Promise.resolve(1),
+        bar: Promise.resolve(2),
+      };
+      const promise = promiseOwnProperties(obj);
+      expect(promise).toBeInstanceOf(Promise);
+      await expect(promise).resolves.toEqual({ foo: 1, bar: 2 });
+    });
+    it("should reject if any property rejects", async () => {
+      const obj = {
+        foo: Promise.resolve(1),
+        bar: Promise.reject(new Error("bar")),
+      };
+      const promise = promiseOwnProperties(obj);
+      expect(promise).toBeInstanceOf(Promise);
+      await expect(promise).rejects.toThrow("bar");
     });
   });
 });

@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/react";
+import { useLoaderData, type MetaFunction } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { DialogTrigger, Text } from "react-aria-components";
 import { AppBar } from "~/components/app-bar";
@@ -16,6 +16,7 @@ import { CreateOrg } from "~/features/orgs/create-org";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { promiseOwnProperties } from "~/util";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Organisations" },
@@ -27,14 +28,17 @@ export const meta: MetaFunction = () => [
 
 export const loader = createHydratingLoader(
   async ({ context, context: { queryClient } }) => {
-    await queryClient.prefetchQuery(getOrgs(context));
-    return null;
+    return promiseOwnProperties({
+      orgs: queryClient.ensureQueryData(getOrgs(context)),
+    });
   },
 );
 
 export default function Orgs() {
+  const { orgs } = useLoaderData<typeof loader>();
   const { data: orgIds = [] } = useQuery({
     ...useOptionsCreator(getOrgs),
+    initialData: orgs,
     select: selectOrgIds,
   });
 

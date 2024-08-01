@@ -15,6 +15,7 @@ import { getOrgMembers, getOrgName, selectOrgMemberIds } from "~/features/orgs";
 import { MemberList } from "~/features/orgs/member-list";
 import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { promiseOwnProperties } from "~/util";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -28,21 +29,21 @@ export const loader = createHydratingLoader(
     if (Number.isNaN(orgId)) {
       throw new Error("Invalid orgId");
     }
-    const orgName = await queryClient.ensureQueryData(
-      getOrgName(context, orgId),
-    );
-    await queryClient.prefetchQuery(getOrgMembers(context, orgId));
 
-    return { orgName };
+    return promiseOwnProperties({
+      orgName: queryClient.ensureQueryData(getOrgName(context, orgId)),
+      orgMembers: queryClient.ensureQueryData(getOrgMembers(context, orgId)),
+    });
   },
 );
 
 export default function OrgMembers() {
   const params = useParams();
   const orgId = Number(params.orgId);
-  const { orgName } = useLoaderData<typeof loader>();
-  const { data: memberIds = [] } = useQuery({
+  const { orgName, orgMembers } = useLoaderData<typeof loader>();
+  const { data: memberIds } = useQuery({
     ...useOptionsCreator(getOrgMembers, orgId),
+    initialData: orgMembers,
     select: (members) => selectOrgMemberIds(members),
   });
   return (
