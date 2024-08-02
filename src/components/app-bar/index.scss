@@ -51,17 +51,16 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
     display: inline-flex;
     justify-content: space-between;
     min-height: var(--header-row-height);
+    padding: 0.5rem 1rem;
   }
   &__logo img {
     height: 192px * 0.25;
   }
   &__section {
-    padding: 0.5rem;
+    gap: 0.5rem;
     &--nav {
       flex: 1 1 auto;
       min-width: 0;
-      gap: 0.5rem;
-      @include util.rtl-box("padding", 1rem);
       .breadcrumbs {
         --text-color-rgb: var(--text-color-rgb);
         min-width: 0;
@@ -76,8 +75,6 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
       }
     }
     &--actions {
-      gap: 0.5rem;
-      @include util.rtl-box("padding", 0, 1rem);
     }
   }
   &__spacer {
