@@ -58,11 +58,21 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   &__section {
     padding: 0.5rem;
     &--nav {
-      flex-shrink: 1;
+      flex: 1 1 auto;
+      min-width: 0;
       gap: 0.5rem;
       @include util.rtl-box("padding", 1rem);
       .breadcrumbs {
         --text-color-rgb: var(--text-color-rgb);
+        min-width: 0;
+        .breadcrumb {
+          min-width: 0;
+          .link {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
       }
     }
     &--actions {
