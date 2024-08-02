@@ -1,0 +1,108 @@
+import { createEntityAdapter } from "@reduxjs/toolkit";
+import type { Tables, TablesInsert } from "~/db/supabase";
+import type { WithoutNullish } from "~/util";
+import { sortByCreatedAt } from "~/util";
+import {
+  compoundKey,
+  supabaseFn,
+  supabaseMutationOptions,
+  supabaseQueryOptions,
+} from "~/util/supabase-query";
+import type { PickPartial } from "~/util/types";
+
+export type Invite = Tables<"invites">;
+
+export const selectInviteId = compoundKey<Invite>()("user_id", "email");
+
+export const inviteAdapter = createEntityAdapter<Invite, string>({
+  selectId: selectInviteId,
+  sortComparer: sortByCreatedAt,
+});
+
+export const {
+  selectAll: selectAllInvites,
+  selectById: selectInviteById,
+  selectIds: selectInviteIds,
+  selectEntities: selectInviteEntities,
+  selectTotal: selectTotalInvites,
+} = inviteAdapter.getSelectors();
+
+export const getInvitesByUserId = supabaseQueryOptions(
+  ({ supabase }, user_id: string) => ({
+    queryKey: ["invites", { user_id }],
+    queryFn: supabaseFn(
+      () => supabase.from("invites").select().eq("user_id", user_id),
+      (invites) => inviteAdapter.getInitialState(undefined, invites),
+    ),
+  }),
+);
+
+export const getInvitesByOrgId = supabaseQueryOptions(
+  ({ supabase }, org_id: number) => ({
+    queryKey: ["invites", { org_id }],
+    queryFn: supabaseFn(
+      () => supabase.from("invites").select().eq("org_id", org_id),
+      (invites) => inviteAdapter.getInitialState(undefined, invites),
+    ),
+  }),
+);
+
+export const addInvite = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn((invite: TablesInsert<"invites">) =>
+      supabase.from("invites").insert(invite),
+    ),
+    onSuccess: async (_: null, { org_id }: TablesInsert<"invites">) => {
+      await queryClient.invalidateQueries({
+        queryKey: ["invites", { org_id }],
+      });
+    },
+  }),
+);
+
+type InviteIds = Pick<
+  PickPartial<Invite, "user_id">,
+  "email" | "org_id" | "user_id"
+>;
+
+export const deleteInvite = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn(({ email, org_id }: InviteIds) =>
+      supabase.from("invites").delete().eq("email", email).eq("org_id", org_id),
+    ),
+    onSuccess: async (_: null, { org_id, user_id }: InviteIds) => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["invites", { org_id }],
+        }),
+        user_id &&
+          queryClient.invalidateQueries({
+            queryKey: ["invites", { user_id }],
+          }),
+      ]);
+    },
+  }),
+);
+
+type AcceptIds = WithoutNullish<Pick<Invite, "org_id" | "user_id">>;
+
+export const acceptInvite = supabaseMutationOptions(
+  ({ supabase, queryClient }) => ({
+    mutationFn: supabaseFn(
+      ({ org_id }: AcceptIds) =>
+        supabase.rpc("accept_invite", { o_id: org_id }),
+      () => null,
+    ),
+    onSuccess: async (_: null, { org_id, user_id }: AcceptIds) => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["invites", { org_id }],
+        }),
+        user_id &&
+          queryClient.invalidateQueries({
+            queryKey: ["invites", { user_id }],
+          }),
+      ]);
+    },
+  }),
+);

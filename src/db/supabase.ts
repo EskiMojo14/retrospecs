@@ -213,7 +213,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           org_id: number;
-          role: Database["public"]["Enums"]["member_role"];
+          role?: Database["public"]["Enums"]["member_role"];
           user_id: string;
         };
         Update: {
@@ -553,6 +553,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      accept_invite: {
+        Args: {
+          o_id: number;
+        };
+        Returns: undefined;
+      };
       get_random_color: {
         Args: Record<PropertyKey, never>;
         Returns: Database["public"]["Enums"]["color"];

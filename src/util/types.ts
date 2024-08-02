@@ -6,6 +6,10 @@ export type PickRequired<T, K extends keyof T> = Compute<
   Omit<T, K> & Required<Pick<T, K>>
 >;
 
+export type PickPartial<T, K extends keyof T> = Compute<
+  Omit<T, K> & Partial<Pick<T, K>>
+>;
+
 export type MaybePromise<T> = T | Promise<T>;
 
 export type AtLeastOneKey<T> = {
