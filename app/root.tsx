@@ -8,11 +8,9 @@ import {
   useRouteError,
   useNavigate,
   useHref,
-  json,
   useRouteLoaderData,
 } from "@remix-run/react";
-import type { DehydratedState } from "@tanstack/react-query";
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { HydrationBoundary } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
@@ -20,7 +18,7 @@ import { useDehydratedState } from "use-dehydrated-state";
 import { ForeEauFore } from "~/404";
 import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
-import { createLoader } from "~/db/loader.server";
+import { createHydratingLoader } from "~/db/loader.server";
 import {
   SupabaseProvider,
   QueryClientProvider,
@@ -42,34 +40,40 @@ declare module "react-aria-components" {
 
 const noAuthRoutes = ["/sign-in", "/auth/callback"];
 
-export const loader = createLoader<{
+export const loader = createHydratingLoader<{
   lang: string;
   config?: UserConfig | null;
   profile?: Profile;
-  dehydratedState?: DehydratedState;
-}>(async ({ request, context, context: { lang, headers, queryClient } }) => {
-  const url = new URL(request.url);
-  const isNoAuthRoute = noAuthRoutes.some(
-    (pathname) => url.pathname === pathname,
-  );
-  if (isNoAuthRoute) {
-    return json({ lang }, { headers });
-  }
+}>(
+  async ({
+    request,
+    context,
+    context: { lang, headers, queryClient },
+    response,
+  }) => {
+    headers.forEach((value, key) => {
+      response.headers.append(key, value);
+    });
 
-  const user = await ensureAuthenticated(context);
+    const url = new URL(request.url);
+    const isNoAuthRoute = noAuthRoutes.some(
+      (pathname) => url.pathname === pathname,
+    );
+    if (isNoAuthRoute) {
+      return { lang };
+    }
 
-  return json(
-    {
+    const user = await ensureAuthenticated(context);
+
+    return {
       lang,
       ...(await promiseOwnProperties({
         profile: queryClient.ensureQueryData(getProfile(context, user.id)),
         config: queryClient.ensureQueryData(getUserConfig(context, user.id)),
       })),
-      dehydratedState: dehydrate(queryClient),
-    },
-    { headers },
-  );
-});
+    };
+  },
+);
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { lang = "en", config } =

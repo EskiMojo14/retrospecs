@@ -2,6 +2,7 @@
 /// <reference types="vite/client" />
 /// <reference types="node" />
 /// <reference types="@vercel/remix" />
+/// <reference types="@remix-run/react/future/single-fetch.d.ts" />
 
 declare module "csstype" {
   // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
