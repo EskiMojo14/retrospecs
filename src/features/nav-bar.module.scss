@@ -1,0 +1,26 @@
+@use "~/theme/layout";
+@use "~/theme/typography";
+
+.navBar {
+  top: calc(-1 * var(--header-height));
+  .mobileRow {
+    display: none;
+  }
+  @include layout.breakpoint("tablet-l", "below") {
+    @at-root {
+      .navBar {
+        --header-height: calc(
+          (var(--header-row-height) * 2) + var(--shadow-height)
+        );
+      }
+    }
+    .mainRow {
+      :global(.breadcrumbs) {
+        display: none;
+      }
+    }
+    .mobileRow {
+      display: inline-flex;
+    }
+  }
+}

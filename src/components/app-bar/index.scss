@@ -5,15 +5,18 @@
 $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
 
 :root {
-  --header-height: calc(
-    64px + (#{list.length($colors) + 1} * var(--header-outline-width))
-  );
   --header-outline-width: calc(var(--outline-width) * 2);
+  --header-row-height: 64px;
+  --header-shadow-height: calc(
+    #{list.length($colors) + 1} * var(--header-outline-width)
+  );
+  --header-height: calc(var(--header-row-height) + var(--shadow-height));
   --sans-header-height: calc(100vh - var(--header-height));
 }
 
 .app-bar {
-  position: fixed;
+  position: sticky;
+  z-index: 1000;
   top: 0;
   left: 0;
   right: 0;
@@ -23,8 +26,9 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   --text-color: #{rgb(var(--text-color-rgb))};
   color: var(--text-color);
   display: flex;
-  justify-content: space-between;
-  height: 64px;
+  flex-direction: column;
+  min-height: var(--header-row-height);
+  margin-bottom: var(--header-shadow-height);
   $shadow: 0 calc(var(--header-outline-width) * 0.5) 0 0 #ebebeb;
   @for $i from 1 through list.length($colors) {
     $shadow:
@@ -43,12 +47,18 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   .link {
     color: inherit;
   }
+  &__row {
+    display: inline-flex;
+    justify-content: space-between;
+    min-height: var(--header-row-height);
+  }
   &__logo img {
     height: 192px * 0.25;
   }
   &__section {
     padding: 0.5rem;
     &--nav {
+      flex-shrink: 1;
       gap: 0.5rem;
       @include util.rtl-box("padding", 1rem);
       .breadcrumbs {

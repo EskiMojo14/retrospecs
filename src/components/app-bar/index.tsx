@@ -9,6 +9,7 @@ import "./index.scss";
 
 export interface AppBarProps {
   children?: ReactNode;
+  className?: string;
 }
 
 const cls = bemHelper("app-bar");
@@ -45,21 +46,41 @@ const buttonContextValue: ContextType<typeof ButtonContext> = {
   },
 };
 
-export function AppBar({ children }: AppBarProps) {
+export function AppBar({ children, className }: AppBarProps) {
   return (
-    <>
-      <header className={cls()}>
-        <Provider
-          values={[
-            [ToolbarContext, toolbarContextValue],
-            [LogoContext, logoContextValue],
-            [ButtonContext, buttonContextValue],
-          ]}
-        >
-          {children}
-        </Provider>
-      </header>
-      <div className={cls("spacer")} />
-    </>
+    <header
+      className={cls({
+        extra: className,
+      })}
+    >
+      <Provider
+        values={[
+          [ToolbarContext, toolbarContextValue],
+          [LogoContext, logoContextValue],
+          [ButtonContext, buttonContextValue],
+        ]}
+      >
+        {children}
+      </Provider>
+    </header>
+  );
+}
+
+export function AppBarRow({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cls({
+        element: "row",
+        extra: className,
+      })}
+    >
+      {children}
+    </div>
   );
 }

@@ -18,6 +18,10 @@
 .breadcrumb {
   display: flex;
   align-items: center;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  @include typography.defaults;
+  @include typography.style("body2");
   &__icon {
     color: typography.emphasis("text-color", "medium");
   }

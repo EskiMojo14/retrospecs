@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { Form } from "react-aria-components";
-import { AppBar } from "~/components/app-bar";
+import { AppBar, AppBarRow } from "~/components/app-bar";
 import { Button } from "~/components/button";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
@@ -70,9 +70,11 @@ export default function SignIn() {
   return (
     <LineBackground opacity={0.5}>
       <AppBar>
-        <Toolbar slot="nav">
-          <Logo />
-        </Toolbar>
+        <AppBarRow>
+          <Toolbar slot="nav">
+            <Logo />
+          </Toolbar>
+        </AppBarRow>
       </AppBar>
       <Form
         onSubmit={() => {

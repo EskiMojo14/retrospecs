@@ -74,6 +74,9 @@ $breakpoints: (
       );
       grid-template-columns: repeat(map.get($props, columns), minmax(0, 1fr));
       margin: map.get($props, margin-y) map.get($props, margin-x);
+      margin-top: calc(
+        var(--header-shadow-height) + #{map.get($props, margin-y)}
+      );
       max-width: map.get($props, max-width);
     }
   }
