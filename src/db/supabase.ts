@@ -15,7 +15,9 @@ export type Database = {
           completed: boolean;
           created_at: string;
           id: number;
+          org_id: number | null;
           sprint_id: number;
+          team_id: number | null;
           user_id: string;
         };
         Insert: {
@@ -23,7 +25,9 @@ export type Database = {
           completed?: boolean;
           created_at?: string;
           id?: number;
+          org_id?: number | null;
           sprint_id: number;
+          team_id?: number | null;
           user_id?: string;
         };
         Update: {
@@ -31,10 +35,19 @@ export type Database = {
           completed?: boolean;
           created_at?: string;
           id?: number;
+          org_id?: number | null;
           sprint_id?: number;
+          team_id?: number | null;
           user_id?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "actions_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "actions_sprint_id_fkey";
             columns: ["sprint_id"];
@@ -47,6 +60,13 @@ export type Database = {
             columns: ["sprint_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "actions_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "teams";
             referencedColumns: ["id"];
           },
           {
@@ -72,7 +92,9 @@ export type Database = {
           discussed: boolean;
           feedback: string;
           id: number;
+          org_id: number | null;
           sprint_id: number;
+          team_id: number | null;
           title: string | null;
           user_id: string;
         };
@@ -82,7 +104,9 @@ export type Database = {
           discussed?: boolean;
           feedback: string;
           id?: number;
+          org_id?: number | null;
           sprint_id: number;
+          team_id?: number | null;
           title?: string | null;
           user_id: string;
         };
@@ -92,16 +116,32 @@ export type Database = {
           discussed?: boolean;
           feedback?: string;
           id?: number;
+          org_id?: number | null;
           sprint_id?: number;
+          team_id?: number | null;
           title?: string | null;
           user_id?: string;
         };
         Relationships: [
           {
+            foreignKeyName: "feedback_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "feedback_sprint_id_fkey";
             columns: ["sprint_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "feedback_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "teams";
             referencedColumns: ["id"];
           },
           {
@@ -117,6 +157,49 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "profiles";
             referencedColumns: ["user_id"];
+          },
+        ];
+      };
+      invites: {
+        Row: {
+          created_at: string;
+          email: string;
+          org_id: number;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          org_id: number;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          org_id?: number;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "invites_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "invites_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["user_id"];
+          },
+          {
+            foreignKeyName: "invites_user_id_fkey1";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -235,19 +318,25 @@ export type Database = {
         Row: {
           created_at: string;
           feedback_id: number;
+          org_id: number | null;
           reaction: Database["public"]["Enums"]["reaction"];
+          team_id: number | null;
           user_id: string;
         };
         Insert: {
           created_at?: string;
           feedback_id: number;
+          org_id?: number | null;
           reaction: Database["public"]["Enums"]["reaction"];
+          team_id?: number | null;
           user_id: string;
         };
         Update: {
           created_at?: string;
           feedback_id?: number;
+          org_id?: number | null;
           reaction?: Database["public"]["Enums"]["reaction"];
+          team_id?: number | null;
           user_id?: string;
         };
         Relationships: [
@@ -256,6 +345,20 @@ export type Database = {
             columns: ["feedback_id"];
             isOneToOne: false;
             referencedRelation: "feedback";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reactions_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reactions_team_id_fkey";
+            columns: ["team_id"];
+            isOneToOne: false;
+            referencedRelation: "teams";
             referencedColumns: ["id"];
           },
           {
@@ -280,6 +383,7 @@ export type Database = {
           follows_id: number | null;
           id: number;
           name: string;
+          org_id: number | null;
           team_id: number;
         };
         Insert: {
@@ -287,6 +391,7 @@ export type Database = {
           follows_id?: number | null;
           id?: number;
           name: string;
+          org_id?: number | null;
           team_id: number;
         };
         Update: {
@@ -294,6 +399,7 @@ export type Database = {
           follows_id?: number | null;
           id?: number;
           name?: string;
+          org_id?: number | null;
           team_id?: number;
         };
         Relationships: [
@@ -302,6 +408,13 @@ export type Database = {
             columns: ["follows_id"];
             isOneToOne: false;
             referencedRelation: "sprints";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "sprints_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "orgs";
             referencedColumns: ["id"];
           },
           {
