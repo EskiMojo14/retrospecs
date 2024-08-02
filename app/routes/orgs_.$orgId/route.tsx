@@ -1,9 +1,5 @@
-import {
-  redirect,
-  useLoaderData,
-  useParams,
-  type MetaFunction,
-} from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { FormEvent } from "react";
 import { DialogTrigger, Form, Text } from "react-aria-components";
@@ -31,7 +27,11 @@ import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => [
+export const meta: MetaFunction<any> = ({
+  data,
+}: {
+  data: Awaited<ReturnType<typeof loader>> | undefined;
+}) => [
   { title: `RetroSpecs - ${data?.org.name ?? "Org"}` },
   {
     name: "description",

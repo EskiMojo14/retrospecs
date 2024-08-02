@@ -17,9 +17,13 @@ import { PreferencesDialog } from "~/features/user_config/dialog";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => [
+export const meta: MetaFunction<any> = ({
+  data,
+}: {
+  data: Awaited<ReturnType<typeof loader>> | undefined;
+}) => [
   {
-    title: `Retrospecs - ${data?.orgName} Members`,
+    title: `Retrospecs - ${data?.orgName ?? "Org"} Members`,
   },
 ];
 
