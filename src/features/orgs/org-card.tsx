@@ -12,6 +12,7 @@ import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
+import { useSession } from "~/db/provider";
 import { getTeamCountByOrg } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import {
@@ -29,8 +30,9 @@ interface OrgCardProps {
 }
 
 export function OrgCard({ orgId }: OrgCardProps) {
+  const session = useSession();
   const { data: org } = useQuery({
-    ...useOptionsCreator(getOrgs),
+    ...useOptionsCreator(getOrgs, session?.user.id),
     select: (data) => selectOrgById(data, orgId),
   });
   const { data: memberCount = 0 } = useQuery(

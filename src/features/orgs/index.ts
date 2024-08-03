@@ -26,16 +26,24 @@ export const {
   selectTotal: selectTotalOrgs,
 } = orgAdapter.getSelectors();
 
-export const getOrgs = supabaseQueryOptions(({ supabase }) => ({
-  queryKey: ["orgs"],
-  queryFn: supabaseFn(
-    () => supabase.from("orgs").select(),
-    (orgs) => orgAdapter.getInitialState(undefined, orgs),
-  ),
-}));
+export const getOrgs = supabaseQueryOptions(
+  ({ supabase }, userId: string | undefined) => ({
+    queryKey: ["orgs", { userId }],
+    queryFn: userId
+      ? supabaseFn(
+          () =>
+            supabase
+              .from("orgs")
+              .select("*,members:org_members!inner(user_id)")
+              .eq("members.user_id", userId),
+          (orgs) => orgAdapter.getInitialState(undefined, orgs),
+        )
+      : skipToken,
+  }),
+);
 
 export const getOrg = supabaseQueryOptions(({ supabase }, id: Org["id"]) => ({
-  queryKey: ["orgs", id],
+  queryKey: ["orgs", { id }],
   queryFn: supabaseFn(() =>
     supabase.from("orgs").select().eq("id", id).single(),
   ),
@@ -43,7 +51,7 @@ export const getOrg = supabaseQueryOptions(({ supabase }, id: Org["id"]) => ({
 
 export const getOrgName = supabaseQueryOptions(
   ({ supabase }, id: Org["id"]) => ({
-    queryKey: ["orgs", id, "name"],
+    queryKey: ["orgs", { id }, "name"],
     queryFn: supabaseFn(
       () => supabase.from("orgs").select("name").eq("id", id).single(),
       (org) => org.name,
@@ -84,18 +92,12 @@ export const updateOrg = supabaseMutationOptions(
     mutationFn: supabaseFn((org: PickRequired<TablesUpdate<"orgs">, "id">) =>
       supabase.from("orgs").update(org).eq("id", org.id),
     ),
-    onMutate({ id }: PickRequired<TablesUpdate<"orgs">, "id">) {
-      const { queryKey } = getOrgs({ supabase, queryClient });
-      const prevOrgs = queryClient.getQueryData(queryKey);
-      return { prevOrg: prevOrgs && selectOrgById(prevOrgs, id) };
-    },
-    async onSuccess(_res: null, { name: newName }, { prevOrg }) {
-      const name = newName ?? prevOrg?.name;
+    async onSuccess() {
       toastQueue.add(
         {
           type: "success",
           title: "Organisation updated",
-          description: `Successfully updated organisation${name ? ` "${name}"` : ""}`,
+          description: "Successfully updated organisation",
         },
         {
           timeout: 5000,
@@ -120,18 +122,12 @@ export const deleteOrg = supabaseMutationOptions(
     mutationFn: supabaseFn((id: Org["id"]) =>
       supabase.from("orgs").delete().eq("id", id),
     ),
-    onMutate(id: Org["id"]) {
-      const { queryKey } = getOrgs({ supabase, queryClient });
-      const prevOrgs = queryClient.getQueryData(queryKey);
-      return { prevOrg: prevOrgs && selectOrgById(prevOrgs, id) };
-    },
-    async onSuccess(_res: null, _id, { prevOrg }) {
-      const name = prevOrg?.name;
+    async onSuccess() {
       toastQueue.add(
         {
           type: "success",
           title: "Organisation deleted",
-          description: `Successfully deleted organisation${name ? ` "${name}"` : ""}`,
+          description: "Successfully deleted organisation",
         },
         {
           timeout: 5000,

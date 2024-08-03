@@ -8,6 +8,7 @@ import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
+import { useSession } from "~/db/provider";
 import type { TablesUpdate } from "~/db/supabase";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { getOrgs, selectOrgById, updateOrg } from ".";
@@ -22,8 +23,9 @@ const editSchema = object({
 }) satisfies BaseSchema<any, TablesUpdate<"orgs">, any>;
 
 export function EditOrg({ orgId }: EditOrgProps) {
+  const session = useSession();
   const { data: org } = useQuery({
-    ...useOptionsCreator(getOrgs),
+    ...useOptionsCreator(getOrgs, session?.user.id),
     select: (orgs) => selectOrgById(orgs, orgId),
   });
   const {

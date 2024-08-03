@@ -4,7 +4,9 @@ import { DialogTrigger, Text } from "react-aria-components";
 import { FloatingActionButton } from "~/components/button";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
+import { ensureAuthenticated } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
+import { useSession } from "~/db/provider";
 import { NavBar } from "~/features/nav-bar";
 import { getOrgs, selectOrgIds } from "~/features/orgs";
 import { CreateOrg } from "~/features/orgs/create-org";
@@ -22,16 +24,18 @@ export const meta: MetaFunction = () => [
 
 export const loader = createHydratingLoader(
   async ({ context, context: { queryClient } }) => {
+    const user = await ensureAuthenticated(context);
     return promiseOwnProperties({
-      orgs: queryClient.ensureQueryData(getOrgs(context)),
+      orgs: queryClient.ensureQueryData(getOrgs(context, user.id)),
     });
   },
 );
 
 export default function Orgs() {
+  const session = useSession();
   const { orgs } = useLoaderData<typeof loader>();
   const { data: orgIds = [] } = useQuery({
-    ...useOptionsCreator(getOrgs),
+    ...useOptionsCreator(getOrgs, session?.user.id),
     initialData: orgs,
     select: selectOrgIds,
   });

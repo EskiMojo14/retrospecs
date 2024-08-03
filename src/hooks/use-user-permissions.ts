@@ -25,8 +25,9 @@ const getPermission = (org: Org | undefined, member: OrgMember | undefined) => {
 };
 
 export function useUserPermissions(orgId: number, userId: string | undefined) {
+  const session = useSession();
   const { data: org } = useQuery({
-    ...useOptionsCreator(getOrgs),
+    ...useOptionsCreator(getOrgs, session?.user.id),
     select: (orgs) => selectOrgById(orgs, orgId),
   });
   const { data: member } = useQuery({
@@ -40,7 +41,7 @@ export function useUserPermissions(orgId: number, userId: string | undefined) {
 export function useCurrentUserPermissions(orgId: number) {
   const session = useSession();
   const { data: org } = useQuery({
-    ...useOptionsCreator(getOrgs),
+    ...useOptionsCreator(getOrgs, session?.user.id),
     select: (orgs) => selectOrgById(orgs, orgId),
   });
   const { data: member } = useQuery(
