@@ -65,7 +65,7 @@ export const Default: Story = {
           <CardActionButton onPress={onActionButton}>Button</CardActionButton>
         </Toolbar>
         <Toolbar slot="icons">
-          <CardActionIcon onPress={onActionIcon}>
+          <CardActionIcon onPress={onActionIcon} tooltip="Edit">
             <Symbol>edit</Symbol>
           </CardActionIcon>
         </Toolbar>

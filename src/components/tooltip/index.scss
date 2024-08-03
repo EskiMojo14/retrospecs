@@ -1,0 +1,55 @@
+@use "~/theme/animation";
+@use "~/theme/typography";
+@use "~/theme";
+
+$transform-origin: (
+  top: bottom,
+  right: left,
+  bottom: top,
+  left: right,
+);
+
+.tooltip {
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  border-radius: var(--border-radius);
+  --surface: var(--black);
+  --text: var(--white);
+  background-color: var(--surface);
+  color: var(--text);
+  @include typography.style("body2");
+  @include theme.dark {
+    --surface: var(--white);
+    --text: var(--black);
+  }
+  &[data-entering] {
+    animation:
+      tooltip-enter 120ms ease-in,
+      tooltip-fade 120ms;
+  }
+  &[data-exiting] {
+    animation:
+      tooltip-exit 120ms ease-out forwards,
+      tooltip-fade 120ms reverse;
+  }
+  @each $placement, $position in $transform-origin {
+    &[data-placement="#{$placement}"] {
+      transform-origin: $position;
+    }
+  }
+}
+
+@keyframes tooltip-enter {
+  @include animation.spring-in;
+}
+
+@keyframes tooltip-fade {
+  @include animation.fade-in;
+}
+
+@keyframes tooltip-exit {
+  @include animation.shrink-back;
+}

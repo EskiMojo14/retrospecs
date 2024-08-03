@@ -68,7 +68,7 @@ export function PreferencesDialog() {
   const groove = config?.groove ?? "heavy";
   return (
     <DialogTrigger>
-      <IconButton aria-label="User preferences">
+      <IconButton tooltip="User preferences">
         <Symbol>settings_account_box</Symbol>
       </IconButton>
       <Dialog isDismissable>

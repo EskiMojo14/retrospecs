@@ -93,7 +93,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
             />
           </DialogTrigger>
           <DialogTrigger>
-            <IconButton aria-label="Remove from group">
+            <IconButton tooltip="Remove from group">
               <Symbol>group_remove</Symbol>
             </IconButton>
             <ConfirmationDialog

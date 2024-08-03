@@ -7,6 +7,7 @@ import {
 } from "react";
 import { Text } from "react-aria-components";
 import { Symbol } from "~/components/symbol";
+import type { PickPartial } from "~/util/types";
 import { buttonColors, buttonVariants } from "./constants";
 import {
   Button,
@@ -22,9 +23,12 @@ interface StoryProps
       ComponentPropsWithoutRef<typeof ButtonGroup>,
       "orientation" | "label" | "description"
     >,
-    Pick<
-      ComponentPropsWithoutRef<typeof FloatingActionButton>,
-      "extended" | "exited"
+    PickPartial<
+      Pick<
+        ComponentPropsWithoutRef<typeof FloatingActionButton>,
+        "extended" | "exited" | "tooltip"
+      >,
+      "tooltip"
     > {
   icon?: "leading" | "trailing";
 }
@@ -226,9 +230,9 @@ export const Floating: Story = {
     children: { table: { disable: true } },
     isDisabled: { table: { disable: true } },
   },
-  args: { extended: true, exited: false },
+  args: { extended: true, exited: false, tooltip: "Create" },
   render: ({ ...args }) => (
-    <FloatingActionButton {...args}>
+    <FloatingActionButton tooltip="Create" {...args}>
       <Symbol slot="leading">add</Symbol>
       <Text slot="label">Create</Text>
     </FloatingActionButton>

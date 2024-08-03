@@ -28,15 +28,15 @@ const meta = {
             </Breadcrumbs>
           </Toolbar>
           <Toolbar slot="actions">
-            <IconButton>
+            <IconButton tooltip="Notifications">
               <Badge badgeContent={1} color="blue" overlap="circle">
                 <Symbol>notifications</Symbol>
               </Badge>
             </IconButton>
-            <IconButton>
+            <IconButton tooltip="Sign out">
               <Symbol>logout</Symbol>
             </IconButton>
-            <IconButton>
+            <IconButton tooltip="Preferences">
               <Symbol>settings_account_box</Symbol>
             </IconButton>
           </Toolbar>

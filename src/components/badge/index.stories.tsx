@@ -3,13 +3,16 @@ import type { ComponentPropsWithoutRef } from "react";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { colors } from "~/theme/colors";
+import { pluralize } from "~/util";
 import type { DistributiveOmit } from "~/util/types";
 import { Badge } from ".";
 
 const meta = {
   title: "Components/Badge",
   render: (args) => (
-    <IconButton aria-label={`${args.badgeContent?.toString()} notifications`}>
+    <IconButton
+      tooltip={pluralize`${args.badgeContent} ${[args.badgeContent, "notification"]}`}
+    >
       <Badge {...args}>
         <Symbol>notifications</Symbol>
       </Badge>
@@ -43,7 +46,7 @@ export const Default: Story = {
 
 export const Dot: Story = {
   render: (args) => (
-    <IconButton aria-label="Notifications">
+    <IconButton tooltip="Notifications">
       <Badge {...args}>
         <Symbol>notifications</Symbol>
       </Badge>

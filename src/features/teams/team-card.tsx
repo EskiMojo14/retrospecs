@@ -53,10 +53,10 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
           </CardActionButton>
         </Toolbar>
         <Toolbar slot="icons">
-          <CardActionIcon>
+          <CardActionIcon tooltip="Edit">
             <Symbol>edit</Symbol>
           </CardActionIcon>
-          <CardActionIcon>
+          <CardActionIcon tooltip="Delete">
             <Symbol>delete</Symbol>
           </CardActionIcon>
         </Toolbar>

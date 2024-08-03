@@ -100,7 +100,7 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
         <Toolbar slot="actions">
           {actions}
           <Invites />
-          <IconButton as={LinkButton} href="/sign-out" aria-label="Sign out">
+          <IconButton as={LinkButton} href="/sign-out" tooltip="Sign out">
             <Symbol>logout</Symbol>
           </IconButton>
           <PreferencesDialog />

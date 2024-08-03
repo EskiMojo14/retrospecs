@@ -49,7 +49,7 @@ export default function Orgs() {
           <FloatingActionButton
             extended
             color="green"
-            aria-label="Create organisation"
+            tooltip="Create organisation"
           >
             <Symbol slot="leading">add</Symbol>
             <Text slot="label" aria-hidden>

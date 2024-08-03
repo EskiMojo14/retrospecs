@@ -4,6 +4,7 @@ import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { pluralize } from "~/util";
 import { getInvitesByUserId, inviteAdapter, selectInviteIds } from ".";
 
 export function Invites() {
@@ -14,7 +15,9 @@ export function Invites() {
     select: selectInviteIds,
   });
   return (
-    <IconButton>
+    <IconButton
+      tooltip={pluralize`${inviteIds.length} ${[inviteIds.length, "invite"]}`}
+    >
       <Badge badgeContent={inviteIds.length} max={99} color="blue">
         <Symbol>notifications</Symbol>
       </Badge>

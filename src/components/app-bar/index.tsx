@@ -1,5 +1,5 @@
 import { forwardRef, type ContextType, type ReactNode } from "react";
-import { DEFAULT_SLOT } from "react-aria-components";
+import { DEFAULT_SLOT, TooltipContext } from "react-aria-components";
 import { ButtonContext } from "~/components/button";
 import { Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
@@ -46,6 +46,14 @@ const buttonContextValue: ContextType<typeof ButtonContext> = {
   },
 };
 
+const tooltipContextValue: ContextType<typeof TooltipContext> = {
+  slots: {
+    [DEFAULT_SLOT]: {
+      placement: "bottom",
+    },
+  },
+};
+
 export const AppBar = forwardRef<HTMLElement, AppBarProps>(
   ({ children, className }, ref) => (
     <header
@@ -59,6 +67,7 @@ export const AppBar = forwardRef<HTMLElement, AppBarProps>(
           [ToolbarContext, toolbarContextValue],
           [LogoContext, logoContextValue],
           [ButtonContext, buttonContextValue],
+          [TooltipContext, tooltipContextValue],
         ]}
       >
         {children}

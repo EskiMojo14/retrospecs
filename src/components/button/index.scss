@@ -266,6 +266,9 @@
       width: auto;
       padding: 0 calc((var(--outline-width) * 4) + 0.5rem);
     }
+    &__tooltip--extended {
+      display: none;
+    }
     &:not(.floating-action-button--extended) {
       .button__icon {
         margin: 0;

@@ -19,6 +19,7 @@ import {
   Link,
   Text,
   TextContext,
+  TooltipTrigger,
   useContextProps,
 } from "react-aria-components";
 import {
@@ -30,6 +31,8 @@ import { MergeProvider } from "~/components/provider";
 import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
+import type { TooltipProps } from "~/components/tooltip";
+import { Tooltip } from "~/components/tooltip";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import { useScrollDirection } from "~/hooks/use-scroll-direction";
@@ -270,6 +273,8 @@ ButtonGroup.displayName = "ButtonGroup";
 
 export interface FloatingActionButtonProps
   extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {
+  tooltip: string;
+  tooltipProps?: Overwrite<TooltipProps, { className?: string }>;
   extended?: boolean;
   exited?: boolean;
   /** Defaults to true */
@@ -294,7 +299,16 @@ export const FloatingActionButton = forwardRef<
   FloatingActionButtonProps
 >(
   (
-    { className, extended, exited, exitOnScroll = true, children, ...props },
+    {
+      className,
+      extended,
+      exited,
+      exitOnScroll = true,
+      children,
+      tooltip,
+      tooltipProps,
+      ...props
+    },
     ref,
   ) => {
     const internalRef = useRef<HTMLButtonElement>(null);
@@ -324,27 +338,39 @@ export const FloatingActionButton = forwardRef<
       { disabled: !exitOnScroll || typeof exited === "boolean" },
     );
     return (
-      <Button
-        variant="filled"
-        {...props}
-        ref={mergeRefs(ref, internalRef)}
-        className={floatingCls({
-          modifiers: {
-            extended: !!extended,
-            exited: !!exited,
-          },
-          extra: className,
-        })}
-        aria-hidden={exited}
-      >
-        {renderPropsChild(children, (children) => (
-          <TextContext.Provider value={textContextValue}>
-            <MergeProvider context={SymbolContext} value={symbolContextValue}>
-              {children}
-            </MergeProvider>
-          </TextContext.Provider>
-        ))}
-      </Button>
+      <TooltipTrigger>
+        <Button
+          variant="filled"
+          {...props}
+          ref={mergeRefs(ref, internalRef)}
+          className={floatingCls({
+            modifiers: {
+              extended: !!extended,
+              exited: !!exited,
+            },
+            extra: className,
+          })}
+          aria-hidden={exited}
+        >
+          {renderPropsChild(children, (children) => (
+            <TextContext.Provider value={textContextValue}>
+              <MergeProvider context={SymbolContext} value={symbolContextValue}>
+                {children}
+              </MergeProvider>
+            </TextContext.Provider>
+          ))}
+        </Button>
+        <Tooltip
+          {...tooltipProps}
+          className={floatingCls(
+            "tooltip",
+            { extended: !!extended },
+            tooltipProps?.className,
+          )}
+        >
+          {tooltip}
+        </Tooltip>
+      </TooltipTrigger>
     );
   },
 );

@@ -74,14 +74,14 @@ export function OrgCard({ orgId }: OrgCardProps) {
         {permissions >= Permission.Admin ? (
           <Toolbar slot="icons">
             <DialogTrigger>
-              <CardActionIcon>
+              <CardActionIcon tooltip="Edit">
                 <Symbol>edit</Symbol>
               </CardActionIcon>
               <EditOrg orgId={orgId} />
             </DialogTrigger>
             {permissions >= Permission.Owner ? (
               <DialogTrigger>
-                <CardActionIcon>
+                <CardActionIcon tooltip="Delete">
                   <Symbol>delete</Symbol>
                 </CardActionIcon>
                 <ConfirmationDialog

@@ -28,6 +28,7 @@ const meta = {
     compact: false,
     isDisabled: false,
     children: <Symbol>edit</Symbol>,
+    tooltip: "Edit",
   },
 } satisfies Meta<typeof IconButton>;
 

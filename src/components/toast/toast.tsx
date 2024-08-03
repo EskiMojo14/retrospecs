@@ -99,7 +99,7 @@ export function Toast({ state, ...props }: ToastProps) {
           <IconButton
             {...closeButtonProps}
             className={cls("close")}
-            aria-label="Close toast"
+            tooltip="Close toast"
           >
             <Symbol>close</Symbol>
           </IconButton>

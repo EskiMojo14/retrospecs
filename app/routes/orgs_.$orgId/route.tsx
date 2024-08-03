@@ -97,7 +97,7 @@ export default function Org() {
         />
         <TeamGrid orgId={orgId} teamIds={teamIds} />
         <DialogTrigger>
-          <FloatingActionButton extended color="green" aria-label="Create team">
+          <FloatingActionButton extended color="green" tooltip="Create team">
             <Symbol slot="leading">add</Symbol>
             <Text slot="label" aria-hidden>
               Create
