@@ -1,4 +1,5 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import { skipToken } from "@tanstack/react-query";
 import type { Tables, TablesInsert } from "~/db/supabase";
 import type { Profile } from "~/features/profiles";
 import type { WithoutNullish } from "~/util";
@@ -34,21 +35,23 @@ export const {
 } = inviteAdapter.getSelectors();
 
 export const getInvitesByUserId = supabaseQueryOptions(
-  ({ supabase }, user_id: string) => ({
+  ({ supabase }, user_id: string | undefined) => ({
     queryKey: ["invites", { user_id }],
-    queryFn: supabaseFn(
-      () =>
-        supabase
-          .from("invites")
-          .select(
-            `*,
+    queryFn: user_id
+      ? supabaseFn(
+          () =>
+            supabase
+              .from("invites")
+              .select(
+                `*,
             ...orgs(org_name:name),
             inviter:profiles!invites_created_by_fkey(*)
             `,
-          )
-          .eq("user_id", user_id),
-      (invites) => inviteAdapter.getInitialState(undefined, invites),
-    ),
+              )
+              .eq("user_id", user_id),
+          (invites) => inviteAdapter.getInitialState(undefined, invites),
+        )
+      : skipToken,
   }),
 );
 

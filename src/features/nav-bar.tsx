@@ -9,6 +9,7 @@ import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { useIsomorphicLayoutEffect } from "~/hooks/use-isomorphic-layout-effect";
+import { Invites } from "./invites/invites";
 import { Logo } from "./logo";
 import { PreferencesDialog } from "./user_config/dialog";
 import styles from "./nav-bar.module.scss";
@@ -98,6 +99,7 @@ export function NavBar({ breadcrumbs: breadItems = [], actions }: NavBarProps) {
         </Toolbar>
         <Toolbar slot="actions">
           {actions}
+          <Invites />
           <IconButton as={LinkButton} href="/sign-out" aria-label="Sign out">
             <Symbol>logout</Symbol>
           </IconButton>
