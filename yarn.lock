@@ -2426,6 +2426,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@material/elevation@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@material/elevation@npm:14.0.0"
+  dependencies:
+    "@material/animation": "npm:^14.0.0"
+    "@material/base": "npm:^14.0.0"
+    "@material/feature-targeting": "npm:^14.0.0"
+    "@material/rtl": "npm:^14.0.0"
+    "@material/theme": "npm:^14.0.0"
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/173eca010f7b3c0d9a83c617b50241458b5984b974595c3529dd65f92d4ce9d682deedf79029ad7e983f33ebeb9dd4314e576b5a4ac751d157105e36da4ef913
+  languageName: node
+  linkType: hard
+
 "@material/feature-targeting@npm:^14.0.0":
   version: 14.0.0
   resolution: "@material/feature-targeting@npm:14.0.0"
@@ -2460,6 +2474,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@material/shape@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@material/shape@npm:14.0.0"
+  dependencies:
+    "@material/feature-targeting": "npm:^14.0.0"
+    "@material/rtl": "npm:^14.0.0"
+    "@material/theme": "npm:^14.0.0"
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/7f573a343a369998c124b9eda6d741a711794045e1c708c4c63f0a10e3b67be027b96ded6e817d0d74bde749ece9b06ca7d28323dfd17d9fc8ed1f957e72e8a9
+  languageName: node
+  linkType: hard
+
 "@material/theme@npm:^14.0.0":
   version: 14.0.0
   resolution: "@material/theme@npm:14.0.0"
@@ -2467,6 +2493,34 @@ __metadata:
     "@material/feature-targeting": "npm:^14.0.0"
     tslib: "npm:^2.1.0"
   checksum: 10c0/6a94d6e80fd268b28b8a04cd43ae23771fd6c16af5bdee3ee08fd01f8d4e17d3475861d6027b56adfa68b0fe55da091a763f30c5024a99efd4c1cf161366419b
+  languageName: node
+  linkType: hard
+
+"@material/top-app-bar@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@material/top-app-bar@npm:14.0.0"
+  dependencies:
+    "@material/animation": "npm:^14.0.0"
+    "@material/base": "npm:^14.0.0"
+    "@material/elevation": "npm:^14.0.0"
+    "@material/ripple": "npm:^14.0.0"
+    "@material/rtl": "npm:^14.0.0"
+    "@material/shape": "npm:^14.0.0"
+    "@material/theme": "npm:^14.0.0"
+    "@material/typography": "npm:^14.0.0"
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/506a8401bf894231dd5085d82a2327bde7b69924e26e67a27c1174392f1949bd5e428fa95b96a8d49781a90faf55764e5c105ae792e9106d55b46abacdbfb4ad
+  languageName: node
+  linkType: hard
+
+"@material/typography@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@material/typography@npm:14.0.0"
+  dependencies:
+    "@material/feature-targeting": "npm:^14.0.0"
+    "@material/theme": "npm:^14.0.0"
+    tslib: "npm:^2.1.0"
+  checksum: 10c0/36aad65e3c5861111a8930ba0c3009362ecbcb8611134e323694e72a4d7e553b24c95a7cfdd27585eda0996682f712577a02c438e6edc8c9597dde9f1583cc1b
   languageName: node
   linkType: hard
 
@@ -14321,6 +14375,7 @@ __metadata:
   dependencies:
     "@chromatic-com/storybook": "npm:^1.6.1"
     "@material/ripple": "npm:^14.0.0"
+    "@material/top-app-bar": "npm:^14.0.0"
     "@react-aria/optimize-locales-plugin": "npm:^1.1.1"
     "@react-aria/toast": "npm:3.0.0-beta.12"
     "@react-stately/toast": "npm:3.0.0-beta.4"

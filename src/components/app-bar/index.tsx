@@ -1,4 +1,4 @@
-import type { ContextType, ReactNode } from "react";
+import { forwardRef, type ContextType, type ReactNode } from "react";
 import { DEFAULT_SLOT } from "react-aria-components";
 import { ButtonContext } from "~/components/button";
 import { Provider } from "~/components/provider";
@@ -46,9 +46,10 @@ const buttonContextValue: ContextType<typeof ButtonContext> = {
   },
 };
 
-export function AppBar({ children, className }: AppBarProps) {
-  return (
+export const AppBar = forwardRef<HTMLElement, AppBarProps>(
+  ({ children, className }, ref) => (
     <header
+      ref={ref}
       className={cls({
         extra: className,
       })}
@@ -63,8 +64,10 @@ export function AppBar({ children, className }: AppBarProps) {
         {children}
       </Provider>
     </header>
-  );
-}
+  ),
+);
+
+AppBar.displayName = "AppBar";
 
 export function AppBarRow({
   children,

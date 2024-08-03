@@ -2,25 +2,41 @@
 @use "~/theme/typography";
 
 .navBar {
-  top: calc(-1 * var(--header-height));
-  .mobileRow {
-    display: none;
+  top: max(var(--top), calc(var(--app-bar-height) * -1));
+  @include layout.breakpoint("desktop", "above") {
+    top: 0;
   }
-  @include layout.breakpoint("tablet-l", "below") {
-    @at-root {
-      .navBar {
-        --header-height: calc(
-          (var(--header-row-height) * 2) + var(--shadow-height)
-        );
+  :global {
+    .app-bar {
+      &__section {
+        &--nav {
+          flex: 1 1 auto;
+          min-width: 0;
+          flex-wrap: wrap;
+          gap: 0 0.5rem;
+          .app-bar__logo {
+            height: var(--header-row-height);
+          }
+          .breadcrumbs {
+            --text-color-rgb: var(--text-color-rgb);
+            height: var(--header-row-height);
+            flex: 0 0 auto;
+            min-width: 0;
+            max-width: calc(100vw - 2rem);
+            .breadcrumb {
+              min-width: 0;
+              .link {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+        }
+        &--actions {
+          height: var(--header-row-height);
+        }
       }
-    }
-    .mainRow {
-      :global(.breadcrumbs) {
-        display: none;
-      }
-    }
-    .mobileRow {
-      display: inline-flex;
     }
   }
 }

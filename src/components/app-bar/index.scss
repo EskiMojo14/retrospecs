@@ -1,5 +1,6 @@
 @use "sass:list";
 @use "~/theme";
+@use "~/theme/layout";
 @use "~/util";
 
 $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
@@ -12,14 +13,15 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   );
   --header-height: calc(var(--header-row-height) + var(--shadow-height));
   --sans-header-height: calc(100vh - var(--header-height));
+  @include layout.breakpoint("phone", "only") {
+    --header-row-height: 56px;
+  }
 }
 
 .app-bar {
   position: sticky;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  right: 0;
+  z-index: 500;
+  width: 100%;
   --background: var(--brown-700);
   background-color: var(--background);
   --text-color-rgb: var(--white-rgb);
@@ -28,7 +30,6 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   display: flex;
   flex-direction: column;
   min-height: var(--header-row-height);
-  margin-bottom: var(--header-shadow-height);
   $shadow: 0 calc(var(--header-outline-width) * 0.5) 0 0 #ebebeb;
   @for $i from 1 through list.length($colors) {
     $shadow:
@@ -51,31 +52,13 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
     display: inline-flex;
     justify-content: space-between;
     min-height: var(--header-row-height);
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
   }
   &__logo img {
     height: 192px * 0.25;
   }
   &__section {
     gap: 0.5rem;
-    &--nav {
-      flex: 1 1 auto;
-      min-width: 0;
-      .breadcrumbs {
-        --text-color-rgb: var(--text-color-rgb);
-        min-width: 0;
-        .breadcrumb {
-          min-width: 0;
-          .link {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-      }
-    }
-    &--actions {
-    }
   }
   &__spacer {
     height: var(--header-height);

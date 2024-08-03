@@ -1,4 +1,6 @@
+import { MDCTopAppBarFoundation } from "@material/top-app-bar";
 import type { ReactNode } from "react";
+import { useMemo, useState } from "react";
 import { AppBar, AppBarRow } from "~/components/app-bar";
 import { Breadcrumb, Breadcrumbs } from "~/components/breadcrumbs";
 import { LinkButton } from "~/components/button";
@@ -6,9 +8,63 @@ import { IconButton } from "~/components/icon-button";
 import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
+import { useIsomorphicLayoutEffect } from "~/hooks/use-isomorphic-layout-effect";
 import { Logo } from "./logo";
 import { PreferencesDialog } from "./user_config/dialog";
 import styles from "./nav-bar.module.scss";
+
+function useNavBarScroll() {
+  const [navBarRef, setNavBarRef] = useState<HTMLElement | null>(null);
+  const foundation = useMemo(() => {
+    let foundation: MDCTopAppBarFoundation | null = null;
+    if (!navBarRef) return foundation;
+    foundation = new MDCTopAppBarFoundation({
+      addClass: (className) => {
+        navBarRef.classList.add(className);
+      },
+      removeClass: (className) => {
+        navBarRef.classList.remove(className);
+      },
+      hasClass: (className) => navBarRef.classList.contains(className),
+      setStyle: (property, value) => {
+        navBarRef.style.setProperty(
+          property === "top" ? "--top" : property,
+          value,
+        );
+      },
+      getTopAppBarHeight: () => {
+        const height = navBarRef.clientHeight;
+        navBarRef.style.setProperty("--app-bar-height", `${height}px`);
+        return height;
+      },
+      getViewportScrollY: () => window.scrollY,
+    });
+    return foundation;
+  }, [navBarRef]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!foundation) return;
+    const ac = new AbortController();
+
+    window.addEventListener(
+      "scroll",
+      foundation.handleTargetScroll.bind(foundation),
+    );
+    window.addEventListener(
+      "resize",
+      foundation.handleWindowResize.bind(foundation),
+    );
+
+    foundation.init();
+
+    return () => {
+      foundation.destroy();
+      ac.abort();
+    };
+  }, [foundation]);
+
+  return setNavBarRef;
+}
 
 export interface NavItem {
   label: ReactNode;
@@ -23,6 +79,7 @@ export interface NavBarProps {
 }
 
 export function NavBar({ breadcrumbs: breadItems = [], actions }: NavBarProps) {
+  const navBarRef = useNavBarScroll();
   const breadcrumbs = (
     <Breadcrumbs items={breadItems}>
       {({ href, label, id = href }) => (
@@ -33,7 +90,7 @@ export function NavBar({ breadcrumbs: breadItems = [], actions }: NavBarProps) {
     </Breadcrumbs>
   );
   return (
-    <AppBar className={styles.navBar}>
+    <AppBar ref={navBarRef} className={styles.navBar}>
       <AppBarRow className={styles.mainRow}>
         <Toolbar as="nav" slot="nav" aria-label="Breadcrumbs">
           <Logo />
@@ -45,11 +102,6 @@ export function NavBar({ breadcrumbs: breadItems = [], actions }: NavBarProps) {
             <Symbol>logout</Symbol>
           </IconButton>
           <PreferencesDialog />
-        </Toolbar>
-      </AppBarRow>
-      <AppBarRow className={styles.mobileRow}>
-        <Toolbar as="nav" slot="nav" aria-label="Breadcrumbs">
-          {breadcrumbs}
         </Toolbar>
       </AppBarRow>
     </AppBar>
