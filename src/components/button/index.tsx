@@ -1,3 +1,4 @@
+import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
 import type { ContextType, ReactNode } from "react";
 import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
@@ -10,6 +11,7 @@ import type {
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
+  Collection,
   DEFAULT_SLOT,
   FieldError,
   Group,
@@ -27,6 +29,7 @@ import type { FormGroupProps } from "~/components/input/text-field";
 import { MergeProvider } from "~/components/provider";
 import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
+import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import { useScrollDirection } from "~/hooks/use-scroll-direction";
@@ -153,34 +156,21 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 
 ToggleButton.displayName = "ToggleButton";
 
-interface ButtonGroupProps
+interface ButtonGroupProps<T extends object>
   extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled">,
-    FormGroupProps {
+    FormGroupProps,
+    CollectionProps<T> {
   orientation?: "horizontal" | "vertical";
-  children?: ReactNode;
   className?: string;
-  id: string;
-}
-
-interface ButtonGroupPassedProps {
-  className: string;
-  children: ReactNode;
   id: string;
 }
 
 const clsGroup = bemHelper("button-group");
 
-export const ButtonGroup = createGenericComponent<
-  typeof Group,
-  ButtonGroupProps,
-  ButtonGroupPassedProps
->(
-  "ButtonGroup",
-  Group,
+export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
   (
     {
       className,
-      as: As,
       children,
       id,
 
@@ -197,6 +187,11 @@ export const ButtonGroup = createGenericComponent<
       errorMessage,
       errorMessageProps,
 
+      items,
+      dependencies,
+      idScope,
+      addIdAndValue,
+
       ...props
     },
     ref,
@@ -207,7 +202,7 @@ export const ButtonGroup = createGenericComponent<
     );
 
     return (
-      <As
+      <Group
         ref={ref}
         {...props}
         className={clsGroup({
@@ -229,13 +224,22 @@ export const ButtonGroup = createGenericComponent<
           {label}
         </Typography>
         <ButtonContext.Provider value={contextValue}>
-          <section
+          <Toolbar
             className={clsGroup("buttons")}
             aria-labelledby={label ? `${id}-label` : undefined}
             aria-describedby={description ? `${id}-description` : undefined}
           >
-            {children}
-          </section>
+            <Collection
+              {...{
+                items,
+                dependencies,
+                idScope,
+                addIdAndValue,
+              }}
+            >
+              {children}
+            </Collection>
+          </Toolbar>
         </ButtonContext.Provider>
         {description && (
           <Typography
@@ -255,10 +259,14 @@ export const ButtonGroup = createGenericComponent<
         <Typography as={FieldError} variant="caption" {...errorMessageProps}>
           {errorMessage}
         </Typography>
-      </As>
+      </Group>
     );
   },
-);
+) as (<T extends object>(props: ButtonGroupProps<T>) => JSX.Element) & {
+  displayName: string;
+};
+
+ButtonGroup.displayName = "ButtonGroup";
 
 export interface FloatingActionButtonProps
   extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {

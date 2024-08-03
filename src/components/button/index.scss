@@ -130,7 +130,7 @@
   align-items: flex-start;
   gap: 0.5rem;
   &__buttons {
-    display: flex;
+    gap: 0;
     .button {
       &:first-child {
         border-radius: var(--border-radius) 0 0 var(--border-radius);

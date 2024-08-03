@@ -30,11 +30,15 @@ const themeSymbols: Record<Theme, string> = {
   dark: "dark_mode",
 };
 
+const themeEntries = Object.entries(themeSymbols);
+
 const grooveSymbols: Record<Groove, string> = {
   none: "volume_off",
   low_volume: "volume_down",
   heavy: "volume_up",
 };
+
+const grooveEntries = Object.entries(grooveSymbols);
 
 export function PreferencesDialog() {
   const profile = useCurrentProfile();
@@ -141,10 +145,11 @@ export function PreferencesDialog() {
                   description="The color scheme to use."
                   variant="outlined"
                   color="blue"
+                  items={themeEntries}
                 >
-                  {Object.entries(themeSymbols).map(([themeName, symbol]) => (
+                  {([themeName, symbol]) => (
                     <ToggleButton
-                      key={themeName}
+                      id={themeName}
                       isSelected={theme === themeName}
                       onPress={() => {
                         handleConfigChange({ theme: themeName as Theme });
@@ -153,7 +158,7 @@ export function PreferencesDialog() {
                       <Symbol slot="leading">{symbol}</Symbol>
                       {startCase(themeName)}
                     </ToggleButton>
-                  ))}
+                  )}
                 </ButtonGroup>
                 <ButtonGroup
                   id="groove-group"
@@ -163,10 +168,11 @@ export function PreferencesDialog() {
                   }
                   variant="outlined"
                   color="amber"
+                  items={grooveEntries}
                 >
-                  {Object.entries(grooveSymbols).map(([grooveName, symbol]) => (
+                  {([grooveName, symbol]) => (
                     <ToggleButton
-                      key={grooveName}
+                      id={grooveName}
                       isSelected={groove === grooveName}
                       onPress={() => {
                         handleConfigChange({ groove: grooveName as Groove });
@@ -175,7 +181,7 @@ export function PreferencesDialog() {
                       <Symbol slot="leading">{symbol}</Symbol>
                       {startCase(grooveName)}
                     </ToggleButton>
-                  ))}
+                  )}
                 </ButtonGroup>
               </section>
             </DialogContent>
