@@ -62,7 +62,6 @@ $breakpoints: (
 
 @mixin responsive-grid($gutter: 16px) {
   display: grid;
-  height: 150vh;
   @each $breakpoint, $props in $breakpoints {
     @include breakpoint(
       $breakpoint,

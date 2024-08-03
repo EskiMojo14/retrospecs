@@ -102,7 +102,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <QueryClientProvider>
                 {children}
                 <GlobalToastRegion aria-label="Notifications" />
-                <ReactQueryDevtools initialIsOpen={false} />
+                <ReactQueryDevtools
+                  buttonPosition="bottom-left"
+                  initialIsOpen={false}
+                />
               </QueryClientProvider>
             </SessionProvider>
           </SupabaseProvider>

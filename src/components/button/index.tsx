@@ -298,8 +298,6 @@ export const FloatingActionButton = forwardRef<
       useMemo(
         () =>
           throttle(() => {
-            // manually controlled
-            if (typeof exited === "boolean") return;
             if (internalRef.current) {
               const newScroll = window.scrollY;
               const scrollDiff = newScroll - currentScroll.current;
@@ -311,16 +309,21 @@ export const FloatingActionButton = forwardRef<
                 internalRef.current.classList.add(
                   "floating-action-button--scroll-exited",
                 );
+                if (internalRef.current.getAnimations().length) {
+                  // it's animating out, so hide it
+                  internalRef.current.ariaHidden = "true";
+                }
               } else if ((scrollDiff < 0 || newScroll === 0) && isExited) {
                 internalRef.current.classList.remove(
                   "floating-action-button--scroll-exited",
                 );
+                internalRef.current.ariaHidden = null;
               }
             }
           }, 500),
-        [exited],
+        [],
       ),
-      { disabled: !exitOnScroll },
+      { disabled: !exitOnScroll || typeof exited === "boolean" },
     );
     return (
       <Button
