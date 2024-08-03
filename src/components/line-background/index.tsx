@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { bemHelper } from "~/util";
 import type { BackgroundColor } from "./constants";
 import "./index.scss";
+import clsx from "clsx";
 
 const cls = bemHelper("line-background");
 
@@ -11,12 +12,16 @@ export function LineBackground({
   className,
   children,
   opacity = 1,
+  contentProps,
 }: {
   scale?: number;
   color?: BackgroundColor;
   className?: string;
   children?: ReactNode;
   opacity?: number;
+  contentProps?: {
+    className?: string;
+  };
 }) {
   return (
     <>
@@ -40,7 +45,9 @@ export function LineBackground({
           <div className={cls("line", "horizontal")} />
         </div>
       </div>
-      <div className="line-background-content">{children}</div>
+      <div className={clsx("line-background-content", contentProps?.className)}>
+        {children}
+      </div>
     </>
   );
 }

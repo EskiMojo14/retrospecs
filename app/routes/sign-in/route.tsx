@@ -68,7 +68,12 @@ export default function SignIn() {
   }, [error, errorDescription, setSearchParams]);
 
   return (
-    <LineBackground opacity={0.5}>
+    <LineBackground
+      opacity={0.5}
+      contentProps={{
+        className: styles.content,
+      }}
+    >
       <AppBar>
         <AppBarRow>
           <Toolbar slot="nav">

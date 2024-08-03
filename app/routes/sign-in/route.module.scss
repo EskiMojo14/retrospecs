@@ -1,4 +1,11 @@
+.content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .form {
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;

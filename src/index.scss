@@ -68,6 +68,7 @@ body {
   --text: rgb(var(--text-rgb));
   background-color: var(--background);
   color: var(--text);
+  min-height: 100vh;
   @each $prop, $value in typography.$defaults {
     #{$prop}: var(--typography-default-#{$prop});
   }
