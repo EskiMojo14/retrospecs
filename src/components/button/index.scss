@@ -247,6 +247,19 @@
     opacity: 0;
     transform: scale(0);
   }
+  &--scroll-exited {
+    @include layout.breakpoint("phone", "only") {
+      transition:
+        opacity 200ms,
+        outline 200ms,
+        outline-offset 200ms,
+        box-shadow 200ms,
+        translate 200ms,
+        transform 200ms ease-out;
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
   @include layout.breakpoint("tablet-l", "above") {
     &--extended {
       height: 3.5rem;

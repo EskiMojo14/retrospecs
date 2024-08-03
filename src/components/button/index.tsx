@@ -1,6 +1,6 @@
 import { mergeProps } from "@react-aria/utils";
 import type { ContextType, ReactNode } from "react";
-import { createContext, forwardRef, useMemo } from "react";
+import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {
   ToggleButtonProps as AriaToggleButtonProps,
   ButtonProps as AriaButtonProps,
@@ -33,6 +33,8 @@ import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import "./index.scss";
+import { useEventListener } from "~/hooks/use-event-listener";
+import throttle from "lodash/throttle";
 
 export interface ButtonProps {
   variant?: ButtonVariant;
@@ -263,6 +265,8 @@ export interface FloatingActionButtonProps
   extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {
   extended?: boolean;
   exited?: boolean;
+  /** Defaults to true */
+  exitOnScroll?: boolean;
 }
 
 const floatingCls = bemHelper("floating-action-button");
@@ -281,30 +285,67 @@ const symbolContextValue: ContextType<typeof SymbolContext> = {
 export const FloatingActionButton = forwardRef<
   HTMLButtonElement,
   FloatingActionButtonProps
->(({ className, extended, exited, children, ...props }, ref) => {
-  return (
-    <Button
-      variant="filled"
-      {...props}
-      ref={ref}
-      className={floatingCls({
-        modifiers: {
-          extended: !!extended,
-          exited: !!exited,
-        },
-        extra: className,
-      })}
-      aria-hidden={exited}
-    >
-      {renderPropsChild(children, (children) => (
-        <TextContext.Provider value={textContextValue}>
-          <MergeProvider context={SymbolContext} value={symbolContextValue}>
-            {children}
-          </MergeProvider>
-        </TextContext.Provider>
-      ))}
-    </Button>
-  );
-});
+>(
+  (
+    { className, extended, exited, exitOnScroll = true, children, ...props },
+    ref,
+  ) => {
+    const internalRef = useRef<HTMLButtonElement>(null);
+    const currentScroll = useRef(0);
+    useEventListener(
+      useCallback(() => window, []),
+      "scroll",
+      useMemo(
+        () =>
+          throttle(() => {
+            // manually controlled
+            if (typeof exited === "boolean") return;
+            if (internalRef.current) {
+              const newScroll = window.scrollY;
+              const scrollDiff = newScroll - currentScroll.current;
+              currentScroll.current = newScroll;
+              const isExited = internalRef.current.classList.contains(
+                "floating-action-button--scroll-exited",
+              );
+              if (scrollDiff > 0 && newScroll > 0 && !isExited) {
+                internalRef.current.classList.add(
+                  "floating-action-button--scroll-exited",
+                );
+              } else if ((scrollDiff < 0 || newScroll === 0) && isExited) {
+                internalRef.current.classList.remove(
+                  "floating-action-button--scroll-exited",
+                );
+              }
+            }
+          }, 500),
+        [exited],
+      ),
+      { disabled: !exitOnScroll },
+    );
+    return (
+      <Button
+        variant="filled"
+        {...props}
+        ref={mergeRefs(ref, internalRef)}
+        className={floatingCls({
+          modifiers: {
+            extended: !!extended,
+            exited: !!exited,
+          },
+          extra: className,
+        })}
+        aria-hidden={exited}
+      >
+        {renderPropsChild(children, (children) => (
+          <TextContext.Provider value={textContextValue}>
+            <MergeProvider context={SymbolContext} value={symbolContextValue}>
+              {children}
+            </MergeProvider>
+          </TextContext.Provider>
+        ))}
+      </Button>
+    );
+  },
+);
 
 FloatingActionButton.displayName = "FloatingActionButton";
