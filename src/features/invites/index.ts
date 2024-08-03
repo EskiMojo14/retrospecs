@@ -14,6 +14,7 @@ import type { PickPartial } from "~/util/types";
 export type Invite = Tables<"invites">;
 
 export interface InviteWithInviter extends Invite {
+  org_name: string;
   inviter: Profile | null;
 }
 
@@ -39,7 +40,12 @@ export const getInvitesByUserId = supabaseQueryOptions(
       () =>
         supabase
           .from("invites")
-          .select("*,inviter:profiles!invites_created_by_fkey(*)")
+          .select(
+            `*,
+            ...orgs(org_name:name),
+            inviter:profiles!invites_created_by_fkey(*)
+            `,
+          )
           .eq("user_id", user_id),
       (invites) => inviteAdapter.getInitialState(undefined, invites),
     ),
@@ -53,7 +59,12 @@ export const getInvitesByOrgId = supabaseQueryOptions(
       () =>
         supabase
           .from("invites")
-          .select("*,inviter:profiles!invites_created_by_fkey(*)")
+          .select(
+            `*,
+            ...orgs(org_name:name),
+            inviter:profiles!invites_created_by_fkey(*)
+            `,
+          )
           .eq("org_id", org_id),
       (invites) => inviteAdapter.getInitialState(undefined, invites),
     ),
