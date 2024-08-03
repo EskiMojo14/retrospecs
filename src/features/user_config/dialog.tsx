@@ -146,6 +146,7 @@ export function PreferencesDialog() {
                   variant="outlined"
                   color="blue"
                   items={themeEntries}
+                  dependencies={[theme]}
                 >
                   {([themeName, symbol]) => (
                     <ToggleButton
@@ -169,6 +170,7 @@ export function PreferencesDialog() {
                   variant="outlined"
                   color="amber"
                   items={grooveEntries}
+                  dependencies={[groove]}
                 >
                   {([grooveName, symbol]) => (
                     <ToggleButton
