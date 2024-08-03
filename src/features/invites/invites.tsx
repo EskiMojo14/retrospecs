@@ -15,7 +15,7 @@ export function Invites() {
   });
   return (
     <IconButton>
-      <Badge badgeContent={inviteIds.length} max={99}>
+      <Badge badgeContent={inviteIds.length} max={99} color="blue">
         <Symbol>notifications</Symbol>
       </Badge>
     </IconButton>
