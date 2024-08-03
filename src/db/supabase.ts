@@ -163,23 +163,40 @@ export type Database = {
       invites: {
         Row: {
           created_at: string;
+          created_by: string;
           email: string;
           org_id: number;
           user_id: string | null;
         };
         Insert: {
           created_at?: string;
+          created_by?: string;
           email: string;
           org_id: number;
           user_id?: string | null;
         };
         Update: {
           created_at?: string;
+          created_by?: string;
           email?: string;
           org_id?: number;
           user_id?: string | null;
         };
         Relationships: [
+          {
+            foreignKeyName: "invites_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["user_id"];
+          },
+          {
+            foreignKeyName: "invites_created_by_fkey1";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "invites_org_id_fkey";
             columns: ["org_id"];

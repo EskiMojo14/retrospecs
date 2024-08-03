@@ -1,5 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import type { Tables, TablesInsert } from "~/db/supabase";
+import type { Profile } from "~/features/profiles";
 import type { WithoutNullish } from "~/util";
 import { sortByCreatedAt } from "~/util";
 import {
@@ -12,9 +13,13 @@ import type { PickPartial } from "~/util/types";
 
 export type Invite = Tables<"invites">;
 
+export interface InviteWithInviter extends Invite {
+  inviter: Profile | null;
+}
+
 export const selectInviteId = compoundKey<Invite>()("user_id", "email");
 
-export const inviteAdapter = createEntityAdapter<Invite, string>({
+export const inviteAdapter = createEntityAdapter<InviteWithInviter, string>({
   selectId: selectInviteId,
   sortComparer: sortByCreatedAt,
 });
@@ -31,7 +36,11 @@ export const getInvitesByUserId = supabaseQueryOptions(
   ({ supabase }, user_id: string) => ({
     queryKey: ["invites", { user_id }],
     queryFn: supabaseFn(
-      () => supabase.from("invites").select().eq("user_id", user_id),
+      () =>
+        supabase
+          .from("invites")
+          .select("*,inviter:profiles!invites_created_by_fkey(*)")
+          .eq("user_id", user_id),
       (invites) => inviteAdapter.getInitialState(undefined, invites),
     ),
   }),
@@ -41,7 +50,11 @@ export const getInvitesByOrgId = supabaseQueryOptions(
   ({ supabase }, org_id: number) => ({
     queryKey: ["invites", { org_id }],
     queryFn: supabaseFn(
-      () => supabase.from("invites").select().eq("org_id", org_id),
+      () =>
+        supabase
+          .from("invites")
+          .select("*,inviter:profiles!invites_created_by_fkey(*)")
+          .eq("org_id", org_id),
       (invites) => inviteAdapter.getInitialState(undefined, invites),
     ),
   }),
