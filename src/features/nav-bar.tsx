@@ -79,23 +79,23 @@ export interface NavBarProps {
   actions?: ReactNode;
 }
 
-export function NavBar({ breadcrumbs: breadItems = [], actions }: NavBarProps) {
+export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
   const navBarRef = useNavBarScroll();
-  const breadcrumbs = (
-    <Breadcrumbs items={breadItems}>
-      {({ href, label, id = href }) => (
-        <Breadcrumb id={id}>
-          <Link href={href}>{label}</Link>
-        </Breadcrumb>
-      )}
-    </Breadcrumbs>
-  );
+
   return (
     <AppBar ref={navBarRef} className={styles.navBar}>
       <AppBarRow className={styles.mainRow}>
         <Toolbar as="nav" slot="nav" aria-label="Breadcrumbs">
           <Logo />
-          {breadcrumbs}
+          {
+            <Breadcrumbs items={breadcrumbs}>
+              {({ href, label, id = href }) => (
+                <Breadcrumb id={id}>
+                  <Link href={href}>{label}</Link>
+                </Breadcrumb>
+              )}
+            </Breadcrumbs>
+          }
         </Toolbar>
         <Toolbar slot="actions">
           {actions}
