@@ -29,12 +29,11 @@ import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
+import { useScrollDirection } from "~/hooks/use-scroll-direction";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import "./index.scss";
-import { useEventListener } from "~/hooks/use-event-listener";
-import throttle from "lodash/throttle";
 
 export interface ButtonProps {
   variant?: ButtonVariant;
@@ -291,38 +290,29 @@ export const FloatingActionButton = forwardRef<
     ref,
   ) => {
     const internalRef = useRef<HTMLButtonElement>(null);
-    const currentScroll = useRef(0);
-    useEventListener(
+    useScrollDirection(
       useCallback(() => window, []),
-      "scroll",
-      useMemo(
-        () =>
-          throttle(() => {
-            if (internalRef.current) {
-              const newScroll = window.scrollY;
-              const scrollDiff = newScroll - currentScroll.current;
-              currentScroll.current = newScroll;
-              const isExited = internalRef.current.classList.contains(
-                "floating-action-button--scroll-exited",
-              );
-              if (scrollDiff > 0 && newScroll > 0 && !isExited) {
-                internalRef.current.classList.add(
-                  "floating-action-button--scroll-exited",
-                );
-                if (internalRef.current.getAnimations().length) {
-                  // it's animating out, so hide it
-                  internalRef.current.ariaHidden = "true";
-                }
-              } else if ((scrollDiff < 0 || newScroll === 0) && isExited) {
-                internalRef.current.classList.remove(
-                  "floating-action-button--scroll-exited",
-                );
-                internalRef.current.ariaHidden = null;
-              }
+      useCallback((direction) => {
+        if (internalRef.current) {
+          const isExited = internalRef.current.classList.contains(
+            "floating-action-button--scroll-exited",
+          );
+          if (direction === "up" && isExited) {
+            internalRef.current.classList.remove(
+              "floating-action-button--scroll-exited",
+            );
+            internalRef.current.ariaHidden = null;
+          } else if (direction === "down" && !isExited) {
+            internalRef.current.classList.add(
+              "floating-action-button--scroll-exited",
+            );
+            if (internalRef.current.getAnimations().length) {
+              // it's animating out, so we should hide it
+              internalRef.current.ariaHidden = "true";
             }
-          }, 500),
-        [],
-      ),
+          }
+        }
+      }, []),
       { disabled: !exitOnScroll || typeof exited === "boolean" },
     );
     return (
