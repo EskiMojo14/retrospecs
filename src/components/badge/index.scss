@@ -26,7 +26,7 @@
   }
   &--dot {
     .badge__badge {
-      --size: calc(8px + (var(--border-width) * 2));
+      --size: calc(8px + (var(--outline-width) * 2));
       padding: 0;
     }
   }
