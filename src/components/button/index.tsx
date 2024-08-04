@@ -145,14 +145,14 @@ const stateSymbolContexts: {
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
   ({ children, ...props }, ref) => (
     <Button as={AriaToggleButton} {...props} ref={ref}>
-      {(renderProps) => (
+      {renderPropsChild(children, (children, { isSelected }) => (
         <MergeProvider
           context={SymbolContext}
-          value={stateSymbolContexts[`${renderProps.isSelected}`]}
+          value={stateSymbolContexts[`${isSelected}`]}
         >
-          {typeof children === "function" ? children(renderProps) : children}
+          {children}
         </MergeProvider>
-      )}
+      ))}
     </Button>
   ),
 );
