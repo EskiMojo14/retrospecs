@@ -1,7 +1,13 @@
 import { clsx } from "clsx";
 import { forwardRef } from "react";
-import type { TooltipProps as AriaTooltipProps } from "react-aria-components";
-import { Tooltip as AriaTooltip } from "react-aria-components";
+import type {
+  TooltipProps as AriaTooltipProps,
+  TooltipTriggerComponentProps,
+} from "react-aria-components";
+import {
+  Tooltip as AriaTooltip,
+  TooltipTrigger as AriaTooltipTrigger,
+} from "react-aria-components";
 import "./index.scss";
 
 export interface TooltipProps extends Omit<AriaTooltipProps, "className"> {
@@ -20,3 +26,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
 );
 
 Tooltip.displayName = "Tooltip";
+
+export const TooltipTrigger = (props: TooltipTriggerComponentProps) => (
+  <AriaTooltipTrigger delay={0} closeDelay={1500} {...props} />
+);

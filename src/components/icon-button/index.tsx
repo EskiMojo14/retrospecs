@@ -1,13 +1,12 @@
 import type { TooltipTriggerProps } from "@react-types/tooltip";
 import type { ContextType } from "react";
 import { forwardRef } from "react";
-import { TooltipTrigger } from "react-aria-components";
 import type { ToggleButtonProps } from "~/components/button";
 import { Button, ButtonContext, ToggleButton } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
 import { MergeProvider } from "~/components/provider";
 import type { TooltipProps } from "~/components/tooltip";
-import { Tooltip } from "~/components/tooltip";
+import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { bemHelper } from "~/util";
 import type { Overwrite } from "~/util/types";
 import "./index.scss";

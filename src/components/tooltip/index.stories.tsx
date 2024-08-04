@@ -6,15 +6,7 @@ import type { Tooltip } from ".";
 const meta = {
   title: "Components/Tooltip",
   render: (args) => (
-    <IconButton
-      variant="filled"
-      tooltip="Edit"
-      tooltipProps={args}
-      tooltipTriggerProps={{
-        delay: 0,
-        closeDelay: 0,
-      }}
-    >
+    <IconButton variant="filled" tooltip="Edit" tooltipProps={args}>
       <Symbol>edit</Symbol>
     </IconButton>
   ),

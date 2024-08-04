@@ -20,7 +20,6 @@ import {
   Link,
   Text,
   TextContext,
-  TooltipTrigger,
   useContextProps,
 } from "react-aria-components";
 import {
@@ -33,7 +32,7 @@ import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import type { TooltipProps } from "~/components/tooltip";
-import { Tooltip } from "~/components/tooltip";
+import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import { useScrollDirection } from "~/hooks/use-scroll-direction";
