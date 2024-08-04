@@ -81,7 +81,7 @@ export const Avatar = createGenericComponent<
 
 const groupCls = bemHelper("avatar-group");
 
-export interface AvatarGroupProps<T>
+export interface AvatarGroupProps<T extends object>
   extends CollectionProps<T>,
     Pick<AvatarProps, "font" | "size" | "color"> {
   className?: string;
@@ -136,7 +136,7 @@ export const AvatarGroup = createGenericComponent<
       [itemsProp],
     );
     const slicedItems = useMemo(() => {
-      if (itemsAsArray.length <= max) return itemsAsArray.reverse();
+      if (itemsAsArray.length <= max) return [...itemsAsArray].reverse();
       return itemsAsArray.slice(0, max - 1).reverse();
     }, [itemsAsArray, max]);
     const childrenAsArray = useMemo(
@@ -144,7 +144,7 @@ export const AvatarGroup = createGenericComponent<
       [children],
     );
     const slicedChildren = useMemo(() => {
-      if (childrenAsArray.length <= max) return childrenAsArray.reverse();
+      if (childrenAsArray.length <= max) return [...childrenAsArray].reverse();
       return childrenAsArray.slice(0, max - 1).reverse();
     }, [childrenAsArray, max]);
     const total =
@@ -174,4 +174,6 @@ export const AvatarGroup = createGenericComponent<
       </As>
     );
   },
-) as (<T>(props: AvatarGroupProps<T>) => JSX.Element) & { displayName: string };
+) as (<T extends object>(props: AvatarGroupProps<T>) => JSX.Element) & {
+  displayName: string;
+};

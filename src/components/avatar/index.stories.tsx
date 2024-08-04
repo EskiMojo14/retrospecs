@@ -9,7 +9,7 @@ import { Avatar, AvatarGroup } from ".";
 
 export interface StoryProps
   extends ComponentPropsWithoutRef<typeof Avatar>,
-    Pick<AvatarGroupProps<any>, "spacing"> {}
+    Pick<AvatarGroupProps<any>, "spacing" | "max"> {}
 
 const meta = {
   title: "Components/Avatar",
@@ -72,16 +72,23 @@ export const Group: Story = {
     name: { table: { disable: true } },
     src: { table: { disable: true } },
     children: { table: { disable: true } },
+    max: {
+      control: {
+        type: "range",
+        min: 2,
+        max: examples.length,
+      },
+    },
     spacing: {
       control: "inline-radio",
       options: ["small", "medium", "large"],
       table: { disable: false },
     },
   },
-  render: ({ font, color, size, spacing }) => (
+  render: ({ font, color, size, spacing, max }) => (
     <TooltipTrigger>
       <Button>
-        <AvatarGroup {...{ font, color, size, spacing }} items={examples}>
+        <AvatarGroup {...{ font, color, size, spacing, max }} items={examples}>
           {(props) => <Avatar id={props.name} {...props} />}
         </AvatarGroup>
       </Button>
@@ -91,5 +98,6 @@ export const Group: Story = {
   args: {
     spacing: "medium",
     size: "x-small",
+    max: 5,
   },
 };
