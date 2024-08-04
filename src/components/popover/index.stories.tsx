@@ -1,14 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Dialog, DialogTrigger } from "react-aria-components";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
-import type { Tooltip } from ".";
+import { Heading, Typography } from "~/components/typography";
+import { Popover } from ".";
+import styles from "./story.module.scss";
 
 const meta = {
-  title: "Components/Tooltip",
+  title: "Components/Popover",
   render: (args) => (
-    <IconButton variant="filled" tooltip="Edit" tooltipProps={args}>
-      <Symbol>edit</Symbol>
-    </IconButton>
+    <DialogTrigger>
+      <IconButton tooltip="Help">
+        <Symbol>info</Symbol>
+      </IconButton>
+      <Popover {...args}>
+        <Dialog className={styles.dialog}>
+          <Heading variant="subtitle1" slot="title" className={styles.title}>
+            Help
+          </Heading>
+          <Typography variant="body2" className={styles.content}>
+            For help accessing your account, please contact support.
+          </Typography>
+        </Dialog>
+      </Popover>
+    </DialogTrigger>
   ),
   argTypes: {
     placement: {
@@ -41,8 +56,9 @@ const meta = {
   },
   args: {
     placement: "top",
+    withBg: true,
   },
-} satisfies Meta<typeof Tooltip>;
+} satisfies Meta<typeof Popover>;
 
 export default meta;
 

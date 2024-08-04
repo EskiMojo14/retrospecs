@@ -1,8 +1,19 @@
+import { clsx } from "clsx";
 import type { ReactNode } from "react";
 import { bemHelper } from "~/util";
 import type { BackgroundColor } from "./constants";
 import "./index.scss";
-import clsx from "clsx";
+
+export interface LineBackgroundProps {
+  scale?: number;
+  color?: BackgroundColor;
+  className?: string;
+  children?: ReactNode;
+  opacity?: number;
+  contentProps?: {
+    className?: string;
+  };
+}
 
 const cls = bemHelper("line-background");
 
@@ -13,16 +24,7 @@ export function LineBackground({
   children,
   opacity = 1,
   contentProps,
-}: {
-  scale?: number;
-  color?: BackgroundColor;
-  className?: string;
-  children?: ReactNode;
-  opacity?: number;
-  contentProps?: {
-    className?: string;
-  };
-}) {
+}: LineBackgroundProps) {
   return (
     <>
       <div

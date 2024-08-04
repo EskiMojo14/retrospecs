@@ -1,21 +1,7 @@
-@use "sass:map";
 @use "~/theme/animation";
 @use "~/theme/typography";
 @use "~/theme";
-@use "~/util";
-
-$x-placements: (
-  "left": right,
-  "right": left,
-  // RAC doesn't flip in RTL, so we won't either
-  "start": right,
-  "end": left,
-);
-
-$y-placements: (
-  "top": bottom,
-  "bottom": top,
-);
+@use "./mixins";
 
 .tooltip {
   padding: 0 8px;
@@ -43,24 +29,7 @@ $y-placements: (
       tooltip-exit 120ms ease-out forwards,
       tooltip-fade 120ms reverse;
   }
-  @each $x-placement, $x-opposite in $x-placements {
-    &[data-placement="#{$x-placement}"] {
-      transform-origin: #{$x-opposite};
-    }
-    @each $y-placement, $y-opposite in $y-placements {
-      &[data-placement="#{$x-placement} #{$y-placement}"] {
-        transform-origin: #{$x-opposite} #{$y-opposite};
-      }
-      &[data-placement="#{$y-placement} #{$x-placement}"] {
-        transform-origin: #{$y-opposite} #{$x-opposite};
-      }
-    }
-  }
-  @each $y-placement, $y-opposite in $y-placements {
-    &[data-placement="#{$y-placement}"] {
-      transform-origin: #{$y-opposite};
-    }
-  }
+  @include mixins.placement-origins;
 }
 
 @keyframes tooltip-enter {
