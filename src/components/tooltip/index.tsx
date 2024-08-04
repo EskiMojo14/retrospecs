@@ -28,5 +28,5 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
 Tooltip.displayName = "Tooltip";
 
 export const TooltipTrigger = (props: TooltipTriggerComponentProps) => (
-  <AriaTooltipTrigger delay={0} closeDelay={1500} {...props} />
+  <AriaTooltipTrigger delay={1000} closeDelay={1500} {...props} />
 );
