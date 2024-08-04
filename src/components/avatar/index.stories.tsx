@@ -1,31 +1,46 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { ComponentPropsWithoutRef, ComponentType } from "react";
+import { Button } from "~/components/button";
+import { Tooltip, TooltipTrigger } from "~/components/tooltip";
+import type { Color } from "~/theme/colors";
 import { colors } from "~/theme/colors";
-import { Avatar } from ".";
+import type { AvatarGroupProps } from ".";
+import { Avatar, AvatarGroup } from ".";
+
+export interface StoryProps
+  extends ComponentPropsWithoutRef<typeof Avatar>,
+    Pick<AvatarGroupProps<any>, "spacing"> {}
 
 const meta = {
   title: "Components/Avatar",
-  component: Avatar,
+  component: Avatar as ComponentType<StoryProps>,
   argTypes: {
     size: {
-      control: {
-        type: "select",
-      },
+      control: "select",
       options: ["x-small", "small", "medium", "large"],
     },
     color: {
-      control: {
-        type: "select",
-      },
+      control: "select",
       options: colors,
     },
+    children: {
+      control: "text",
+    },
+    font: {
+      control: "inline-radio",
+      options: ["standard", "funky"],
+    },
+    spacing: { table: { disable: true } },
   },
   args: {
     color: "blue",
     name: "John Smith",
     src: "https://avatars.githubusercontent.com/u/18308300?v=4",
     size: "medium",
+    children: undefined,
+    font: "funky",
   },
-} satisfies Meta<typeof Avatar>;
+} satisfies Meta<StoryProps>;
 
 export default meta;
 
@@ -33,4 +48,48 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {},
+};
+
+const examples: Array<{ name: string; color: Color; src?: string }> = [
+  {
+    name: "Tom",
+    color: "blue",
+    src: "https://avatars.githubusercontent.com/u/18308300?v=4",
+  },
+  {
+    name: "Dick",
+    color: "pink",
+    src: "https://avatars.githubusercontent.com/u/176902558?v=4",
+  },
+  { name: "Harry", color: "green" },
+  { name: "Jeremy", color: "amber" },
+  { name: "Bertha", color: "teal" },
+  { name: "Charles", color: "gold" },
+];
+
+export const Group: Story = {
+  argTypes: {
+    name: { table: { disable: true } },
+    src: { table: { disable: true } },
+    children: { table: { disable: true } },
+    spacing: {
+      control: "inline-radio",
+      options: ["small", "medium", "large"],
+      table: { disable: false },
+    },
+  },
+  render: ({ font, color, size, spacing }) => (
+    <TooltipTrigger>
+      <Button>
+        <AvatarGroup {...{ font, color, size, spacing }} items={examples}>
+          {(props) => <Avatar id={props.name} {...props} />}
+        </AvatarGroup>
+      </Button>
+      <Tooltip>Reactions from Tom, Dick, and 4 more</Tooltip>
+    </TooltipTrigger>
+  ),
+  args: {
+    spacing: "medium",
+    size: "x-small",
+  },
 };

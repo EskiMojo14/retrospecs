@@ -2,6 +2,7 @@
 @use "~/theme/typography";
 @use "~/theme/palette";
 @use "~/theme";
+@use "~/util";
 
 $sizes: (
   x-small: (
@@ -36,12 +37,15 @@ $sizes: (
   line-height: 1;
   flex-shrink: 0;
 
+  &--funky {
+    font-family: "Super Dream", Raleway, sans-serif;
+  }
+
   @each $size, $values in $sizes {
     &--#{$size} {
       width: map.get($values, dimension);
       height: map.get($values, dimension);
       @include typography.style(map.get($values, typography));
-      font-family: "Super Dream", "Raleway", sans-serif;
     }
   }
   @each $color in palette.$colors {
@@ -62,5 +66,30 @@ $sizes: (
     height: 100%;
     object-fit: cover;
     image-rendering: smooth;
+  }
+}
+
+.avatar-group {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  .avatar {
+    position: relative;
+  }
+  &--spacing-medium {
+    .avatar {
+      @include util.rtl-box("margin", -8px);
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+  &--spacing-small {
+    .avatar {
+      @include util.rtl-box("margin", -16px);
+      &:last-child {
+        margin: 0;
+      }
+    }
   }
 }
