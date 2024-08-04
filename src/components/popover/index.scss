@@ -7,7 +7,7 @@
   color: var(--text);
   border-radius: var(--border-radius);
   padding: 8px;
-  @include elevation.elevation(6);
+  @include elevation.shadow(6);
   @include tooltip-mixins.placement-origins;
   &[data-entering] {
     animation:

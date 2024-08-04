@@ -13,12 +13,12 @@ import {
   Select as AriaSelect,
   Button,
   SelectValue,
-  Popover,
   ListBox,
   ListBoxItem,
   FieldError,
   Text,
 } from "react-aria-components";
+import { Popover } from "~/components/popover";
 import type { SymbolProps } from "~/components/symbol";
 import { Symbol, SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
@@ -120,7 +120,9 @@ export function Select<T extends object>({
         {errorMessage}
       </Typography>
       <Popover offset={0} className={cls("popover")}>
-        <ListBox items={items}>{children}</ListBox>
+        <ListBox items={items} className={cls("listbox")}>
+          {children}
+        </ListBox>
       </Popover>
     </AriaSelect>
   );

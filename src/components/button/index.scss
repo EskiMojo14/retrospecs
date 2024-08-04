@@ -64,16 +64,16 @@
     background: var(--background);
   }
   &--elevated {
-    --shadow: var(--background);
-    @include elevation.elevation(2);
+    --solid-shadow: var(--background);
+    @include elevation.shadow(2);
     &[data-hovered] {
       translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
-      @include elevation.elevation(4);
+      @include elevation.shadow(4);
     }
     &[data-focus-visible],
     &[data-pressed] {
       translate: 0 0;
-      @include elevation.elevation(2);
+      @include elevation.shadow(2);
     }
   }
   &--compact {
@@ -91,7 +91,7 @@
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
     &.button--elevated {
-      @include elevation.elevation(0);
+      @include elevation.shadow(0);
     }
   }
   @include theme.ripple(var(--button-text), " .button__ripple");
@@ -205,8 +205,7 @@
 
 .floating-action-button {
   position: fixed;
-  @include elevation.elevation(6);
-  --shadow: black;
+  @include elevation.shadow(6);
   $size: 4rem;
   border-radius: $size * 0.5;
   height: $size;
@@ -226,12 +225,12 @@
   }
   &[data-hovered] {
     translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
-    @include elevation.elevation(8);
+    @include elevation.shadow(8);
   }
   &[data-focus-visible],
   &[data-pressed] {
     translate: 0 0;
-    @include elevation.elevation(6);
+    @include elevation.shadow(6);
   }
   &::before {
     border-radius: inherit;

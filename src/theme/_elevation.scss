@@ -1,3 +1,11 @@
-@mixin elevation($n) {
-  box-shadow: $n * 1px $n * 1px var(--shadow);
+@function ring($n) {
+  @return $n * 0.5px $n * 0.5px $n * 1.5px rgba(var(--shadow-rgb), 0.25);
+}
+
+@function solid($n) {
+  @return $n * 1px $n * 1px var(--solid-shadow, rgba(var(--shadow-rgb), 0.5));
+}
+
+@mixin shadow($n) {
+  box-shadow: ring($n), solid($n);
 }

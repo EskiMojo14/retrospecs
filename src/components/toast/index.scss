@@ -21,7 +21,7 @@
   gap: 8px;
   min-height: 48px;
   overflow: hidden;
-  @include elevation.elevation(8);
+  @include elevation.shadow(8);
   @include layout.breakpoint("phone", "only") {
     max-width: none;
     width: calc(100vw - 32px);

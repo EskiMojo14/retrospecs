@@ -63,7 +63,7 @@
   &Container {
     position: relative;
     background-color: var(--surface);
-    @include elevation.elevation(4);
+    @include elevation.shadow(4);
     border-radius: 56px * 0.5;
     padding: 1rem;
     grid-column: span 12;

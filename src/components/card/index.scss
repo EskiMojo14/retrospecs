@@ -43,9 +43,9 @@ $hover-time: 0.2s;
     }
   }
   &--raised {
-    @include elevation.elevation(4);
+    @include elevation.shadow(4);
     &:hover {
-      @include elevation.elevation(6);
+      @include elevation.shadow(6);
       translate: -2px -2px;
     }
   }

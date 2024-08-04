@@ -115,21 +115,12 @@
     }
   }
   &__popover {
-    background-color: var(--surface);
-    border-radius: var(--border-radius);
-    @include elevation.elevation(6);
     min-width: var(--trigger-width);
     padding: 0.5rem 0;
-    &[data-entering] {
-      transform-origin: top center;
-      animation:
-        popover-fade 250ms,
-        popover-enter 100ms ease-in;
-    }
-    &[data-exiting] {
-      animation:
-        popover-fade 250ms reverse 50ms,
-        popover-exit 100ms ease-out forwards 50ms;
+  }
+  &__listbox {
+    &:focus-visible {
+      outline: none;
     }
   }
   &__item {
@@ -176,16 +167,4 @@
       outline: none;
     }
   }
-}
-
-@keyframes popover-fade {
-  @include animation.fade-in;
-}
-
-@keyframes popover-enter {
-  @include animation.spring-in;
-}
-
-@keyframes popover-exit {
-  @include animation.shrink-back;
 }
