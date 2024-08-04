@@ -1,5 +1,6 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
+import type { TooltipTriggerProps } from "@react-types/tooltip";
 import type { ContextType, ReactNode } from "react";
 import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {
@@ -274,7 +275,8 @@ ButtonGroup.displayName = "ButtonGroup";
 export interface FloatingActionButtonProps
   extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {
   tooltip: string;
-  tooltipProps?: Overwrite<TooltipProps, { className?: string }>;
+  tooltipProps?: TooltipProps;
+  tooltipTriggerProps?: TooltipTriggerProps;
   extended?: boolean;
   exited?: boolean;
   /** Defaults to true */
@@ -307,6 +309,7 @@ export const FloatingActionButton = forwardRef<
       children,
       tooltip,
       tooltipProps,
+      tooltipTriggerProps,
       ...props
     },
     ref,
@@ -338,7 +341,7 @@ export const FloatingActionButton = forwardRef<
       { disabled: !exitOnScroll || typeof exited === "boolean" },
     );
     return (
-      <TooltipTrigger>
+      <TooltipTrigger {...tooltipTriggerProps}>
         <Button
           variant="filled"
           {...props}
