@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import type { ContextType } from "react";
 import type {
   DialogProps as AriaDialogProps,
@@ -6,14 +7,13 @@ import type {
 import {
   Dialog as AriaDialog,
   DEFAULT_SLOT,
-  HeadingContext,
   Modal,
   ModalOverlay,
 } from "react-aria-components";
 import { ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
-import { MergeProvider, Provider } from "~/components/provider";
+import { Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
 import { bemHelper, renderPropsChild } from "~/util";
 import "./index.scss";
@@ -33,17 +33,10 @@ export interface DialogProps
 const cls = bemHelper("dialog");
 const overlayCls = bemHelper("dialog-overlay");
 
-const headingContextValue: ContextType<typeof HeadingContext> = {
-  slots: {
-    [DEFAULT_SLOT]: {},
-    title: { className: cls("title") },
-  },
-};
-
 const toolbarContextValue: ContextType<typeof ToolbarContext> = {
   slots: {
     [DEFAULT_SLOT]: {},
-    actions: { align: "end", className: cls("actions") },
+    actions: { align: "end" },
   },
 };
 
@@ -70,11 +63,11 @@ export const Dialog = ({
   >
     <Modal
       {...modalProps}
-      className={overlayCls("modal", undefined, modalProps?.className)}
+      className={clsx("dialog-modal", modalProps?.className)}
     >
-      <AriaDialog {...props} className={cls({ extra: className })}>
-        {renderPropsChild(children, (children) => (
-          <MergeProvider context={HeadingContext} value={headingContextValue}>
+      <LineBackground opacity={0.3}>
+        <AriaDialog {...props} className={cls({ extra: className })}>
+          {renderPropsChild(children, (children) => (
             <Provider
               values={[
                 [ToolbarContext, toolbarContextValue],
@@ -83,11 +76,11 @@ export const Dialog = ({
                 [ButtonContext, emptyObj],
               ]}
             >
-              <LineBackground opacity={0.3}>{children}</LineBackground>
+              {children}
             </Provider>
-          </MergeProvider>
-        ))}
-      </AriaDialog>
+          ))}
+        </AriaDialog>
+      </LineBackground>
     </Modal>
   </ModalOverlay>
 );

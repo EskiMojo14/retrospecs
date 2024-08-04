@@ -6,17 +6,6 @@
 @use "~/util";
 
 .dialog {
-  position: relative;
-  border-radius: 4px;
-  background-color: var(--surface);
-  color: typography.emphasis("text", "high");
-  max-height: calc(100% - 32px);
-  min-width: 280px;
-  max-width: 600px;
-  @include elevation.shadow(8);
-  @include layout.breakpoint("phone", "only") {
-    max-width: calc(100vw - 32px);
-  }
   &:focus-visible {
     outline: none;
   }
@@ -40,11 +29,31 @@
     &[data-exiting] {
       animation: overlay-fade 300ms reverse;
     }
-    &__modal {
-      display: contents;
+  }
+  &-modal {
+    position: relative;
+    border-radius: var(--border-radius);
+    background-color: var(--surface);
+    color: typography.emphasis("text", "high");
+    max-height: calc(100% - 32px);
+    min-width: 280px;
+    max-width: 600px;
+    @include elevation.shadow(8);
+    @include layout.breakpoint("phone", "only") {
+      max-width: calc(100vw - 32px);
+    }
+    &[data-entering] {
+      animation:
+        dialog-fade 300ms,
+        dialog-enter 150ms ease-in;
+    }
+    &[data-exiting] {
+      animation:
+        dialog-fade 300ms reverse,
+        dialog-exit 150ms ease-out forwards;
     }
   }
-  &__title {
+  [slot="title"] {
     margin: 0;
     padding: 8px 16px;
   }
@@ -55,19 +64,9 @@
     gap: 16px;
     white-space: pre-wrap;
   }
-  &__actions {
+  [slot="actions"] {
     padding: 8px 16px;
     gap: 8px;
-  }
-  [data-entering] & {
-    animation:
-      dialog-fade 300ms,
-      dialog-enter 150ms ease-in;
-  }
-  [data-exiting] & {
-    animation:
-      dialog-fade 300ms reverse,
-      dialog-exit 150ms ease-out forwards;
   }
   .button--text,
   .button--outlined {
