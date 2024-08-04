@@ -66,6 +66,8 @@ body {
   --surface: rgb(var(--surface-rgb));
   --text-rgb: var(--black-rgb);
   --text: rgb(var(--text-rgb));
+  --selection-color: var(--gold-500);
+  --selection-text-color: var(--white);
   background-color: var(--background);
   color: var(--text);
   min-height: 100vh;
@@ -76,5 +78,11 @@ body {
     --background-rgb: var(--brown-900-rgb);
     --surface-rgb: var(--brown-800-rgb);
     --text-rgb: var(--white-rgb);
+    --selection-color: var(--gold-300);
+    --selection-text-color: var(--black);
+  }
+  ::selection {
+    background-color: var(--selection-color);
+    color: var(--selection-text-color);
   }
 }

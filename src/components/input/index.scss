@@ -9,8 +9,6 @@
   --border-color: var(--gold-500);
   --hover-border-color: var(--gold-300);
   --focus-border-color: var(--gold-200);
-  --selection-color: var(--gold-500);
-  --selection-text-color: var(--white);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -18,8 +16,6 @@
     --border-color: var(--gold-300);
     --hover-border-color: var(--gold-200);
     --focus-border-color: var(--gold-100);
-    --selection-color: var(--gold-300);
-    --selection-text-color: var(--black);
   }
   &__input-container {
     display: flex;
@@ -32,10 +28,6 @@
     border: var(--outline-width) solid var(--border-color);
     max-width: 100%;
     max-height: 60vh;
-    &::selection {
-      background-color: var(--selection-color);
-      color: var(--selection-text-color);
-    }
     &[data-hovered] {
       --background-alpha: 0.85;
       border-color: var(--hover-border-color);
