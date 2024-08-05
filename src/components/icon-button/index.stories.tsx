@@ -1,13 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import type { ComponentPropsWithoutRef, ComponentType } from "react";
+import type { ToggleButtonProps } from "~/components/button";
 import { ToggleButton } from "~/components/button";
 import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
 import { IconButton } from ".";
 
+interface StoryProps
+  extends ComponentPropsWithoutRef<typeof IconButton>,
+    Pick<ToggleButtonProps, "onChange"> {}
+
 const meta = {
   title: "Components/Icon Button",
-  component: IconButton,
+  component: IconButton as ComponentType<StoryProps>,
   argTypes: {
     variant: {
       control: "select",
@@ -31,7 +37,7 @@ const meta = {
     children: <Symbol>edit</Symbol>,
     tooltip: "Edit",
   },
-} satisfies Meta<typeof IconButton>;
+} satisfies Meta<StoryProps>;
 
 export default meta;
 
@@ -98,5 +104,6 @@ export const Toggle: Story = {
   ),
   args: {
     tooltip: "Favorite",
+    onChange: fn(),
   },
 };

@@ -159,7 +159,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 
 ToggleButton.displayName = "ToggleButton";
 
-interface ButtonGroupProps<T extends object>
+export interface ButtonGroupProps<T extends object>
   extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled">,
     FormGroupProps,
     CollectionProps<T> {

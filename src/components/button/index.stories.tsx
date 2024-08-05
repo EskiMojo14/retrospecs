@@ -9,6 +9,11 @@ import { Text } from "react-aria-components";
 import { Symbol } from "~/components/symbol";
 import type { PickPartial } from "~/util/types";
 import { buttonColors, buttonVariants } from "./constants";
+import type {
+  ButtonGroupProps,
+  ToggleButtonProps,
+  FloatingActionButtonProps,
+} from ".";
 import {
   Button,
   ButtonGroup,
@@ -19,15 +24,10 @@ import {
 
 interface StoryProps
   extends ComponentPropsWithoutRef<typeof Button>,
-    Pick<
-      ComponentPropsWithoutRef<typeof ButtonGroup>,
-      "orientation" | "label" | "description"
-    >,
+    Pick<ToggleButtonProps, "onChange">,
+    Pick<ButtonGroupProps<object>, "orientation" | "label" | "description">,
     PickPartial<
-      Pick<
-        ComponentPropsWithoutRef<typeof FloatingActionButton>,
-        "extended" | "exited" | "tooltip"
-      >,
+      Pick<FloatingActionButtonProps, "extended" | "exited" | "tooltip">,
       "tooltip"
     > {
   icon?: "leading" | "trailing";
@@ -145,7 +145,9 @@ export const Toggle: Story = {
       )}
     </ToggleButton>
   ),
-  args: {},
+  args: {
+    onChange: fn(),
+  },
 };
 
 export const Link: Story = {
