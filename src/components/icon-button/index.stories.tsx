@@ -95,5 +95,7 @@ export const Toggle: Story = {
       <Symbol>favorite</Symbol>
     </IconToggleButton>
   ),
-  args: {},
+  args: {
+    tooltip: "Favorite",
+  },
 };

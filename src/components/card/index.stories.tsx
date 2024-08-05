@@ -63,10 +63,14 @@ export const Default: Story = {
       <CardActions>
         <Toolbar slot="buttons">
           <CardActionButton onPress={onActionButton}>Button</CardActionButton>
+          <CardActionButton onPress={onActionButton}>Button</CardActionButton>
         </Toolbar>
         <Toolbar slot="icons">
           <CardActionIcon onPress={onActionIcon} tooltip="Edit">
             <Symbol>edit</Symbol>
+          </CardActionIcon>
+          <CardActionIcon tooltip="Delete">
+            <Symbol>delete</Symbol>
           </CardActionIcon>
         </Toolbar>
       </CardActions>
