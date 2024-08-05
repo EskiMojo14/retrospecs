@@ -11,7 +11,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "build-icons": "svgr --icon --out-dir src/icons src/icons/svg"
   },
   "dependencies": {
     "@material/ripple": "^14.0.0",
@@ -54,6 +55,7 @@
     "@storybook/react": "^8.2.4",
     "@storybook/react-vite": "^8.2.4",
     "@storybook/test": "^8.2.4",
+    "@svgr/cli": "^8.1.0",
     "@tanstack/react-query-devtools": "^5.51.15",
     "@testing-library/dom": "^10.3.2",
     "@testing-library/jest-dom": "^6.4.6",
@@ -91,5 +93,14 @@
   "prettier": {},
   "engines": {
     "node": ">=20.0.0"
+  },
+  "svgr": {
+    "typescript": true,
+    "jsxRuntime": "automatic",
+    "index": false,
+    "filenameCase": "kebab",
+    "svgProps": {
+      "fill": "currentColor"
+    }
   }
 }

@@ -1,5 +1,6 @@
 @use "~/theme/layout";
 @use "~/theme/typography";
+@use "~/util";
 
 .navBar {
   top: max(var(--top), calc(var(--app-bar-height) * -1));
@@ -26,9 +27,7 @@
             .breadcrumb {
               min-width: 0;
               .link {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                @include util.ellipsis;
               }
             }
           }

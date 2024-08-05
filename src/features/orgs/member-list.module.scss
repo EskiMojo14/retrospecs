@@ -39,16 +39,12 @@
     @include util.rtl-box("margin", 0, 1rem);
     .displayName {
       margin: 0;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+      @include util.ellipsis;
     }
     .email {
       margin: 0;
       color: typography.emphasis("text", "medium");
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+      @include util.ellipsis;
     }
   }
   .actions {

@@ -1,5 +1,6 @@
 @use "~/theme";
 @use "~/theme/typography";
+@use "~/util";
 
 .breadcrumbs {
   display: flex;
@@ -12,8 +13,7 @@
 .breadcrumb {
   display: flex;
   align-items: center;
-  text-wrap: nowrap;
-  text-overflow: ellipsis;
+  @include util.ellipsis;
   @include typography.defaults;
   @include typography.style("body2");
   &__icon {

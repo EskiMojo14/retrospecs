@@ -9,8 +9,8 @@ import type { DialogProps } from ".";
 import { Dialog, DialogContent } from ".";
 
 export interface ConfirmationDialogProps extends Omit<DialogProps, "children"> {
-  title: string;
-  description: string;
+  title: ReactNode;
+  description: ReactNode;
   onConfirm: (close: () => void) => void;
   onCancel?: () => void;
   confirmButtonProps?: Overwrite<AriaButtonProps, ButtonProps>;
