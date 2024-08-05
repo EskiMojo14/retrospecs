@@ -1,14 +1,11 @@
 import type { TooltipTriggerProps } from "@react-types/tooltip";
 import type { ContextType } from "react";
-import { forwardRef } from "react";
-import type { ToggleButtonProps } from "~/components/button";
-import { Button, ButtonContext, ToggleButton } from "~/components/button";
+import { Button, ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
 import { MergeProvider } from "~/components/provider";
 import type { TooltipProps } from "~/components/tooltip";
 import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { bemHelper } from "~/util";
-import type { Overwrite } from "~/util/types";
 import "./index.scss";
 
 export interface IconButtonProps {
@@ -63,10 +60,3 @@ export const IconButton = createGenericComponent<
     </MergeProvider>
   ),
 );
-
-export const IconToggleButton = forwardRef<
-  HTMLButtonElement,
-  Overwrite<ToggleButtonProps, IconButtonProps>
->((props, ref) => <IconButton as={ToggleButton} {...props} ref={ref} />);
-
-IconToggleButton.displayName = "IconToggleButton";

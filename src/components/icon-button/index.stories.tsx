@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { ToggleButton } from "~/components/button";
 import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
-import { IconButton, IconToggleButton } from ".";
+import { IconButton } from ".";
 
 const meta = {
   title: "Components/Icon Button",
@@ -91,9 +92,9 @@ export const Elevated: Story = {
 
 export const Toggle: Story = {
   render: (args) => (
-    <IconToggleButton {...args}>
+    <IconButton as={ToggleButton} {...args}>
       <Symbol>favorite</Symbol>
-    </IconToggleButton>
+    </IconButton>
   ),
   args: {
     tooltip: "Favorite",
