@@ -51,10 +51,6 @@
   }
 }
 
-[data-theme="dark"] {
-  --focus-ring-color: var(--blue-200);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -80,6 +76,8 @@ body {
     --text-rgb: var(--white-rgb);
     --selection-color: var(--gold-300);
     --selection-text-color: var(--black);
+    --focus-ring-color: var(--blue-200);
+    --grad: -25;
   }
   ::selection {
     background-color: var(--selection-color);

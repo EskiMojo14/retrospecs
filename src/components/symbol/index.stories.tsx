@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
-import { defaultSettings } from "./constants";
 import { Symbol } from ".";
 
 interface StoryProps {
@@ -51,7 +50,9 @@ const meta = {
   },
   args: {
     children: "edit",
-    ...defaultSettings,
+    fill: false,
+    weight: 400,
+    grade: undefined,
     opticalSize: undefined,
     size: 24,
     transition: false,
