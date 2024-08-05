@@ -102,6 +102,9 @@ $hover-time: 0.2s;
         gap: 8px;
         min-height: util.to-rem(52px - 8px);
       }
+      .icon-button {
+        margin: util.to-rem(-6px) 0;
+      }
     }
     @include theme.ripple(var(--card-text), " .card__section-ripple");
     &-ripple {
@@ -110,11 +113,6 @@ $hover-time: 0.2s;
       height: 100%;
       width: 100%;
       position: absolute;
-    }
-  }
-  &__action {
-    &--icon {
-      margin: util.to-rem(-6px) 0;
     }
   }
 }

@@ -1,17 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
+import { Button } from "~/components/button";
+import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { cardColors, cardVariants } from "./constants";
-import {
-  Card,
-  CardActionButton,
-  CardActionIcon,
-  CardActions,
-  CardPrimaryAction,
-  CardSection,
-} from ".";
+import { Card, CardActions, CardPrimaryAction, CardSection } from ".";
 
 interface StoryArgs extends ComponentPropsWithoutRef<typeof Card> {
   onPrimaryAction?: () => void;
@@ -60,18 +55,18 @@ export const Default: Story = {
       >
         Normal section
       </CardSection>
-      <CardActions>
+      <CardActions color="teal">
         <Toolbar slot="buttons">
-          <CardActionButton onPress={onActionButton}>Button</CardActionButton>
-          <CardActionButton onPress={onActionButton}>Button</CardActionButton>
+          <Button onPress={onActionButton}>Button</Button>
+          <Button onPress={onActionButton}>Button</Button>
         </Toolbar>
         <Toolbar slot="icons">
-          <CardActionIcon onPress={onActionIcon} tooltip="Edit">
+          <IconButton onPress={onActionIcon} tooltip="Edit">
             <Symbol>edit</Symbol>
-          </CardActionIcon>
-          <CardActionIcon tooltip="Delete">
+          </IconButton>
+          <IconButton tooltip="Delete">
             <Symbol>delete</Symbol>
-          </CardActionIcon>
+          </IconButton>
         </Toolbar>
       </CardActions>
     </Card>

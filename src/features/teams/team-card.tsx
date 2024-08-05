@@ -1,13 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
-import {
-  Card,
-  CardActionButton,
-  CardActionIcon,
-  CardActions,
-  CardPrimaryAction,
-} from "~/components/card";
+import { Card, CardActions, CardPrimaryAction } from "~/components/card";
+import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
@@ -43,22 +38,21 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
       </CardPrimaryAction>
       <CardActions>
         <Toolbar slot="buttons">
-          <CardActionButton
-            as={LinkButton}
+          <LinkButton
             variant="outlined"
             href={`/orgs/${orgId}/teams/${teamId}/members`}
           >
             <Symbol slot="leading">people</Symbol>
             {pluralize`${memberCount} ${[memberCount, "member"]}`}
-          </CardActionButton>
+          </LinkButton>
         </Toolbar>
         <Toolbar slot="icons">
-          <CardActionIcon tooltip="Edit">
+          <IconButton tooltip="Edit">
             <Symbol>edit</Symbol>
-          </CardActionIcon>
-          <CardActionIcon tooltip="Delete">
+          </IconButton>
+          <IconButton tooltip="Delete">
             <Symbol>delete</Symbol>
-          </CardActionIcon>
+          </IconButton>
         </Toolbar>
       </CardActions>
     </Card>

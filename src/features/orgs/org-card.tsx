@@ -1,14 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { DialogTrigger, Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
-import {
-  Card,
-  CardActionButton,
-  CardActionIcon,
-  CardActions,
-  CardPrimaryAction,
-} from "~/components/card";
+import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
+import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
@@ -62,28 +57,24 @@ export function OrgCard({ orgId }: OrgCardProps) {
       </CardPrimaryAction>
       <CardActions>
         <Toolbar slot="buttons">
-          <CardActionButton
-            as={LinkButton}
-            variant="outlined"
-            href={`/orgs/${orgId}/members`}
-          >
+          <LinkButton variant="outlined" href={`/orgs/${orgId}/members`}>
             <Symbol slot="leading">group</Symbol>
             {pluralize`${memberCount} ${[memberCount, "member"]}`}
-          </CardActionButton>
+          </LinkButton>
         </Toolbar>
         {permissions >= Permission.Admin ? (
           <Toolbar slot="icons">
             <DialogTrigger>
-              <CardActionIcon tooltip="Edit">
+              <IconButton tooltip="Edit">
                 <Symbol>edit</Symbol>
-              </CardActionIcon>
+              </IconButton>
               <EditOrg orgId={orgId} />
             </DialogTrigger>
             {permissions >= Permission.Owner ? (
               <DialogTrigger>
-                <CardActionIcon tooltip="Delete">
+                <IconButton tooltip="Delete">
                   <Symbol>delete</Symbol>
-                </CardActionIcon>
+                </IconButton>
                 <ConfirmationDialog
                   title="Delete organisation"
                   description={`Are you sure you want to delete "${org.name}"?`}

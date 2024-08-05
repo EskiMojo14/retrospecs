@@ -1,11 +1,11 @@
 import { mergeProps } from "@react-aria/utils";
 import { clsx } from "clsx";
 import type { ContextType, ReactNode } from "react";
+import { useMemo } from "react";
 import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
 import type { ButtonProps } from "~/components/button";
-import { Button, ButtonContext } from "~/components/button";
+import { ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
-import { IconButton } from "~/components/icon-button";
 import { Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
 import { useRipple } from "~/hooks/use-ripple";
@@ -21,18 +21,6 @@ export interface CardProps {
 }
 
 const cls = bemHelper("card");
-
-const toolbarContextValue: ContextType<typeof ToolbarContext> = {
-  slots: {
-    [DEFAULT_SLOT]: {},
-    buttons: { align: "start" },
-    icons: { align: "end" },
-  },
-};
-
-const buttonContextValue: ContextType<typeof ButtonContext> = {
-  color: "brown",
-};
 
 export const Card = createGenericComponent<
   "div",
@@ -59,14 +47,7 @@ export const Card = createGenericComponent<
         extra: className,
       })}
     >
-      <Provider
-        values={[
-          [ToolbarContext, toolbarContextValue],
-          [ButtonContext, buttonContextValue],
-        ]}
-      >
-        {children}
-      </Provider>
+      {children}
     </As>
   ),
 );
@@ -131,36 +112,48 @@ export const CardPrimaryAction = createGenericComponent<
   );
 });
 
+const toolbarContextValue: ContextType<typeof ToolbarContext> = {
+  slots: {
+    [DEFAULT_SLOT]: {},
+    buttons: { align: "start" },
+    icons: { align: "end" },
+  },
+};
+
+interface CardActionsProps
+  extends CardSectionProps,
+    Pick<ButtonProps, "color" | "compact"> {}
+
 export const CardActions = createGenericComponent<
   "section",
-  CardSectionProps,
+  CardActionsProps,
   CardSectionPassedProps
->("CardActions", "section", ({ children, className, ...props }, ref) => (
-  <CardSection
-    ref={ref}
-    {...props}
-    className={cls("section", "actions", className)}
-  >
-    {children}
-  </CardSection>
-));
-
-export const CardActionButton = createGenericComponent<
-  typeof Button,
-  ButtonProps,
-  {
-    className: string;
-  }
->("CardActionButton", Button, ({ className, as: As, ...props }, ref) => (
-  <As {...props} ref={ref} className={cls("action", "button", className)} />
-));
-
-export const CardActionIcon = createGenericComponent<
-  typeof IconButton,
-  { className?: string },
-  {
-    className: string;
-  }
->("CardActionIcon", IconButton, ({ className, as: As, ...props }, ref) => (
-  <As {...props} ref={ref} className={cls("action", "icon", className)} />
-));
+>(
+  "CardActions",
+  "section",
+  ({ children, className, color, compact, ...props }, ref) => {
+    const buttonContextValue = useMemo(
+      () => ({
+        color,
+        compact,
+      }),
+      [color, compact],
+    );
+    return (
+      <CardSection
+        ref={ref}
+        {...props}
+        className={cls("section", "actions", className)}
+      >
+        <Provider
+          values={[
+            [ToolbarContext, toolbarContextValue],
+            [ButtonContext, buttonContextValue],
+          ]}
+        >
+          {children}
+        </Provider>
+      </CardSection>
+    );
+  },
+);

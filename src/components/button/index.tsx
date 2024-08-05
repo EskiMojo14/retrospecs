@@ -8,6 +8,7 @@ import type {
   ButtonProps as AriaButtonProps,
   LinkProps,
   ContextValue,
+  SlotProps,
 } from "react-aria-components";
 import {
   Button as AriaButton,
@@ -41,7 +42,7 @@ import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import "./index.scss";
 
-export interface ButtonProps {
+export interface ButtonProps extends SlotProps {
   variant?: ButtonVariant;
   className?: string;
   color?: ButtonColor;
