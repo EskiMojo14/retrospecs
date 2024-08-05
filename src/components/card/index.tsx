@@ -121,7 +121,7 @@ export const CardPrimaryAction = createGenericComponent<
     <CardSection
       {...(mergeProps(props, rootProps) as any)}
       ref={mergeRefs(ref, rootRef as never)}
-      className={clsx("section--primary-action", className)}
+      className={clsx("card__section--primary-action", className)}
       outsideContent={
         <span {...surfaceProps} className={cls("section-ripple")} />
       }
