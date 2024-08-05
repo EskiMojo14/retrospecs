@@ -34,7 +34,7 @@
       color: typography.emphasis("text-color", "medium");
     }
     &[data-current] {
-      font-weight: 700;
+      font-weight: var(--typography-weight-bold);
     }
   }
 }

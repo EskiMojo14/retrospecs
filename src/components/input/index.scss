@@ -45,7 +45,7 @@
     color: typography.emphasis("text", "medium");
   }
   &__error-message {
-    font-weight: 600;
+    font-weight: var(--typography-weight-semi-bold);
     color: var(--red-700);
     @include theme.dark {
       color: var(--red-200);

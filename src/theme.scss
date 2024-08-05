@@ -15,6 +15,17 @@
   }
 }
 
+@mixin dark-root {
+  [data-theme="dark"] {
+    @content;
+  }
+  [data-theme="system"] {
+    @media (prefers-color-scheme: dark) {
+      @content;
+    }
+  }
+}
+
 @mixin focus-ring {
   &[data-focus-visible] {
     z-index: 9999;

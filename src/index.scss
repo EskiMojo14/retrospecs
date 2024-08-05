@@ -38,6 +38,10 @@
     @include color-var(#{$color}, $value);
   }
 
+  @each $name, $weight in map.get(typography.$weights, "light") {
+    --typography-weight-#{$name}: #{$weight};
+  }
+
   @each $emphasis, $opacity in typography.$emphasis-map {
     --typography-emphasis-#{$emphasis}: #{$opacity};
   }
@@ -53,6 +57,12 @@
 
 * {
   box-sizing: border-box;
+}
+
+@include theme.dark-root {
+  @each $name, $weight in map.get(typography.$weights, "dark") {
+    --typography-weight-#{$name}: #{$weight};
+  }
 }
 
 body {

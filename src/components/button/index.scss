@@ -100,7 +100,7 @@
     $ripple-color: var(--button-text)
   );
   &[data-selected] {
-    font-weight: 900;
+    font-weight: var(--typography-weight-black);
   }
   &__content {
     position: relative;
