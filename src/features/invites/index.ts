@@ -16,7 +16,7 @@ export type Invite = Tables<"invites">;
 
 export interface InviteWithInviter extends Invite {
   org_name: string;
-  inviter: Profile | null;
+  inviter: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
 }
 
 export const selectInviteId = compoundKey<Invite>()("user_id", "email");
@@ -45,7 +45,7 @@ export const getInvitesByUserId = supabaseQueryOptions(
               .select(
                 `*,
             ...orgs(org_name:name),
-            inviter:profiles!invites_created_by_fkey(*)
+            inviter:profiles!invites_created_by_fkey(avatar_url,color,display_name)
             `,
               )
               .eq("user_id", user_id),
@@ -65,7 +65,7 @@ export const getInvitesByOrgId = supabaseQueryOptions(
           .select(
             `*,
             ...orgs(org_name:name),
-            inviter:profiles!invites_created_by_fkey(*)
+            inviter:profiles!invites_created_by_fkey(avatar_url,color,display_name)
             `,
           )
           .eq("org_id", org_id),

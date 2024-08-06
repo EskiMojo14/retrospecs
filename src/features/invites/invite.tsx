@@ -14,9 +14,15 @@ interface InviteEntryProps {
   invite: InviteWithInviter;
 }
 
+const emptyInviter = {
+  avatar_url: "",
+  color: "gold",
+  display_name: "Unknown",
+} satisfies InviteWithInviter["inviter"];
+
 export function InviteEntry({ invite }: InviteEntryProps) {
-  const { inviter } = invite;
-  if (!inviter) return null;
+  const inviter = invite.inviter ?? emptyInviter;
+
   return (
     <GridListItem className={styles.invite}>
       <Avatar
@@ -41,7 +47,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
           <Symbol>mark_email_read</Symbol>
         </IconButton>
         <DialogTrigger>
-          <IconButton tooltip="Decline" variant="outlined" color="pink">
+          <IconButton tooltip="Decline" variant="outlined" color="red">
             <Symbol>
               <DeclineInviteIcon />
             </Symbol>

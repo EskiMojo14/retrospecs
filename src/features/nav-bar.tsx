@@ -99,7 +99,7 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
         </Toolbar>
         <Toolbar slot="actions">
           {actions}
-          <Invites invites={[]} />
+          <Invites />
           <IconButton as={LinkButton} href="/sign-out" tooltip="Sign out">
             <Symbol>logout</Symbol>
           </IconButton>
