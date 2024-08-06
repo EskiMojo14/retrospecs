@@ -18,6 +18,11 @@
     url("/assets/fonts/Super\ Dream.ttf") format("truetype");
 }
 
+@mixin rgb-var($name, $color) {
+  --#{$name}-rgb: var(--#{$color}-rgb);
+  --#{$name}: rgb(var(--#{$name}-rgb));
+}
+
 @mixin color-var($name, $color) {
   --#{$name}-rgb: #{util.get-rgb($color)};
   --#{$name}: rgb(var(--#{$name}-rgb));
@@ -53,6 +58,13 @@
       --typography-#{$style}-#{$prop}: #{$value};
     }
   }
+
+  @include rgb-var("background", "sand");
+  @include rgb-var("surface", "white");
+  @include rgb-var("text", "black");
+
+  --selection-color: var(--gold-500);
+  --selection-text-color: var(--white);
 }
 
 * {
@@ -63,32 +75,21 @@
   @each $name, $weight in map.get(typography.$weights, "dark") {
     --typography-weight-#{$name}: #{$weight};
   }
+  @include rgb-var("background", "brown-900");
+  @include rgb-var("surface", "brown-800");
+  @include rgb-var("text", "white");
+
+  --selection-color: var(--gold-300);
+  --selection-text-color: var(--black);
+  --focus-ring-color: var(--blue-200);
+  --grad: -25;
 }
 
 body {
-  --background-rgb: var(--sand-rgb);
-  --background: rgb(var(--background-rgb));
-  --surface-rgb: var(--white-rgb);
-  --surface: rgb(var(--surface-rgb));
-  --text-rgb: var(--black-rgb);
-  --text: rgb(var(--text-rgb));
-  --selection-color: var(--gold-500);
-  --selection-text-color: var(--white);
   background-color: var(--background);
   color: var(--text);
   min-height: 100vh;
-  @each $prop, $value in typography.$defaults {
-    #{$prop}: var(--typography-default-#{$prop});
-  }
-  @include theme.dark {
-    --background-rgb: var(--brown-900-rgb);
-    --surface-rgb: var(--brown-800-rgb);
-    --text-rgb: var(--white-rgb);
-    --selection-color: var(--gold-300);
-    --selection-text-color: var(--black);
-    --focus-ring-color: var(--blue-200);
-    --grad: -25;
-  }
+  @include typography.defaults;
   ::selection {
     background-color: var(--selection-color);
     color: var(--selection-text-color);
