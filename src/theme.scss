@@ -34,10 +34,12 @@
   }
 }
 
-@mixin outline($border-radius-size) {
-  --outline-border-radius: calc(
-    var(--border-radius-#{$border-radius-size}) - var(--outline-width)
-  );
+@mixin outline(
+  $border-radius-size: full,
+  $outline-border-radius:
+    calc(var(--border-radius-#{$border-radius-size}) - var(--outline-width))
+) {
+  --outline-border-radius: #{$outline-border-radius};
   &::before {
     content: "";
     position: absolute;

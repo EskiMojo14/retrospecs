@@ -2,10 +2,11 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { FormEvent } from "react";
-import { DialogTrigger, Form, Text } from "react-aria-components";
+import { DialogTrigger, Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
 import { minLength, number, object, pipe, safeParse, string } from "valibot";
-import { Button, FloatingActionButton } from "~/components/button";
+import { Button } from "~/components/button";
+import { ExtendedFab } from "~/components/button/fab";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
 import { LineBackground } from "~/components/line-background";
@@ -21,6 +22,7 @@ import { addTeam, getTeamsByOrg, selectTeamIds } from "~/features/teams";
 import { TeamGrid } from "~/features/teams/team-grid";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
+import styles from "./route.module.scss";
 
 export const meta: MetaFunction<any> = ({
   data,
@@ -97,12 +99,14 @@ export default function Org() {
         />
         <TeamGrid orgId={orgId} teamIds={teamIds} />
         <DialogTrigger>
-          <FloatingActionButton extended color="green" tooltip="Create team">
+          <ExtendedFab
+            color="green"
+            aria-label="Create team"
+            className={styles.fab}
+          >
             <Symbol slot="leading">add</Symbol>
-            <Text slot="label" aria-hidden>
-              Create
-            </Text>
-          </FloatingActionButton>
+            Create
+          </ExtendedFab>
           <Dialog>
             {({ close }) => (
               <>

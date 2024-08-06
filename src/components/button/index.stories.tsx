@@ -1,35 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import {
-  useState,
-  type ComponentPropsWithoutRef,
-  type ComponentType,
-} from "react";
-import { Text } from "react-aria-components";
+import type { ComponentPropsWithoutRef, ComponentType } from "react";
+import { useState } from "react";
 import { Symbol } from "~/components/symbol";
-import type { PickPartial } from "~/util/types";
 import { buttonColors, buttonVariants } from "./constants";
-import type {
-  ButtonGroupProps,
-  ToggleButtonProps,
-  FloatingActionButtonProps,
-} from ".";
-import {
-  Button,
-  ButtonGroup,
-  FloatingActionButton,
-  LinkButton,
-  ToggleButton,
-} from ".";
+import type { ButtonGroupProps, ToggleButtonProps } from ".";
+import { Button, ButtonGroup, LinkButton, ToggleButton } from ".";
 
 interface StoryProps
   extends ComponentPropsWithoutRef<typeof Button>,
     Pick<ToggleButtonProps, "onChange">,
-    Pick<ButtonGroupProps<object>, "orientation" | "label" | "description">,
-    PickPartial<
-      Pick<FloatingActionButtonProps, "extended" | "exited" | "tooltip">,
-      "tooltip"
-    > {
+    Pick<ButtonGroupProps<object>, "orientation" | "label" | "description"> {
   icon?: "leading" | "trailing";
 }
 
@@ -221,19 +202,4 @@ export const Group: Story = {
       'Whether to use loud backgrounds or not. "Low volume" tones it down a little.',
   },
   render: (args) => <GroupComponent {...args} />,
-};
-
-export const Floating: Story = {
-  argTypes: {
-    variant: { table: { disable: true } },
-    children: { table: { disable: true } },
-    isDisabled: { table: { disable: true } },
-  },
-  args: { extended: true, exited: false, tooltip: "Create" },
-  render: ({ ...args }) => (
-    <FloatingActionButton tooltip="Create" {...args}>
-      <Symbol slot="leading">add</Symbol>
-      <Text slot="label">Create</Text>
-    </FloatingActionButton>
-  ),
 };

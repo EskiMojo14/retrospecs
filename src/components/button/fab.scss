@@ -1,0 +1,78 @@
+@use "sass:map";
+@use "~/theme/elevation";
+@use "./variables";
+
+.fab {
+  transition:
+    opacity 200ms,
+    outline 200ms,
+    outline-offset 200ms,
+    box-shadow 200ms,
+    translate 200ms,
+    transform 300ms ease-in;
+  @include elevation.shadow(6);
+  @each $size, $map in variables.$fab-sizes {
+    &--#{$size} {
+      width: map.get($map, size);
+      height: map.get($map, size);
+      --button-radius: var(--border-radius-#{map.get($map, radius)});
+      padding: map.get($map, padding);
+    }
+  }
+  &[data-hovered] {
+    translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
+    @include elevation.shadow(8);
+  }
+  &[data-focus-visible],
+  &[data-pressed] {
+    translate: 0 0;
+    @include elevation.shadow(6);
+  }
+  &--exited {
+    transition:
+      opacity 200ms,
+      outline 200ms,
+      outline-offset 200ms,
+      box-shadow 200ms,
+      translate 200ms,
+      transform 200ms ease-out;
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.extended-fab {
+  $map: map.get(variables.$fab-sizes, medium);
+  height: map.get($map, size);
+  min-width: variables.$extended-fab-min-width;
+  --button-radius: var(--border-radius-#{map.get($map, radius)});
+  padding: 0 map.get($map, padding);
+  transition:
+    opacity 200ms,
+    outline 200ms,
+    outline-offset 200ms,
+    box-shadow 200ms,
+    translate 200ms,
+    transform 300ms ease-in;
+  @include elevation.shadow(6);
+  &[data-hovered] {
+    translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
+    @include elevation.shadow(8);
+  }
+  &[data-focus-visible],
+  &[data-pressed] {
+    translate: 0 0;
+    @include elevation.shadow(6);
+  }
+  &--exited {
+    transition:
+      opacity 200ms,
+      outline 200ms,
+      outline-offset 200ms,
+      box-shadow 200ms,
+      translate 200ms,
+      transform 200ms ease-out;
+    opacity: 0;
+    transform: scale(0);
+  }
+}

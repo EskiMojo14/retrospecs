@@ -19,7 +19,7 @@
   text-wrap: nowrap;
   padding: variables.$padding;
   min-height: variables.$min-height;
-  border-radius: var(--border-radius-full);
+  border-radius: var(--button-radius);
   transition:
     opacity 200ms,
     outline 200ms,
@@ -55,7 +55,9 @@
   &--outlined,
   &--filled,
   &--elevated {
-    @include theme.outline("full");
+    @include theme.outline(
+      $outline-border-radius: calc(var(--button-radius) - var(--outline-width))
+    );
   }
   &--filled,
   &--elevated {

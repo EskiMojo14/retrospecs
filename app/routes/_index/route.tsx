@@ -1,7 +1,7 @@
 import { useLoaderData, type MetaFunction } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
-import { DialogTrigger, Text } from "react-aria-components";
-import { FloatingActionButton } from "~/components/button";
+import { DialogTrigger } from "react-aria-components";
+import { ExtendedFab } from "~/components/button/fab";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { ensureAuthenticated } from "~/db/auth.server";
@@ -13,6 +13,7 @@ import { CreateOrg } from "~/features/orgs/create-org";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
+import styles from "./route.module.scss";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Organisations" },
@@ -46,16 +47,14 @@ export default function Orgs() {
         <NavBar breadcrumbs={[{ label: "Organisations", href: "/" }]} />
         <OrgGrid orgIds={orgIds} />
         <DialogTrigger>
-          <FloatingActionButton
-            extended
+          <ExtendedFab
             color="green"
-            tooltip="Create organisation"
+            aria-label="Create organisation"
+            className={styles.fab}
           >
             <Symbol slot="leading">add</Symbol>
-            <Text slot="label" aria-hidden>
-              Create
-            </Text>
-          </FloatingActionButton>
+            Create
+          </ExtendedFab>
           <CreateOrg />
         </DialogTrigger>
       </LineBackground>

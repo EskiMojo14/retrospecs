@@ -1,11 +1,9 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
-import type { TooltipTriggerProps } from "@react-types/tooltip";
-import type { ContextType, ReactNode } from "react";
-import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
+import type { ReactNode } from "react";
+import { createContext, forwardRef, useMemo } from "react";
 import type {
   ToggleButtonProps as AriaToggleButtonProps,
-  ButtonProps as AriaButtonProps,
   LinkProps,
   ContextValue,
   SlotProps,
@@ -20,7 +18,6 @@ import {
   Label,
   Link,
   Text,
-  TextContext,
   useContextProps,
 } from "react-aria-components";
 import {
@@ -32,11 +29,8 @@ import { MergeProvider } from "~/components/provider";
 import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
-import type { TooltipProps } from "~/components/tooltip";
-import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
-import { useScrollDirection } from "~/hooks/use-scroll-direction";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
@@ -267,111 +261,3 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
 };
 
 ButtonGroup.displayName = "ButtonGroup";
-
-export interface FloatingActionButtonProps
-  extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {
-  tooltip: string;
-  tooltipProps?: TooltipProps;
-  tooltipTriggerProps?: TooltipTriggerProps;
-  extended?: boolean;
-  exited?: boolean;
-  /** Defaults to true */
-  exitOnScroll?: boolean;
-}
-
-const floatingCls = bemHelper("floating-action-button");
-
-const textContextValue: ContextType<typeof TextContext> = {
-  slots: {
-    label: { className: floatingCls("label") },
-  },
-};
-
-const symbolContextValue: ContextType<typeof SymbolContext> = {
-  size: 24,
-  weight: 400,
-};
-
-export const FloatingActionButton = forwardRef<
-  HTMLButtonElement,
-  FloatingActionButtonProps
->(
-  (
-    {
-      className,
-      extended,
-      exited,
-      exitOnScroll = true,
-      children,
-      tooltip,
-      tooltipProps,
-      tooltipTriggerProps,
-      ...props
-    },
-    ref,
-  ) => {
-    const internalRef = useRef<HTMLButtonElement>(null);
-    useScrollDirection(
-      useCallback(() => window, []),
-      useCallback((direction) => {
-        if (internalRef.current) {
-          const isExited = internalRef.current.classList.contains(
-            "floating-action-button--scroll-exited",
-          );
-          if (direction === "up" && isExited) {
-            internalRef.current.classList.remove(
-              "floating-action-button--scroll-exited",
-            );
-            internalRef.current.ariaHidden = null;
-          } else if (direction === "down" && !isExited) {
-            internalRef.current.classList.add(
-              "floating-action-button--scroll-exited",
-            );
-            if (internalRef.current.getAnimations().length) {
-              // it's animating out, so we should hide it
-              internalRef.current.ariaHidden = "true";
-            }
-          }
-        }
-      }, []),
-      { disabled: !exitOnScroll || typeof exited === "boolean" },
-    );
-    return (
-      <TooltipTrigger {...tooltipTriggerProps}>
-        <Button
-          variant="filled"
-          {...props}
-          ref={mergeRefs(ref, internalRef)}
-          className={floatingCls({
-            modifiers: {
-              extended: !!extended,
-              exited: !!exited,
-            },
-            extra: className,
-          })}
-          aria-hidden={exited}
-        >
-          {renderPropsChild(children, (children) => (
-            <TextContext.Provider value={textContextValue}>
-              <MergeProvider context={SymbolContext} value={symbolContextValue}>
-                {children}
-              </MergeProvider>
-            </TextContext.Provider>
-          ))}
-        </Button>
-        <Tooltip
-          {...tooltipProps}
-          className={floatingCls(
-            "tooltip",
-            { extended: !!extended },
-            tooltipProps?.className,
-          )}
-        >
-          {tooltip}
-        </Tooltip>
-      </TooltipTrigger>
-    );
-  },
-);
-
-FloatingActionButton.displayName = "FloatingActionButton";
