@@ -128,27 +128,31 @@ export const CardActions = createGenericComponent<
   "section",
   CardActionsProps,
   CardSectionPassedProps
->("CardActions", "section", ({ children, className, color, ...props }, ref) => {
-  const buttonContextValue = useMemo(
-    () => ({
-      color,
-    }),
-    [color],
-  );
-  return (
-    <CardSection
-      ref={ref}
-      {...props}
-      className={cls("section", "actions", className)}
-    >
-      <Provider
-        values={[
-          [ToolbarContext, toolbarContextValue],
-          [ButtonContext, buttonContextValue],
-        ]}
+>(
+  "CardActions",
+  "section",
+  ({ children, className, color = "brown", ...props }, ref) => {
+    const buttonContextValue = useMemo(
+      () => ({
+        color,
+      }),
+      [color],
+    );
+    return (
+      <CardSection
+        ref={ref}
+        {...props}
+        className={cls("section", "actions", className)}
       >
-        {children}
-      </Provider>
-    </CardSection>
-  );
-});
+        <Provider
+          values={[
+            [ToolbarContext, toolbarContextValue],
+            [ButtonContext, buttonContextValue],
+          ]}
+        >
+          {children}
+        </Provider>
+      </CardSection>
+    );
+  },
+);
