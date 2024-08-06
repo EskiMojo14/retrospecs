@@ -19,6 +19,10 @@
       popover-exit 200ms ease-out forwards,
       popover-fade 200ms reverse;
   }
+  .button--text,
+  .button--outlined {
+    background-color: rgba(var(--surface-rgb), 0.75);
+  }
 }
 
 @keyframes popover-enter {
