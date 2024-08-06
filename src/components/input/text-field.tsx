@@ -84,7 +84,6 @@ export const TextField = forwardRef<
       () => ({
         slots: {
           action: {
-            compact: true,
             className: cls("action"),
             onPress: onAction,
           },

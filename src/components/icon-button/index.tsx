@@ -16,7 +16,6 @@ export interface IconButtonProps extends SlotProps {
   tooltipProps?: TooltipProps;
   tooltipTriggerProps?: TooltipTriggerProps;
   className?: string;
-  compact?: boolean;
 }
 
 const cls = bemHelper("icon-button");
@@ -43,7 +42,6 @@ export const IconButton = createGenericComponent<
   const {
     className,
     as: As,
-    compact,
     tooltip,
     tooltipProps,
     tooltipTriggerProps,
@@ -56,9 +54,6 @@ export const IconButton = createGenericComponent<
           {...rest}
           ref={ref}
           className={cls({
-            modifiers: {
-              compact: !!compact,
-            },
             extra: className,
           })}
         />

@@ -46,7 +46,6 @@ export interface ButtonProps extends SlotProps {
   variant?: ButtonVariant;
   className?: string;
   color?: ButtonColor;
-  compact?: boolean;
   isDisabled?: boolean;
   unbounded?: boolean;
 }
@@ -89,7 +88,6 @@ export const Button = createGenericComponent<
   const {
     variant = "text",
     color = "gold",
-    compact,
     className,
     as: As,
     ref: rootRef,
@@ -103,7 +101,6 @@ export const Button = createGenericComponent<
         modifiers: {
           [variant]: true,
           [color]: true,
-          compact: !!compact,
         },
         extra: className,
       })}
@@ -161,7 +158,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 ToggleButton.displayName = "ToggleButton";
 
 export interface ButtonGroupProps<T extends object>
-  extends Pick<ButtonProps, "color" | "variant" | "compact" | "isDisabled">,
+  extends Pick<ButtonProps, "color" | "variant" | "isDisabled">,
     FormGroupProps,
     CollectionProps<T> {
   orientation?: "horizontal" | "vertical";
@@ -180,7 +177,6 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
 
       isDisabled,
       color,
-      compact,
       variant,
 
       orientation = "horizontal",
@@ -201,8 +197,8 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
     ref,
   ) => {
     const contextValue = useMemo<ButtonProps>(
-      () => ({ color, compact, isDisabled, variant }),
-      [color, compact, isDisabled, variant],
+      () => ({ color, isDisabled, variant }),
+      [color, isDisabled, variant],
     );
 
     return (

@@ -51,7 +51,6 @@ const meta = {
     onPress: fn(),
     children: ({ isDisabled }) => (isDisabled ? "Disabled" : "Click me"),
     isDisabled: false,
-    compact: false,
     color: "gold",
   },
 } satisfies Meta<StoryProps>;
@@ -158,7 +157,6 @@ export const Link: Story = {
 function GroupComponent({
   isDisabled,
   color,
-  compact,
   orientation,
   variant,
   label,
@@ -170,7 +168,6 @@ function GroupComponent({
       {...{
         isDisabled,
         color,
-        compact,
         variant,
         orientation,
         label,

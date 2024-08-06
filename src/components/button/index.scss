@@ -77,18 +77,6 @@
       @include elevation.shadow(2);
     }
   }
-  &--compact {
-    padding: variables.$compact-padding;
-    min-height: variables.$compact-min-height;
-    .button__icon {
-      &--leading {
-        @include util.rtl-box(margin, 0, variables.$compact-icon-spacing);
-      }
-      &--trailing {
-        @include util.rtl-box(margin, variables.$compact-icon-spacing);
-      }
-    }
-  }
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
     &.button--elevated {

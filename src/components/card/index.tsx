@@ -122,38 +122,33 @@ const toolbarContextValue: ContextType<typeof ToolbarContext> = {
 
 interface CardActionsProps
   extends CardSectionProps,
-    Pick<ButtonProps, "color" | "compact"> {}
+    Pick<ButtonProps, "color"> {}
 
 export const CardActions = createGenericComponent<
   "section",
   CardActionsProps,
   CardSectionPassedProps
->(
-  "CardActions",
-  "section",
-  ({ children, className, color, compact, ...props }, ref) => {
-    const buttonContextValue = useMemo(
-      () => ({
-        color,
-        compact,
-      }),
-      [color, compact],
-    );
-    return (
-      <CardSection
-        ref={ref}
-        {...props}
-        className={cls("section", "actions", className)}
+>("CardActions", "section", ({ children, className, color, ...props }, ref) => {
+  const buttonContextValue = useMemo(
+    () => ({
+      color,
+    }),
+    [color],
+  );
+  return (
+    <CardSection
+      ref={ref}
+      {...props}
+      className={cls("section", "actions", className)}
+    >
+      <Provider
+        values={[
+          [ToolbarContext, toolbarContextValue],
+          [ButtonContext, buttonContextValue],
+        ]}
       >
-        <Provider
-          values={[
-            [ToolbarContext, toolbarContextValue],
-            [ButtonContext, buttonContextValue],
-          ]}
-        >
-          {children}
-        </Provider>
-      </CardSection>
-    );
-  },
-);
+        {children}
+      </Provider>
+    </CardSection>
+  );
+});

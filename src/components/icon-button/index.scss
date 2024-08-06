@@ -10,9 +10,4 @@
   &::before {
     --outline-border-radius: #{variables.$outline-border-radius};
   }
-  &.button--compact {
-    padding: variables.$compact-padding;
-    width: variables.$compact-size;
-    height: variables.$compact-size;
-  }
 }

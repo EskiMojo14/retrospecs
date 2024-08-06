@@ -32,7 +32,6 @@ const meta = {
   args: {
     onPress: fn(),
     variant: "text",
-    compact: false,
     isDisabled: false,
     children: <Symbol>edit</Symbol>,
     tooltip: "Edit",
