@@ -36,7 +36,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
           Invited by {inviter.display_name}
         </Typography>
       </div>
-      <Toolbar>
+      <Toolbar align="end">
         <IconButton tooltip="Accept" variant="filled" color="green">
           <Symbol>mark_email_read</Symbol>
         </IconButton>
