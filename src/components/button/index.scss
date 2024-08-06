@@ -8,6 +8,7 @@
 @use "./variables";
 
 .button {
+  --button-radius: var(--border-radius-full);
   --button-text: #{rgb(var(--button-text-rgb))};
   --button-outline: #{rgb(var(--button-outline-rgb))};
   --button-fill: #{rgb(var(--button-fill-rgb))};
@@ -18,7 +19,7 @@
   text-wrap: nowrap;
   padding: variables.$padding;
   min-height: variables.$min-height;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-full);
   transition:
     opacity 200ms,
     outline 200ms,
@@ -54,7 +55,7 @@
   &--outlined,
   &--filled,
   &--elevated {
-    @include theme.outline;
+    @include theme.outline("full");
   }
   &--filled,
   &--elevated {
@@ -133,14 +134,14 @@
     gap: 0;
     .button {
       &:first-child {
-        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        border-radius: var(--button-radius) 0 0 var(--button-radius);
         &::before {
           border-radius: var(--outline-border-radius) 0 0
             var(--outline-border-radius);
         }
       }
       &:last-child {
-        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        border-radius: 0 var(--button-radius) var(--button-radius) 0;
         &::before {
           border-radius: 0 var(--outline-border-radius)
             var(--outline-border-radius) 0;
@@ -156,14 +157,14 @@
     @include util.rtl {
       .button {
         &:first-child {
-          border-radius: 0 var(--border-radius) var(--border-radius) 0;
+          border-radius: 0 var(--button-radius) var(--button-radius) 0;
           &::before {
             border-radius: 0 var(--outline-border-radius)
               var(--outline-border-radius) 0;
           }
         }
         &:last-child {
-          border-radius: var(--border-radius) 0 0 var(--border-radius);
+          border-radius: var(--button-radius) 0 0 var(--button-radius);
           &::before {
             border-radius: var(--outline-border-radius) 0 0
               var(--outline-border-radius);
@@ -175,14 +176,14 @@
       flex-direction: column;
       .button {
         &:first-child {
-          border-radius: var(--border-radius) var(--border-radius) 0 0;
+          border-radius: var(--button-radius) var(--button-radius) 0 0;
           &::before {
             border-radius: var(--outline-border-radius)
               var(--outline-border-radius) 0 0;
           }
         }
         &:last-child {
-          border-radius: 0 0 var(--border-radius) var(--border-radius);
+          border-radius: 0 0 var(--button-radius) var(--button-radius);
           &::before {
             border-radius: 0 0 var(--outline-border-radius)
               var(--outline-border-radius);
@@ -207,7 +208,6 @@
   position: fixed;
   @include elevation.shadow(6);
   $size: 4rem;
-  border-radius: $size * 0.5;
   height: $size;
   width: $size;
   bottom: 32px;
@@ -217,7 +217,12 @@
     outline-offset 200ms,
     box-shadow 200ms,
     translate 200ms,
-    transform 300ms ease-in;
+    transform 300ms ease-in,
+    border-radius 200ms;
+  border-radius: var(--border-radius-x-large);
+  --outline-border-radius: calc(
+    var(--border-radius-x-large) - var(--outline-width)
+  );
   @include util.rtl-position(right, 32px);
   @include layout.breakpoint("phone", "only") {
     bottom: 16px;
@@ -264,6 +269,7 @@
       height: 3.5rem;
       width: auto;
       padding: 0 calc((var(--outline-width) * 4) + 0.5rem);
+      border-radius: var(--border-radius-large);
     }
     &__tooltip--extended {
       display: none;

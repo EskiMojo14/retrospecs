@@ -3,6 +3,7 @@
 @use "sass:math";
 @use "~/util";
 @use "~/theme/typography";
+@use "~/theme/shape";
 @use "~/theme/palette";
 @use "~/theme";
 
@@ -32,6 +33,10 @@
   --focus-ring-color: var(--blue-400);
   --outline-width: 2px;
   --border-radius: 8px;
+
+  @each $name, $radius in shape.$border-radius {
+    --border-radius-#{$name}: #{$radius};
+  }
 
   @each $color, $stops in palette.$palette {
     @each $stop, $value in $stops {

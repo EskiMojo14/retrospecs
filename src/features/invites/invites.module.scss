@@ -23,7 +23,7 @@
   }
   .list {
     border: 1px solid typography.emphasis("text", "divider");
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-m);
     overflow-x: hidden;
     overflow-y: auto;
   }

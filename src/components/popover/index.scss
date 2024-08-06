@@ -5,7 +5,7 @@
 .popover {
   background-color: var(--surface);
   color: var(--text);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-x-small);
   padding: 8px;
   @include elevation.shadow(6);
   @include tooltip-mixins.placement-origins;

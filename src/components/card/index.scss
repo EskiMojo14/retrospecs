@@ -18,8 +18,7 @@ $hover-time: 0.2s;
   --card-text: rgb(var(--card-text-rgb));
   display: flex;
   flex-direction: column;
-  --border-radius: 12px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   position: relative;
   transition:
     background-color $hover-time,

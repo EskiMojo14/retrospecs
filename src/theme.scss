@@ -34,9 +34,10 @@
   }
 }
 
-@mixin outline(
-  $border-radius: calc(var(--border-radius) - var(--outline-width))
-) {
+@mixin outline($border-radius-size) {
+  --outline-border-radius: calc(
+    var(--border-radius-#{$border-radius-size}) - var(--outline-width)
+  );
   &::before {
     content: "";
     position: absolute;
@@ -45,7 +46,6 @@
     right: var(--outline-width);
     bottom: var(--outline-width);
     border: var(--outline-width) solid var(--outline-color);
-    --outline-border-radius: #{$border-radius};
     border-radius: var(--outline-border-radius);
     pointer-events: none;
   }

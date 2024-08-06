@@ -32,7 +32,7 @@
   }
   &-modal {
     position: relative;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-x-large);
     background-color: var(--surface);
     color: typography.emphasis("text", "high");
     max-height: calc(100% - 32px);
