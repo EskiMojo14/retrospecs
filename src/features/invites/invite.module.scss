@@ -11,7 +11,7 @@
   transition: background 200ms;
   max-width: 512px;
   &:not(:last-child) {
-    border-bottom: 1px solid rgba(var(--text-rgb), 0.25);
+    border-bottom: 1px solid typography.emphasis("text", "divider");
   }
   &:focus-visible {
     outline: none;

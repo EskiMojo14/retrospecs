@@ -103,6 +103,7 @@ $emphasis-map: (
   high: 0.87,
   medium: 0.6,
   disabled: 0.38,
+  divider: 0.25,
 );
 
 @function emphasis($color, $emphasis) {
