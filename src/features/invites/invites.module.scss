@@ -23,15 +23,15 @@
   }
   .list {
     border: 1px solid typography.emphasis("text", "divider");
-    border-radius: var(--border-radius-m);
+    border-radius: var(--border-radius-medium);
     overflow-x: hidden;
     overflow-y: auto;
+    &[data-empty] {
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 128px;
+    }
   }
-}
-
-.empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 128px;
 }

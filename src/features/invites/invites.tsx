@@ -43,9 +43,7 @@ export function Invites({
             id="invites-list"
             className={styles.list}
             renderEmptyState={() => (
-              <div className={styles.empty}>
-                <Typography variant="body2">No invites</Typography>
-              </div>
+              <Typography variant="body2">No invites</Typography>
             )}
           >
             {(invite) => <InviteEntry id={invite.org_id} invite={invite} />}

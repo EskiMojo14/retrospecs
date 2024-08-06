@@ -133,6 +133,10 @@
   &__buttons {
     gap: 0;
     .button {
+      border-radius: 0;
+      &::before {
+        border-radius: 0;
+      }
       &:first-child {
         border-radius: var(--button-radius) 0 0 var(--button-radius);
         &::before {
@@ -145,12 +149,6 @@
         &::before {
           border-radius: 0 var(--outline-border-radius)
             var(--outline-border-radius) 0;
-        }
-      }
-      &:not(:last-child):not(:first-child) {
-        border-radius: 0;
-        &::before {
-          border-radius: 0;
         }
       }
     }
@@ -174,7 +172,12 @@
     }
     .button-group[data-orientation="vertical"] & {
       flex-direction: column;
+      align-items: stretch;
       .button {
+        --button-radius: #{variables.$min-height * 0.5};
+        --outline-border-radius: calc(
+          var(--button-radius) - var(--outline-width)
+        );
         &:first-child {
           border-radius: var(--button-radius) var(--button-radius) 0 0;
           &::before {
@@ -187,12 +190,6 @@
           &::before {
             border-radius: 0 0 var(--outline-border-radius)
               var(--outline-border-radius);
-          }
-        }
-        &:not(:last-child):not(:first-child) {
-          border-radius: 0;
-          &::before {
-            border-radius: 0;
           }
         }
       }
