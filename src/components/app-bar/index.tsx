@@ -61,6 +61,7 @@ export const AppBar = forwardRef<HTMLElement, AppBarProps>(
       className={cls({
         extra: className,
       })}
+      data-theme="dark"
     >
       <Provider
         values={[

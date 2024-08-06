@@ -13,15 +13,6 @@
     flex-direction: column;
     background-color: var(--background);
     color: var(--text);
-    &[data-theme="dark"] {
-      --typography-default-font-weight: #{map.get(
-          typography.$defaults,
-          "font-weight"
-        )};
-      @each $style, $props in typography.$type-scale {
-        --typography-#{$style}-font-weight: #{map.get($props, "font-weight")};
-      }
-    }
     &.demo {
       white-space: pre-wrap;
       .buttonContainer {

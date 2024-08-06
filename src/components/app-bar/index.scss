@@ -42,7 +42,8 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
     0 calc(var(--header-outline-width) * #{list.length($colors) + 1}) 0 0
       #ebebeb;
   box-shadow: $shadow;
-  .link {
+  .link,
+  .link:visited {
     color: inherit;
   }
   &__row {

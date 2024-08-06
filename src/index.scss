@@ -75,6 +75,13 @@
   @each $name, $weight in map.get(typography.$weights, "dark") {
     --typography-weight-#{$name}: #{$weight};
   }
+  --typography-default-font-weight: #{map.get(
+      typography.$defaults,
+      "font-weight"
+    )};
+  @each $style, $props in typography.$type-scale {
+    --typography-#{$style}-font-weight: #{map.get($props, "font-weight")};
+  }
   @include rgb-var("background", "brown-900");
   @include rgb-var("surface", "brown-800");
   @include rgb-var("text", "white");
