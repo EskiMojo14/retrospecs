@@ -13,7 +13,6 @@ import { CreateOrg } from "~/features/orgs/create-org";
 import { OrgGrid } from "~/features/orgs/org-grid";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
-import styles from "./route.module.scss";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Organisations" },
@@ -50,7 +49,7 @@ export default function Orgs() {
           <ExtendedFab
             color="green"
             aria-label="Create organisation"
-            className={styles.fab}
+            placement="corner"
           >
             <Symbol slot="leading">add</Symbol>
             Create

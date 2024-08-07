@@ -20,6 +20,7 @@ export interface FabProps
   /** Defaults to "medium" */
   size?: "small" | "medium" | "large";
   exited?: boolean;
+  placement?: "center" | "corner";
 }
 
 const cls = bemHelper("fab");
@@ -35,6 +36,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
       className,
       children,
       exited,
+      placement,
       tooltip,
       tooltipProps,
       tooltipTriggerProps,
@@ -50,6 +52,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
         className={cls({
           modifiers: {
             [size]: true,
+            [placement ?? ""]: !!placement,
             exited: !!exited,
           },
           extra: className,
@@ -80,7 +83,7 @@ const extendedSymbolContextValue: ContextType<typeof SymbolContext> = {
 export const ExtendedFab = forwardRef<
   HTMLButtonElement,
   Omit<FabProps, "size" | "tooltip">
->(({ className, children, exited, ...props }, ref) => (
+>(({ className, children, exited, placement, ...props }, ref) => (
   <Button
     ref={ref}
     variant="filled"
@@ -88,6 +91,7 @@ export const ExtendedFab = forwardRef<
     className={extendedCls({
       modifiers: {
         exited: !!exited,
+        [placement ?? ""]: !!placement,
       },
       extra: className,
     })}

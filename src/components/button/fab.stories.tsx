@@ -12,6 +12,10 @@ const meta = {
       control: "select",
       options: ["small", "medium", "large"],
     },
+    placement: {
+      control: "select",
+      options: ["center", "corner"],
+    },
     color: {
       control: "select",
       options: buttonColors,
@@ -26,6 +30,7 @@ const meta = {
     color: "gold",
     exited: false,
     tooltip: "Create",
+    placement: undefined,
   },
 } satisfies Meta<typeof Fab>;
 

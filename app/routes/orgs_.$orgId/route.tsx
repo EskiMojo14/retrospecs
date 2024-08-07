@@ -22,7 +22,6 @@ import { addTeam, getTeamsByOrg, selectTeamIds } from "~/features/teams";
 import { TeamGrid } from "~/features/teams/team-grid";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
-import styles from "./route.module.scss";
 
 export const meta: MetaFunction<any> = ({
   data,
@@ -102,7 +101,7 @@ export default function Org() {
           <ExtendedFab
             color="green"
             aria-label="Create team"
-            className={styles.fab}
+            placement="corner"
           >
             <Symbol slot="leading">add</Symbol>
             Create

@@ -3,9 +3,6 @@
 .symbol {
   height: 1em;
   width: 1em;
-  &.material-symbols-sharp {
-    display: inline-flex;
-  }
   justify-content: center;
   align-items: center;
   font-variation-settings:
@@ -14,6 +11,9 @@
     "FILL" var(--fill, 0),
     "opsz" var(--opsz, 24);
   --transition-duration: 250ms;
+  &.material-symbols-sharp {
+    display: inline-flex;
+  }
   &--transition {
     transition: font-variation-settings var(--transition-duration);
   }
