@@ -28,6 +28,7 @@
     border: var(--outline-width) solid var(--border-color);
     max-width: 100%;
     max-height: 60vh;
+    color: typography.emphasis("text", "high");
     &[data-hovered] {
       --background-alpha: 0.85;
       border-color: var(--hover-border-color);
@@ -102,6 +103,7 @@
     align-items: center;
     line-height: 1;
     gap: 0.5rem;
+    color: inherit;
     .select__ripple {
       display: none;
     }
@@ -129,6 +131,10 @@
       var(--background-alpha)
     );
     transition: background-color 200ms;
+    @include theme.dark {
+      --selected-background-rgb: var(--gold-300-rgb);
+      --selected-text-rgb: var(--gold-100-rgb);
+    }
     .input-group__icon {
       @include util.rtl-box(margin, -0.5rem);
     }
