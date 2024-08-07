@@ -3,7 +3,9 @@
 .symbol {
   height: 1em;
   width: 1em;
-  display: inline-flex;
+  &.material-symbols-sharp {
+    display: inline-flex;
+  }
   justify-content: center;
   align-items: center;
   font-variation-settings:

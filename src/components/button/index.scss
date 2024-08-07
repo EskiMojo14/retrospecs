@@ -103,9 +103,6 @@
   &__icon {
     position: relative;
     vertical-align: middle;
-    .button & {
-      display: inline-flex;
-    }
     &--leading {
       @include util.rtl-box(margin, 0, variables.$icon-spacing);
     }
