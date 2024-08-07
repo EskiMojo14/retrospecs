@@ -66,7 +66,10 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
           <DialogTrigger>
             <Checkbox
               isSelected={member.role === "admin"}
-              isDisabled={permissions < Permission.Owner}
+              isDisabled={
+                permissions <
+                (member.role === "admin" ? Permission.Owner : Permission.Admin)
+              }
               slot={null}
             >
               Admin
@@ -83,12 +86,13 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
                   ? { children: "Demote", color: "red" }
                   : { children: "Promote", color: "green" }
               }
-              onConfirm={() => {
+              onConfirm={(close) => {
                 updateMember({
                   org_id: orgId,
                   user_id: userId,
                   role: member.role === "admin" ? "member" : "admin",
                 });
+                close();
               }}
             />
           </DialogTrigger>
