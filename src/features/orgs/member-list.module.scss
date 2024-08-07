@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: stretch;
   gap: 0.5rem;
-  height: 56px;
+  height: 64px;
   flex-grow: 1;
   transition: background 200ms;
   &:not(:last-child) {
@@ -21,15 +21,6 @@
   }
   &[data-focus-visible] {
     background-color: rgba(var(--gold-500-rgb), theme.states-opacity("focus"));
-  }
-  &:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    bottom: calc(-0.5rem - 1px);
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: rgba(var(--text-rgb), 0.2);
   }
   .name {
     flex: 1 1 auto;
@@ -57,7 +48,6 @@
 .memberList {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   &Container {
     position: relative;
     background-color: var(--surface);
