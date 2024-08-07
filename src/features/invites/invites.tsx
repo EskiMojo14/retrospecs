@@ -22,6 +22,7 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
   return (
     <DialogTrigger {...{ isOpen }}>
       <IconButton
+        slot="action"
         tooltip={pluralize`${invites.length} ${[invites.length, "invite"]}`}
       >
         <Badge badgeContent={invites.length} max={99} color="blue">

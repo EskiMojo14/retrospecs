@@ -22,9 +22,9 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   width: 100%;
   --background: var(--brown-700);
   background-color: var(--background);
-  --text-color-rgb: var(--white-rgb);
-  --text-color: #{rgb(var(--text-color-rgb))};
-  color: var(--text-color);
+  --text-rgb: var(--white-rgb);
+  --text: #{rgb(var(--text-rgb))};
+  color: var(--text);
   display: flex;
   flex-direction: column;
   $shadow: 0 calc(var(--header-outline-width) * 0.5) 0 0 #ebebeb;
@@ -59,11 +59,11 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
     gap: 0.5rem;
   }
   &__action {
-    --button-text-rgb: var(--text-color-rgb);
-    --button-outline-rgb: var(--text-color-rgb);
+    --button-text-rgb: var(--text-rgb);
+    --button-outline-rgb: var(--text-rgb);
     @include theme.dark {
-      --button-text-rgb: var(--text-color-rgb);
-      --button-outline-rgb: var(--text-color-rgb);
+      --button-text-rgb: var(--text-rgb);
+      --button-outline-rgb: var(--text-rgb);
     }
   }
 }

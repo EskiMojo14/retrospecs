@@ -40,7 +40,8 @@ const logoContextValue: ContextType<typeof LogoContext> = {
 
 const buttonContextValue: ContextType<typeof ButtonContext> = {
   slots: {
-    [DEFAULT_SLOT]: {
+    [DEFAULT_SLOT]: {},
+    action: {
       className: cls("action"),
     },
   },

@@ -10,7 +10,6 @@ import {
   Modal,
   ModalOverlay,
 } from "react-aria-components";
-import { ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
 import { Provider } from "~/components/provider";
@@ -40,8 +39,6 @@ const toolbarContextValue: ContextType<typeof ToolbarContext> = {
   },
 };
 
-const emptyObj = {};
-
 export const Dialog = ({
   className,
   modalOverlayProps,
@@ -68,14 +65,7 @@ export const Dialog = ({
       <LineBackground opacity={0.3}>
         <AriaDialog {...props} className={cls({ extra: className })}>
           {renderPropsChild(children, (children) => (
-            <Provider
-              values={[
-                [ToolbarContext, toolbarContextValue],
-                // clear any influence we're getting from outside - dialogs are outside the tree
-                // so they shouldn't inherit any context from the parent
-                [ButtonContext, emptyObj],
-              ]}
-            >
+            <Provider values={[[ToolbarContext, toolbarContextValue]]}>
               {children}
             </Provider>
           ))}
