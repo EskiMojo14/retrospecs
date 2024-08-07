@@ -81,18 +81,18 @@ export default function SignIn() {
           </Toolbar>
         </AppBarRow>
       </AppBar>
-      <Form
-        onSubmit={() => {
-          void supabase.auth.signInWithOAuth({
-            provider: "github",
-            options: {
-              redirectTo: `${url}auth/callback`,
-            },
-          });
-        }}
-        className={styles.form}
-      >
-        <Button type="submit" variant="elevated">
+      <Form className={styles.form}>
+        <Button
+          variant="elevated"
+          onPress={() => {
+            void supabase.auth.signInWithOAuth({
+              provider: "github",
+              options: {
+                redirectTo: `${url}auth/callback`,
+              },
+            });
+          }}
+        >
           <Symbol slot="leading">
             <svg
               viewBox="0 0 96 96"
