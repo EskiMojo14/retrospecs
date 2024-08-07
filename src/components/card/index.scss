@@ -15,9 +15,11 @@ $hover-time: 0.2s;
 
   --card-text-rgb: var(--black-rgb);
   --card-text: rgb(var(--card-text-rgb));
+
+  --card-radius: var(--border-radius-medium);
   display: flex;
   flex-direction: column;
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--card-radius);
   position: relative;
   transition:
     background-color $hover-time,
@@ -73,6 +75,7 @@ $hover-time: 0.2s;
     }
     &--primary-action {
       position: relative;
+      overflow: hidden;
       background-color: unset;
       color: unset;
       @at-root button#{&} {
@@ -80,6 +83,14 @@ $hover-time: 0.2s;
         &:focus {
           outline: none;
         }
+      }
+      &:first-child {
+        border-top-left-radius: var(--card-radius);
+        border-top-right-radius: var(--card-radius);
+      }
+      &:last-child {
+        border-bottom-left-radius: var(--card-radius);
+        border-bottom-right-radius: var(--card-radius);
       }
     }
     &--actions {
