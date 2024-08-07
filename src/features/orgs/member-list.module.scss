@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: stretch;
   gap: 0.5rem;
+  padding: 4px;
   height: 64px;
   flex-grow: 1;
   transition: background 200ms;
@@ -48,6 +49,8 @@
 .memberList {
   display: flex;
   flex-direction: column;
+  border-radius: var(--border-radius-medium);
+  overflow: hidden;
   &Container {
     position: relative;
     background-color: var(--surface);
