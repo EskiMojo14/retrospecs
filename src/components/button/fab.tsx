@@ -1,8 +1,10 @@
+import type { TooltipTriggerProps } from "@react-types/tooltip";
 import type { ContextType } from "react";
 import { forwardRef } from "react";
 import type { ButtonProps as AriaButtonProps } from "react-aria-components";
 import { MergeProvider } from "~/components/provider";
 import { SymbolContext } from "~/components/symbol";
+import type { TooltipProps } from "~/components/tooltip";
 import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { bemHelper, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
@@ -12,7 +14,9 @@ import "./fab.scss";
 
 export interface FabProps
   extends Omit<Overwrite<AriaButtonProps, ButtonProps>, "variant"> {
-  tooltip: string;
+  tooltip: TooltipProps["children"];
+  tooltipProps?: Omit<TooltipProps, "children">;
+  tooltipTriggerProps?: TooltipTriggerProps;
   /** Defaults to "medium" */
   size?: "small" | "medium" | "large";
   exited?: boolean;
@@ -26,10 +30,19 @@ const largeFabSymbolContextValue: ContextType<typeof SymbolContext> = {
 
 export const Fab = forwardRef<HTMLButtonElement, FabProps>(
   (
-    { size = "medium", className, children, exited, tooltip, ...props },
+    {
+      size = "medium",
+      className,
+      children,
+      exited,
+      tooltip,
+      tooltipProps,
+      tooltipTriggerProps,
+      ...props
+    },
     ref,
   ) => (
-    <TooltipTrigger>
+    <TooltipTrigger {...tooltipTriggerProps}>
       <Button
         ref={ref}
         variant="filled"
@@ -51,7 +64,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
           </MergeProvider>
         ))}
       </Button>
-      <Tooltip>{tooltip}</Tooltip>
+      <Tooltip {...tooltipProps}>{tooltip}</Tooltip>
     </TooltipTrigger>
   ),
 );

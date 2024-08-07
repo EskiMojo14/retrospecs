@@ -12,8 +12,8 @@ import { bemHelper } from "~/util";
 import "./index.scss";
 
 export interface IconButtonProps extends SlotProps {
-  tooltip: string;
-  tooltipProps?: TooltipProps;
+  tooltip: TooltipProps["children"];
+  tooltipProps?: Omit<TooltipProps, "children">;
   tooltipTriggerProps?: TooltipTriggerProps;
   className?: string;
 }
