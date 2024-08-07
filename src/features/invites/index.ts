@@ -1,6 +1,5 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { skipToken } from "@tanstack/react-query";
-import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert } from "~/db/supabase";
 import type { Profile } from "~/features/profiles";
 import type { WithoutNullish } from "~/util";
@@ -98,23 +97,7 @@ export const deleteInvite = supabaseMutationOptions(
     mutationFn: supabaseFn(({ email, org_id }: InviteIds) =>
       supabase.from("invites").delete().eq("email", email).eq("org_id", org_id),
     ),
-    onError(error) {
-      toastQueue.add({
-        type: "error",
-        title: "Failed to decline invite",
-        description: error.message,
-      });
-    },
     onSuccess: async (_: null, { org_id, user_id }: InviteIds) => {
-      toastQueue.add(
-        {
-          type: "success",
-          title: "Invite declined",
-        },
-        {
-          timeout: 5000,
-        },
-      );
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: ["invites", { org_id }],

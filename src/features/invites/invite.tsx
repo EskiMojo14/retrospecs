@@ -4,10 +4,12 @@ import { Avatar } from "~/components/avatar";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
+import { toastQueue } from "~/components/toast";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import DeclineInviteIcon from "~/icons/decline-invite";
+import type { PostgrestErrorWithMeta } from "~/util/supabase-query";
 import { deleteInvite, type InviteWithInviter } from ".";
 import styles from "./invite.module.scss";
 
@@ -25,7 +27,7 @@ const emptyInviter = {
 export function InviteEntry({ invite }: InviteEntryProps) {
   const inviter = invite.inviter ?? emptyInviter;
 
-  const { mutate: deleteInviteFn } = useMutation(
+  const { mutateAsync: deleteInviteFn } = useMutation(
     useOptionsCreator(deleteInvite),
   );
 
@@ -72,7 +74,25 @@ export function InviteEntry({ invite }: InviteEntryProps) {
               color: "red",
             }}
             onConfirm={(close) => {
-              deleteInviteFn(invite);
+              deleteInviteFn(invite)
+                .then(() => {
+                  toastQueue.add(
+                    {
+                      type: "success",
+                      title: "Invite declined",
+                    },
+                    {
+                      timeout: 5000,
+                    },
+                  );
+                })
+                .catch((e) => {
+                  toastQueue.add({
+                    type: "error",
+                    title: "Failed to decline invite",
+                    description: (e as PostgrestErrorWithMeta).message,
+                  });
+                });
               close();
             }}
           />
