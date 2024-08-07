@@ -55,7 +55,7 @@ export const Default: Story = {
       >
         Normal section
       </CardSection>
-      <CardActions color="teal">
+      <CardActions>
         <Toolbar slot="buttons">
           <Button onPress={onActionButton}>Button</Button>
           <Button onPress={onActionButton}>Button</Button>

@@ -47,7 +47,8 @@ export const Card = createGenericComponent<
         extra: className,
       })}
     >
-      {children}
+      <div className={cls("bg")} />
+      <div className={cls("content")}>{children}</div>
     </As>
   ),
 );
@@ -55,29 +56,20 @@ export const Card = createGenericComponent<
 interface CardSectionProps {
   className?: string;
   children?: ReactNode;
-  outsideContent?: ReactNode;
 }
 
 interface CardSectionPassedProps {
   className: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const CardSection = createGenericComponent<
   "section",
   CardSectionProps,
   CardSectionPassedProps
->(
-  "CardSection",
-  "section",
-  ({ children, as: As, className, outsideContent, ...props }, ref) => (
-    <As ref={ref} {...props} className={cls("section", undefined, className)}>
-      <span className={cls("section__bg")} />
-      {outsideContent}
-      <div className={cls("section-content")}>{children}</div>
-    </As>
-  ),
-);
+>("CardSection", "section", ({ as: As, className, ...props }, ref) => (
+  <As ref={ref} {...props} className={cls("section", undefined, className)} />
+));
 
 type RootProps = ReturnType<typeof useRipple>["rootProps"];
 
@@ -103,10 +95,8 @@ export const CardPrimaryAction = createGenericComponent<
       {...(mergeProps(props, rootProps) as any)}
       ref={mergeRefs(ref, rootRef as never)}
       className={clsx("card__section--primary-action", className)}
-      outsideContent={
-        <span {...surfaceProps} className={cls("section-ripple")} />
-      }
     >
+      <span {...surfaceProps} className={cls("section-ripple")} />
       {children}
     </CardSection>
   );

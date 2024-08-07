@@ -1,6 +1,5 @@
 @use "~/theme";
 @use "~/theme/elevation";
-@use "~/util";
 @use "./mixins";
 
 $hover-time: 0.2s;
@@ -25,20 +24,23 @@ $hover-time: 0.2s;
     box-shadow $hover-time,
     translate $hover-time;
   @include mixins.colors;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 8px;
+    right: 8px;
+    border-radius: 14px;
+    transition: background-color $hover-time;
+    background-color: var(--card-mid);
+  }
   &--filled,
   &--raised {
     background-color: var(--card-outer);
     color: var(--card-text);
-    .card__bg,
-    .card__section__bg {
+    .card__bg {
       background-color: var(--card-bg);
-    }
-    .card__section {
-      background-color: var(--card-outer);
-      color: var(--card-text);
-      &::before {
-        background-color: var(--card-mid);
-      }
     }
   }
   &--raised {
@@ -48,8 +50,7 @@ $hover-time: 0.2s;
       translate: -2px -2px;
     }
   }
-  &__bg,
-  &__section__bg {
+  &__bg {
     position: absolute;
     top: 4px;
     bottom: 4px;
@@ -58,51 +59,37 @@ $hover-time: 0.2s;
     border-radius: 16px;
     transition: background-color $hover-time;
   }
-  &__content,
-  &__section-content {
+  &__content {
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
   &__section {
-    position: relative;
     padding: 4px 16px;
-    border-radius: 12px;
-    transition:
-      background-color $hover-time,
-      color $hover-time;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 2px;
-      bottom: 2px;
-      left: 8px;
-      right: 8px;
-      border-radius: 14px;
-      transition: background-color $hover-time;
+    border: none;
+    border-top: 2px solid var(--card-outer);
+    &:first-child {
+      border-top: none;
     }
     &--primary-action {
+      position: relative;
       background-color: unset;
       color: unset;
       @at-root button#{&} {
         appearance: none;
-        border: none;
         &:focus {
           outline: none;
         }
       }
-      @include mixins.action-hover;
     }
     &--actions {
-      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
       gap: 8px;
-      .card__section-content {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        min-height: util.to-rem(52px - 8px);
-      }
+      min-height: 52px;
       .icon-button {
-        margin: util.to-rem(-6px) 0;
+        margin: -6px 0;
       }
     }
     @include theme.ripple(var(--card-text), " .card__section-ripple");

@@ -24,19 +24,3 @@
     }
   }
 }
-
-@mixin action-hover {
-  &[data-hovered],
-  &[data-focused],
-  &[data-pressed] {
-    --hover-color: var(--card-outer);
-    --focus-color: var(--card-outer);
-    --pressed-color: var(--card-outer);
-
-    --card-outer: var(--card-outer-hover);
-    --card-mid: var(--card-mid-hover);
-    --card-bg: var(--card-bg-hover);
-
-    @content;
-  }
-}
