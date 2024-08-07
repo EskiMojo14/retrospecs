@@ -164,19 +164,24 @@
       flex-direction: column;
       align-items: stretch;
       .button {
-        --button-radius: #{variables.$min-height * 0.5};
+        --segmented-button-radius: min(
+          #{variables.$min-height * 0.5},
+          var(--button-radius)
+        );
         --outline-border-radius: calc(
-          var(--button-radius) - var(--outline-width)
+          var(--segmented-button-radius) - var(--outline-width)
         );
         &:first-child {
-          border-radius: var(--button-radius) var(--button-radius) 0 0;
+          border-radius: var(--segmented-button-radius)
+            var(--segmented-button-radius) 0 0;
           &::before {
             border-radius: var(--outline-border-radius)
               var(--outline-border-radius) 0 0;
           }
         }
         &:last-child {
-          border-radius: 0 0 var(--button-radius) var(--button-radius);
+          border-radius: 0 0 var(--segmented-button-radius)
+            var(--segmented-button-radius);
           &::before {
             border-radius: 0 0 var(--outline-border-radius)
               var(--outline-border-radius);
