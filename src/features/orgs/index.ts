@@ -27,15 +27,15 @@ export const {
 } = orgAdapter.getSelectors();
 
 export const getOrgs = supabaseQueryOptions(
-  ({ supabase }, userId: string | undefined) => ({
-    queryKey: ["orgs", { userId }],
-    queryFn: userId
+  ({ supabase }, user_id: string | undefined) => ({
+    queryKey: ["orgs", { user_id }],
+    queryFn: user_id
       ? supabaseFn(
           () =>
             supabase
               .from("orgs")
               .select("*,members:org_members!inner(user_id)")
-              .eq("members.user_id", userId),
+              .eq("members.user_id", user_id),
           (orgs) => orgAdapter.getInitialState(undefined, orgs),
         )
       : skipToken,

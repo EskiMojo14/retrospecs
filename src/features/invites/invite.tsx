@@ -10,7 +10,7 @@ import { Typography } from "~/components/typography";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import DeclineInviteIcon from "~/icons/decline-invite";
 import type { PostgrestErrorWithMeta } from "~/util/supabase-query";
-import { deleteInvite, type InviteWithInviter } from ".";
+import { acceptInvite, deleteInvite, type InviteWithInviter } from ".";
 import styles from "./invite.module.scss";
 
 interface InviteEntryProps {
@@ -27,6 +27,9 @@ const emptyInviter = {
 export function InviteEntry({ invite }: InviteEntryProps) {
   const inviter = invite.inviter ?? emptyInviter;
 
+  const { mutate: acceptInviteFn } = useMutation(
+    useOptionsCreator(acceptInvite),
+  );
   const { mutateAsync: deleteInviteFn } = useMutation(
     useOptionsCreator(deleteInvite),
   );
@@ -51,7 +54,14 @@ export function InviteEntry({ invite }: InviteEntryProps) {
         </Typography>
       </div>
       <Toolbar align="end">
-        <IconButton tooltip="Accept" variant="filled" color="green">
+        <IconButton
+          tooltip="Accept"
+          variant="filled"
+          color="green"
+          onPress={() => {
+            acceptInviteFn(invite);
+          }}
+        >
           <Symbol>mark_email_read</Symbol>
         </IconButton>
         <DialogTrigger>
@@ -86,7 +96,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
                     },
                   );
                 })
-                .catch((e) => {
+                .catch((e: unknown) => {
                   toastQueue.add({
                     type: "error",
                     title: "Failed to decline invite",

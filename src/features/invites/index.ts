@@ -1,8 +1,8 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { skipToken } from "@tanstack/react-query";
+import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert } from "~/db/supabase";
 import type { Profile } from "~/features/profiles";
-import type { WithoutNullish } from "~/util";
 import { sortByCreatedAt } from "~/util";
 import {
   compoundKey,
@@ -111,7 +111,7 @@ export const deleteInvite = supabaseMutationOptions(
   }),
 );
 
-type AcceptIds = WithoutNullish<Pick<Invite, "org_id" | "user_id">>;
+type AcceptIds = Pick<Invite, "org_id" | "user_id">;
 
 export const acceptInvite = supabaseMutationOptions(
   ({ supabase, queryClient }) => ({
@@ -120,15 +120,29 @@ export const acceptInvite = supabaseMutationOptions(
         supabase.rpc("accept_invite", { o_id: org_id }),
       () => null,
     ),
+    onError(error) {
+      toastQueue.add({
+        type: "error",
+        title: "Failed to accept invite",
+        description: error.message,
+      });
+    },
     onSuccess: async (_: null, { org_id, user_id }: AcceptIds) => {
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: ["invites", { org_id }],
         }),
-        user_id &&
-          queryClient.invalidateQueries({
-            queryKey: ["invites", { user_id }],
-          }),
+        ...(user_id
+          ? [
+              queryClient.invalidateQueries({
+                queryKey: ["orgs", { user_id }],
+              }),
+
+              queryClient.invalidateQueries({
+                queryKey: ["invites", { user_id }],
+              }),
+            ]
+          : []),
       ]);
     },
   }),
