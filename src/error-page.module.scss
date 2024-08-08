@@ -1,4 +1,4 @@
-@use "~/theme/typography";
+@use "~/theme";
 
 .page {
   display: flex;
@@ -6,22 +6,16 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  gap: 1rem;
-  .title {
-    color: typography.emphasis("black", "high");
-    margin: 0;
-  }
-  .subtitle {
-    color: typography.emphasis("black", "medium");
-    margin: 0;
-  }
   .error {
-    background-color: var(--black);
-    color: var(--white);
+    background-color: var(--surface);
+    color: var(--red-700);
     padding: 1rem;
     border-radius: 4px;
     margin: 0;
     max-width: 50vw;
     text-wrap: wrap;
+    @include theme.dark {
+      color: var(--red-300);
+    }
   }
 }

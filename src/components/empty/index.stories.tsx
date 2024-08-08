@@ -8,7 +8,7 @@ const meta = {
   argTypes: {
     size: {
       control: "inline-radio",
-      options: ["small", "medium", "large"],
+      options: ["small", "medium", "large", "x-large"],
     },
     icon: { table: { disable: true } },
     title: { control: "text" },

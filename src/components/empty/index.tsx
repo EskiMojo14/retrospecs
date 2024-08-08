@@ -10,7 +10,7 @@ import "./index.scss";
 
 const cls = bemHelper("empty-state");
 
-type EmptySize = "small" | "medium" | "large";
+type EmptySize = "small" | "medium" | "large" | "x-large";
 
 const sizeMapping = {
   small: {
@@ -27,6 +27,11 @@ const sizeMapping = {
     title: "headline5",
     description: "body1",
     icon: 64,
+  },
+  "x-large": {
+    title: "headline4",
+    description: "subtitle1",
+    icon: 72,
   },
 } satisfies Record<
   EmptySize,

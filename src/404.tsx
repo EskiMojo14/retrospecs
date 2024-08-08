@@ -1,16 +1,17 @@
+import { EmptyState } from "~/components/empty";
 import { Link } from "~/components/link";
-import { Heading, Typography } from "~/components/typography";
+import { Symbol } from "~/components/symbol";
 import styles from "./error-page.module.scss";
 
 export function ForeEauFore() {
   return (
     <main className={styles.page}>
-      <Heading variant="headline3" className={styles.title}>
-        Not all who wander are lost.
-      </Heading>
-      <Typography variant="subtitle1" className={styles.subtitle}>
-        But you probably are.
-      </Typography>
+      <EmptyState
+        icon={<Symbol>not_listed_location</Symbol>}
+        title="Not all who wander are lost."
+        description="But you probably are."
+        size="x-large"
+      />
       <Link href="/">Go back home</Link>
     </main>
   );
