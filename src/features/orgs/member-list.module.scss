@@ -4,6 +4,11 @@
 @use "~/theme";
 @use "~/util";
 
+.title {
+  margin: 0;
+  grid-column: span 12;
+}
+
 .memberRow {
   position: relative;
   display: flex;

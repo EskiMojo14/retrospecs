@@ -5,7 +5,6 @@ import type { Tables, TablesInsert } from "~/db/supabase";
 import type { Profile } from "~/features/profiles";
 import { sortByCreatedAt } from "~/util";
 import {
-  compoundKey,
   supabaseFn,
   supabaseMutationOptions,
   supabaseQueryOptions,
@@ -14,15 +13,14 @@ import type { PickPartial } from "~/util/types";
 
 export type Invite = Tables<"invites">;
 
-export interface InviteWithInviter extends Invite {
+export interface InviteWithInviter extends Omit<Invite, "user_id"> {
   org_name: string;
   inviter: Pick<Profile, "avatar_url" | "color" | "display_name"> | null;
+  user_id?: never;
 }
 
-export const selectInviteId = compoundKey<Invite>()("user_id", "email");
-
-export const inviteAdapter = createEntityAdapter<InviteWithInviter, string>({
-  selectId: selectInviteId,
+export const inviteAdapter = createEntityAdapter({
+  selectId: (invite: InviteWithInviter) => invite.email,
   sortComparer: sortByCreatedAt,
 });
 
@@ -43,7 +41,7 @@ export const getInvitesByUserId = supabaseQueryOptions(
             supabase
               .from("invites")
               .select(
-                `*,
+                `created_at,created_by,email,org_id,
             ...orgs(org_name:name),
             inviter:profiles!invites_created_by_fkey(avatar_url,color,display_name)
             `,
@@ -63,7 +61,7 @@ export const getInvitesByOrgId = supabaseQueryOptions(
         supabase
           .from("invites")
           .select(
-            `*,
+            `created_at,created_by,email,org_id,
             ...orgs(org_name:name),
             inviter:profiles!invites_created_by_fkey(avatar_url,color,display_name)
             `,

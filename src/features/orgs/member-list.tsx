@@ -3,6 +3,7 @@ import { DialogTrigger, GridList, GridListItem } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { Checkbox } from "~/components/checkbox";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
+import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
@@ -122,21 +123,25 @@ export interface MemberListProps {
 
 export function MemberList({ orgId, memberIds }: MemberListProps) {
   return (
-    <div className={styles.memberListGrid}>
+    <section className={styles.memberListGrid}>
+      <Typography
+        variant="headline5"
+        className={styles.title}
+        id="member-list-title"
+      >
+        Members
+      </Typography>
       <div className={styles.memberListContainer}>
         <LineBackground opacity={0.2}>
           <GridList
-            aria-label="Members"
+            aria-labelledby="member-list-title"
             className={styles.memberList}
             renderEmptyState={() => (
-              <div className={styles.empty}>
-                <Typography variant="subtitle1" className={styles.emptyTitle}>
-                  No members
-                </Typography>
-                <Typography variant="body2" className={styles.emptyDesc}>
-                  Invite members to collaborate on your projects.
-                </Typography>
-              </div>
+              <EmptyState
+                size="large"
+                title="No members"
+                description="Invite members to collaborate on your projects."
+              />
             )}
           >
             {memberIds.map((id) => (
@@ -145,6 +150,6 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
           </GridList>
         </LineBackground>
       </div>
-    </div>
+    </section>
   );
 }

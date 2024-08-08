@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger, GridList } from "react-aria-components";
 import { Badge } from "~/components/badge";
+import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
 import { Popover } from "~/components/popover";
 import { Symbol } from "~/components/symbol";
-import { Heading, Typography } from "~/components/typography";
+import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { pluralize } from "~/util";
@@ -39,7 +40,12 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
             id="invites-list"
             className={styles.list}
             renderEmptyState={() => (
-              <Typography variant="body2">No invites</Typography>
+              <EmptyState
+                icon={<Symbol>inbox</Symbol>}
+                title="No invites"
+                description={`Ask to be invited to an organisation,\nor create your own.`}
+                size="small"
+              />
             )}
           >
             {(invite) => <InviteEntry id={invite.org_id} invite={invite} />}
