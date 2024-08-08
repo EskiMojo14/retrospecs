@@ -1,8 +1,11 @@
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
+import { ExtendedFab } from "~/components/button/fab";
 import { LineBackground } from "~/components/line-background";
+import { Symbol } from "~/components/symbol";
 import { createHydratingLoader } from "~/db/loader.server";
+import { CreateInvite } from "~/features/invites/create-invite";
 import { NavBar } from "~/features/nav-bar";
 import { getOrgMembers, getOrgName, selectOrgMemberIds } from "~/features/orgs";
 import { MemberList } from "~/features/orgs/member-list";
@@ -53,6 +56,15 @@ export default function OrgMembers() {
           ]}
         />
         <MemberList orgId={orgId} memberIds={memberIds} />
+        <CreateInvite
+          orgId={orgId}
+          trigger={
+            <ExtendedFab placement="corner" aria-label="Invite Member">
+              <Symbol slot="leading">group_add</Symbol>
+              Invite
+            </ExtendedFab>
+          }
+        />
       </LineBackground>
     </main>
   );

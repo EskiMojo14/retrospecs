@@ -57,22 +57,28 @@ export function OrgCard({ orgId }: OrgCardProps) {
       </CardPrimaryAction>
       <CardActions>
         <Toolbar slot="buttons">
-          <LinkButton variant="outlined" href={`/orgs/${orgId}/members`}>
+          <LinkButton
+            variant="outlined"
+            href={`/orgs/${orgId}/members`}
+            slot="action"
+          >
             <Symbol slot="leading">group</Symbol>
             {pluralize`${memberCount} ${[memberCount, "member"]}`}
           </LinkButton>
         </Toolbar>
         {permissions >= Permission.Admin ? (
           <Toolbar slot="icons">
-            <DialogTrigger>
-              <IconButton tooltip="Edit">
-                <Symbol>edit</Symbol>
-              </IconButton>
-              <EditOrg orgId={orgId} />
-            </DialogTrigger>
+            <EditOrg
+              orgId={orgId}
+              trigger={
+                <IconButton tooltip="Edit" slot="action">
+                  <Symbol>edit</Symbol>
+                </IconButton>
+              }
+            />
             {permissions >= Permission.Owner ? (
               <DialogTrigger>
-                <IconButton tooltip="Delete">
+                <IconButton tooltip="Delete" slot="action">
                   <Symbol>delete</Symbol>
                 </IconButton>
                 <ConfirmationDialog

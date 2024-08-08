@@ -57,14 +57,18 @@ export const Default: Story = {
       </CardSection>
       <CardActions>
         <Toolbar slot="buttons">
-          <Button onPress={onActionButton}>Button</Button>
-          <Button onPress={onActionButton}>Button</Button>
+          <Button onPress={onActionButton} slot="action">
+            Button
+          </Button>
+          <Button onPress={onActionButton} slot="action">
+            Button
+          </Button>
         </Toolbar>
         <Toolbar slot="icons">
-          <IconButton onPress={onActionIcon} tooltip="Edit">
+          <IconButton onPress={onActionIcon} tooltip="Edit" slot="action">
             <Symbol>edit</Symbol>
           </IconButton>
-          <IconButton tooltip="Delete">
+          <IconButton tooltip="Delete" slot="action">
             <Symbol>delete</Symbol>
           </IconButton>
         </Toolbar>

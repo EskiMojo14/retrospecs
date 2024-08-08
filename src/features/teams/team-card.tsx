@@ -41,16 +41,17 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
           <LinkButton
             variant="outlined"
             href={`/orgs/${orgId}/teams/${teamId}/members`}
+            slot="action"
           >
             <Symbol slot="leading">people</Symbol>
             {pluralize`${memberCount} ${[memberCount, "member"]}`}
           </LinkButton>
         </Toolbar>
         <Toolbar slot="icons">
-          <IconButton tooltip="Edit">
+          <IconButton tooltip="Edit" slot="action">
             <Symbol>edit</Symbol>
           </IconButton>
-          <IconButton tooltip="Delete">
+          <IconButton tooltip="Delete" slot="action">
             <Symbol>delete</Symbol>
           </IconButton>
         </Toolbar>

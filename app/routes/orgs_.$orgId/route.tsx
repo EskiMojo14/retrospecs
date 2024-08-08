@@ -1,10 +1,10 @@
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { FormEvent } from "react";
+import { useRef, type FormEvent } from "react";
 import { DialogTrigger, Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { minLength, number, object, pipe, safeParse, string } from "valibot";
+import { minLength, number, object, pipe, string } from "valibot";
 import { Button } from "~/components/button";
 import { ExtendedFab } from "~/components/button/fab";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -20,6 +20,7 @@ import { NavBar } from "~/features/nav-bar";
 import { getOrg } from "~/features/orgs";
 import { addTeam, getTeamsByOrg, selectTeamIds } from "~/features/teams";
 import { TeamGrid } from "~/features/teams/team-grid";
+import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
 
@@ -55,6 +56,7 @@ const createTeamSchema = object({
 }) satisfies BaseSchema<any, TablesInsert<"teams">, any>;
 
 export default function Org() {
+  const formRef = useRef<HTMLFormElement>(null);
   const session = useSession();
   const params = useParams();
   const orgId = Number(params.orgId);
@@ -72,19 +74,20 @@ export default function Org() {
     mutate: addTeamFn,
     isError,
     isPending,
+    reset,
   } = useMutation(useOptionsCreator(addTeam));
+  const [errors, validateTeam, resetValidation] =
+    useFormSchema(createTeamSchema);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const unparsedData = new FormData(event.currentTarget);
-    const parsedData = safeParse(createTeamSchema, {
+    const parsedData = validateTeam({
       ...Object.fromEntries(unparsedData),
       org_id: orgId,
       created_by: session?.user.id,
     });
     if (parsedData.success) {
       addTeamFn(parsedData.output);
-    } else {
-      console.error(parsedData.issues);
     }
   };
   return (
@@ -97,7 +100,15 @@ export default function Org() {
           ]}
         />
         <TeamGrid orgId={orgId} teamIds={teamIds} />
-        <DialogTrigger>
+        <DialogTrigger
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              formRef.current?.reset();
+              reset();
+              resetValidation();
+            }
+          }}
+        >
           <ExtendedFab
             color="green"
             aria-label="Create team"
@@ -116,6 +127,7 @@ export default function Org() {
                   as={Form}
                   id="create-team-form"
                   onSubmit={handleSubmit}
+                  validationErrors={errors?.validationErrors}
                 >
                   <TextField label="Name" name="name" isRequired />
                 </DialogContent>

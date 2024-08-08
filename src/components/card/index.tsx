@@ -124,7 +124,10 @@ export const CardActions = createGenericComponent<
   ({ children, className, color = "brown", ...props }, ref) => {
     const buttonContextValue = useMemo(
       () => ({
-        color,
+        slots: {
+          [DEFAULT_SLOT]: {},
+          action: { color },
+        },
       }),
       [color],
     );

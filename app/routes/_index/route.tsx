@@ -1,6 +1,5 @@
 import { useLoaderData, type MetaFunction } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
-import { DialogTrigger } from "react-aria-components";
 import { ExtendedFab } from "~/components/button/fab";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
@@ -45,17 +44,18 @@ export default function Orgs() {
       <LineBackground opacity={0.5}>
         <NavBar breadcrumbs={[{ label: "Organisations", href: "/" }]} />
         <OrgGrid orgIds={orgIds} />
-        <DialogTrigger>
-          <ExtendedFab
-            color="green"
-            aria-label="Create organisation"
-            placement="corner"
-          >
-            <Symbol slot="leading">add</Symbol>
-            Create
-          </ExtendedFab>
-          <CreateOrg />
-        </DialogTrigger>
+        <CreateOrg
+          trigger={
+            <ExtendedFab
+              color="green"
+              aria-label="Create organisation"
+              placement="corner"
+            >
+              <Symbol slot="leading">add</Symbol>
+              Create
+            </ExtendedFab>
+          }
+        />
       </LineBackground>
     </main>
   );

@@ -34,6 +34,12 @@ module.exports = {
     ],
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      {
+        allowForKnownSafePromises: [{ from: "file", name: "SafePromise" }],
+      },
+    ],
     "import/order": [
       "error",
       {

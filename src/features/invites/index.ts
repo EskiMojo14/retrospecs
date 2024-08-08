@@ -79,7 +79,24 @@ export const addInvite = supabaseMutationOptions(
     mutationFn: supabaseFn((invite: TablesInsert<"invites">) =>
       supabase.from("invites").insert(invite),
     ),
-    onSuccess: async (_: null, { org_id }: TablesInsert<"invites">) => {
+    onError(error) {
+      toastQueue.add({
+        type: "error",
+        title: "Failed to send invite",
+        description: error.message,
+      });
+    },
+    onSuccess: async (_: null, { org_id, email }: TablesInsert<"invites">) => {
+      toastQueue.add(
+        {
+          type: "success",
+          title: `Invite sent to ${email}`,
+          description: "The user will see the invite once logged in.",
+        },
+        {
+          timeout: 10000,
+        },
+      );
       await queryClient.invalidateQueries({
         queryKey: ["invites", { org_id }],
       });
