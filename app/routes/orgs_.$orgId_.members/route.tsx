@@ -7,7 +7,7 @@ import { Symbol } from "~/components/symbol";
 import { createHydratingLoader } from "~/db/loader.server";
 import { CreateInvite } from "~/features/invites/create-invite";
 import { NavBar } from "~/features/nav-bar";
-import { getOrgMembers, getOrgName, selectOrgMemberIds } from "~/features/orgs";
+import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
 import { MemberList } from "~/features/orgs/member-list";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { promiseOwnProperties } from "~/util";
@@ -18,7 +18,7 @@ export const meta: MetaFunction<any> = ({
   data: Awaited<ReturnType<typeof loader>> | undefined;
 }) => [
   {
-    title: `Retrospecs - ${data?.orgName ?? "Org"} Members`,
+    title: `Retrospecs - ${data?.org.name ?? "Org"} Members`,
   },
 ];
 
@@ -30,7 +30,7 @@ export const loader = createHydratingLoader(
     }
 
     return promiseOwnProperties({
-      orgName: queryClient.ensureQueryData(getOrgName(context, orgId)),
+      org: queryClient.ensureQueryData(getOrg(context, orgId)),
       orgMembers: queryClient.ensureQueryData(getOrgMembers(context, orgId)),
     });
   },
@@ -39,7 +39,7 @@ export const loader = createHydratingLoader(
 export default function OrgMembers() {
   const params = useParams();
   const orgId = Number(params.orgId);
-  const { orgName, orgMembers } = useLoaderData<typeof loader>();
+  const { org, orgMembers } = useLoaderData<typeof loader>();
   const { data: memberIds } = useQuery({
     ...useOptionsCreator(getOrgMembers, orgId),
     initialData: orgMembers,
@@ -51,7 +51,7 @@ export default function OrgMembers() {
         <NavBar
           breadcrumbs={[
             { label: "Organisations", href: "/" },
-            { label: orgName, href: `/orgs/${orgId}` },
+            { label: org.name, href: `/orgs/${orgId}` },
             { label: "Members", href: `/orgs/${orgId}/members` },
           ]}
         />

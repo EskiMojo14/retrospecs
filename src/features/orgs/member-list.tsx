@@ -16,6 +16,7 @@ import { useOptionsCreator } from "~/hooks/use-options-creator";
 import {
   Permission,
   useCurrentUserPermissions,
+  useUserPermissions,
 } from "~/hooks/use-user-permissions";
 import {
   deleteOrgMember,
@@ -30,6 +31,11 @@ export interface MemberRowProps {
   orgId: number;
 }
 
+const permissionLabels: Partial<Record<Permission, string>> = {
+  [Permission.Owner]: "Owner",
+  [Permission.Admin]: "Admin",
+};
+
 export function MemberRow({ id, orgId }: MemberRowProps) {
   const session = useSession();
   const { data: member } = useQuery({
@@ -42,7 +48,8 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
   const { mutate: deleteMember } = useMutation(
     useOptionsCreator(deleteOrgMember),
   );
-  const permissions = useCurrentUserPermissions(orgId);
+  const userPermissions = useUserPermissions(orgId, id);
+  const currentUserPermissions = useCurrentUserPermissions(orgId);
   if (!member?.profile) return null;
   const userId = member.user_id;
   return (
@@ -56,16 +63,19 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
         color={member.profile.color}
       />
       <ListItemText
+        overline={permissionLabels[userPermissions]}
         headline={member.profile.display_name}
         supporting={member.profile.email}
       />
-      {userId !== session?.user.id && permissions >= Permission.Admin ? (
+      {userId !== session?.user.id &&
+      userPermissions !== Permission.Owner &&
+      currentUserPermissions >= Permission.Admin ? (
         <Toolbar align="end" aria-label="Actions" className={styles.actions}>
           <DialogTrigger>
             <Switch
               isSelected={member.role === "admin"}
               isDisabled={
-                permissions <
+                currentUserPermissions <
                 (member.role === "admin" ? Permission.Owner : Permission.Admin)
               }
               color={member.profile.color}

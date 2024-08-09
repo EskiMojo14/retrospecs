@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "~/db/provider";
 import type { Org, OrgMember } from "~/features/orgs";
@@ -17,14 +18,18 @@ export enum Permission {
   Owner,
 }
 
-const getPermission = (org: Org | undefined, member: OrgMember | undefined) => {
-  if (!org || !member) return Permission.Unauthenticated;
-  if (org.owner_id === member.user_id) return Permission.Owner;
-  if (member.role === "admin") return Permission.Admin;
-  return Permission.Member;
-};
+const getPermission = createSelector(
+  (org: Org | undefined) => org,
+  (_: unknown, member: OrgMember | undefined) => member,
+  (org: Org | undefined, member: OrgMember | undefined) => {
+    if (!org || !member) return Permission.Unauthenticated;
+    if (org.owner_id === member.user_id) return Permission.Owner;
+    if (member.role === "admin") return Permission.Admin;
+    return Permission.Member;
+  },
+);
 
-export function useUserPermissions(orgId: number, userId: string | undefined) {
+export function useUserPermissions(orgId: number, userId: string) {
   const session = useSession();
   const { data: org } = useQuery({
     ...useOptionsCreator(getOrgs, session?.user.id),
@@ -32,8 +37,7 @@ export function useUserPermissions(orgId: number, userId: string | undefined) {
   });
   const { data: member } = useQuery({
     ...useOptionsCreator(getOrgMembers, orgId),
-    select: (members) =>
-      userId ? selectOrgMemberById(members, userId) : undefined,
+    select: (members) => selectOrgMemberById(members, userId),
   });
   return getPermission(org, member);
 }

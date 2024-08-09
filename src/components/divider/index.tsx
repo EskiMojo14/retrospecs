@@ -1,6 +1,6 @@
-import type { ExoticComponent, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { forwardRef, Fragment } from "react";
-import type { SeparatorProps } from "react-aria-components";
+import type { Key, SeparatorProps } from "react-aria-components";
 import { Separator } from "react-aria-components";
 import { bemHelper } from "~/util";
 import "./index.scss";
@@ -30,7 +30,9 @@ export const Divider = forwardRef<object, DividerProps>(
 
 Divider.displayName = "Divider";
 
-export const DividerFragment: ExoticComponent<{
-  children?: ReactNode;
-  id?: string | number;
-}> = Fragment;
+export const DividerFragment = ({
+  children,
+}: {
+  id: Key;
+  children: ReactNode;
+}) => <Fragment>{children}</Fragment>;

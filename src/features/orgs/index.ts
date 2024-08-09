@@ -49,16 +49,6 @@ export const getOrg = supabaseQueryOptions(({ supabase }, id: Org["id"]) => ({
   ),
 }));
 
-export const getOrgName = supabaseQueryOptions(
-  ({ supabase }, id: Org["id"]) => ({
-    queryKey: ["orgs", { id }, "name"],
-    queryFn: supabaseFn(
-      () => supabase.from("orgs").select("name").eq("id", id).single(),
-      (org) => org.name,
-    ),
-  }),
-);
-
 export const addOrg = supabaseMutationOptions(({ supabase, queryClient }) => ({
   mutationFn: supabaseFn((org: TablesInsert<"orgs">) =>
     supabase.from("orgs").insert(org),
