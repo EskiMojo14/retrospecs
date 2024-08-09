@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { DialogTrigger, Text } from "react-aria-components";
+import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { IconButton } from "~/components/icon-button";
@@ -44,17 +44,11 @@ export function InviteEntry({ invite }: InviteEntryProps) {
         name={inviter.display_name}
         color={inviter.color}
       />
-      <ListItemText hasOverline>
-        <Text slot="overline">
-          {new Date(invite.created_at).toLocaleDateString()}
-        </Text>
-        <Text slot="headline" className={styles.org}>
-          {invite.org_name}
-        </Text>
-        <Text slot="supporting" className={styles.inviter}>
-          Invited by {inviter.display_name}
-        </Text>
-      </ListItemText>
+      <ListItemText
+        overline={new Date(invite.created_at).toLocaleDateString()}
+        headline={invite.org_name}
+        supporting={`Invited by ${inviter.display_name}`}
+      />
       <Toolbar align="end">
         <IconButton
           tooltip="Accept"

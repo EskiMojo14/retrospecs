@@ -111,9 +111,7 @@ export const OneLine: Story = {
       {({ headline }) => (
         <ListItem id={headline} isDisabled={isDisabled}>
           <Leading leading={leading} />
-          <ListItemText>
-            <Text slot="headline">{headline}</Text>
-          </ListItemText>
+          <ListItemText headline={headline} />
           <Trailing trailing={trailing} />
         </ListItem>
       )}
@@ -144,10 +142,7 @@ export const TwoLine: Story = {
       {({ headline, supporting }) => (
         <ListItem id={headline} isDisabled={isDisabled}>
           <Leading leading={leading} />
-          <ListItemText>
-            <Text slot="headline">{headline}</Text>
-            <Text slot="supporting">{supporting}</Text>
-          </ListItemText>
+          <ListItemText headline={headline} supporting={supporting} />
           <Trailing trailing={trailing} />
         </ListItem>
       )}
@@ -184,10 +179,7 @@ export const ThreeLine: Story = {
       {({ headline, supporting }) => (
         <ListItem id={headline} isDisabled={isDisabled}>
           <Leading leading={leading} />
-          <ListItemText>
-            <Text slot="headline">{headline}</Text>
-            <Text slot="supporting">{supporting}</Text>
-          </ListItemText>
+          <ListItemText headline={headline} supporting={supporting} />
           <Trailing trailing={trailing} />
         </ListItem>
       )}
@@ -226,11 +218,11 @@ export const ThreeLineWithOverline: Story = {
       {({ headline, supporting, overline }) => (
         <ListItem id={headline} isDisabled={isDisabled}>
           <Leading leading={leading} />
-          <ListItemText hasOverline>
-            <Text slot="overline">{overline}</Text>
-            <Text slot="headline">{headline}</Text>
-            <Text slot="supporting">{supporting}</Text>
-          </ListItemText>
+          <ListItemText
+            headline={headline}
+            supporting={supporting}
+            overline={overline}
+          />
           <Trailing trailing={trailing} />
         </ListItem>
       )}

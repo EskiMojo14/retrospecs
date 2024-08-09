@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DialogTrigger, Text } from "react-aria-components";
+import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { EmptyState } from "~/components/empty";
@@ -54,14 +54,10 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
         name={member.profile.display_name}
         color={member.profile.color}
       />
-      <ListItemText className={styles.name} aria-label="User details">
-        <Text slot="headline" className={styles.displayName}>
-          {member.profile.display_name}
-        </Text>
-        <Text slot="supporting" className={styles.email}>
-          {member.profile.email}
-        </Text>
-      </ListItemText>
+      <ListItemText
+        headline={member.profile.display_name}
+        supporting={member.profile.email}
+      />
       {userId !== session?.user.id && permissions >= Permission.Admin ? (
         <Toolbar align="end" aria-label="Actions" className={styles.actions}>
           <DialogTrigger>

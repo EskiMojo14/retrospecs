@@ -13,6 +13,7 @@ import {
   useContextProps,
   TextContext,
   useSlottedContext,
+  Text,
 } from "react-aria-components";
 import { MergeProvider } from "~/components/provider";
 import { SymbolContext } from "~/components/symbol";
@@ -123,25 +124,29 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps<any>>(
 
 ListItem.displayName = "ListItem";
 
-interface ListItemTextProps extends ComponentPropsWithoutRef<"div"> {
-  /** Should be specified if this is a three line item with an overline, to prevent supporting text wrapping */
-  hasOverline?: boolean;
+interface ListItemTextProps
+  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+  headline: ReactNode;
+  overline?: ReactNode;
+  supporting?: ReactNode;
 }
 
 export const ListItemText = forwardRef<HTMLDivElement, ListItemTextProps>(
-  ({ children, className, hasOverline, ...props }, ref) => (
+  ({ className, overline, headline, supporting, ...props }, ref) => (
     <div
       {...props}
       ref={ref}
       className={cls({
         element: "item-text",
         modifiers: {
-          "no-overline": !hasOverline,
+          "no-overline": !overline,
         },
         extra: className,
       })}
     >
-      {children}
+      {overline && <Text slot="overline">{overline}</Text>}
+      <Text slot="headline">{headline}</Text>
+      {supporting && <Text slot="supporting">{supporting}</Text>}
     </div>
   ),
 );
