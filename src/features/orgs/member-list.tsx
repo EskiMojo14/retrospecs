@@ -71,7 +71,10 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
                 permissions <
                 (member.role === "admin" ? Permission.Owner : Permission.Admin)
               }
-              slot={null}
+              color={member.profile.color}
+              icon={({ isSelected }) =>
+                isSelected && <Symbol>verified_user</Symbol>
+              }
             >
               Admin
             </Switch>

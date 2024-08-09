@@ -19,7 +19,7 @@ export interface SwitchProps extends Omit<AriaSwitchProps, "className"> {
 const cls = bemHelper("switch");
 
 const defaultIcon = ({ isSelected }: SwitchRenderProps) =>
-  isSelected ? <Symbol>check</Symbol> : null;
+  isSelected && <Symbol>check</Symbol>;
 
 const symbolContextValue: ContextType<typeof SymbolContext> = { size: 16 };
 
