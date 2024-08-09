@@ -44,7 +44,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
         name={inviter.display_name}
         color={inviter.color}
       />
-      <ListItemText>
+      <ListItemText hasOverline>
         <Text slot="overline">
           {new Date(invite.created_at).toLocaleDateString()}
         </Text>
