@@ -16,7 +16,7 @@
     margin: 0;
     margin-bottom: 0.75rem;
     color: typography.emphasis("text", "high");
-    white-space: nowrap;
+    white-space: pre-wrap;
   }
   &__description {
     margin: 0;
