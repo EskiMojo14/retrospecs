@@ -55,7 +55,7 @@ function Trailing({ trailing }: Pick<StoryProps, "trailing">) {
       return <Switch />;
     case "icon-button":
       return (
-        <IconButton tooltip="edit">
+        <IconButton tooltip="Edit">
           <Symbol>edit</Symbol>
         </IconButton>
       );
