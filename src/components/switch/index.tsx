@@ -24,12 +24,15 @@ const defaultIcon = ({ isSelected }: SwitchRenderProps) =>
 const symbolContextValue: ContextType<typeof SymbolContext> = { size: 16 };
 
 export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
-  ({ className, children, color, icon = defaultIcon, ...props }, ref) => (
+  (
+    { className, children, color = "gold", icon = defaultIcon, ...props },
+    ref,
+  ) => (
     <AriaSwitch
       {...props}
       ref={ref}
       className={cls({
-        modifiers: [color ?? ""],
+        modifiers: [color],
         extra: className,
       })}
     >

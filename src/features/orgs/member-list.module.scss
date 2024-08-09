@@ -10,41 +10,12 @@
 }
 
 .memberRow {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
-  gap: 0.5rem;
-  padding: 4px;
-  height: 64px;
-  flex-grow: 1;
   transition: background 200ms;
-  &:not(:last-child) {
-    border-bottom: 1px solid typography.emphasis("text", "divider");
-  }
   &:focus-visible {
     outline: none;
   }
   &[data-focus-visible] {
     background-color: rgba(var(--gold-500-rgb), theme.states-opacity("focus"));
-  }
-  .name {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.25rem;
-    @include util.rtl-box("margin", 0, 1rem);
-    .displayName {
-      margin: 0;
-      @include util.ellipsis;
-    }
-    .email {
-      margin: 0;
-      color: typography.emphasis("text", "medium");
-      @include util.ellipsis;
-    }
   }
   .actions {
     flex: 0 0 auto;
@@ -52,8 +23,6 @@
 }
 
 .memberList {
-  display: flex;
-  flex-direction: column;
   border-radius: var(--border-radius-medium);
   overflow: hidden;
   &Container {
@@ -61,25 +30,9 @@
     background-color: var(--surface);
     @include elevation.shadow(4);
     border-radius: 56px * 0.5;
-    padding: 1rem;
     grid-column: span 12;
   }
   &Grid {
     @include layout.responsive-grid();
-  }
-}
-
-.empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 2rem 1rem;
-  &Title {
-    margin: 0;
-  }
-  &Desc {
-    margin: 0;
-    color: typography.emphasis("text", "medium");
   }
 }

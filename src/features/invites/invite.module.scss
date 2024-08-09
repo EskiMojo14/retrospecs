@@ -3,13 +3,7 @@
 @use "~/util";
 
 .invite {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-height: 72px;
-  padding: 8px 4px;
   transition: background 200ms;
-  max-width: 512px;
   &:not(:last-child) {
     border-bottom: 1px solid typography.emphasis("text", "divider");
   }
@@ -18,24 +12,5 @@
   }
   &[data-focus-visible] {
     background-color: rgba(var(--gold-500-rgb), theme.states-opacity("focus"));
-  }
-  .details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-    min-width: 0;
-    .date,
-    .inviter {
-      margin: 0;
-      color: typography.emphasis("text", "medium");
-
-      @include util.ellipsis;
-    }
-    .org {
-      margin: 0;
-      color: typography.emphasis("text", "high");
-      @include util.ellipsis;
-    }
   }
 }

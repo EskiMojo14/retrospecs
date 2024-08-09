@@ -1,16 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
-import { DialogTrigger, GridListItem } from "react-aria-components";
+import { DialogTrigger, Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { IconButton } from "~/components/icon-button";
+import { ListItem, ListItemText } from "~/components/list";
 import { Symbol } from "~/components/symbol";
 import { toastQueue } from "~/components/toast";
 import { Toolbar } from "~/components/toolbar";
-import { Typography } from "~/components/typography";
+import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import DeclineInviteIcon from "~/icons/decline-invite";
 import type { PostgrestErrorWithMeta } from "~/util/supabase-query";
-import { acceptInvite, deleteInvite, type InviteWithInviter } from ".";
+import type { InviteWithInviter } from ".";
+import { acceptInvite, deleteInvite } from ".";
 import styles from "./invite.module.scss";
 
 interface InviteEntryProps {
@@ -25,6 +27,7 @@ const emptyInviter = {
 } satisfies InviteWithInviter["inviter"];
 
 export function InviteEntry({ invite }: InviteEntryProps) {
+  const session = useSession();
   const inviter = invite.inviter ?? emptyInviter;
 
   const { mutate: acceptInviteFn } = useMutation(
@@ -35,31 +38,34 @@ export function InviteEntry({ invite }: InviteEntryProps) {
   );
 
   return (
-    <GridListItem className={styles.invite}>
+    <ListItem className={styles.invite}>
       <Avatar
         src={inviter.avatar_url}
         name={inviter.display_name}
         color={inviter.color}
-        size="small"
       />
-      <div className={styles.details}>
-        <Typography variant="overline" className={styles.date}>
+      <ListItemText>
+        <Text slot="overline">
           {new Date(invite.created_at).toLocaleDateString()}
-        </Typography>
-        <Typography variant="subtitle1" className={styles.org}>
+        </Text>
+        <Text slot="headline" className={styles.org}>
           {invite.org_name}
-        </Typography>
-        <Typography variant="body2" className={styles.inviter}>
+        </Text>
+        <Text slot="supporting" className={styles.inviter}>
           Invited by {inviter.display_name}
-        </Typography>
-      </div>
+        </Text>
+      </ListItemText>
       <Toolbar align="end">
         <IconButton
           tooltip="Accept"
           variant="filled"
           color="green"
           onPress={() => {
-            acceptInviteFn(invite);
+            if (!session) return;
+            acceptInviteFn({
+              ...invite,
+              user_id: session.user.id,
+            });
           }}
         >
           <Symbol>mark_email_read</Symbol>
@@ -108,6 +114,6 @@ export function InviteEntry({ invite }: InviteEntryProps) {
           />
         </DialogTrigger>
       </Toolbar>
-    </GridListItem>
+    </ListItem>
   );
 }

@@ -26,6 +26,7 @@
     border-radius: var(--border-radius-medium);
     overflow-x: hidden;
     overflow-y: auto;
+    max-width: 512px;
     &[data-empty] {
       border: none;
       display: flex;

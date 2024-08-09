@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Dialog, DialogTrigger, GridList } from "react-aria-components";
+import { Dialog, DialogTrigger } from "react-aria-components";
 import { Badge } from "~/components/badge";
 import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
@@ -12,6 +12,7 @@ import { pluralize } from "~/util";
 import { InviteEntry } from "./invite";
 import { getInvitesByUserId, inviteAdapter, selectAllInvites } from ".";
 import styles from "./invites.module.scss";
+import { List } from "~/components/list";
 
 export function Invites({ isOpen }: { isOpen?: boolean }) {
   const session = useSession();
@@ -35,7 +36,8 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
           <Heading variant="subtitle1" slot="title" className={styles.title}>
             Invites
           </Heading>
-          <GridList
+          <List
+            variant="three-line"
             items={invites}
             id="invites-list"
             className={styles.list}
@@ -49,7 +51,7 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
             )}
           >
             {(invite) => <InviteEntry id={invite.org_id} invite={invite} />}
-          </GridList>
+          </List>
         </Dialog>
       </Popover>
     </DialogTrigger>

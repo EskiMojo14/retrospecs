@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DialogTrigger, GridList, GridListItem } from "react-aria-components";
+import { DialogTrigger, Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { Checkbox } from "~/components/checkbox";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
 import { LineBackground } from "~/components/line-background";
+import { List, ListItem, ListItemText } from "~/components/list";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
@@ -44,7 +45,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
   if (!member?.profile) return null;
   const userId = member.user_id;
   return (
-    <GridListItem
+    <ListItem
       textValue={member.profile.display_name}
       className={styles.memberRow}
     >
@@ -52,16 +53,15 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
         src={member.profile.avatar_url}
         name={member.profile.display_name}
         color={member.profile.color}
-        size="small"
       />
-      <section className={styles.name} aria-label="User details">
-        <Typography variant="body1" className={styles.displayName}>
+      <ListItemText className={styles.name} aria-label="User details">
+        <Text slot="headline" className={styles.displayName}>
           {member.profile.display_name}
-        </Typography>
-        <Typography variant="body2" className={styles.email}>
+        </Text>
+        <Text slot="supporting" className={styles.email}>
           {member.profile.email}
-        </Typography>
-      </section>
+        </Text>
+      </ListItemText>
       {userId !== session?.user.id && permissions >= Permission.Admin ? (
         <Toolbar align="end" aria-label="Actions" className={styles.actions}>
           <DialogTrigger>
@@ -112,7 +112,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
           </DialogTrigger>
         </Toolbar>
       ) : null}
-    </GridListItem>
+    </ListItem>
   );
 }
 
@@ -133,7 +133,8 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
       </Typography>
       <div className={styles.memberListContainer}>
         <LineBackground opacity={0.2}>
-          <GridList
+          <List
+            variant="two-line"
             aria-labelledby="member-list-title"
             className={styles.memberList}
             renderEmptyState={() => (
@@ -147,7 +148,7 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
             {memberIds.map((id) => (
               <MemberRow key={id} id={id} orgId={orgId} />
             ))}
-          </GridList>
+          </List>
         </LineBackground>
       </div>
     </section>
