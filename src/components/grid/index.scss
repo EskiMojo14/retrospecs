@@ -1,0 +1,5 @@
+@use "~/theme/layout";
+
+.grid {
+  @include layout.responsive-grid();
+}

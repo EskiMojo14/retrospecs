@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { ExtendedFab } from "~/components/button/fab";
+import { Grid } from "~/components/grid";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { createHydratingLoader } from "~/db/loader.server";
@@ -55,7 +56,9 @@ export default function OrgMembers() {
             { label: "Members", href: `/orgs/${orgId}/members` },
           ]}
         />
-        <MemberList orgId={orgId} memberIds={memberIds} />
+        <Grid>
+          <MemberList orgId={orgId} memberIds={memberIds} />
+        </Grid>
         <CreateInvite
           orgId={orgId}
           trigger={

@@ -133,7 +133,7 @@ export interface MemberListProps {
 
 export function MemberList({ orgId, memberIds }: MemberListProps) {
   return (
-    <section className={styles.memberListGrid}>
+    <section className={styles.memberListContainer}>
       <Typography
         variant="headline5"
         className={styles.title}
@@ -141,7 +141,7 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
       >
         Members
       </Typography>
-      <div className={styles.memberListContainer}>
+      <div className={styles.memberListCard}>
         <LineBackground opacity={0.2}>
           <List
             variant="two-line"
