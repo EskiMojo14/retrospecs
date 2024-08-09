@@ -1,0 +1,119 @@
+@use "sass:map";
+@use "~/theme/typography";
+@use "~/theme";
+@use "~/util";
+@use "./variables";
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1;
+  transition: opacity 200ms;
+  @include typography.style("body2");
+
+  --switch-track-color: rgba(var(--unselected-fill-rgb), 0.5);
+  --switch-track-border-color: rgb(var(--unselected-outline-rgb));
+  --switch-track-focused-border-color: rgb(var(--unselected-outline-focus-rgb));
+  --switch-handle-color: rgb(var(--unselected-handle-rgb));
+  --switch-handle-focused-color: rgb(var(--unselected-handle-focus-rgb));
+  --switch-icon-color: rgb(var(--unselected-icon-rgb));
+
+  @each $color, $map in variables.$color-map {
+    &--#{$color} {
+      @each $state, $state-map in map.get($map, "light") {
+        @each $var, $value in $state-map {
+          --#{$state}-#{$var}-rgb: var(--#{$color}-#{$value}-rgb);
+        }
+      }
+      @include theme.dark {
+        @each $state, $state-map in map.get($map, "dark") {
+          @each $var, $value in $state-map {
+            --#{$state}-#{$var}-rgb: var(--#{$color}-#{$value}-rgb);
+          }
+        }
+      }
+    }
+  }
+
+  @include theme.focus-ring;
+
+  &__track {
+    position: relative;
+    height: 32px;
+    width: 52px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius-full);
+    background-color: var(--switch-track-color);
+    border: 2px solid var(--switch-track-border-color);
+    transition:
+      background-color 200ms,
+      border-color 200ms;
+  }
+
+  &__handle {
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: var(--border-radius-full);
+    background-color: var(--switch-handle-color);
+    color: transparent;
+    transition:
+      height 200ms,
+      width 200ms,
+      left 200ms,
+      right 200ms,
+      background-color 200ms,
+      color 200ms;
+    @include util.rtl-position(left, 4px);
+    &--has-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--switch-icon-color);
+      @include util.rtl-position(left, 2px);
+    }
+  }
+
+  &[data-selected] {
+    --switch-track-color: rgb(var(--selected-fill-rgb));
+    --switch-track-border-color: rgb(var(--selected-outline-rgb));
+    --switch-track-focused-border-color: rgb(var(--selected-outline-focus-rgb));
+    --switch-handle-color: rgb(var(--selected-handle-rgb));
+    --switch-handle-focused-color: rgb(var(--selected-handle-focus-rgb));
+    --switch-icon-color: rgb(var(--selected-icon-rgb));
+    .switch__handle {
+      height: 24px;
+      width: 24px;
+      @include util.rtl-position(left, 22px);
+    }
+  }
+
+  &[data-focus-visible],
+  &[data-hovered],
+  &[data-pressed] {
+    --switch-track-border-color: var(--switch-track-focused-border-color);
+    --switch-handle-color: var(--switch-handle-focused-color);
+  }
+
+  &[data-pressed] {
+    .switch__handle {
+      height: 28px;
+      width: 28px;
+      @include util.rtl-position(left, 0);
+    }
+    &[data-selected] {
+      .switch__handle {
+        @include util.rtl-position(left, 20px);
+      }
+    }
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+  }
+}
