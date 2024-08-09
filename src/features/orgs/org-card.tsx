@@ -3,6 +3,7 @@ import { DialogTrigger, Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
+import { Divider } from "~/components/divider";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
@@ -55,6 +56,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
           {org.name}
         </Typography>
       </CardPrimaryAction>
+      <Divider />
       <CardActions>
         <Toolbar slot="buttons">
           <LinkButton

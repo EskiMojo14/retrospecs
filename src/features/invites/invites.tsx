@@ -41,6 +41,7 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
             variant="three-line"
             items={invites}
             id="invites-list"
+            aria-label="Invites"
             className={styles.list}
             renderEmptyState={() => (
               <EmptyState

@@ -296,3 +296,6 @@ export const promiseOwnProperties = <T extends Record<string, unknown>>(
   promiseFromEntries(Object.entries(obj)) as Promise<{
     [K in keyof T]: Awaited<T[K]>;
   }>;
+
+export const repeatArray = <T>(array: Array<T>, count: number) =>
+  Array<Array<T>>(count).fill(array).flat();

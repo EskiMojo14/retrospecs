@@ -7,10 +7,15 @@ import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { createHydratingLoader } from "~/db/loader.server";
 import { CreateInvite } from "~/features/invites/create-invite";
+import { PendingInvites } from "~/features/invites/pending";
 import { NavBar } from "~/features/nav-bar";
 import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
 import { MemberList } from "~/features/orgs/member-list";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import {
+  Permission,
+  useCurrentUserPermissions,
+} from "~/hooks/use-user-permissions";
 import { promiseOwnProperties } from "~/util";
 
 export const meta: MetaFunction<any> = ({
@@ -46,6 +51,7 @@ export default function OrgMembers() {
     initialData: orgMembers,
     select: (members) => selectOrgMemberIds(members),
   });
+  const permissions = useCurrentUserPermissions(orgId);
   return (
     <main>
       <LineBackground opacity={0.5}>
@@ -57,12 +63,17 @@ export default function OrgMembers() {
           ]}
         />
         <Grid>
+          {permissions >= Permission.Admin && <PendingInvites orgId={orgId} />}
           <MemberList orgId={orgId} memberIds={memberIds} />
         </Grid>
         <CreateInvite
           orgId={orgId}
           trigger={
-            <ExtendedFab placement="corner" aria-label="Invite Member">
+            <ExtendedFab
+              placement="corner"
+              color="green"
+              aria-label="Invite Member"
+            >
               <Symbol slot="leading">group_add</Symbol>
               Invite
             </ExtendedFab>

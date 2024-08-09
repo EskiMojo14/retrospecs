@@ -17,6 +17,7 @@ export const buttonColors = [
   "teal",
   "pink",
   "gold",
+  "inherit",
 ] as const;
 
 export type ButtonColor = (typeof buttonColors)[number];

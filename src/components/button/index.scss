@@ -34,6 +34,13 @@
   @include typography.style("button");
 
   @include mixins.colors;
+  &--inherit {
+    --button-text-rgb: var(--text-rgb);
+    --button-outline-rgb: var(--text-rgb);
+    --button-fill-rgb: var(--surface-rgb);
+    --button-filled-text-rgb: var(--text-rgb);
+    --button-filled-outline-rgb: var(--text-rgb);
+  }
   @include theme.focus-ring;
 
   @at-root button#{&} {

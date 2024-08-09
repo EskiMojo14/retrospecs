@@ -7,6 +7,7 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { cardColors, cardVariants } from "./constants";
 import { Card, CardActions, CardPrimaryAction, CardSection } from ".";
+import { Divider } from "../divider";
 
 interface StoryArgs extends ComponentPropsWithoutRef<typeof Card> {
   onPrimaryAction?: () => void;
@@ -48,6 +49,7 @@ export const Default: Story = {
       >
         Primary action
       </CardPrimaryAction>
+      <Divider />
       <CardSection
         style={{
           padding: "16px",
@@ -55,6 +57,7 @@ export const Default: Story = {
       >
         Normal section
       </CardSection>
+      <Divider />
       <CardActions>
         <Toolbar slot="buttons">
           <Button onPress={onActionButton} slot="action">

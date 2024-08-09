@@ -1,16 +1,16 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
+import { Card } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider, DividerFragment } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
-import { LineBackground } from "~/components/line-background";
 import { List, ListItem, ListItemText } from "~/components/list";
 import { Switch } from "~/components/switch";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
-import { Typography } from "~/components/typography";
+import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import {
@@ -53,10 +53,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
   if (!member?.profile) return null;
   const userId = member.user_id;
   return (
-    <ListItem
-      textValue={member.profile.display_name}
-      className={styles.memberRow}
-    >
+    <ListItem textValue={member.profile.display_name}>
       <Avatar
         src={member.profile.avatar_url}
         name={member.profile.display_name}
@@ -78,7 +75,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
                 currentUserPermissions <
                 (member.role === "admin" ? Permission.Owner : Permission.Admin)
               }
-              color={member.profile.color}
+              color="teal"
               icon={({ isSelected }) =>
                 isSelected && <Symbol>verified_user</Symbol>
               }
@@ -108,7 +105,11 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
             />
           </DialogTrigger>
           <DialogTrigger>
-            <IconButton tooltip="Remove from group">
+            <IconButton
+              color="red"
+              tooltip="Remove from group"
+              variant="filled"
+            >
               <Symbol>group_remove</Symbol>
             </IconButton>
             <ConfirmationDialog
@@ -134,36 +135,33 @@ export interface MemberListProps {
 export function MemberList({ orgId, memberIds }: MemberListProps) {
   return (
     <section className={styles.memberListContainer}>
-      <Typography
+      <Heading
         variant="headline5"
         className={styles.title}
         id="member-list-title"
       >
-        Members
-      </Typography>
-      <div className={styles.memberListCard}>
-        <LineBackground opacity={0.2}>
-          <List
-            variant="two-line"
-            aria-labelledby="member-list-title"
-            className={styles.memberList}
-            renderEmptyState={() => (
-              <EmptyState
-                size="large"
-                title="No members"
-                description="Invite members to collaborate on your projects."
-              />
-            )}
-          >
-            {memberIds.map((id) => (
-              <DividerFragment key={id} id={id}>
-                <MemberRow id={id} orgId={orgId} />
-                <Divider variant="inset" />
-              </DividerFragment>
-            ))}
-          </List>
-        </LineBackground>
-      </div>
+        Members ({memberIds.length})
+      </Heading>
+      <Card variant="raised" className={styles.memberListCard}>
+        <List
+          variant="two-line"
+          aria-labelledby="member-list-title"
+          className={styles.memberList}
+          renderEmptyState={() => (
+            <EmptyState
+              title="No members"
+              description="Invite members to collaborate on your projects."
+            />
+          )}
+        >
+          {memberIds.map((id) => (
+            <DividerFragment key={id} id={id}>
+              <MemberRow id={id} orgId={orgId} />
+              <Divider variant="inset" />
+            </DividerFragment>
+          ))}
+        </List>
+      </Card>
     </section>
   );
 }

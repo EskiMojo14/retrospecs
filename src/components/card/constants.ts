@@ -1,4 +1,11 @@
-export const cardColors = ["green", "blue", "amber", "orange", "red"] as const;
+export const cardColors = [
+  "green",
+  "blue",
+  "amber",
+  "orange",
+  "red",
+  "teal",
+] as const;
 
 export type CardColor = (typeof cardColors)[number];
 

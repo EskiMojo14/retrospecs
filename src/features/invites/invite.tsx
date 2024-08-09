@@ -37,7 +37,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
   );
 
   return (
-    <ListItem className={styles.invite}>
+    <ListItem className={styles.invite} textValue={invite.org_name}>
       <Avatar
         src={inviter.avatar_url}
         name={inviter.display_name}

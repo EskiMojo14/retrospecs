@@ -1,11 +1,16 @@
+@use "~/theme/typography";
 @use "~/util";
 
 .divider {
   border: none;
+  --divider: #{typography.emphasis("text", "divider")};
   background-color: var(--divider);
   width: 100%;
   height: 1px;
   margin: 8px 0;
+  .card__content > & {
+    margin: 0;
+  }
   &.divider--inset {
     width: calc(100% - 16px);
     @include util.rtl-box("margin", 16px);

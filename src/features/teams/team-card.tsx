@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
+import { Divider } from "~/components/divider";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
@@ -36,6 +37,7 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
           {team.name}
         </Typography>
       </CardPrimaryAction>
+      <Divider />
       <CardActions>
         <Toolbar slot="buttons">
           <LinkButton

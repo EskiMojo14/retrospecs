@@ -13,9 +13,6 @@ $hover-time: 0.2s;
   --card-mid-hover: #{rgb(var(--card-mid-hover-rgb))};
   --card-bg-hover: #{rgb(var(--card-bg-hover-rgb))};
 
-  --card-text-rgb: var(--black-rgb);
-  --card-text: rgb(var(--card-text-rgb));
-
   --card-radius: var(--border-radius-medium);
   display: flex;
   flex-direction: column;
@@ -23,8 +20,7 @@ $hover-time: 0.2s;
   position: relative;
   transition:
     background-color $hover-time,
-    box-shadow $hover-time,
-    translate $hover-time;
+    box-shadow $hover-time;
   @include mixins.colors;
   &::before {
     content: "";
@@ -40,7 +36,7 @@ $hover-time: 0.2s;
   &--filled,
   &--raised {
     background-color: var(--card-outer);
-    color: var(--card-text);
+    color: var(--text);
     .card__bg {
       background-color: var(--card-bg);
     }
@@ -49,7 +45,6 @@ $hover-time: 0.2s;
     @include elevation.shadow(4);
     &:hover {
       @include elevation.shadow(6);
-      translate: -2px -2px;
     }
   }
   &__bg {
@@ -69,10 +64,6 @@ $hover-time: 0.2s;
   &__section {
     padding: 4px 16px;
     border: none;
-    border-top: 2px solid var(--card-outer);
-    &:first-child {
-      border-top: none;
-    }
     &--primary-action {
       position: relative;
       overflow: hidden;
@@ -103,7 +94,7 @@ $hover-time: 0.2s;
         margin: -6px 0;
       }
     }
-    @include theme.ripple(var(--card-text), " .card__section-ripple");
+    @include theme.ripple(var(--text), " .card__section-ripple");
     &-ripple {
       top: 0;
       left: 0;

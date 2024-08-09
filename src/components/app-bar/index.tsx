@@ -42,7 +42,7 @@ const buttonContextValue: ContextType<typeof ButtonContext> = {
   slots: {
     [DEFAULT_SLOT]: {},
     action: {
-      className: cls("action"),
+      color: "inherit",
     },
   },
 };

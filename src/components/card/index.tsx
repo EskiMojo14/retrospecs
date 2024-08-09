@@ -33,7 +33,7 @@ export const Card = createGenericComponent<
   "Card",
   "div",
   (
-    { children, color, as: As, className, variant = "filled", ...props },
+    { children, color, as: As, className, variant = "raised", ...props },
     ref,
   ) => (
     <As
@@ -121,7 +121,7 @@ export const CardActions = createGenericComponent<
 >(
   "CardActions",
   "section",
-  ({ children, className, color = "brown", ...props }, ref) => {
+  ({ children, className, color = "inherit", ...props }, ref) => {
     const buttonContextValue = useMemo(
       () => ({
         slots: {

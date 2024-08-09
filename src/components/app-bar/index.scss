@@ -58,12 +58,4 @@ $colors: (#bb3e03, #ca6702, #ee9b00, #eadaa9);
   &__section {
     gap: 0.5rem;
   }
-  &__action {
-    --button-text-rgb: var(--text-rgb);
-    --button-outline-rgb: var(--text-rgb);
-    @include theme.dark {
-      --button-text-rgb: var(--text-rgb);
-      --button-outline-rgb: var(--text-rgb);
-    }
-  }
 }

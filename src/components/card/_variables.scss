@@ -6,9 +6,9 @@ $default-color: (
     bg: 100,
   ),
   dark: (
-    outer: 900,
+    outer: 300,
     mid: 500,
-    bg: 200,
+    bg: 900,
   ),
 );
 
@@ -20,9 +20,9 @@ $color-map: (
       bg: 100,
     ),
     dark: (
-      outer: 900,
+      outer: 300,
       mid: 500,
-      bg: 200,
+      bg: 900,
     ),
   ),
   "green": (
@@ -32,9 +32,9 @@ $color-map: (
       bg: 100,
     ),
     dark: (
-      outer: 900,
+      outer: 300,
       mid: 500,
-      bg: 200,
+      bg: 900,
     ),
   ),
   "amber": (
@@ -44,9 +44,9 @@ $color-map: (
       bg: 100,
     ),
     dark: (
-      outer: 900,
+      outer: 300,
       mid: 500,
-      bg: 200,
+      bg: 900,
     ),
   ),
   "orange": (
@@ -56,9 +56,9 @@ $color-map: (
       bg: 100,
     ),
     dark: (
-      outer: 900,
+      outer: 300,
       mid: 500,
-      bg: 200,
+      bg: 900,
     ),
   ),
   "gold": (
@@ -68,9 +68,9 @@ $color-map: (
       bg: 100,
     ),
     dark: (
-      outer: 900,
+      outer: 300,
       mid: 500,
-      bg: 200,
+      bg: 900,
     ),
   ),
   "red": (
@@ -80,9 +80,21 @@ $color-map: (
       bg: 100,
     ),
     dark: (
-      outer: 900,
+      outer: 300,
       mid: 500,
-      bg: 200,
+      bg: 900,
+    ),
+  ),
+  "teal": (
+    light: (
+      outer: 700,
+      mid: 300,
+      bg: 100,
+    ),
+    dark: (
+      outer: 300,
+      mid: 500,
+      bg: 900,
     ),
   ),
 );

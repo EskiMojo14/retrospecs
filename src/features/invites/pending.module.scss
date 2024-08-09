@@ -1,10 +1,7 @@
 @use "~/theme/elevation";
 @use "~/theme/layout";
-@use "~/theme/typography";
-@use "~/theme";
-@use "~/util";
 
-.memberListContainer {
+.pendingContainer {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -17,7 +14,7 @@
   }
 }
 
-.memberListCard {
+.pendingCard {
   :global(.card__content) {
     padding: 4px 16px;
   }
@@ -27,11 +24,11 @@
   margin: 0;
 }
 
-.memberList {
+.pending {
   border-radius: var(--border-radius-medium);
+  overflow: hidden;
 }
 
 .actions {
   flex: 0 0 auto;
-  gap: 16px;
 }
