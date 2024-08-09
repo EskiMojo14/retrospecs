@@ -9,13 +9,6 @@
 }
 
 .memberRow {
-  transition: background 200ms;
-  &:focus-visible {
-    outline: none;
-  }
-  &[data-focus-visible] {
-    background-color: rgba(var(--gold-500-rgb), theme.states-opacity("focus"));
-  }
   .actions {
     flex: 0 0 auto;
   }
@@ -29,6 +22,8 @@
     background-color: var(--surface);
     @include elevation.shadow(4);
     border-radius: 56px * 0.5;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   &Container {
     grid-column: span 6;

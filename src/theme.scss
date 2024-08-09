@@ -34,6 +34,13 @@
   }
 }
 
+@mixin inner-focus-ring {
+  &[data-focus-visible] {
+    outline: var(--outline-width) solid var(--focus-ring-color);
+    outline-offset: calc(var(--outline-width) * -1);
+  }
+}
+
 @mixin outline(
   $border-radius-size: full,
   $outline-border-radius:

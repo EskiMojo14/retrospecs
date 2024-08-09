@@ -23,6 +23,7 @@ $variants: (
 
 .list {
   padding: 8px 0;
+  @include theme.inner-focus-ring;
   @each $variant, $map in $variants {
     &--#{$variant} {
       @each $key, $value in map.keys($map) {
@@ -37,6 +38,7 @@ $variants: (
     align-items: var(--list-align);
     gap: 16px;
     @include theme.ripple(var(--text));
+    @include theme.inner-focus-ring;
     .avatar {
       width: 40px;
       height: 40px;
