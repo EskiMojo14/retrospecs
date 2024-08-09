@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { DialogTrigger, Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
-import { Checkbox } from "~/components/checkbox";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
 import { LineBackground } from "~/components/line-background";
 import { List, ListItem, ListItemText } from "~/components/list";
+import { Switch } from "~/components/switch";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
@@ -65,7 +65,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
       {userId !== session?.user.id && permissions >= Permission.Admin ? (
         <Toolbar align="end" aria-label="Actions" className={styles.actions}>
           <DialogTrigger>
-            <Checkbox
+            <Switch
               isSelected={member.role === "admin"}
               isDisabled={
                 permissions <
@@ -74,7 +74,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
               slot={null}
             >
               Admin
-            </Checkbox>
+            </Switch>
             <ConfirmationDialog
               title={member.role === "admin" ? "Demote admin" : "Promote admin"}
               description={
