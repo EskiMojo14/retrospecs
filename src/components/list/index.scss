@@ -52,7 +52,11 @@ $variants: (
   &__text {
     @include typography.defaults;
     margin: 0;
-    @include util.ellipsis;
+    white-space: nowrap;
+    .list__item-text & {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
     &--overline {
       @include typography.style("overline");
       color: typography.emphasis("text", "medium");
