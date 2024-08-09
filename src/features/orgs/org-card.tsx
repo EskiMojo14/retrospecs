@@ -87,8 +87,9 @@ export function OrgCard({ orgId }: OrgCardProps) {
                   title="Delete organisation"
                   description={`Are you sure you want to delete "${org.name}"?`}
                   onConfirm={(close) => {
-                    deleteOrgFn(orgId);
-                    close();
+                    deleteOrgFn(orgId, {
+                      onSuccess: close,
+                    });
                   }}
                   confirmButtonProps={{
                     isDisabled: isPending,

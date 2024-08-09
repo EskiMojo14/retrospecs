@@ -78,18 +78,6 @@ export default function Org() {
   } = useMutation(useOptionsCreator(addTeam));
   const [errors, validateTeam, resetValidation] =
     useFormSchema(createTeamSchema);
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const unparsedData = new FormData(event.currentTarget);
-    const parsedData = validateTeam({
-      ...Object.fromEntries(unparsedData),
-      org_id: orgId,
-      created_by: session?.user.id,
-    });
-    if (parsedData.success) {
-      addTeamFn(parsedData.output);
-    }
-  };
   return (
     <main>
       <LineBackground opacity={0.5}>
@@ -126,7 +114,20 @@ export default function Org() {
                 <DialogContent
                   as={Form}
                   id="create-team-form"
-                  onSubmit={handleSubmit}
+                  onSubmit={(event: FormEvent<HTMLFormElement>) => {
+                    event.preventDefault();
+                    const unparsedData = new FormData(event.currentTarget);
+                    const parsedData = validateTeam({
+                      ...Object.fromEntries(unparsedData),
+                      org_id: orgId,
+                      created_by: session?.user.id,
+                    });
+                    if (parsedData.success) {
+                      addTeamFn(parsedData.output, {
+                        onSuccess: close,
+                      });
+                    }
+                  }}
                   validationErrors={errors?.validationErrors}
                 >
                   <TextField label="Name" name="name" isRequired />
