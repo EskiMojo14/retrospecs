@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
+import { Divider, DividerFragment } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
 import { LineBackground } from "~/components/line-background";
@@ -145,7 +146,10 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
             )}
           >
             {memberIds.map((id) => (
-              <MemberRow key={id} id={id} orgId={orgId} />
+              <DividerFragment key={id} id={id}>
+                <MemberRow id={id} orgId={orgId} />
+                <Divider variant="inset" />
+              </DividerFragment>
             ))}
           </List>
         </LineBackground>

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { Checkbox } from "~/components/checkbox";
+import { Divider, DividerFragment } from "~/components/divider";
 import { IconButton } from "~/components/icon-button";
 import { Image } from "~/components/image";
 import { Switch } from "~/components/switch";
@@ -18,6 +19,7 @@ interface StoryProps {
     | "checkbox"
     | "switch";
   trailing?: "icon" | "text" | "checkbox" | "switch" | "icon-button";
+  divider: "none" | "full" | "inset" | "middle";
 }
 
 function Leading({ leading }: Pick<StoryProps, "leading">) {
@@ -81,10 +83,15 @@ const meta = {
       control: "select",
       options: [undefined, "icon", "text", "checkbox", "switch", "icon-button"],
     },
+    divider: {
+      control: "select",
+      options: ["none", "full", "inset", "middle"],
+    },
   },
   args: {
     isDisabled: false,
     leading: undefined,
+    divider: "none",
   },
 } satisfies Meta<StoryProps>;
 
@@ -95,7 +102,7 @@ type Story = StoryObj<StoryProps>;
 const oneLineItems = [{ headline: "Headline" }, { headline: "Headline 2" }];
 
 export const OneLine: Story = {
-  render: ({ isDisabled, leading, trailing }) => (
+  render: ({ isDisabled, leading, trailing, divider }) => (
     <List
       variant="one-line"
       items={oneLineItems}
@@ -106,14 +113,17 @@ export const OneLine: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, isDisabled]}
+      dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline }) => (
-        <ListItem id={headline} isDisabled={isDisabled}>
-          <Leading leading={leading} />
-          <ListItemText headline={headline} />
-          <Trailing trailing={trailing} />
-        </ListItem>
+        <DividerFragment id={headline}>
+          <ListItem isDisabled={isDisabled}>
+            <Leading leading={leading} />
+            <ListItemText headline={headline} />
+            <Trailing trailing={trailing} />
+          </ListItem>
+          {divider !== "none" && <Divider variant={divider} />}
+        </DividerFragment>
       )}
     </List>
   ),
@@ -126,7 +136,7 @@ const twoLineItems = [
 ];
 
 export const TwoLine: Story = {
-  render: ({ isDisabled, leading, trailing }) => (
+  render: ({ isDisabled, leading, trailing, divider }) => (
     <List
       variant="two-line"
       items={twoLineItems}
@@ -137,14 +147,17 @@ export const TwoLine: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, isDisabled]}
+      dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline, supporting }) => (
-        <ListItem id={headline} isDisabled={isDisabled}>
-          <Leading leading={leading} />
-          <ListItemText headline={headline} supporting={supporting} />
-          <Trailing trailing={trailing} />
-        </ListItem>
+        <DividerFragment id={headline}>
+          <ListItem id={headline} isDisabled={isDisabled}>
+            <Leading leading={leading} />
+            <ListItemText headline={headline} supporting={supporting} />
+            <Trailing trailing={trailing} />
+          </ListItem>
+          {divider !== "none" && <Divider variant={divider} />}
+        </DividerFragment>
       )}
     </List>
   ),
@@ -163,7 +176,7 @@ const threeLineItems = [
 ];
 
 export const ThreeLine: Story = {
-  render: ({ isDisabled, leading, trailing }) => (
+  render: ({ isDisabled, leading, trailing, divider }) => (
     <List
       variant="three-line"
       items={threeLineItems}
@@ -174,14 +187,17 @@ export const ThreeLine: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, isDisabled]}
+      dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline, supporting }) => (
-        <ListItem id={headline} isDisabled={isDisabled}>
-          <Leading leading={leading} />
-          <ListItemText headline={headline} supporting={supporting} />
-          <Trailing trailing={trailing} />
-        </ListItem>
+        <DividerFragment id={headline}>
+          <ListItem isDisabled={isDisabled}>
+            <Leading leading={leading} />
+            <ListItemText headline={headline} supporting={supporting} />
+            <Trailing trailing={trailing} />
+          </ListItem>
+          {divider !== "none" && <Divider variant={divider} />}
+        </DividerFragment>
       )}
     </List>
   ),
@@ -202,7 +218,7 @@ const threeLineItemsWithOverline = [
 ];
 
 export const ThreeLineWithOverline: Story = {
-  render: ({ isDisabled, leading, trailing }) => (
+  render: ({ isDisabled, leading, trailing, divider }) => (
     <List
       variant="three-line"
       items={threeLineItemsWithOverline}
@@ -213,18 +229,21 @@ export const ThreeLineWithOverline: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, isDisabled]}
+      dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline, supporting, overline }) => (
-        <ListItem id={headline} isDisabled={isDisabled}>
-          <Leading leading={leading} />
-          <ListItemText
-            headline={headline}
-            supporting={supporting}
-            overline={overline}
-          />
-          <Trailing trailing={trailing} />
-        </ListItem>
+        <DividerFragment id={headline}>
+          <ListItem isDisabled={isDisabled}>
+            <Leading leading={leading} />
+            <ListItemText
+              headline={headline}
+              supporting={supporting}
+              overline={overline}
+            />
+            <Trailing trailing={trailing} />
+          </ListItem>
+          {divider !== "none" && <Divider variant={divider} />}
+        </DividerFragment>
       )}
     </List>
   ),

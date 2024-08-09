@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogTrigger } from "react-aria-components";
 import { Badge } from "~/components/badge";
+import { Divider, DividerFragment } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
+import { List } from "~/components/list";
 import { Popover } from "~/components/popover";
 import { Symbol } from "~/components/symbol";
 import { Heading } from "~/components/typography";
@@ -12,7 +14,6 @@ import { pluralize } from "~/util";
 import { InviteEntry } from "./invite";
 import { getInvitesByUserId, inviteAdapter, selectAllInvites } from ".";
 import styles from "./invites.module.scss";
-import { List } from "~/components/list";
 
 export function Invites({ isOpen }: { isOpen?: boolean }) {
   const session = useSession();
@@ -50,7 +51,12 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
               />
             )}
           >
-            {(invite) => <InviteEntry id={invite.org_id} invite={invite} />}
+            {(invite) => (
+              <DividerFragment id={invite.org_id}>
+                <InviteEntry invite={invite} />
+                <Divider variant="middle" />
+              </DividerFragment>
+            )}
           </List>
         </Dialog>
       </Popover>

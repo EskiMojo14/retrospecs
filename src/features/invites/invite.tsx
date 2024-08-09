@@ -16,7 +16,6 @@ import { acceptInvite, deleteInvite } from ".";
 import styles from "./invite.module.scss";
 
 interface InviteEntryProps {
-  id: number;
   invite: InviteWithInviter;
 }
 

@@ -4,9 +4,6 @@
 
 .invite {
   transition: background 200ms;
-  &:not(:last-child) {
-    border-bottom: 1px solid typography.emphasis("text", "divider");
-  }
   &:focus-visible {
     outline: none;
   }

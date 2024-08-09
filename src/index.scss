@@ -68,6 +68,8 @@
   @include rgb-var("surface", "white");
   @include rgb-var("text", "black");
 
+  --divider: #{typography.emphasis("text", "divider")};
+
   --selection-color: var(--gold-500);
   --selection-text-color: var(--white);
 }

@@ -22,7 +22,6 @@
     color: typography.emphasis("text", "high");
   }
   .list {
-    border: 1px solid typography.emphasis("text", "divider");
     border-radius: var(--border-radius-medium);
     overflow-x: hidden;
     overflow-y: auto;
