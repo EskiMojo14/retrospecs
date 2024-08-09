@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DialogTrigger, Link } from "react-aria-components";
+import { Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
@@ -79,24 +79,24 @@ export function OrgCard({ orgId }: OrgCardProps) {
               }
             />
             {permissions >= Permission.Owner ? (
-              <DialogTrigger>
-                <IconButton tooltip="Delete" slot="action">
-                  <Symbol>delete</Symbol>
-                </IconButton>
-                <ConfirmationDialog
-                  title="Delete organisation"
-                  description={`Are you sure you want to delete "${org.name}"?`}
-                  onConfirm={(close) => {
-                    deleteOrgFn(orgId, {
-                      onSuccess: close,
-                    });
-                  }}
-                  confirmButtonProps={{
-                    isDisabled: isPending,
-                    color: "red",
-                  }}
-                />
-              </DialogTrigger>
+              <ConfirmationDialog
+                trigger={
+                  <IconButton tooltip="Delete" slot="action">
+                    <Symbol>delete</Symbol>
+                  </IconButton>
+                }
+                title="Delete organisation"
+                description={`Are you sure you want to delete "${org.name}"?`}
+                onConfirm={(close) => {
+                  deleteOrgFn(orgId, {
+                    onSuccess: close,
+                  });
+                }}
+                confirmButtonProps={{
+                  isDisabled: isPending,
+                  color: "red",
+                }}
+              />
             ) : null}
           </Toolbar>
         ) : null}

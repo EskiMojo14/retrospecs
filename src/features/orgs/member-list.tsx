@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { Card } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
@@ -68,59 +67,61 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
       userPermissions !== Permission.Owner &&
       currentUserPermissions >= Permission.Admin ? (
         <Toolbar align="end" aria-label="Actions" className={styles.actions}>
-          <DialogTrigger>
-            <Switch
-              isSelected={member.role === "admin"}
-              isDisabled={
-                currentUserPermissions <
-                (member.role === "admin" ? Permission.Owner : Permission.Admin)
-              }
-              color="teal"
-              icon={({ isSelected }) =>
-                isSelected && <Symbol>verified_user</Symbol>
-              }
-            >
-              Admin
-            </Switch>
-            <ConfirmationDialog
-              title={member.role === "admin" ? "Demote admin" : "Promote admin"}
-              description={
-                member.role === "admin"
-                  ? `Are you sure you want to demote "${member.profile.display_name}" from admin?`
-                  : `Are you sure you want to promote "${member.profile.display_name}" to admin?\nOnce promoted, only the owner can demote them.`
-              }
-              confirmButtonProps={
-                member.role === "admin"
-                  ? { children: "Demote", color: "red" }
-                  : { children: "Promote", color: "green" }
-              }
-              onConfirm={(close) => {
-                updateMember({
-                  org_id: orgId,
-                  user_id: userId,
-                  role: member.role === "admin" ? "member" : "admin",
-                });
-                close();
-              }}
-            />
-          </DialogTrigger>
-          <DialogTrigger>
-            <IconButton
-              color="red"
-              tooltip="Remove from group"
-              variant="filled"
-            >
-              <Symbol>group_remove</Symbol>
-            </IconButton>
-            <ConfirmationDialog
-              title="Remove member"
-              description={`Are you sure you want to remove "${member.profile.display_name}" from the group?`}
-              confirmButtonProps={{ children: "Remove", color: "red" }}
-              onConfirm={() => {
-                deleteMember({ org_id: orgId, user_id: userId });
-              }}
-            />
-          </DialogTrigger>
+          <ConfirmationDialog
+            trigger={
+              <Switch
+                isSelected={member.role === "admin"}
+                isDisabled={
+                  currentUserPermissions <
+                  (member.role === "admin"
+                    ? Permission.Owner
+                    : Permission.Admin)
+                }
+                color="teal"
+                icon={({ isSelected }) =>
+                  isSelected && <Symbol>verified_user</Symbol>
+                }
+              >
+                Admin
+              </Switch>
+            }
+            title={member.role === "admin" ? "Demote admin" : "Promote admin"}
+            description={
+              member.role === "admin"
+                ? `Are you sure you want to demote "${member.profile.display_name}" from admin?`
+                : `Are you sure you want to promote "${member.profile.display_name}" to admin?\nOnce promoted, only the owner can demote them.`
+            }
+            confirmButtonProps={
+              member.role === "admin"
+                ? { children: "Demote", color: "red" }
+                : { children: "Promote", color: "green" }
+            }
+            onConfirm={(close) => {
+              updateMember({
+                org_id: orgId,
+                user_id: userId,
+                role: member.role === "admin" ? "member" : "admin",
+              });
+              close();
+            }}
+          />
+          <ConfirmationDialog
+            trigger={
+              <IconButton
+                color="red"
+                tooltip="Remove from group"
+                variant="filled"
+              >
+                <Symbol>group_remove</Symbol>
+              </IconButton>
+            }
+            title="Remove member"
+            description={`Are you sure you want to remove "${member.profile.display_name}" from the group?`}
+            confirmButtonProps={{ children: "Remove", color: "red" }}
+            onConfirm={() => {
+              deleteMember({ org_id: orgId, user_id: userId });
+            }}
+          />
         </Toolbar>
       ) : null}
     </ListItem>

@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { DialogTrigger } from "react-aria-components";
 import { Card } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider, DividerFragment } from "~/components/divider";
@@ -24,50 +23,50 @@ function InviteRow({ invite }: { invite: InviteWithInviter }) {
         headline={invite.email}
         supporting={`Invited by ${invite.inviter?.display_name ?? "Unknown"}`}
       />
-      <DialogTrigger>
-        <IconButton color="red" variant="filled" tooltip="Revoke invite">
-          <Symbol>
-            <SvgDeclineInvite />
-          </Symbol>
-        </IconButton>
-        <ConfirmationDialog
-          title="Revoke invite"
-          description={
-            <>
-              Are you sure you want to revoke the invite for{" "}
-              <b>{invite.email}</b>?
-            </>
-          }
-          confirmButtonProps={{
-            color: "red",
-            children: "Revoke",
-          }}
-          onConfirm={(close) => {
-            revokeInvite(invite, {
-              onError(error) {
-                toastQueue.add({
-                  type: "error",
-                  title: "Failed to revoke invite",
-                  description: error.message,
-                });
-              },
-              onSuccess() {
-                close();
-                toastQueue.add(
-                  {
-                    type: "success",
-                    title: "Invite revoked",
-                    description: `The invite to ${invite.email} has been revoked.`,
-                  },
-                  {
-                    timeout: 5000,
-                  },
-                );
-              },
-            });
-          }}
-        />
-      </DialogTrigger>
+      <ConfirmationDialog
+        trigger={
+          <IconButton color="red" variant="filled" tooltip="Revoke invite">
+            <Symbol>
+              <SvgDeclineInvite />
+            </Symbol>
+          </IconButton>
+        }
+        title="Revoke invite"
+        description={
+          <>
+            Are you sure you want to revoke the invite for <b>{invite.email}</b>
+            ?
+          </>
+        }
+        confirmButtonProps={{
+          color: "red",
+          children: "Revoke",
+        }}
+        onConfirm={(close) => {
+          revokeInvite(invite, {
+            onError(error) {
+              toastQueue.add({
+                type: "error",
+                title: "Failed to revoke invite",
+                description: error.message,
+              });
+            },
+            onSuccess() {
+              close();
+              toastQueue.add(
+                {
+                  type: "success",
+                  title: "Invite revoked",
+                  description: `The invite to ${invite.email} has been revoked.`,
+                },
+                {
+                  timeout: 5000,
+                },
+              );
+            },
+          });
+        }}
+      />
     </ListItem>
   );
 }

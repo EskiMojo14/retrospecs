@@ -3,7 +3,6 @@ import { clsx } from "clsx";
 import debounce from "lodash/debounce";
 import startCase from "lodash/startCase";
 import { useCallback, useMemo } from "react";
-import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { Button, ButtonGroup, ToggleButton } from "~/components/button";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -67,132 +66,134 @@ export function PreferencesDialog() {
   const theme = config?.theme ?? "system";
   const groove = config?.groove ?? "heavy";
   return (
-    <DialogTrigger>
-      <IconButton slot="action" tooltip="User preferences">
-        <Symbol>settings_account_box</Symbol>
-      </IconButton>
-      <Dialog isDismissable>
-        {({ close }) => (
-          <>
-            <Heading variant="headline6" level={5} slot="title">
-              User Preferences
-            </Heading>
-            <DialogContent>
-              {profile && (
-                <section className={styles.section}>
-                  <Heading variant="subtitle1" className={styles.sectionTitle}>
-                    Profile
-                  </Heading>
-                  <div className={styles.profile}>
-                    <Avatar
-                      src={profile.avatar_url}
-                      name={profile.display_name}
-                      color={profile.color}
-                    />
-                    <div className={styles.profileInfo}>
-                      <TextField
-                        label="Display name"
-                        defaultValue={profile.display_name}
-                        onChange={(value) => {
-                          debouncedProfileChange({ display_name: value });
-                        }}
-                      />
-                      <Typography variant="caption" className={styles.email}>
-                        {profile.email}
-                      </Typography>
-                    </div>
-                  </div>
-                  <Select
-                    id="color-group"
-                    label="Profile color"
-                    description="The color used for, or around, your profile picture."
-                    selectedKey={profile.color}
-                    onSelectionChange={(color) => {
-                      handleProfileChange({ color: color as Color });
-                    }}
-                    renderSelected={({ defaultChildren }) => (
-                      <span
-                        className={clsx(
-                          styles.selectValue,
-                          styles[profile.color],
-                        )}
-                      >
-                        {defaultChildren}
-                      </span>
-                    )}
-                  >
-                    {colors.map((color) => (
-                      <SelectItem
-                        key={color}
-                        id={color}
-                        className={clsx(styles.selectItem, styles[color])}
-                        textValue={startCase(color)}
-                      >
-                        <Symbol fill>circle</Symbol>
-                        {startCase(color)}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                </section>
-              )}
+    <Dialog
+      trigger={
+        <IconButton slot="action" tooltip="User preferences">
+          <Symbol>settings_account_box</Symbol>
+        </IconButton>
+      }
+      isDismissable
+    >
+      {({ close }) => (
+        <>
+          <Heading variant="headline6" level={5} slot="title">
+            User Preferences
+          </Heading>
+          <DialogContent>
+            {profile && (
               <section className={styles.section}>
                 <Heading variant="subtitle1" className={styles.sectionTitle}>
-                  Appearance
+                  Profile
                 </Heading>
-                <ButtonGroup
-                  id="theme-group"
-                  label="Theme"
-                  description="The color scheme to use."
-                  variant="outlined"
-                  color="blue"
-                  items={themeEntries}
-                  dependencies={[theme]}
-                >
-                  {([themeName, symbol]) => (
-                    <ToggleButton
-                      id={themeName}
-                      isSelected={theme === themeName}
-                      onPress={() => {
-                        handleConfigChange({ theme: themeName as Theme });
+                <div className={styles.profile}>
+                  <Avatar
+                    src={profile.avatar_url}
+                    name={profile.display_name}
+                    color={profile.color}
+                  />
+                  <div className={styles.profileInfo}>
+                    <TextField
+                      label="Display name"
+                      defaultValue={profile.display_name}
+                      onChange={(value) => {
+                        debouncedProfileChange({ display_name: value });
                       }}
+                    />
+                    <Typography variant="caption" className={styles.email}>
+                      {profile.email}
+                    </Typography>
+                  </div>
+                </div>
+                <Select
+                  id="color-group"
+                  label="Profile color"
+                  description="The color used for, or around, your profile picture."
+                  selectedKey={profile.color}
+                  onSelectionChange={(color) => {
+                    handleProfileChange({ color: color as Color });
+                  }}
+                  renderSelected={({ defaultChildren }) => (
+                    <span
+                      className={clsx(
+                        styles.selectValue,
+                        styles[profile.color],
+                      )}
                     >
-                      <Symbol slot="leading">{symbol}</Symbol>
-                      {startCase(themeName)}
-                    </ToggleButton>
+                      {defaultChildren}
+                    </span>
                   )}
-                </ButtonGroup>
-                <ButtonGroup
-                  id="groove-group"
-                  label="Groove"
-                  description={
-                    'Whether to use loud backgrounds or not.\n"Low volume" removes the loudest backgrounds, and "None" removes all patterned backgrounds.'
-                  }
-                  variant="outlined"
-                  color="amber"
-                  items={grooveEntries}
-                  dependencies={[groove]}
                 >
-                  {([grooveName, symbol]) => (
-                    <ToggleButton
-                      id={grooveName}
-                      isSelected={groove === grooveName}
-                      onPress={() => {
-                        handleConfigChange({ groove: grooveName as Groove });
-                      }}
+                  {colors.map((color) => (
+                    <SelectItem
+                      key={color}
+                      id={color}
+                      className={clsx(styles.selectItem, styles[color])}
+                      textValue={startCase(color)}
                     >
-                      <Symbol slot="leading">{symbol}</Symbol>
-                      {startCase(grooveName)}
-                    </ToggleButton>
-                  )}
-                </ButtonGroup>
+                      <Symbol fill>circle</Symbol>
+                      {startCase(color)}
+                    </SelectItem>
+                  ))}
+                </Select>
               </section>
-            </DialogContent>
-            <Toolbar slot="actions">
-              <Button onPress={close}>Close</Button>
-            </Toolbar>
-          </>
-        )}
-      </Dialog>
-    </DialogTrigger>
+            )}
+            <section className={styles.section}>
+              <Heading variant="subtitle1" className={styles.sectionTitle}>
+                Appearance
+              </Heading>
+              <ButtonGroup
+                id="theme-group"
+                label="Theme"
+                description="The color scheme to use."
+                variant="outlined"
+                color="blue"
+                items={themeEntries}
+                dependencies={[theme]}
+              >
+                {([themeName, symbol]) => (
+                  <ToggleButton
+                    id={themeName}
+                    isSelected={theme === themeName}
+                    onPress={() => {
+                      handleConfigChange({ theme: themeName as Theme });
+                    }}
+                  >
+                    <Symbol slot="leading">{symbol}</Symbol>
+                    {startCase(themeName)}
+                  </ToggleButton>
+                )}
+              </ButtonGroup>
+              <ButtonGroup
+                id="groove-group"
+                label="Groove"
+                description={
+                  'Whether to use loud backgrounds or not.\n"Low volume" removes the loudest backgrounds, and "None" removes all patterned backgrounds.'
+                }
+                variant="outlined"
+                color="amber"
+                items={grooveEntries}
+                dependencies={[groove]}
+              >
+                {([grooveName, symbol]) => (
+                  <ToggleButton
+                    id={grooveName}
+                    isSelected={groove === grooveName}
+                    onPress={() => {
+                      handleConfigChange({ groove: grooveName as Groove });
+                    }}
+                  >
+                    <Symbol slot="leading">{symbol}</Symbol>
+                    {startCase(grooveName)}
+                  </ToggleButton>
+                )}
+              </ButtonGroup>
+            </section>
+          </DialogContent>
+          <Toolbar slot="actions">
+            <Button onPress={close}>Close</Button>
+          </Toolbar>
+        </>
+      )}
+    </Dialog>
   );
 }

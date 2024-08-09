@@ -1,11 +1,13 @@
 import { clsx } from "clsx";
-import type { ContextType } from "react";
+import type { ContextType, ReactNode } from "react";
 import type {
   DialogProps as AriaDialogProps,
+  DialogTriggerProps,
   ModalOverlayProps,
 } from "react-aria-components";
 import {
   Dialog as AriaDialog,
+  DialogTrigger,
   DEFAULT_SLOT,
   Modal,
   ModalOverlay,
@@ -27,6 +29,8 @@ export interface DialogProps
     > {
   modalProps?: ModalOverlayProps & { className?: string };
   modalOverlayProps?: ModalOverlayProps & { className?: string };
+  trigger: ReactNode;
+  triggerProps?: Omit<DialogTriggerProps, "children">;
 }
 
 const cls = bemHelper("dialog");
@@ -47,32 +51,37 @@ export const Dialog = ({
   isKeyboardDismissDisabled,
   shouldCloseOnInteractOutside,
   children,
+  trigger,
+  triggerProps,
   ...props
 }: DialogProps) => (
-  <ModalOverlay
-    {...{
-      isDismissable,
-      isKeyboardDismissDisabled,
-      shouldCloseOnInteractOutside,
-    }}
-    {...modalOverlayProps}
-    className={overlayCls({ extra: modalOverlayProps?.className ?? "" })}
-  >
-    <Modal
-      {...modalProps}
-      className={clsx("dialog-modal", modalProps?.className)}
+  <DialogTrigger {...triggerProps}>
+    {trigger}
+    <ModalOverlay
+      {...{
+        isDismissable,
+        isKeyboardDismissDisabled,
+        shouldCloseOnInteractOutside,
+      }}
+      {...modalOverlayProps}
+      className={overlayCls({ extra: modalOverlayProps?.className ?? "" })}
     >
-      <LineBackground opacity={0.3}>
-        <AriaDialog {...props} className={cls({ extra: className })}>
-          {renderPropsChild(children, (children) => (
-            <Provider values={[[ToolbarContext, toolbarContextValue]]}>
-              {children}
-            </Provider>
-          ))}
-        </AriaDialog>
-      </LineBackground>
-    </Modal>
-  </ModalOverlay>
+      <Modal
+        {...modalProps}
+        className={clsx("dialog-modal", modalProps?.className)}
+      >
+        <LineBackground opacity={0.3}>
+          <AriaDialog {...props} className={cls({ extra: className })}>
+            {renderPropsChild(children, (children) => (
+              <Provider values={[[ToolbarContext, toolbarContextValue]]}>
+                {children}
+              </Provider>
+            ))}
+          </AriaDialog>
+        </LineBackground>
+      </Modal>
+    </ModalOverlay>
+  </DialogTrigger>
 );
 
 export const DialogContent = createGenericComponent<

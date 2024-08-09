@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRef, type FormEvent } from "react";
-import { DialogTrigger, Form } from "react-aria-components";
+import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
 import { minLength, number, object, pipe, string } from "valibot";
 import { Button } from "~/components/button";
@@ -88,68 +88,70 @@ export default function Org() {
           ]}
         />
         <TeamGrid orgId={orgId} teamIds={teamIds} />
-        <DialogTrigger
-          onOpenChange={(isOpen) => {
-            if (!isOpen) {
-              formRef.current?.reset();
-              reset();
-              resetValidation();
-            }
+        <Dialog
+          trigger={
+            <ExtendedFab
+              color="green"
+              aria-label="Create team"
+              placement="corner"
+            >
+              <Symbol slot="leading">add</Symbol>
+              Create
+            </ExtendedFab>
+          }
+          triggerProps={{
+            onOpenChange: (isOpen) => {
+              if (!isOpen) {
+                formRef.current?.reset();
+                reset();
+                resetValidation();
+              }
+            },
           }}
         >
-          <ExtendedFab
-            color="green"
-            aria-label="Create team"
-            placement="corner"
-          >
-            <Symbol slot="leading">add</Symbol>
-            Create
-          </ExtendedFab>
-          <Dialog>
-            {({ close }) => (
-              <>
-                <Heading variant="headline6" slot="title">
-                  Create team
-                </Heading>
-                <DialogContent
-                  as={Form}
-                  id="create-team-form"
-                  onSubmit={(event: FormEvent<HTMLFormElement>) => {
-                    event.preventDefault();
-                    const unparsedData = new FormData(event.currentTarget);
-                    const parsedData = validateTeam({
-                      ...Object.fromEntries(unparsedData),
-                      org_id: orgId,
-                      created_by: session?.user.id,
+          {({ close }) => (
+            <>
+              <Heading variant="headline6" slot="title">
+                Create team
+              </Heading>
+              <DialogContent
+                as={Form}
+                id="create-team-form"
+                onSubmit={(event: FormEvent<HTMLFormElement>) => {
+                  event.preventDefault();
+                  const unparsedData = new FormData(event.currentTarget);
+                  const parsedData = validateTeam({
+                    ...Object.fromEntries(unparsedData),
+                    org_id: orgId,
+                    created_by: session?.user.id,
+                  });
+                  if (parsedData.success) {
+                    addTeamFn(parsedData.output, {
+                      onSuccess: close,
                     });
-                    if (parsedData.success) {
-                      addTeamFn(parsedData.output, {
-                        onSuccess: close,
-                      });
-                    }
-                  }}
-                  validationErrors={errors?.validationErrors}
+                  }
+                }}
+                validationErrors={errors?.validationErrors}
+              >
+                <TextField label="Name" name="name" isRequired />
+              </DialogContent>
+              <Toolbar slot="actions">
+                <Button onPress={close} variant="outlined">
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  form="create-team-form"
+                  variant="elevated"
+                  isDisabled={isPending}
+                  color={isError ? "red" : undefined}
                 >
-                  <TextField label="Name" name="name" isRequired />
-                </DialogContent>
-                <Toolbar slot="actions">
-                  <Button onPress={close} variant="outlined">
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    form="create-team-form"
-                    variant="elevated"
-                    isDisabled={isPending}
-                    color={isError ? "red" : undefined}
-                  >
-                    Create
-                  </Button>
-                </Toolbar>
-              </>
-            )}
-          </Dialog>
-        </DialogTrigger>
+                  Create
+                </Button>
+              </Toolbar>
+            </>
+          )}
+        </Dialog>
       </LineBackground>
     </main>
   );

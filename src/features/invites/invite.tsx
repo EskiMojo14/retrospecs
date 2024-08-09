@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { DialogTrigger } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { IconButton } from "~/components/icon-button";
@@ -63,49 +62,50 @@ export function InviteEntry({ invite }: InviteEntryProps) {
         >
           <Symbol>mark_email_read</Symbol>
         </IconButton>
-        <DialogTrigger>
-          <IconButton tooltip="Decline" variant="outlined" color="red">
-            <Symbol>
-              <DeclineInviteIcon />
-            </Symbol>
-          </IconButton>
-          <ConfirmationDialog
-            title={`Decline invite to "${invite.org_name}"`}
-            description={
-              <>
-                Are you sure you want to decline this invite from{" "}
-                <b>{inviter.display_name}</b>?{"\n"}
-                Once declined, you&apos;ll need to be invited again to join.
-              </>
-            }
-            confirmButtonProps={{
-              children: "Decline",
-              color: "red",
-            }}
-            onConfirm={(close) => {
-              deleteInviteFn(invite)
-                .then(() => {
-                  toastQueue.add(
-                    {
-                      type: "success",
-                      title: "Invite declined",
-                    },
-                    {
-                      timeout: 5000,
-                    },
-                  );
-                })
-                .catch((e: unknown) => {
-                  toastQueue.add({
-                    type: "error",
-                    title: "Failed to decline invite",
-                    description: (e as PostgrestErrorWithMeta).message,
-                  });
+
+        <ConfirmationDialog
+          trigger={
+            <IconButton tooltip="Decline" variant="outlined" color="red">
+              <Symbol>
+                <DeclineInviteIcon />
+              </Symbol>
+            </IconButton>
+          }
+          title={`Decline invite to "${invite.org_name}"`}
+          description={
+            <>
+              Are you sure you want to decline this invite from{" "}
+              <b>{inviter.display_name}</b>?{"\n"}
+              Once declined, you&apos;ll need to be invited again to join.
+            </>
+          }
+          confirmButtonProps={{
+            children: "Decline",
+            color: "red",
+          }}
+          onConfirm={(close) => {
+            deleteInviteFn(invite)
+              .then(() => {
+                toastQueue.add(
+                  {
+                    type: "success",
+                    title: "Invite declined",
+                  },
+                  {
+                    timeout: 5000,
+                  },
+                );
+              })
+              .catch((e: unknown) => {
+                toastQueue.add({
+                  type: "error",
+                  title: "Failed to decline invite",
+                  description: (e as PostgrestErrorWithMeta).message,
                 });
-              close();
-            }}
-          />
-        </DialogTrigger>
+              });
+            close();
+          }}
+        />
       </Toolbar>
     </ListItem>
   );

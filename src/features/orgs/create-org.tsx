@@ -1,10 +1,12 @@
+import { mergeProps } from "@react-aria/utils";
 import { useMutation } from "@tanstack/react-query";
-import type { ReactNode, FormEvent } from "react";
+import type { FormEvent } from "react";
 import { useRef } from "react";
-import { DialogTrigger, Form } from "react-aria-components";
+import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
 import { minLength, object, pipe, string } from "valibot";
 import { Button } from "~/components/button";
+import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
@@ -18,11 +20,10 @@ const createOrgSchema = object({
   name: pipe(string(), minLength(1)),
 }) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
 
-export interface CreateOrgProps {
-  trigger: ReactNode;
-}
-
-export function CreateOrg({ trigger }: CreateOrgProps) {
+export function CreateOrg({
+  triggerProps,
+  ...props
+}: Omit<DialogProps, "children">) {
   const formRef = useRef<HTMLFormElement>(null);
   const {
     mutate: addOrgFn,
@@ -47,50 +48,50 @@ export function CreateOrg({ trigger }: CreateOrgProps) {
     }
   };
   return (
-    <DialogTrigger
-      onOpenChange={(isOpen) => {
-        if (!isOpen) {
-          formRef.current?.reset();
-          resetMutation();
-          resetValidation();
-        }
-      }}
+    <Dialog
+      {...props}
+      triggerProps={mergeProps(triggerProps, {
+        onOpenChange: (isOpen: boolean) => {
+          if (!isOpen) {
+            formRef.current?.reset();
+            resetMutation();
+            resetValidation();
+          }
+        },
+      })}
     >
-      {trigger}
-      <Dialog>
-        {({ close }) => (
-          <>
-            <Heading variant="headline6" slot="title">
-              Create organisation
-            </Heading>
-            <DialogContent
-              as={Form}
-              ref={formRef}
-              id="create-org-form"
-              onSubmit={(e: FormEvent<HTMLFormElement>) => {
-                handleSubmit(e, close);
-              }}
-              validationErrors={errors?.validationErrors}
+      {({ close }) => (
+        <>
+          <Heading variant="headline6" slot="title">
+            Create organisation
+          </Heading>
+          <DialogContent
+            as={Form}
+            ref={formRef}
+            id="create-org-form"
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
+              handleSubmit(e, close);
+            }}
+            validationErrors={errors?.validationErrors}
+          >
+            <TextField label="Name" name="name" isRequired />
+          </DialogContent>
+          <Toolbar slot="actions">
+            <Button onPress={close} variant="outlined">
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              form="create-org-form"
+              variant="elevated"
+              isDisabled={isPending}
+              color={isError ? "red" : undefined}
             >
-              <TextField label="Name" name="name" isRequired />
-            </DialogContent>
-            <Toolbar slot="actions">
-              <Button onPress={close} variant="outlined">
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                form="create-org-form"
-                variant="elevated"
-                isDisabled={isPending}
-                color={isError ? "red" : undefined}
-              >
-                Create
-              </Button>
-            </Toolbar>
-          </>
-        )}
-      </Dialog>
-    </DialogTrigger>
+              Create
+            </Button>
+          </Toolbar>
+        </>
+      )}
+    </Dialog>
   );
 }
