@@ -154,7 +154,7 @@ ToggleButton.displayName = "ToggleButton";
 export interface ButtonGroupProps<T extends object>
   extends Pick<ButtonProps, "color" | "variant" | "isDisabled">,
     FormGroupProps,
-    CollectionProps<T> {
+    Pick<CollectionProps<T>, "items" | "children" | "dependencies"> {
   orientation?: "horizontal" | "vertical";
   className?: string;
   id: string;
@@ -183,8 +183,6 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
 
       items,
       dependencies,
-      idScope,
-      addIdAndValue,
 
       ...props
     },
@@ -227,8 +225,6 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
               {...{
                 items,
                 dependencies,
-                idScope,
-                addIdAndValue,
               }}
             >
               {children}

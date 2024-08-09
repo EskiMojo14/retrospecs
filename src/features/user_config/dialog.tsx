@@ -145,7 +145,6 @@ export function PreferencesDialog() {
                   description="The color scheme to use."
                   variant="outlined"
                   color="blue"
-                  idScope="theme"
                   items={themeEntries}
                   dependencies={[theme]}
                 >
@@ -170,7 +169,6 @@ export function PreferencesDialog() {
                   }
                   variant="outlined"
                   color="amber"
-                  idScope="groove"
                   items={grooveEntries}
                   dependencies={[groove]}
                 >

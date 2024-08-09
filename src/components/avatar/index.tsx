@@ -82,13 +82,14 @@ export const Avatar = createGenericComponent<
 const groupCls = bemHelper("avatar-group");
 
 export interface AvatarGroupProps<T extends object>
-  extends CollectionProps<T>,
+  extends Pick<CollectionProps<T>, "items" | "children" | "dependencies">,
     Pick<AvatarProps, "font" | "size" | "color"> {
   className?: string;
   spacing?: "small" | "medium" | "large";
   max?: number;
   total?: number;
   renderSurplus?: (surplus: number) => ReactNode;
+  id?: string;
 }
 
 const defaultRenderSurplus = (surplus: number) => (
@@ -100,7 +101,7 @@ const defaultRenderSurplus = (surplus: number) => (
 export const AvatarGroup = createGenericComponent<
   "div",
   AvatarGroupProps<object>,
-  { className: string; children: ReactNode }
+  { className: string; children: ReactNode; id?: string }
 >(
   "AvatarGroup",
   "div",
@@ -115,8 +116,7 @@ export const AvatarGroup = createGenericComponent<
 
       children,
       items: itemsProp,
-      idScope,
-      addIdAndValue,
+      dependencies,
 
       font,
       size,
@@ -164,7 +164,11 @@ export const AvatarGroup = createGenericComponent<
         <AvatarContext.Provider value={avatarContextValue}>
           {total > max && renderSurplus(total - (max - 1))}
           {typeof children === "function" ? (
-            <Collection items={slicedItems} {...{ idScope, addIdAndValue }}>
+            <Collection
+              items={slicedItems}
+              idScope={props.id}
+              {...{ dependencies }}
+            >
               {children}
             </Collection>
           ) : (
