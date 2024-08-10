@@ -1,9 +1,10 @@
 import { MDCTopAppBarFoundation } from "@material/top-app-bar";
+import { useNavigate } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { AppBar, AppBarRow } from "~/components/app-bar";
 import { Breadcrumb, Breadcrumbs } from "~/components/breadcrumbs";
-import { LinkButton } from "~/components/button";
+import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { IconButton } from "~/components/icon-button";
 import { Link } from "~/components/link";
 import { Symbol } from "~/components/symbol";
@@ -81,6 +82,7 @@ export interface NavBarProps {
 
 export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
   const navBarRef = useNavBarScroll();
+  const navigate = useNavigate();
 
   return (
     <AppBar ref={navBarRef} className={styles.navBar}>
@@ -100,14 +102,22 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
         <Toolbar slot="actions">
           {actions}
           <Invites />
-          <IconButton
-            slot="action"
-            as={LinkButton}
-            href="/sign-out"
-            tooltip="Sign out"
-          >
-            <Symbol>logout</Symbol>
-          </IconButton>
+          <ConfirmationDialog
+            trigger={
+              <IconButton slot="action" tooltip="Sign out">
+                <Symbol>logout</Symbol>
+              </IconButton>
+            }
+            title="Sign out"
+            description="Are you sure you want to sign out?"
+            confirmButtonProps={{
+              children: "Sign out",
+              color: "red",
+            }}
+            onConfirm={() => {
+              navigate("/sign-out");
+            }}
+          />
           <PreferencesDialog />
         </Toolbar>
       </AppBarRow>
