@@ -109,14 +109,14 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
             trigger={
               <IconButton
                 color="red"
-                tooltip="Remove from group"
+                tooltip="Remove from organisation"
                 variant="filled"
               >
                 <Symbol>group_remove</Symbol>
               </IconButton>
             }
             title="Remove member"
-            description={`Are you sure you want to remove "${member.profile.display_name}" from the group?`}
+            description={`Are you sure you want to remove "${member.profile.display_name}" from the organisation?`}
             confirmButtonProps={{ children: "Remove", color: "red" }}
             onConfirm={() => {
               deleteMember({ org_id: orgId, user_id: userId });
