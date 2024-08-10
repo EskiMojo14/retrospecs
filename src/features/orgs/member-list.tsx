@@ -116,7 +116,12 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
               </IconButton>
             }
             title="Remove member"
-            description={`Are you sure you want to remove "${member.profile.display_name}" from the organisation?`}
+            description={
+              <>
+                Are you sure you want to remove{" "}
+                <b>{member.profile.display_name}</b> from the organisation?
+              </>
+            }
             confirmButtonProps={{ children: "Remove", color: "red" }}
             onConfirm={() => {
               deleteMember({ org_id: orgId, user_id: userId });
