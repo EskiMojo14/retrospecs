@@ -78,9 +78,9 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
                     : Permission.Admin)
                 }
                 color="teal"
-                icon={({ isSelected }) =>
-                  isSelected && <Symbol>verified_user</Symbol>
-                }
+                icon={({ isSelected }) => (
+                  <Symbol>{isSelected ? "check" : "close"}</Symbol>
+                )}
               >
                 Admin
               </Switch>
