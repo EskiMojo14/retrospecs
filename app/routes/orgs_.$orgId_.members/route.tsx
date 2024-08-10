@@ -88,8 +88,8 @@ export default function OrgMembers() {
           ]}
         />
         <Grid>
-          {permissions >= Permission.Admin && <PendingInvites orgId={orgId} />}
           <MemberList orgId={orgId} memberIds={memberIds} />
+          {permissions >= Permission.Admin && <PendingInvites orgId={orgId} />}
         </Grid>
         <CreateInvite
           orgId={orgId}
