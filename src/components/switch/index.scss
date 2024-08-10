@@ -12,7 +12,11 @@
   transition: opacity 200ms;
   @include typography.style("body2");
 
-  --switch-track-color: rgba(var(--unselected-fill-rgb), 0.5);
+  --switch-track-color: color-mix(
+    in srgb,
+    rgb(var(--unselected-fill-rgb)),
+    var(--surface) 50%
+  );
   --switch-track-border-color: rgb(var(--unselected-outline-rgb));
   --switch-track-focused-border-color: rgb(var(--unselected-outline-focus-rgb));
   --switch-handle-color: rgb(var(--unselected-handle-rgb));
