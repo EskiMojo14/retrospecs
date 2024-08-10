@@ -13,16 +13,22 @@ import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
+import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import { useSession } from "~/db/provider";
 import type { TablesInsert } from "~/db/supabase";
 import { NavBar } from "~/features/nav-bar";
 import { getOrg } from "~/features/orgs";
-import { addTeam, getTeamsByOrg, selectTeamIds } from "~/features/teams";
+import { getSprintCountForTeam } from "~/features/sprints";
+import {
+  addTeam,
+  getTeamMemberCount,
+  getTeamsByOrg,
+  selectTeamIds,
+} from "~/features/teams";
 import { TeamGrid } from "~/features/teams/team-grid";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import { promiseOwnProperties } from "~/util";
 
 export const meta: MetaFunction<any> = ({
   data,
@@ -42,10 +48,21 @@ export const loader = createHydratingLoader(
     if (Number.isNaN(orgId)) {
       throw new Error("Invalid orgId");
     }
-    return promiseOwnProperties({
-      org: queryClient.ensureQueryData(getOrg(context, orgId)),
-      teams: queryClient.ensureQueryData(getTeamsByOrg(context, orgId)),
-    });
+    const teams = await queryClient.ensureQueryData(
+      getTeamsByOrg(context, orgId),
+    );
+    const [org] = await Promise.all([
+      queryClient.ensureQueryData(getOrg(context, orgId)),
+      ensureCurrentUserPermissions(context, orgId, "getOrg"),
+      ...selectTeamIds(teams).flatMap((teamId) => [
+        queryClient.prefetchQuery(getTeamMemberCount(context, teamId)),
+        queryClient.prefetchQuery(getSprintCountForTeam(context, teamId)),
+      ]),
+    ]);
+    return {
+      org,
+      teams,
+    };
   },
 );
 

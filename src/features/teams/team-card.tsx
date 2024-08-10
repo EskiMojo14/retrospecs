@@ -9,11 +9,9 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import {
-  Permission,
-  useCurrentUserPermissions,
-} from "~/hooks/use-user-permissions";
+import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { pluralize } from "~/util";
+import { Permission } from "~/util/permissions";
 import {
   deleteTeam,
   getTeamMemberCount,

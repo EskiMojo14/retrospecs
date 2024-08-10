@@ -136,7 +136,7 @@ export interface OrgMemberWithProfile extends OrgMember {
   profile: Profile | null;
 }
 
-const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
+export const selectOrgMemberId = compoundKey<OrgMember>()("org_id", "user_id");
 
 export const orgMemberAdapter = createEntityAdapter<
   OrgMemberWithProfile,

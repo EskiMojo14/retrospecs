@@ -13,10 +13,10 @@ import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import {
-  Permission,
   useCurrentUserPermissions,
   useUserPermissions,
 } from "~/hooks/use-user-permissions";
+import { Permission } from "~/util/permissions";
 import {
   deleteOrgMember,
   getOrgMembers,

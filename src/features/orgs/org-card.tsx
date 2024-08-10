@@ -11,11 +11,9 @@ import { Typography } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { getTeamCountByOrg } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import {
-  Permission,
-  useCurrentUserPermissions,
-} from "~/hooks/use-user-permissions";
+import { useCurrentUserPermissionsGetOrgs } from "~/hooks/use-user-permissions";
 import { pluralize } from "~/util";
+import { Permission } from "~/util/permissions";
 import { EditOrg } from "./edit-org";
 import type { Org } from ".";
 import { deleteOrg, getOrgMemberCount, getOrgs, selectOrgById } from ".";
@@ -37,7 +35,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
   const { data: teamCount = 0 } = useQuery(
     useOptionsCreator(getTeamCountByOrg, orgId),
   );
-  const permissions = useCurrentUserPermissions(orgId);
+  const permissions = useCurrentUserPermissionsGetOrgs(orgId);
   const { mutate: deleteOrgFn, isPending } = useMutation(
     useOptionsCreator(deleteOrg),
   );
