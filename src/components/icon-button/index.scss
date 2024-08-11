@@ -6,7 +6,7 @@
   padding: variables.$padding;
   width: variables.$normal-size;
   height: variables.$normal-size;
-  --border-radius: #{variables.$border-radius};
+  --button-radius: #{variables.$border-radius};
   &::before {
     --outline-border-radius: #{variables.$outline-border-radius};
   }
