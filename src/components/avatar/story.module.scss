@@ -1,0 +1,17 @@
+.title {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.dialog,
+.popover,
+.popover :global(.line-background-content) {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

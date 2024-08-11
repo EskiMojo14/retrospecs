@@ -31,6 +31,7 @@
   align-items: center;
   vertical-align: middle;
   position: relative;
+  @include typography.defaults;
   @include typography.style("button");
 
   @include mixins.colors;
@@ -106,16 +107,11 @@
     justify-content: center;
     align-items: center;
     vertical-align: middle;
+    gap: variables.$icon-spacing;
   }
   &__icon {
     position: relative;
     vertical-align: middle;
-    &--leading {
-      @include util.rtl-box(margin, 0, variables.$icon-spacing);
-    }
-    &--trailing {
-      @include util.rtl-box(margin, variables.$icon-spacing);
-    }
   }
 }
 
