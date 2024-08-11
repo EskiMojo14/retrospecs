@@ -8,12 +8,12 @@
 @use "./variables";
 
 .button {
-  --button-radius: var(--border-radius-full);
-  --button-text: #{rgb(var(--button-text-rgb))};
-  --button-outline: #{rgb(var(--button-outline-rgb))};
-  --button-fill: #{rgb(var(--button-fill-rgb))};
-  --button-filled-text: #{rgb(var(--button-filled-text-rgb))};
-  --button-filled-outline: #{rgb(var(--button-filled-outline-rgb))};
+  --button-radius: var(--border-radius-small);
+  --button-text: rgb(var(--button-text-rgb));
+  --button-outline: rgb(var(--button-outline-rgb));
+  --button-fill: rgb(var(--button-fill-rgb));
+  --button-filled-text: rgb(var(--button-filled-text-rgb));
+  --button-filled-outline: rgb(var(--button-filled-outline-rgb));
   --outline-color: var(--button-outline);
   color: var(--button-text);
   text-wrap: nowrap;
@@ -107,7 +107,7 @@
     justify-content: center;
     align-items: center;
     vertical-align: middle;
-    gap: variables.$icon-spacing;
+    gap: variables.$spacing;
   }
   &__icon {
     position: relative;
