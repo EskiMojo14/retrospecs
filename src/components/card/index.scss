@@ -29,7 +29,7 @@ $hover-time: 0.2s;
     bottom: 2px;
     left: 8px;
     right: 8px;
-    border-radius: 14px;
+    border-radius: calc(var(--card-radius) + 2px);
     transition: background-color $hover-time;
     background-color: var(--card-mid);
   }
@@ -53,7 +53,7 @@ $hover-time: 0.2s;
     bottom: 4px;
     left: 16px;
     right: 16px;
-    border-radius: 16px;
+    border-radius: calc(var(--card-radius) + 4px);
     transition: background-color $hover-time;
   }
   &__content {

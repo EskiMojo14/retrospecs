@@ -46,7 +46,7 @@
     --size: 16px;
     height: var(--size);
     min-width: var(--size);
-    border-radius: calc(var(--size) / 2);
+    border-radius: var(--border-radius-full);
     padding: 0 6px;
     @include typography.defaults;
     @include typography.style("overline");

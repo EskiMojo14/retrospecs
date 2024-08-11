@@ -28,7 +28,7 @@ $sizes: (
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   overflow: hidden;
   border: var(--outline-width) solid var(--outline-color);
   user-select: none;

@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   max-width: 560px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-x-small);
   --background: rgb(var(--background-rgb));
   --text: rgb(var(--text-rgb));
   background-color: var(--background);
