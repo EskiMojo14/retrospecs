@@ -18,8 +18,8 @@
   }
   &[data-focus-visible],
   &[data-pressed] {
-    translate: 0 0;
-    @include elevation.shadow(6);
+    translate: var(--outline-width) var(--outline-width);
+    @include elevation.shadow(4);
   }
   &--exited {
     transition:

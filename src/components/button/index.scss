@@ -83,8 +83,8 @@
     }
     &[data-focus-visible],
     &[data-pressed] {
-      translate: 0 0;
-      @include elevation.shadow(2);
+      translate: var(--outline-width) var(--outline-width);
+      @include elevation.shadow(0);
     }
   }
   &[data-disabled] {
@@ -193,94 +193,5 @@
   &__description {
     white-space: pre-wrap;
     color: typography.emphasis("text", "medium");
-  }
-}
-
-.floating-action-button {
-  position: fixed;
-  @include elevation.shadow(6);
-  $size: 4rem;
-  height: $size;
-  width: $size;
-  bottom: 32px;
-  transition:
-    opacity 200ms,
-    outline 200ms,
-    outline-offset 200ms,
-    box-shadow 200ms,
-    translate 200ms,
-    transform 300ms ease-in,
-    border-radius 200ms;
-  border-radius: var(--border-radius-x-large);
-  --outline-border-radius: calc(
-    var(--border-radius-x-large) - var(--outline-width)
-  );
-  @include util.rtl-position(right, 32px);
-  @include layout.breakpoint("phone", "only") {
-    bottom: 16px;
-    @include util.rtl-position(right, 16px);
-  }
-  &[data-hovered] {
-    translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
-    @include elevation.shadow(8);
-  }
-  &[data-focus-visible],
-  &[data-pressed] {
-    translate: 0 0;
-    @include elevation.shadow(6);
-  }
-  &::before {
-    border-radius: inherit;
-  }
-  &--exited {
-    transition:
-      opacity 200ms,
-      outline 200ms,
-      outline-offset 200ms,
-      box-shadow 200ms,
-      translate 200ms,
-      transform 200ms ease-out;
-    opacity: 0;
-    transform: scale(0);
-  }
-  &--scroll-exited {
-    @include layout.breakpoint("phone", "only") {
-      transition:
-        opacity 200ms,
-        outline 200ms,
-        outline-offset 200ms,
-        box-shadow 200ms,
-        translate 200ms,
-        transform 200ms ease-out;
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
-  @include layout.breakpoint("tablet-l", "above") {
-    &--extended {
-      height: 3.5rem;
-      width: auto;
-      padding: 0 calc((var(--outline-width) * 4) + 0.5rem);
-      border-radius: var(--border-radius-large);
-    }
-    &__tooltip--extended {
-      display: none;
-    }
-    &:not(.floating-action-button--extended) {
-      .button__icon {
-        margin: 0;
-      }
-      .floating-action-button__label {
-        @include util.visually-hidden;
-      }
-    }
-  }
-  @include layout.breakpoint("tablet-l", "below") {
-    .button__icon {
-      margin: 0;
-    }
-    .floating-action-button__label {
-      @include util.visually-hidden;
-    }
   }
 }
