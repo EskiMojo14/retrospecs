@@ -37,12 +37,16 @@ $variants: (
     display: flex;
     align-items: var(--list-align);
     gap: 16px;
-    @include theme.ripple(var(--text));
+    transition: opacity 0.2s;
     @include theme.inner-focus-ring;
     .avatar {
       width: 40px;
       height: 40px;
       @include typography.style("headline5");
+    }
+    &[data-disabled] {
+      pointer-events: none;
+      opacity: map.get(typography.$emphasis-map, disabled);
     }
   }
   &__item-text {
