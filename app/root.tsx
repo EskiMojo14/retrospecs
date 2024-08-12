@@ -29,7 +29,7 @@ import type { Profile } from "~/features/profiles";
 import { getProfile } from "~/features/profiles";
 import type { UserConfig } from "~/features/user_config";
 import { getUserConfig } from "~/features/user_config";
-import { promiseOwnProperties } from "~/util";
+import { promiseOwnProperties } from "~/util/ponyfills";
 import "~/index.scss";
 
 declare module "react-aria-components" {

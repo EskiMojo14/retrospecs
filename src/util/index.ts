@@ -30,112 +30,6 @@ export const toUpperCaseTyped = <T extends string>(value: T): Uppercase<T> =>
 export const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
-export const groupBy = <T, K extends PropertyKey, V = T>(
-  array: Array<T>,
-  key: (item: T, derived: V) => K,
-  derive: (item: T) => V = (item) => item as never,
-): Partial<Record<K, Array<V>>> =>
-  array.reduce<Partial<Record<K, Array<V>>>>((acc, item) => {
-    const derived = derive(item);
-    (acc[key(item, derived)] ??= []).push(derived);
-    return acc;
-  }, {});
-
-export const mapGroupBy = <T, K, V = T>(
-  array: Array<T>,
-  key: (item: T, derived: V) => K,
-  derive: (item: T) => V = (item) => item as never,
-): Map<K, Array<V>> =>
-  array.reduce((acc, item) => {
-    const derived = derive(item);
-    emplace(acc, key(item, derived), {
-      insert: () => [derived],
-      update: (group) => {
-        group.push(derived);
-        return group;
-      },
-    });
-    return acc;
-  }, new Map<K, Array<V>>());
-
-interface WeakMapEmplaceHandler<K extends object, V> {
-  /**
-   * Will be called to get value, if no value is currently in map.
-   */
-  insert?(key: K, map: WeakMap<K, V>): V;
-  /**
-   * Will be called to update a value, if one exists already.
-   */
-  update?(previous: V, key: K, map: WeakMap<K, V>): V;
-}
-
-interface MapEmplaceHandler<K, V> {
-  /**
-   * Will be called to get value, if no value is currently in map.
-   */
-  insert?(key: K, map: Map<K, V>): V;
-  /**
-   * Will be called to update a value, if one exists already.
-   */
-  update?(previous: V, key: K, map: Map<K, V>): V;
-}
-
-export function emplace<K, V>(
-  map: Map<K, V>,
-  key: K,
-  handler: MapEmplaceHandler<K, V>,
-): V;
-export function emplace<K extends object, V>(
-  map: WeakMap<K, V>,
-  key: K,
-  handler: WeakMapEmplaceHandler<K, V>,
-): V;
-/**
- * Allow inserting a new value, or updating an existing one
- * @throws if called for a key with no current value and no `insert` handler is provided
- * @returns current value in map (after insertion/updating)
- * ```ts
- * // return current value if already in map, otherwise initialise to 0 and return that
- * const num = emplace(map, key, {
- *   insert: () => 0
- * })
- *
- * // increase current value by one if already in map, otherwise initialise to 0
- * const num = emplace(map, key, {
- *   update: (n) => n + 1,
- *   insert: () => 0,
- * })
- *
- * // only update if value's already in the map - and increase it by one
- * if (map.has(key)) {
- *   const num = emplace(map, key, {
- *     update: (n) => n + 1,
- *   })
- * }
- * ```
- *
- * @remarks
- * Based on https://github.com/tc39/proposal-upsert currently in Stage 2 - maybe in a few years we'll be able to replace this with direct method calls
- */
-export function emplace<K extends object, V>(
-  map: WeakMap<K, V>,
-  key: K,
-  handler: WeakMapEmplaceHandler<K, V>,
-): V {
-  if (map.has(key)) {
-    let value = map.get(key) as V;
-    if (handler.update) {
-      map.set(key, (value = handler.update(value, key, map)));
-    }
-    return value;
-  }
-  if (!handler.insert)
-    throw new Error("No insert provided for key not already in map");
-  let inserted;
-  map.set(key, (inserted = handler.insert(key, map)));
-  return inserted;
-}
-
 type NullishDefaults<T> = {
   [K in keyof T as T[K] extends NonNullable<T[K]> ? never : K]-?: NonNullable<
     T[K]
@@ -279,23 +173,6 @@ export const pluralize = (
   }
   return result;
 };
-
-export const promiseFromEntries = async <V>(
-  entries: ReadonlyArray<readonly [string, V]>,
-) =>
-  Object.fromEntries(
-    await Promise.all(
-      // eslint-disable-next-line @typescript-eslint/await-thenable
-      entries.map(async ([key, value]) => [key, await value] as const),
-    ),
-  );
-
-export const promiseOwnProperties = <T extends Record<string, unknown>>(
-  obj: T,
-) =>
-  promiseFromEntries(Object.entries(obj)) as Promise<{
-    [K in keyof T]: Awaited<T[K]>;
-  }>;
 
 export const repeatArray = <T>(array: Array<T>, count: number) =>
   Array<Array<T>>(count).fill(array).flat();

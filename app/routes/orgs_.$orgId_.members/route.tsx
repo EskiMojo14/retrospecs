@@ -18,8 +18,8 @@ import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
 import { MemberList } from "~/features/orgs/member-list";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
-import { promiseOwnProperties } from "~/util";
 import { Permission } from "~/util/permissions";
+import { promiseOwnProperties } from "~/util/ponyfills";
 
 export const meta: MetaFunction<any> = ({
   data,
