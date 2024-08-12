@@ -17,6 +17,13 @@ $base-size: 16px;
   }
 }
 
+@mixin ltr {
+  [dir="ltr"] &,
+  &[dir="ltr"] {
+    @content;
+  }
+}
+
 @mixin rtl-box($prop, $start, $end: 0) {
   & {
     #{$prop}-left: $start;

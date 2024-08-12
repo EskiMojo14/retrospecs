@@ -8,7 +8,7 @@
 @use "./variables";
 
 .button {
-  --button-radius: var(--border-radius-small);
+  --button-radius: var(--border-radius-full);
   --button-text: rgb(var(--button-text-rgb));
   --button-outline: rgb(var(--button-outline-rgb));
   --button-fill: rgb(var(--button-fill-rgb));

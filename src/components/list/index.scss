@@ -39,14 +39,17 @@ $variants: (
     gap: 16px;
     transition: opacity 0.2s;
     @include theme.inner-focus-ring;
+    &[data-disabled] {
+      pointer-events: none;
+      opacity: map.get(typography.$emphasis-map, disabled);
+    }
     .avatar {
       width: 40px;
       height: 40px;
       @include typography.style("headline5");
     }
-    &[data-disabled] {
-      pointer-events: none;
-      opacity: map.get(typography.$emphasis-map, disabled);
+    .icon-button:last-child {
+      @include util.rtl-box("margin", 0, -12px);
     }
   }
   &__item-text {

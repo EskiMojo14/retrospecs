@@ -1,13 +1,22 @@
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Text } from "react-aria-components";
+import { useReducer } from "react";
+import type { Selection } from "react-aria-components";
+import { Form, Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
+import { Button } from "~/components/button";
 import { Checkbox } from "~/components/checkbox";
 import { Divider, DividerFragment } from "~/components/divider";
+import { EmptyState } from "~/components/empty";
 import { IconButton } from "~/components/icon-button";
 import { Image } from "~/components/image";
+import { TextField } from "~/components/input/text-field";
 import { Switch } from "~/components/switch";
 import { Symbol } from "~/components/symbol";
+import { Heading } from "~/components/typography";
 import { List, ListItem, ListItemText } from ".";
+import styles from "./story.module.scss";
 
 interface StoryProps {
   isDisabled: boolean;
@@ -247,5 +256,130 @@ export const ThreeLineWithOverline: Story = {
       )}
     </List>
   ),
+  args: {},
+};
+
+interface Todo {
+  id: string;
+  text: string;
+}
+
+const todoAdapter = createEntityAdapter<Todo>();
+
+const { selectAll: selectAllTodos } = todoAdapter.getSelectors();
+
+const todoSlice = createSlice({
+  name: "todos",
+  initialState: todoAdapter.getInitialState({
+    completed: new Set<string>() as Selection,
+  }),
+  reducers: {
+    todoAdded: {
+      prepare: (text: string) => ({
+        payload: {
+          id: nanoid(),
+          text,
+        } satisfies Todo,
+      }),
+      reducer: todoAdapter.addOne,
+    },
+    todoRemoved: todoAdapter.removeOne,
+    selectionChanged: (state, action: PayloadAction<Selection>) => {
+      state.completed = action.payload;
+    },
+  },
+});
+
+const { todoAdded, todoRemoved } = todoSlice.actions;
+
+function TodoListFn() {
+  const [todos, dispatch] = useReducer(todoSlice.reducer, 0, () =>
+    todoSlice.getInitialState(),
+  );
+  return (
+    <section className={styles.todoList}>
+      <section className={styles.section}>
+        <Heading
+          variant="subtitle1"
+          className={styles.heading}
+          id="todo-list-header"
+        >
+          Todo list
+        </Heading>
+        <List
+          variant="one-line"
+          items={selectAllTodos(todos)}
+          selectionMode="multiple"
+          renderEmptyState={() => (
+            <EmptyState
+              size="small"
+              icon={
+                <>
+                  <Symbol className={styles.hideRtl}>checklist</Symbol>
+                  <Symbol className={styles.hideLtr}>checklist_rtl</Symbol>
+                </>
+              }
+              title="No todos"
+              description="Use the form below to create one."
+            />
+          )}
+          aria-labelledby="todo-list-header"
+          className={styles.list}
+        >
+          {({ id, text }) => (
+            <ListItem textValue={text} id={id}>
+              <Checkbox slot="selection" />
+              <ListItemText headline={text} />
+              <IconButton
+                tooltip="Delete"
+                onPress={() => {
+                  dispatch(todoRemoved(id));
+                }}
+              >
+                <Symbol>delete</Symbol>
+              </IconButton>
+            </ListItem>
+          )}
+        </List>
+      </section>
+      <Divider variant="middle" />
+      <section className={styles.section}>
+        <Heading
+          variant="subtitle1"
+          className={styles.heading}
+          id="add-todo-title"
+        >
+          Add todo
+        </Heading>
+        <Form
+          onSubmit={(e) => {
+            const form = e.currentTarget;
+            e.preventDefault();
+            const text = new FormData(form).get("text") as string;
+            dispatch(todoAdded(text));
+            form.reset();
+          }}
+          className={styles.form}
+          aria-labelledby="add-todo-title"
+        >
+          <TextField label="Text" name="text" isRequired />
+          <Button variant="elevated" type="submit">
+            <Symbol>add</Symbol>
+            Add
+          </Button>
+        </Form>
+      </section>
+    </section>
+  );
+}
+
+export const TodoList: Story = {
+  render: TodoListFn,
+  argTypes: {
+    isDisabled: { table: { disable: true } },
+    leading: { table: { disable: true } },
+    trailing: { table: { disable: true } },
+    divider: { table: { disable: true } },
+  },
   args: {},
 };
