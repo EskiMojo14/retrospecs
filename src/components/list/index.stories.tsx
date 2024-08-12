@@ -173,14 +173,17 @@ export const TwoLine: Story = {
   args: {},
 };
 
+const loremIpsum =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta tellus vel nisl rhoncus, at dictum quam fringilla. Sed lobortis fringilla turpis, tempor aliquet nunc fringilla quis.";
+
 const threeLineItems = [
   {
     headline: "Headline",
-    supporting: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    supporting: loremIpsum,
   },
   {
     headline: "Headline 2",
-    supporting: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    supporting: loremIpsum,
   },
 ];
 
@@ -216,12 +219,12 @@ export const ThreeLine: Story = {
 const threeLineItemsWithOverline = [
   {
     headline: "Headline",
-    supporting: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    supporting: loremIpsum,
     overline: "Overline",
   },
   {
     headline: "Headline 2",
-    supporting: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    supporting: loremIpsum,
     overline: "Overline 2",
   },
 ];
