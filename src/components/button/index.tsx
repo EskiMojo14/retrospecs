@@ -152,9 +152,9 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
         {...mergeProps(props, {
           ref: mergeRefs(ref, innerRef),
           onChange(isSelected: boolean) {
-            if (isSelected) {
-              innerRef.current?.classList.add("toggle-button--changed");
-            }
+            innerRef.current?.classList[isSelected ? "add" : "remove"](
+              "toggle-button--changed",
+            );
           },
         })}
       >
