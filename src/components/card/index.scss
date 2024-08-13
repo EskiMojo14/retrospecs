@@ -9,10 +9,6 @@ $hover-time: 0.2s;
   --card-mid: #{rgb(var(--card-mid-rgb))};
   --card-bg: #{rgb(var(--card-bg-rgb))};
 
-  --card-outer-hover: #{rgb(var(--card-outer-hover-rgb))};
-  --card-mid-hover: #{rgb(var(--card-mid-hover-rgb))};
-  --card-bg-hover: #{rgb(var(--card-bg-hover-rgb))};
-
   --card-radius: var(--border-radius-medium);
   display: flex;
   flex-direction: column;

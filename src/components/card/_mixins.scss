@@ -1,26 +1,23 @@
 @use "sass:map";
 @use "~/theme";
+@use "~/theme/palette";
 @use "./variables";
 
-@mixin color($name, $color) {
-  @each $var, $value in map.get($color, "light") {
-    --card-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
-  }
-  @include theme.dark {
-    @each $var, $value in map.get($color, "dark") {
-      --card-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
-    }
-  }
-}
-
-@mixin colors(
-  $default: variables.$default-color,
-  $color-map: variables.$color-map
-) {
-  @include color(map.get($default, color), $default);
-  @each $variant, $color in $color-map {
-    &--#{$variant} {
-      @include color($variant, $color);
+@mixin colors() {
+  @each $color in palette.$colors {
+    &--#{$color} {
+      @each $token in map.keys(map.get(variables.$default-shades, "light")) {
+        --card-#{$token}-rgb: #{var(
+            --#{$color}-#{variables.get-shade($color, $token)}-rgb
+          )};
+      }
+      @include theme.dark {
+        @each $token in map.keys(map.get(variables.$default-shades, "dark")) {
+          --card-#{$token}-rgb: #{var(
+              --#{$color}-#{variables.get-shade($color, $token, true)}-rgb
+            )};
+        }
+      }
     }
   }
 }

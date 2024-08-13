@@ -1,24 +1,40 @@
 @use "sass:map";
 @use "sass:meta";
 @use "~/theme";
+@use "~/theme/palette";
 @use "~/util";
 @use "./variables";
 
-@mixin color($name, $color) {
-  @each $var, $value in map.get($color, "light") {
-    --button-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
-  }
-  @include theme.dark {
-    @each $var, $value in map.get($color, "dark") {
-      --button-#{$var}-rgb: #{var(--#{$name}-#{$value}-rgb)};
-    }
-  }
-}
-
-@mixin colors($color-map: variables.$color-map) {
-  @each $variant, $color in $color-map {
-    &--#{$variant} {
-      @include color($variant, $color);
+@mixin colors(
+  $default-shades: variables.$default-shades,
+  $shade-overrides: variables.$shade-overrides
+) {
+  @each $color in palette.$colors {
+    &--#{$color} {
+      @each $token in map.keys(map.get($default-shades, "light")) {
+        --button-#{$token}-rgb: #{var(
+            --#{$color}-#{util.get-shade-with-overrides(
+                $default-shades,
+                $shade-overrides,
+                $color,
+                "light",
+                $token
+              )}-rgb
+          )};
+      }
+      @include theme.dark {
+        @each $token in map.keys(map.get($default-shades, "dark")) {
+          --button-#{$token}-rgb: #{var(
+              --#{$color}-#{util.get-shade-with-overrides(
+                  $default-shades,
+                  $shade-overrides,
+                  $color,
+                  "dark",
+                  $token
+                )}-rgb
+            )};
+        }
+      }
     }
   }
 }

@@ -591,7 +591,15 @@ export type Database = {
     };
     Enums: {
       category: "good" | "improvement" | "neutral";
-      color: "green" | "blue" | "orange" | "amber" | "gold" | "teal" | "pink";
+      color:
+        | "green"
+        | "blue"
+        | "orange"
+        | "amber"
+        | "gold"
+        | "teal"
+        | "pink"
+        | "red";
       groove: "none" | "low_volume" | "heavy";
       member_role: "admin" | "member";
       reaction: "like";

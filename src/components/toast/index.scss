@@ -43,17 +43,15 @@
   @each $type, $color in variables.$type-colors {
     &--#{$type} {
       --background-rgb: var(
-        --#{map.get($color, color)}-#{map.get($color, light, background)}-rgb
+        --#{$color}-#{variables.get-shade($color, background)}-rgb
       );
-      --text-rgb: var(
-        --#{map.get($color, color)}-#{map.get($color, light, text)}-rgb
-      );
+      --text-rgb: var(--#{$color}-#{variables.get-shade($color, text)}-rgb);
       @include theme.dark {
         --background-rgb: var(
-          --#{map.get($color, color)}-#{map.get($color, dark, background)}-rgb
+          --#{$color}-#{variables.get-shade($color, background, true)}-rgb
         );
         --text-rgb: var(
-          --#{map.get($color, color)}-#{map.get($color, dark, text)}-rgb
+          --#{$color}-#{variables.get-shade($color, text, true)}-rgb
         );
       }
     }
@@ -124,7 +122,10 @@
     @include util.rtl-box("margin", 0, -8px);
   }
   .button {
-    @include button-mixins.colors(variables.$button-color-map);
+    @include button-mixins.colors(
+      variables.$button-default-shades,
+      variables.$button-shade-overrides
+    );
   }
 }
 
@@ -142,7 +143,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-100% + 16px));
+    transform: translateX(calc(-100% - 16px));
   }
 }
 
@@ -151,7 +152,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(100% - 16px));
+    transform: translateX(calc(100% + 16px));
   }
 }
 

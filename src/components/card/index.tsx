@@ -9,12 +9,13 @@ import { createGenericComponent } from "~/components/generic";
 import { Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
 import { useRipple } from "~/hooks/use-ripple";
+import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs } from "~/util";
-import type { CardColor, CardVariant } from "./constants";
+import type { CardVariant } from "./constants";
 import "./index.scss";
 
 export interface CardProps {
-  color?: CardColor;
+  color?: Color;
   className?: string;
   children?: ReactNode;
   variant?: CardVariant;
@@ -33,7 +34,14 @@ export const Card = createGenericComponent<
   "Card",
   "div",
   (
-    { children, color, as: As, className, variant = "raised", ...props },
+    {
+      children,
+      color = "gold",
+      as: As,
+      className,
+      variant = "raised",
+      ...props
+    },
     ref,
   ) => (
     <As
@@ -41,7 +49,7 @@ export const Card = createGenericComponent<
       {...props}
       className={cls({
         modifiers: {
-          [color ?? ""]: !!color,
+          [color]: true,
           [variant]: true,
         },
         extra: className,

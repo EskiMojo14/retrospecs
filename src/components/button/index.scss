@@ -76,13 +76,14 @@
   &--elevated {
     --solid-shadow: var(--background);
     @include elevation.shadow(2);
+    translate: -2px -2px;
     &[data-hovered] {
-      translate: calc(var(--outline-width) * -1) calc(var(--outline-width) * -1);
+      translate: -4px -4px;
       @include elevation.shadow(4);
     }
     &[data-focus-visible],
     &[data-pressed] {
-      translate: var(--outline-width) var(--outline-width);
+      translate: 0 0;
       @include elevation.shadow(0);
     }
   }

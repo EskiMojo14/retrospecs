@@ -2,12 +2,13 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { Button } from "~/components/button";
+import { Divider } from "~/components/divider";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
-import { cardColors, cardVariants } from "./constants";
+import { colors } from "~/theme/colors";
+import { cardVariants } from "./constants";
 import { Card, CardActions, CardPrimaryAction, CardSection } from ".";
-import { Divider } from "../divider";
 
 interface StoryArgs extends ComponentPropsWithoutRef<typeof Card> {
   onPrimaryAction?: () => void;
@@ -21,7 +22,7 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
   argTypes: {
     color: {
       control: "select",
-      options: [undefined, ...cardColors],
+      options: [undefined, ...colors],
     },
     variant: {
       control: "select",

@@ -1,3 +1,5 @@
+import { colors } from "~/theme/colors";
+
 export const buttonVariants = [
   "text",
   "outlined",
@@ -7,17 +9,6 @@ export const buttonVariants = [
 
 export type ButtonVariant = (typeof buttonVariants)[number];
 
-export const buttonColors = [
-  "blue",
-  "green",
-  "amber",
-  "orange",
-  "red",
-  "brown",
-  "teal",
-  "pink",
-  "gold",
-  "inherit",
-] as const;
+export const buttonColors = [...colors, "inherit"] as const;
 
 export type ButtonColor = (typeof buttonColors)[number];

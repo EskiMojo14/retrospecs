@@ -25,149 +25,46 @@ $fab-sizes: (
 
 $extended-fab-min-width: 80px;
 
-$color-map: (
-  "gold": (
-    light: (
-      text: 500,
-      outline: 500,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
-    ),
+$default-shades: (
+  light: (
+    text: 500,
+    outline: 500,
+    fill: 900,
+    filled-text: 50,
+    filled-outline: 50,
   ),
+  dark: (
+    text: 300,
+    outline: 300,
+    fill: 200,
+    filled-text: 900,
+    filled-outline: 900,
+  ),
+);
+
+$shade-overrides: (
   "green": (
     light: (
       text: 600,
       outline: 600,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
     ),
   ),
   "amber": (
     light: (
       text: 600,
       outline: 600,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
     ),
   ),
   "orange": (
     light: (
       text: 600,
       outline: 600,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
     ),
   ),
   "blue": (
     light: (
       text: 600,
       outline: 600,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
-    ),
-  ),
-  "red": (
-    light: (
-      text: 500,
-      outline: 500,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
-    ),
-  ),
-  "brown": (
-    light: (
-      text: 500,
-      outline: 500,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
-    ),
-  ),
-  "teal": (
-    light: (
-      text: 500,
-      outline: 500,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
-    ),
-  ),
-  "pink": (
-    light: (
-      text: 500,
-      outline: 500,
-      fill: 900,
-      filled-text: 50,
-      filled-outline: 50,
-    ),
-    dark: (
-      text: 300,
-      outline: 300,
-      fill: 200,
-      filled-text: 900,
-      filled-outline: 900,
     ),
   ),
 );

@@ -1,5 +1,7 @@
+@use "sass:map";
+
 $palette: (
-  green: (
+  "green": (
     900: #556a3a,
     800: #758c49,
     700: #88a052,
@@ -11,7 +13,7 @@ $palette: (
     100: #e6edce,
     50: #f5f8ec,
   ),
-  blue: (
+  "blue": (
     900: #0c5679,
     800: #18769a,
     700: #1987ad,
@@ -23,7 +25,7 @@ $palette: (
     100: #b5e4eb,
     50: #e2f5f7,
   ),
-  orange: (
+  "orange": (
     900: #da611a,
     800: #e5781e,
     700: #ec8621,
@@ -35,7 +37,7 @@ $palette: (
     100: #fbe2b7,
     50: #fdf4e2,
   ),
-  red: (
+  "red": (
     900: #a52019,
     800: #b42924,
     700: #c22f2a,
@@ -47,7 +49,7 @@ $palette: (
     100: #f9cbcf,
     50: #fdeaed,
   ),
-  gold: (
+  "gold": (
     900: #9c5a20,
     800: #a96c24,
     700: #b17829,
@@ -59,7 +61,7 @@ $palette: (
     100: #e7dab7,
     50: #f5f1e2,
   ),
-  brown: (
+  "brown": (
     900: #3d2319,
     800: #4c3123,
     700: #694934,
@@ -71,7 +73,7 @@ $palette: (
     100: #dacabf,
     50: #f3eae1,
   ),
-  teal: (
+  "teal": (
     900: #004628,
     800: #006241,
     700: #00724e,
@@ -83,7 +85,7 @@ $palette: (
     100: #acddcd,
     50: #ddf2ec,
   ),
-  pink: (
+  "pink": (
     900: #780034,
     800: #9a083a,
     700: #ae113c,
@@ -95,7 +97,7 @@ $palette: (
     100: #f3b7c2,
     50: #fae2e6,
   ),
-  amber: (
+  "amber": (
     900: #ff7003,
     800: #ff9005,
     700: #ffa105,
@@ -116,4 +118,4 @@ $standards: (
   shadow: black,
 );
 
-$colors: ("green", "blue", "orange", "amber", "gold", "teal", "pink");
+$colors: map.keys($palette);

@@ -1,5 +1,6 @@
-$default-color: (
-  color: "gold",
+@use "~/util";
+
+$default-shades: (
   light: (
     outer: 700,
     mid: 300,
@@ -12,89 +13,16 @@ $default-color: (
   ),
 );
 
-$color-map: (
-  "blue": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-  "green": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-  "amber": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-  "orange": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-  "gold": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-  "red": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-  "teal": (
-    light: (
-      outer: 700,
-      mid: 300,
-      bg: 100,
-    ),
-    dark: (
-      outer: 300,
-      mid: 500,
-      bg: 900,
-    ),
-  ),
-);
+$shade-overrides: ();
+
+$default-color: "gold";
+
+@function get-shade($color, $token, $dark: false) {
+  @return util.get-shade-with-overrides(
+    $default-shades,
+    $shade-overrides,
+    $color,
+    if($dark, "dark", "light"),
+    $token
+  );
+}
