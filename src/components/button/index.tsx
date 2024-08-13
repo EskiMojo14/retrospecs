@@ -1,7 +1,7 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
 import type { ReactNode } from "react";
-import { createContext, forwardRef, useMemo } from "react";
+import { createContext, forwardRef, useMemo, useRef } from "react";
 import type {
   ToggleButtonProps as AriaToggleButtonProps,
   LinkProps,
@@ -30,6 +30,7 @@ import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
+import { useEventListener } from "~/hooks/use-event-listener";
 import { useRipple } from "~/hooks/use-ripple";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
@@ -131,22 +132,39 @@ const stateSymbolContexts: {
   true: {
     transition: true,
     fill: true,
+    weight: 600,
   },
 };
 
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
-  ({ children, ...props }, ref) => (
-    <Button as={AriaToggleButton} {...props} ref={ref}>
-      {renderPropsChild(children, (children, { isSelected }) => (
-        <MergeProvider
-          context={SymbolContext}
-          value={stateSymbolContexts[`${isSelected}`]}
-        >
-          {children}
-        </MergeProvider>
-      ))}
-    </Button>
-  ),
+  ({ children, ...props }, ref) => {
+    const innerRef = useRef<HTMLButtonElement>(null);
+    useEventListener(innerRef, "mouseleave", () => {
+      innerRef.current?.classList.remove("toggle-button--changed");
+    });
+    return (
+      <Button
+        as={AriaToggleButton}
+        {...mergeProps(props, {
+          ref: mergeRefs(ref, innerRef),
+          onChange(isSelected: boolean) {
+            if (isSelected) {
+              innerRef.current?.classList.add("toggle-button--changed");
+            }
+          },
+        })}
+      >
+        {renderPropsChild(children, (children, { isSelected }) => (
+          <MergeProvider
+            context={SymbolContext}
+            value={stateSymbolContexts[`${isSelected}`]}
+          >
+            {children}
+          </MergeProvider>
+        ))}
+      </Button>
+    );
+  },
 );
 
 ToggleButton.displayName = "ToggleButton";

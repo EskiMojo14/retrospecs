@@ -24,8 +24,8 @@
     opacity 200ms,
     outline 200ms,
     outline-offset 200ms,
-    box-shadow 200ms,
-    translate 200ms;
+    box-shadow 100ms,
+    translate 100ms;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,6 +100,18 @@
   );
   &[data-selected] {
     font-weight: var(--typography-weight-black);
+    &.button--elevated {
+      translate: 0 0;
+      @include elevation.shadow(0);
+      &[data-hovered]:not(.toggle-button--changed) {
+        translate: -2px -2px;
+        @include elevation.shadow(2);
+      }
+      &[data-pressed] {
+        translate: 0 0;
+        @include elevation.shadow(0);
+      }
+    }
   }
   &__content {
     position: relative;

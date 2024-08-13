@@ -145,7 +145,7 @@ export function PreferencesDialog() {
                 id="theme-group"
                 label="Theme"
                 description="The color scheme to use."
-                variant="outlined"
+                variant="elevated"
                 color="blue"
                 items={themeEntries}
                 dependencies={[theme]}
@@ -169,7 +169,7 @@ export function PreferencesDialog() {
                 description={
                   'Whether to use loud backgrounds or not.\n"Low volume" removes the loudest backgrounds, and "None" removes all patterned backgrounds.'
                 }
-                variant="outlined"
+                variant="elevated"
                 color="amber"
                 items={grooveEntries}
                 dependencies={[groove]}
