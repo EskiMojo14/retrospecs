@@ -1,7 +1,7 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
 import type { ReactNode } from "react";
-import { createContext, forwardRef, useMemo, useRef } from "react";
+import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {
   ToggleButtonProps as AriaToggleButtonProps,
   LinkProps,
@@ -139,9 +139,13 @@ const stateSymbolContexts: {
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
   ({ children, ...props }, ref) => {
     const innerRef = useRef<HTMLButtonElement>(null);
-    useEventListener(innerRef, "mouseleave", () => {
-      innerRef.current?.classList.remove("toggle-button--changed");
-    });
+    useEventListener(
+      innerRef,
+      "mouseleave",
+      useCallback(() => {
+        innerRef.current?.classList.remove("toggle-button--changed");
+      }, []),
+    );
     return (
       <Button
         as={AriaToggleButton}
