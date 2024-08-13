@@ -28,7 +28,7 @@ export const Grid = createGenericComponent<
         extra: className,
       })}
       style={{
-        "--gutter": gutter + "px",
+        "--gutter": gutter ? `${gutter}px` : undefined,
       }}
     >
       {needsRow ? <GridRow>{children}</GridRow> : children}
