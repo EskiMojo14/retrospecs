@@ -45,7 +45,10 @@ $sizes: (
     &--#{$size} {
       width: map.get($values, dimension);
       height: map.get($values, dimension);
-      @include typography.style(map.get($values, typography));
+      @include typography.style(
+        map.get($values, typography),
+        $no-defaults: true
+      );
     }
   }
   @each $color in palette.$colors {
