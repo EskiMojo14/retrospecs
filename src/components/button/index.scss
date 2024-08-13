@@ -31,7 +31,6 @@
   align-items: center;
   vertical-align: middle;
   position: relative;
-  @include typography.defaults;
   @include typography.style("button");
 
   @include mixins.colors;

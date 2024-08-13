@@ -1,5 +1,0 @@
-@use "~/theme/layout";
-
-.teamGrid {
-  @include layout.responsive-grid();
-}

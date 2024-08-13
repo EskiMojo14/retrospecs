@@ -68,15 +68,15 @@ $variants: (
       overflow: hidden;
     }
     &--overline {
-      @include typography.style("overline");
+      @include typography.style("overline", $no-defaults: true);
       color: typography.emphasis("text", "medium");
     }
     &--headline {
-      @include typography.style("subtitle1");
+      @include typography.style("subtitle1", $no-defaults: true);
       color: typography.emphasis("text", "high");
     }
     &--supporting {
-      @include typography.style("caption");
+      @include typography.style("caption", $no-defaults: true);
       color: typography.emphasis("text", "medium");
       .list--three-line .list__item-text--no-overline & {
         @supports (-webkit-line-clamp: 2) {

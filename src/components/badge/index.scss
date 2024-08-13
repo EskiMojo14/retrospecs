@@ -48,7 +48,6 @@
     min-width: var(--size);
     border-radius: var(--border-radius-full);
     padding: 0 6px;
-    @include typography.defaults;
     @include typography.style("overline");
     position: absolute;
     transition: transform 200ms;

@@ -10,10 +10,10 @@
     font-family: "Super Dream", cursive;
     margin: 0;
     @include layout.breakpoint("tablet-s", "above") {
-      @include typography.style("headline6");
+      @include typography.style("headline6", $no-defaults: true);
     }
     @include layout.breakpoint("tablet-s", "below") {
-      @include typography.style("subtitle1");
+      @include typography.style("subtitle1", $no-defaults: true);
     }
   }
   &:global(.link) {

@@ -31,6 +31,7 @@ import type { UserConfig } from "~/features/user_config";
 import { getUserConfig } from "~/features/user_config";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import "~/index.scss";
+import { BreakpointDisplay } from "~/components/grid";
 
 declare module "react-aria-components" {
   interface RouterConfig {
@@ -106,6 +107,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   buttonPosition="bottom-left"
                   initialIsOpen={false}
                 />
+                <BreakpointDisplay />
               </QueryClientProvider>
             </SessionProvider>
           </SupabaseProvider>

@@ -1,6 +1,8 @@
+@use "sass:list";
 @use "sass:map";
 @use "sass:meta";
 @use "sass-map-get-next-prev/map-get-functions";
+@use "~/util";
 
 $breakpoints: (
   phone: (
@@ -40,14 +42,22 @@ $breakpoints: (
   ),
 );
 
+$last-breakpoint: list.nth(map.keys($breakpoints), -1);
+
 @function breakpoint-prop($breakpoint, $prop) {
   @return map.get($breakpoints, $breakpoint, $prop);
 }
 
 @mixin breakpoint($breakpoint, $direction) {
   @if $direction == "only" {
-    @media (min-width: map.get($breakpoints, $breakpoint, min)) and (max-width: map.get(map-get-functions.map-get-next($breakpoints, $breakpoint), min)) {
-      @content;
+    @if $breakpoint == $last-breakpoint {
+      @media (min-width: map.get($breakpoints, $breakpoint, min)) {
+        @content;
+      }
+    } @else {
+      @media (min-width: map.get($breakpoints, $breakpoint, min)) and (max-width: map.get(map-get-functions.map-get-next($breakpoints, $breakpoint), min)) {
+        @content;
+      }
     }
   } @else if $direction == "above" {
     @media (min-width: map.get($breakpoints, $breakpoint, min)) {
@@ -56,28 +66,6 @@ $breakpoints: (
   } @else if $direction == "below" {
     @media (max-width: map.get($breakpoints, $breakpoint, min)) {
       @content;
-    }
-  }
-}
-
-@mixin responsive-grid($gutter: 16px) {
-  display: grid;
-  @each $breakpoint, $props in $breakpoints {
-    @include breakpoint(
-      $breakpoint,
-      if($breakpoint == "desktop", "above", "only")
-    ) {
-      gap: if(
-        meta.type-of($gutter) == "map" and map.has-key($gutter, $breakpoint),
-        map.get($gutter, $breakpoint),
-        $gutter
-      );
-      grid-template-columns: repeat(map.get($props, columns), minmax(0, 1fr));
-      margin: map.get($props, margin-y) map.get($props, margin-x);
-      margin-top: calc(
-        var(--header-shadow-height) + #{map.get($props, margin-y)}
-      );
-      max-width: map.get($props, max-width);
     }
   }
 }

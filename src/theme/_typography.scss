@@ -110,7 +110,10 @@ $emphasis-map: (
   @return rgba(var(--#{$color}-rgb), var(--typography-emphasis-#{$emphasis}));
 }
 
-@mixin style($style) {
+@mixin style($style, $no-defaults: false) {
+  @if not $no-defaults {
+    @include defaults;
+  }
   @each $prop, $value in map.get($type-scale, $style) {
     #{$prop}: var(--typography-#{$style}-#{$prop});
   }

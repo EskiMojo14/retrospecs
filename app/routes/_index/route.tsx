@@ -12,7 +12,7 @@ import { useSession } from "~/db/provider";
 import { NavBar } from "~/features/nav-bar";
 import { getOrgMemberCount, getOrgs, selectOrgIds } from "~/features/orgs";
 import { CreateOrg } from "~/features/orgs/create-org";
-import { OrgGrid } from "~/features/orgs/org-grid";
+import { OrgGrid } from "~/features/orgs/org-card";
 import { getTeamCountByOrg } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 

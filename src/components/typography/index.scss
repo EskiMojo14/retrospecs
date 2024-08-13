@@ -5,12 +5,10 @@
 @use "~/util";
 
 .typography {
-  @each $prop, $value in typography.$defaults {
-    #{$prop}: var(--typography-default-#{$prop});
-  }
+  @include typography.defaults;
   @each $style, $props in typography.$type-scale {
     &--#{$style} {
-      @include typography.style($style);
+      @include typography.style($style, $no-defaults: true);
     }
   }
 }

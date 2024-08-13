@@ -4,6 +4,7 @@ import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider } from "~/components/divider";
+import { Grid, GridCell } from "~/components/grid";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
@@ -39,7 +40,7 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
   const permissions = useCurrentUserPermissions(orgId);
   if (!team) return null;
   return (
-    <Card className={styles.teamCard}>
+    <Card as={GridCell} span={6} className={styles.teamCard}>
       <CardPrimaryAction
         as={Link}
         href={`/orgs/${orgId}/teams/${teamId}`}
@@ -88,5 +89,20 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
         )}
       </CardActions>
     </Card>
+  );
+}
+
+interface TeamGridProps {
+  orgId: number;
+  teamIds: Array<number>;
+}
+
+export function TeamGrid({ orgId, teamIds }: TeamGridProps) {
+  return (
+    <Grid>
+      {teamIds.map((teamId) => (
+        <TeamCard key={teamId} orgId={orgId} teamId={teamId} />
+      ))}
+    </Grid>
   );
 }

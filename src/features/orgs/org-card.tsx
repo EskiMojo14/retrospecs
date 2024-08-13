@@ -4,6 +4,7 @@ import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider } from "~/components/divider";
+import { Grid, GridCell } from "~/components/grid";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
@@ -41,7 +42,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
   );
   if (!org) return null;
   return (
-    <Card className={styles.orgCard}>
+    <Card as={GridCell} span={6} className={styles.orgCard}>
       <CardPrimaryAction
         as={Link}
         href={`/orgs/${orgId}`}
@@ -100,5 +101,15 @@ export function OrgCard({ orgId }: OrgCardProps) {
         ) : null}
       </CardActions>
     </Card>
+  );
+}
+
+export function OrgGrid({ orgIds }: { orgIds: Array<number> }) {
+  return (
+    <Grid>
+      {orgIds.map((orgId) => (
+        <OrgCard key={orgId} orgId={orgId} />
+      ))}
+    </Grid>
   );
 }
