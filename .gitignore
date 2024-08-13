@@ -35,3 +35,4 @@ dist-ssr
 build/
 .vercel
 server.js.map
+vite.config.ts.timestamp-*.mjs
