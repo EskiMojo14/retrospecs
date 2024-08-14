@@ -83,7 +83,7 @@
     "sass": "^1.77.8",
     "sass-map-get-next-prev": "^1.0.0",
     "storybook": "^8.2.8",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.4",
     "vercel": "^35.2.2",
     "vite": "^5.3.1",
     "vite-tsconfig-paths": "^4.3.2",
