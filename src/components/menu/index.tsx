@@ -112,7 +112,7 @@ const symbolContextValue: ContextType<typeof SymbolContext> = {
   },
 };
 
-interface MenuItemProps<T extends object>
+export interface MenuItemProps<T extends object>
   extends Omit<AriaMenuItemProps<T>, "className"> {
   className?: string;
 }

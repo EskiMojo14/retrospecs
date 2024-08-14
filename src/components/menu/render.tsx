@@ -1,19 +1,22 @@
 import type { ReactNode } from "react";
+import type { Key } from "react-aria-components";
 import { Collection, Header, Section } from "react-aria-components";
 import type { DividerProps } from "~/components/divider";
 import { Divider, DividerFragment } from "~/components/divider";
 import { Typography } from "~/components/typography";
-import type { MenuItemTextProps } from ".";
+import type { MenuItemTextProps, MenuItemProps } from ".";
 import { Menu, MenuItem, MenuItemText } from ".";
 
 interface CommonItemProps {
-  id: string;
-  divider?: boolean | DividerProps["variant"];
-  dividerProps?: Omit<DividerProps, keyof CommonItemProps>;
+  id: Key;
+  divider?: true | DividerProps["variant"] | DividerProps;
 }
 
-export interface StandardItem extends MenuItemTextProps, CommonItemProps {
-  type?: "standard";
+export interface StandardItem
+  extends MenuItemTextProps,
+    CommonItemProps,
+    Omit<MenuItemProps<never>, "children" | "id"> {
+  type?: never;
   leading?: ReactNode;
   trailing?: ReactNode;
 }
@@ -34,12 +37,14 @@ export interface SectionItem extends CommonItemProps {
 export type MenuItem = StandardItem | SubmenuItem | SectionItem;
 
 export function renderMenuItem(item: MenuItem): JSX.Element {
-  const divider = item.divider && (
-    <Divider
-      {...item.dividerProps}
-      variant={typeof item.divider === "string" ? item.divider : undefined}
-    />
-  );
+  const dividerProps =
+    item.divider &&
+    (typeof item.divider === "object"
+      ? item.divider
+      : {
+          variant: typeof item.divider === "string" ? item.divider : undefined,
+        });
+  const divider = dividerProps && <Divider {...dividerProps} />;
   switch (item.type) {
     case "section":
       return (
@@ -75,16 +80,18 @@ export function renderMenuItem(item: MenuItem): JSX.Element {
           {divider}
         </DividerFragment>
       );
-    default:
+    default: {
+      const { leading, trailing, label, description, ...itemProps } = item;
       return (
         <DividerFragment id={item.id}>
-          <MenuItem>
-            {item.leading}
-            <MenuItemText label={item.label} description={item.description} />
-            {item.trailing}
+          <MenuItem {...itemProps}>
+            {leading}
+            <MenuItemText label={label} description={description} />
+            {trailing}
           </MenuItem>
           {divider}
         </DividerFragment>
       );
+    }
   }
 }
