@@ -58,25 +58,19 @@ $variants: (
     gap: 0.25rem;
     flex: 1 1 auto;
     min-width: 0;
-  }
-  &__text {
-    @include typography.defaults;
-    margin: 0;
-    white-space: nowrap;
-    .list__item-text & {
-      text-overflow: ellipsis;
+    .typography {
+      margin: 0;
+      white-space: nowrap;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
-    &--overline {
-      @include typography.style("overline", $no-defaults: true);
+    .typography--overline {
       color: typography.emphasis("text", "medium");
     }
-    &--headline {
-      @include typography.style("subtitle1", $no-defaults: true);
+    .typography--subtitle1 {
       color: typography.emphasis("text", "high");
     }
-    &--supporting {
-      @include typography.style("caption", $no-defaults: true);
+    .typography--caption {
       color: typography.emphasis("text", "medium");
       .list--three-line .list__item-text--no-overline & {
         @supports (-webkit-line-clamp: 2) {

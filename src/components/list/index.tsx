@@ -1,4 +1,3 @@
-import { mergeProps } from "@react-aria/utils";
 import type { ComponentPropsWithoutRef, ContextType, ReactNode } from "react";
 import { createContext, forwardRef, useMemo } from "react";
 import type {
@@ -11,12 +10,10 @@ import {
   GridList,
   GridListItem,
   useContextProps,
-  TextContext,
-  useSlottedContext,
   Text,
 } from "react-aria-components";
-import { MergeProvider } from "~/components/provider";
 import { SymbolContext } from "~/components/symbol";
+import { Typography } from "~/components/typography";
 import { bemHelper, renderPropsChild } from "~/util";
 import "./index.scss";
 
@@ -71,30 +68,6 @@ const symbolContextValue: ContextType<typeof SymbolContext> = {
   },
 };
 
-const ListItemProvider = ({ children }: { children: ReactNode }) => {
-  const descriptionProps = useSlottedContext(TextContext, "description");
-  const textContextValue = useMemo<ContextType<typeof TextContext>>(
-    () => ({
-      slots: {
-        [DEFAULT_SLOT]: {},
-        overline: { className: cls("text", "overline") },
-        headline: mergeProps(descriptionProps, {
-          className: cls("text", "headline"),
-        }),
-        supporting: { className: cls("text", "supporting") },
-      },
-    }),
-    [descriptionProps],
-  );
-  return (
-    <MergeProvider context={TextContext} value={textContextValue}>
-      <SymbolContext.Provider value={symbolContextValue}>
-        {children}
-      </SymbolContext.Provider>
-    </MergeProvider>
-  );
-};
-
 export const ListItem = forwardRef<HTMLDivElement, ListItemProps<any>>(
   (props, ref) => {
     [props, ref] = useContextProps(props, ref as never, ListItemContext) as [
@@ -115,7 +88,9 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps<any>>(
         })}
       >
         {renderPropsChild(children, (children) => (
-          <ListItemProvider>{children}</ListItemProvider>
+          <SymbolContext.Provider value={symbolContextValue}>
+            {children}
+          </SymbolContext.Provider>
         ))}
       </GridListItem>
     );
@@ -144,9 +119,11 @@ export const ListItemText = forwardRef<HTMLDivElement, ListItemTextProps>(
         extra: className,
       })}
     >
-      {overline && <Text slot="overline">{overline}</Text>}
-      <Text slot="headline">{headline}</Text>
-      {supporting && <Text slot="supporting">{supporting}</Text>}
+      {overline && <Typography variant="overline">{overline}</Typography>}
+      <Typography variant="subtitle1" as={Text} slot="description">
+        {headline}
+      </Typography>
+      {supporting && <Typography variant="caption">{supporting}</Typography>}
     </div>
   ),
 );

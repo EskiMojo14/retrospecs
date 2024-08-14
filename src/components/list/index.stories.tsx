@@ -126,7 +126,7 @@ export const OneLine: Story = {
     >
       {({ headline }) => (
         <DividerFragment id={headline}>
-          <ListItem isDisabled={isDisabled}>
+          <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText headline={headline} />
             <Trailing trailing={trailing} />
@@ -160,7 +160,7 @@ export const TwoLine: Story = {
     >
       {({ headline, supporting }) => (
         <DividerFragment id={headline}>
-          <ListItem id={headline} isDisabled={isDisabled}>
+          <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText headline={headline} supporting={supporting} />
             <Trailing trailing={trailing} />
@@ -203,7 +203,7 @@ export const ThreeLine: Story = {
     >
       {({ headline, supporting }) => (
         <DividerFragment id={headline}>
-          <ListItem isDisabled={isDisabled}>
+          <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText headline={headline} supporting={supporting} />
             <Trailing trailing={trailing} />
@@ -245,7 +245,7 @@ export const ThreeLineWithOverline: Story = {
     >
       {({ headline, supporting, overline }) => (
         <DividerFragment id={headline}>
-          <ListItem isDisabled={isDisabled}>
+          <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText
               headline={headline}
