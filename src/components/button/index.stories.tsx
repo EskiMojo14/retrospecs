@@ -135,6 +135,23 @@ export const Link: Story = {
   args: {},
 };
 
+const iconMap = {
+  none: {
+    icon: "volume_mute",
+    label: "None",
+  },
+  low: {
+    icon: "volume_down",
+    label: "Low volume",
+  },
+  heavy: {
+    icon: "volume_up",
+    label: "Heavy",
+  },
+};
+
+const entries = Object.entries(iconMap);
+
 function GroupComponent({
   isDisabled,
   color,
@@ -155,34 +172,22 @@ function GroupComponent({
         description,
       }}
       id="groove-group"
+      items={entries}
+      dependencies={[value]}
     >
-      <ToggleButton
-        isSelected={value === "none"}
-        onChange={() => {
-          setValue("none");
-        }}
-      >
-        <Symbol slot="leading">volume_mute</Symbol>
-        None
-      </ToggleButton>
-      <ToggleButton
-        isSelected={value === "low"}
-        onChange={() => {
-          setValue("low");
-        }}
-      >
-        <Symbol slot="leading">volume_down</Symbol>
-        Low volume
-      </ToggleButton>
-      <ToggleButton
-        isSelected={value === "heavy"}
-        onChange={() => {
-          setValue("heavy");
-        }}
-      >
-        <Symbol slot="leading">volume_up</Symbol>
-        Heavy
-      </ToggleButton>
+      {([key, { icon, label }]) => (
+        <ToggleButton
+          key={key}
+          id={key}
+          isSelected={value === key}
+          onChange={() => {
+            setValue(key);
+          }}
+        >
+          <Symbol slot="leading">{icon}</Symbol>
+          {label}
+        </ToggleButton>
+      )}
     </ButtonGroup>
   );
 }
