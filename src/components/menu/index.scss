@@ -1,0 +1,114 @@
+@use "~/theme";
+@use "~/theme/typography";
+@use "~/util";
+
+.menu {
+  padding: 4px 0;
+  min-width: 112px;
+  max-width: 280px;
+  &:focus {
+    outline: none;
+  }
+  &-popover {
+    padding: 0;
+  }
+  &--two-line {
+    .menu__item {
+      height: 64px;
+    }
+  }
+  &__item {
+    --selected-background-rgb: var(--gold-500-rgb);
+    --background-alpha: 0;
+    --selected-text-rgb: var(--gold-900-rgb);
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 12px;
+    background-color: rgba(
+      var(--selected-background-rgb),
+      var(--background-alpha)
+    );
+    transition: background-color 200ms;
+    @include theme.dark {
+      --selected-background-rgb: var(--gold-300-rgb);
+      --selected-text-rgb: var(--gold-100-rgb);
+    }
+    &:focus-visible {
+      outline: none;
+    }
+    &[data-has-submenu] {
+      .menu__item-icon--trailing {
+        display: none;
+      }
+    }
+    &[data-hovered] {
+      --background-alpha: #{theme.states-opacity("hover")};
+    }
+    &[data-focused] {
+      --background-alpha: #{theme.states-opacity("focus")};
+    }
+    &[data-pressed] {
+      --background-alpha: #{theme.states-opacity("press")};
+    }
+    &[data-selected] {
+      $selected-opacity: theme.states-opacity("selected");
+      --background-alpha: #{$selected-opacity};
+      --text-rgb: var(--selected-text-rgb);
+      &[data-hovered] {
+        --background-alpha: #{theme.states-opacity("hover", $selected-opacity)};
+      }
+      &[data-focused] {
+        --background-alpha: #{theme.states-opacity("focus", $selected-opacity)};
+      }
+      &[data-pressed] {
+        --background-alpha: #{theme.states-opacity("press", $selected-opacity)};
+      }
+      .menu__item-icon--leading {
+        display: none;
+      }
+    }
+    &-icon {
+      color: typography.emphasis("text", "medium");
+      flex-shrink: 0;
+      &--trailing,
+      &--submenu {
+        @include util.rtl-box(margin, auto);
+      }
+    }
+    &-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex: 1 1 auto;
+      min-width: 0;
+      .typography {
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .typography--body1 {
+        color: typography.emphasis("text", "high");
+      }
+      .typography--caption,
+      .typography--subtitle1 {
+        color: typography.emphasis("text", "medium");
+      }
+    }
+    kbd {
+      color: typography.emphasis("text", "medium");
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+  }
+  section {
+    margin: 8px 0;
+    header {
+      color: typography.emphasis("text", "medium");
+      margin-bottom: 8px;
+      padding: 0 12px;
+    }
+  }
+}
