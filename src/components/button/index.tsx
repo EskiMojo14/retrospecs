@@ -248,6 +248,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
                 items,
                 dependencies,
               }}
+              idScope={id}
             >
               {children}
             </Collection>
