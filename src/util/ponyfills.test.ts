@@ -6,7 +6,6 @@ import {
   promiseFromEntries,
   promiseOwnProperties,
   promiseWithResolvers,
-  weakMapEmplace,
 } from "./ponyfills";
 
 describe("utils > ponyfills", () => {
@@ -56,6 +55,61 @@ describe("utils > ponyfills", () => {
       const map = new Map<string, number>([["foo", 42]]);
       const key = "foo";
       const value = 42;
+      expect(map.has(key)).toBe(true);
+
+      const result = mapEmplace(map, key, {});
+
+      expect(result).toBe(value);
+    });
+  });
+  describe("mapEmplace (WeakMap)", () => {
+    it("should insert a value if it does not exist", () => {
+      const map = new WeakMap<object, number>();
+      const key = {};
+      const value = 42;
+      expect(map.has(key)).toBe(false);
+
+      const insert = vi.fn(() => value);
+
+      const result = mapEmplace(map, key, {
+        insert,
+      });
+
+      expect(map.get(key)).toBe(value);
+      expect(result).toBe(value);
+      expect(insert).toHaveBeenCalledWith(key, map);
+    });
+    it("should update a value if it exists", () => {
+      const map = new WeakMap<object, number>();
+      const key = {};
+      const value = 42;
+      map.set(key, value);
+      expect(map.has(key)).toBe(true);
+
+      const update = vi.fn((n: number) => ++n);
+
+      const result = mapEmplace(map, key, {
+        update,
+      });
+
+      expect(result).toBe(value + 1);
+      expect(map.get(key)).toBe(value + 1);
+      expect(update).toHaveBeenCalledWith(value, key, map);
+    });
+    it("should throw an error if the key is not found and no insert handler is provided", () => {
+      const map = new WeakMap<object, number>();
+      const key = {};
+      expect(map.has(key)).toBe(false);
+
+      expect(() => mapEmplace(map, key, {})).toThrowErrorMatchingInlineSnapshot(
+        `[Error: No insert provided for key not already in map]`,
+      );
+    });
+    it("should return the value if it exists, even if no update handler is provided", () => {
+      const map = new WeakMap<object, number>();
+      const key = {};
+      const value = 42;
+      map.set(key, value);
       expect(map.has(key)).toBe(true);
 
       const result = mapEmplace(map, key, {});
@@ -146,63 +200,6 @@ describe("utils > ponyfills", () => {
       expect(reject).toBeInstanceOf(Function);
       reject(new Error("foo"));
       await expect(promise).rejects.toThrow("foo");
-    });
-  });
-  describe("weakMapEmplace", () => {
-    it("should insert a value if it does not exist", () => {
-      const map = new WeakMap<object, number>();
-      const key = {};
-      const value = 42;
-      expect(map.has(key)).toBe(false);
-
-      const insert = vi.fn(() => value);
-
-      const result = weakMapEmplace(map, key, {
-        insert,
-      });
-
-      expect(map.get(key)).toBe(value);
-      expect(result).toBe(value);
-      expect(insert).toHaveBeenCalledWith(key, map);
-    });
-    it("should update a value if it exists", () => {
-      const map = new WeakMap<object, number>();
-      const key = {};
-      const value = 42;
-      map.set(key, value);
-      expect(map.has(key)).toBe(true);
-
-      const update = vi.fn((n: number) => ++n);
-
-      const result = weakMapEmplace(map, key, {
-        update,
-      });
-
-      expect(result).toBe(value + 1);
-      expect(map.get(key)).toBe(value + 1);
-      expect(update).toHaveBeenCalledWith(value, key, map);
-    });
-    it("should throw an error if the key is not found and no insert handler is provided", () => {
-      const map = new WeakMap<object, number>();
-      const key = {};
-      expect(map.has(key)).toBe(false);
-
-      expect(() =>
-        weakMapEmplace(map, key, {}),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `[Error: No insert provided for key not already in map]`,
-      );
-    });
-    it("should return the value if it exists, even if no update handler is provided", () => {
-      const map = new WeakMap<object, number>();
-      const key = {};
-      const value = 42;
-      map.set(key, value);
-      expect(map.has(key)).toBe(true);
-
-      const result = weakMapEmplace(map, key, {});
-
-      expect(result).toBe(value);
     });
   });
 });

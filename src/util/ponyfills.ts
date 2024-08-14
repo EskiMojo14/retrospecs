@@ -130,22 +130,25 @@ function emplacePonyfill<K extends object, V>(
   return inserted;
 }
 
-export const weakMapEmplace = <K extends object, V>(
-  map: WeakMap<K, V>,
-  key: K,
-  handler: WeakMapEmplaceHandler<K, V>,
-): V =>
-  map.emplace
-    ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      map.emplace(key, handler)
-    : emplacePonyfill(map, key, handler);
-
-export const mapEmplace = <K, V>(
+export function mapEmplace<K, V>(
   map: Map<K, V>,
   key: K,
   handler: MapEmplaceHandler<K, V>,
-): V =>
-  map.emplace ? map.emplace(key, handler) : emplacePonyfill(map, key, handler);
+): V;
+export function mapEmplace<K extends object, V>(
+  map: WeakMap<K, V>,
+  key: K,
+  handler: WeakMapEmplaceHandler<K, V>,
+): V;
+export function mapEmplace<K extends object, V>(
+  map: WeakMap<K, V>,
+  key: K,
+  handler: WeakMapEmplaceHandler<K, V>,
+): V {
+  return map.emplace
+    ? map.emplace(key, handler)
+    : emplacePonyfill(map, key, handler);
+}
 
 function objectGroupByPonyfill<T, K extends PropertyKey>(
   iterable: Iterable<T>,
