@@ -9,11 +9,9 @@
 
 .button {
   --button-radius: var(--border-radius-full);
-  --button-text: rgb(var(--button-text-rgb));
-  --button-outline: rgb(var(--button-outline-rgb));
-  --button-fill: rgb(var(--button-fill-rgb));
-  --button-filled-text: rgb(var(--button-filled-text-rgb));
-  --button-filled-outline: rgb(var(--button-filled-outline-rgb));
+  @each $token in map.keys(map.get(variables.$default-shades, "light")) {
+    --button-#{$token}: rgb(var(--button-#{$token}-rgb));
+  }
   --outline-color: var(--button-outline);
   color: var(--button-text);
   text-wrap: nowrap;
@@ -90,6 +88,7 @@
   &[data-disabled] {
     opacity: map.get(typography.$emphasis-map, disabled);
     &.button--elevated {
+      translate: 0 0;
       @include elevation.shadow(0);
     }
   }
