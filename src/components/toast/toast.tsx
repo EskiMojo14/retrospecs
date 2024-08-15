@@ -104,6 +104,11 @@ export function Toast({ state, ...props }: ToastProps) {
             <Symbol>close</Symbol>
           </IconButton>
         )}
+        {timeout && (
+          <div className={cls("progress")}>
+            <div className={cls("progress-stop")} />
+          </div>
+        )}
       </ButtonContext.Provider>
     </div>
   );

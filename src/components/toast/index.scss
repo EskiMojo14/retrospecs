@@ -59,33 +59,42 @@
   &--has-timeout {
     position: relative;
     padding-bottom: 4px;
-    &::before {
-      content: "";
+    .toast__progress {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
+      display: flex;
+      bottom: 4px;
+      left: 4px;
+      right: 4px;
       height: 4px;
-      background-color: typography.emphasis("text", "disabled");
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background-color: var(--text);
-      animation: timeout-progress var(--timeout) linear forwards;
-    }
-    &:hover::after {
-      animation-play-state: paused;
-    }
-    @include util.rtl {
-      &::after {
-        left: unset;
-        right: 0;
+      gap: 4px;
+      &::before {
+        content: "";
+        order: 2;
+        flex: 1 1 auto;
+        height: 4px;
+        background-color: typography.emphasis("text", "disabled");
+        border-radius: var(--border-radius-full);
       }
+      &::after {
+        content: "";
+        order: 1;
+        height: 4px;
+        background-color: var(--text);
+        animation: timeout-progress var(--timeout) linear forwards;
+        border-radius: var(--border-radius-full);
+      }
+      &-stop {
+        height: 4px;
+        width: 4px;
+        position: absolute;
+        bottom: 0;
+        background-color: var(--text);
+        border-radius: var(--border-radius-full);
+        @include util.rtl-position("right", 0);
+      }
+    }
+    &:hover .toast__progress::after {
+      animation-play-state: paused;
     }
   }
   &[data-animation="entering"] {
