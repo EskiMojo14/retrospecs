@@ -12,6 +12,7 @@
     var(--progress-color-rgb),
     var(--progress-track-alpha)
   );
+  --determinate-duration: 250ms;
   @each $color in palette.$colors {
     &--#{$color} {
       --progress-color-rgb: var(--#{$color}-500-rgb);
@@ -23,7 +24,11 @@
   &--linear {
     --progress-thickness: 4px;
     min-width: 80px;
+    @include util.rtl {
+      transform: scaleX(-1);
+    }
     .progress__bar {
+      direction: ltr;
       position: relative;
       display: flex;
       height: var(--progress-thickness);
@@ -38,7 +43,7 @@
         max-height: 100%;
         border-radius: var(--border-radius-full);
         background-color: var(--progress-track-color);
-        transition: width 100ms ease;
+        transition: width var(--determinate-duration) ease;
         @include util.rtl-box(margin, auto);
       }
       &::after {
@@ -49,7 +54,7 @@
         max-height: 100%;
         border-radius: var(--border-radius-full);
         background-color: var(--progress-indicator-color);
-        transition: width 100ms ease;
+        transition: width var(--determinate-duration) ease;
       }
       &-stop {
         position: absolute;
@@ -59,7 +64,7 @@
         background-color: var(--progress-indicator-color);
         border-radius: var(--border-radius-full);
         bottom: 0;
-        @include util.rtl-position("right", 0);
+        right: 0;
       }
     }
   }
@@ -100,8 +105,8 @@
       stroke-dashoffset: calc(100 - (var(--pct, 0) + $gap));
       transition:
         stroke-width 200ms ease,
-        stroke-dashoffset 100ms ease,
-        stroke-dasharray 100ms ease;
+        stroke-dashoffset var(--determinate-duration) ease,
+        stroke-dasharray var(--determinate-duration) ease;
     }
     .progress__bar {
       stroke: var(--progress-indicator-color);
@@ -110,7 +115,7 @@
       stroke-dashoffset: calc(100 - var(--pct, 0));
       stroke-dasharray: 100;
       transition:
-        stroke-dashoffset 100ms ease,
+        stroke-dashoffset var(--determinate-duration) ease,
         stroke-width 200ms ease;
     }
     .progress__stop {
