@@ -26,8 +26,14 @@ type Story = StoryObj<typeof meta>;
 export const DeterminateLinear: Story = {
   render: (args) => <LinearProgress {...args} />,
   args: {
-    style: { width: 200 },
     value: 50,
+  },
+};
+
+export const IndeterminateLinear: Story = {
+  render: (args) => <LinearProgress {...args} />,
+  args: {
+    isIndeterminate: true,
   },
 };
 
@@ -35,5 +41,12 @@ export const DeterminateCircular: Story = {
   render: (args) => <CircularProgress {...args} />,
   args: {
     value: 50,
+  },
+};
+
+export const IndeterminateCircular: Story = {
+  render: (args) => <CircularProgress {...args} />,
+  args: {
+    isIndeterminate: true,
   },
 };
