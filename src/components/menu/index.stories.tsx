@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import type { Selection } from "react-aria-components";
-import { Header, Keyboard, Section } from "react-aria-components";
+import { Keyboard, Section } from "react-aria-components";
 import { Divider } from "~/components/divider";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
-import { Typography } from "~/components/typography";
+import { Header } from "~/components/typography";
 import type { MenuItem as TMenuItem } from "./render";
 import { renderMenuItem } from "./render";
 import type { MenuProps } from ".";
@@ -69,9 +69,7 @@ export const Default: Story = {
       </MenuItem>
       <Divider />
       <Section>
-        <Typography variant="subtitle2" as={Header}>
-          Section
-        </Typography>
+        <Header variant="subtitle2">Section</Header>
         <MenuItem>
           <MenuItemText label="Item 3" />
         </MenuItem>

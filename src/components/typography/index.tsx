@@ -1,6 +1,10 @@
+import type { HTMLAttributes } from "react";
 import { forwardRef } from "react";
 import type { HeadingProps as AriaHeadingProps } from "react-aria-components";
-import { Heading as AriaHeading } from "react-aria-components";
+import {
+  Heading as AriaHeading,
+  Header as AriaHeader,
+} from "react-aria-components";
 import { createGenericComponent } from "~/components/generic";
 import { bemHelper } from "~/util";
 import type { HeadingVariant, TypographyVariant } from "./constants";
@@ -48,3 +52,13 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 
 Heading.displayName = "Heading";
+
+interface HeaderProps extends HTMLAttributes<HTMLElement> {
+  variant: HeadingVariant;
+}
+
+export const Header = forwardRef<HTMLElement, HeaderProps>((props, ref) => (
+  <Typography ref={ref} as={AriaHeader} {...props} />
+));
+
+Header.displayName = "Header";

@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import type { Key } from "react-aria-components";
-import { Collection, Header, Section } from "react-aria-components";
+import { Collection, Section } from "react-aria-components";
 import type { DividerProps } from "~/components/divider";
 import { Divider, DividerFragment } from "~/components/divider";
-import { Typography } from "~/components/typography";
+import { Header } from "~/components/typography";
 import type { MenuItemTextProps, MenuItemProps } from ".";
 import { Menu, MenuItem, MenuItemText } from ".";
 
@@ -50,9 +50,7 @@ export function renderMenuItem(item: MenuItem): JSX.Element {
       return (
         <DividerFragment id={item.id}>
           <Section>
-            <Typography variant="subtitle2" as={Header}>
-              {item.header}
-            </Typography>
+            <Header variant="subtitle2">{item.header}</Header>
             <Collection items={item.children}>{renderMenuItem}</Collection>
           </Section>
           {divider}
