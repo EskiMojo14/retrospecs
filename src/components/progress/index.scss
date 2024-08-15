@@ -1,0 +1,136 @@
+@use "sass:map";
+@use "~/theme";
+@use "~/theme/typography";
+@use "~/theme/palette";
+@use "~/util";
+
+.progress {
+  --circular-progress-size: 48px;
+  --progress-indicator-color: rgb(var(--progress-color-rgb));
+  --progress-track-alpha: #{map.get(typography.$emphasis-map, "disabled")};
+  --progress-track-color: rgba(
+    var(--progress-color-rgb),
+    var(--progress-track-alpha)
+  );
+  @each $color in palette.$colors {
+    &--#{$color} {
+      --progress-color-rgb: var(--#{$color}-500-rgb);
+      @include theme.dark {
+        --progress-color-rgb: var(--#{$color}-300-rgb);
+      }
+    }
+  }
+  &--linear {
+    --progress-thickness: 4px;
+    .progress__bar {
+      position: relative;
+      display: flex;
+      height: var(--progress-thickness);
+      border-radius: var(--border-radius-full);
+      overflow: hidden;
+      transition: height 200ms ease;
+      &::before {
+        content: "";
+        order: 2;
+        width: calc((100% - var(--pct, 0%)) - var(--progress-thickness));
+        height: var(--progress-thickness);
+        max-height: 100%;
+        border-radius: var(--border-radius-full);
+        background-color: var(--progress-track-color);
+        transition: width 100ms ease;
+        @include util.rtl-box(margin, auto);
+      }
+      &::after {
+        content: "";
+        order: 1;
+        height: var(--progress-thickness);
+        width: var(--pct, 0%);
+        max-height: 100%;
+        border-radius: var(--border-radius-full);
+        background-color: var(--progress-indicator-color);
+        transition: width 100ms ease;
+      }
+      &-stop {
+        position: absolute;
+        height: var(--progress-thickness);
+        max-height: 100%;
+        width: var(--progress-thickness);
+        background-color: var(--progress-indicator-color);
+        border-radius: var(--border-radius-full);
+        bottom: 0;
+        @include util.rtl-position("right", 0);
+      }
+    }
+  }
+  &--circular {
+    --progress-thickness: 10;
+    width: var(--circular-progress-size);
+    height: var(--circular-progress-size);
+    position: relative;
+
+    .progress__track,
+    .progress__bar {
+      position: absolute;
+      inset: 0;
+    }
+
+    @include util.rtl {
+      transform: scaleX(-1);
+    }
+
+    svg {
+      transform: rotate(-90deg);
+      position: absolute;
+      inset: 4px;
+    }
+    circle {
+      cx: 50%;
+      cy: 50%;
+      r: calc(50% * (1 - var(--progress-thickness) / 100));
+      fill: rgba(0, 0, 0, 0);
+    }
+    $gap: 10;
+    .progress__track {
+      stroke: var(--progress-track-color);
+      stroke-width: calc(var(--progress-thickness) * 1%);
+      stroke-linecap: round;
+      stroke-dasharray: max(calc((100 - var(--pct, 0)) - #{$gap * 2}), 0)
+        min(calc(var(--pct, 0) + $gap * 2), 100);
+      stroke-dashoffset: calc(100 - (var(--pct, 0) + $gap));
+      transition:
+        stroke-width 200ms ease,
+        stroke-dashoffset 100ms ease,
+        stroke-dasharray 100ms ease;
+    }
+    .progress__bar {
+      stroke: var(--progress-indicator-color);
+      stroke-width: calc(var(--progress-thickness) * 1%);
+      stroke-linecap: round;
+      stroke-dashoffset: calc(100 - var(--pct, 0));
+      stroke-dasharray: 100;
+      transition:
+        stroke-dashoffset 100ms ease,
+        stroke-width 200ms ease;
+    }
+    .progress__stop {
+      stroke: var(--progress-indicator-color);
+      stroke-width: calc(var(--progress-thickness) * 1%);
+      stroke-linecap: round;
+      stroke-dashoffset: 0;
+      stroke-dasharray: 0 100;
+      transition: stroke-width 200ms ease;
+    }
+  }
+  &[data-hidden] {
+    &.progress--linear .progress__bar {
+      height: 0;
+    }
+    &.progress--circular {
+      .progress__bar,
+      .progress__track,
+      .progress__stop {
+        stroke-width: 0;
+      }
+    }
+  }
+}
