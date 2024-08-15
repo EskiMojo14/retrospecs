@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {
   ToggleButtonProps as AriaToggleButtonProps,
-  LinkProps,
   ContextValue,
   SlotProps,
 } from "react-aria-components";
@@ -23,6 +22,7 @@ import {
 import {
   createGenericComponent,
   renderGenericPropChild,
+  withNewDefault,
 } from "~/components/generic";
 import type { FormGroupProps } from "~/components/input/text-field";
 import { MergeProvider } from "~/components/provider";
@@ -113,12 +113,7 @@ export const Button = createGenericComponent<
   );
 });
 
-export const LinkButton = forwardRef<
-  HTMLAnchorElement,
-  Overwrite<LinkProps, ButtonProps>
->((props, ref) => <Button as={Link} {...props} ref={ref} />);
-
-LinkButton.displayName = "LinkButton";
+export const LinkButton = withNewDefault("LinkButton", Button, Link);
 
 export type ToggleButtonProps = Overwrite<AriaToggleButtonProps, ButtonProps>;
 

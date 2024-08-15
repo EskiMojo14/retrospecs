@@ -5,6 +5,7 @@ import type {
   JSXElementConstructor,
   ReactNode,
   Ref,
+  ComponentRef,
 } from "react";
 import { forwardRef } from "react";
 import type { Overwrite } from "~/util/types";
@@ -129,4 +130,25 @@ export const renderGenericPropChild = <RenderProps,>(
       render(children(renderProps), renderProps)) as never;
   }
   return render(children);
+};
+
+export const withNewDefault = <
+  NewComponent extends ElementType<PassedProps>,
+  ReceivedProps extends {},
+  PassedProps extends {} = {},
+>(
+  displayName: string,
+  GenericComponent: GenericComponent<any, ReceivedProps, PassedProps>,
+  as: NewComponent,
+) => {
+  const Component = forwardRef<
+    ComponentRef<NewComponent>,
+    Overwrite<GenericComponentProps<NewComponent>, ReceivedProps>
+  >((props, ref) => <GenericComponent as={as} {...props} ref={ref} />);
+  Component.displayName = displayName;
+  return Component as GenericComponent<
+    NewComponent,
+    ReceivedProps,
+    PassedProps
+  >;
 };

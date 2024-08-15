@@ -3,8 +3,13 @@ import type { ContextType } from "react";
 import { createContext } from "react";
 import type { SlotProps, ContextValue } from "react-aria-components";
 import { useContextProps } from "react-aria-components";
-import { Button, ButtonContext } from "~/components/button";
-import { createGenericComponent } from "~/components/generic";
+import {
+  Button,
+  ButtonContext,
+  LinkButton,
+  ToggleButton,
+} from "~/components/button";
+import { createGenericComponent, withNewDefault } from "~/components/generic";
 import { MergeProvider } from "~/components/provider";
 import type { TooltipProps } from "~/components/tooltip";
 import { Tooltip, TooltipTrigger } from "~/components/tooltip";
@@ -62,3 +67,15 @@ export const IconButton = createGenericComponent<
     </MergeProvider>
   );
 });
+
+export const LinkIconButton = withNewDefault(
+  "LinkIconButton",
+  IconButton,
+  LinkButton,
+);
+
+export const IconToggleButton = withNewDefault(
+  "IconToggleButton",
+  IconButton,
+  ToggleButton,
+);

@@ -2,10 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import type { ToggleButtonProps } from "~/components/button";
-import { ToggleButton } from "~/components/button";
 import { buttonColors, buttonVariants } from "~/components/button/constants";
 import { Symbol } from "~/components/symbol";
-import { IconButton } from ".";
+import { IconButton, IconToggleButton, LinkIconButton } from ".";
 
 interface StoryProps
   extends ComponentPropsWithoutRef<typeof IconButton>,
@@ -95,11 +94,19 @@ export const Elevated: Story = {
   },
 };
 
+export const Link: Story = {
+  render: (args) => (
+    <LinkIconButton {...args} href="#">
+      <Symbol>link</Symbol>
+    </LinkIconButton>
+  ),
+};
+
 export const Toggle: Story = {
   render: (args) => (
-    <IconButton as={ToggleButton} {...args}>
+    <IconToggleButton {...args}>
       <Symbol>favorite</Symbol>
-    </IconButton>
+    </IconToggleButton>
   ),
   args: {
     tooltip: "Favorite",

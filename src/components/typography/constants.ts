@@ -38,6 +38,10 @@ export const levelMapping: {
     : never]: (typeof variantMapping)[K] extends `h${infer N extends number}`
     ? N
     : never;
+} & {
+  [K in TypographyVariant as (typeof variantMapping)[K] extends `h${number}`
+    ? never
+    : K]?: undefined;
 } = {
   headline1: 1,
   headline2: 2,
