@@ -80,10 +80,6 @@
       inset: 0;
     }
 
-    @include util.rtl {
-      transform: scaleX(-1);
-    }
-
     svg {
       transform: rotate(-90deg);
       position: absolute;
