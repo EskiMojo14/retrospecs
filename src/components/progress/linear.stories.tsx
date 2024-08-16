@@ -27,6 +27,8 @@ export const DeterminateLinear: Story = {
   render: (args) => <LinearProgress {...args} />,
   args: {
     value: 50,
+    thickness: 4,
+    style: { width: "50vw" },
   },
 };
 
@@ -34,6 +36,8 @@ export const IndeterminateLinear: Story = {
   render: (args) => <LinearProgress {...args} />,
   args: {
     isIndeterminate: true,
+    thickness: 4,
+    style: { width: "50vw" },
   },
 };
 
@@ -41,6 +45,7 @@ export const DeterminateCircular: Story = {
   render: (args) => <CircularProgress {...args} />,
   args: {
     value: 50,
+    thickness: 10,
   },
 };
 
@@ -48,5 +53,6 @@ export const IndeterminateCircular: Story = {
   render: (args) => <CircularProgress {...args} />,
   args: {
     isIndeterminate: true,
+    thickness: 10,
   },
 };

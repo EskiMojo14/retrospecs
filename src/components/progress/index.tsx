@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { forwardRef } from "react";
 import type { ProgressBarProps } from "react-aria-components";
 import { ProgressBar } from "react-aria-components";
@@ -5,16 +6,22 @@ import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
 
-export interface ProgressProps extends Omit<ProgressBarProps, "className"> {
+export interface ProgressProps
+  extends Omit<ProgressBarProps, "className" | "style"> {
   className?: string;
   color?: Color;
   isHidden?: boolean;
+  thickness?: number;
+  style?: CSSProperties;
 }
 
 const cls = bemHelper("progress");
 
 export const LinearProgress = forwardRef<HTMLDivElement, ProgressProps>(
-  ({ color = "gold", className, isHidden, ...props }, ref) => {
+  (
+    { color = "gold", className, isHidden, thickness, style, ...props },
+    ref,
+  ) => {
     return (
       <ProgressBar
         ref={ref}
@@ -28,10 +35,21 @@ export const LinearProgress = forwardRef<HTMLDivElement, ProgressProps>(
           },
           extra: className,
         })}
+        style={{
+          ...style,
+          "--progress-thickness":
+            typeof thickness === "number" ? `${thickness}px` : undefined,
+        }}
       >
         {({ percentage = 0, isIndeterminate }) =>
           isIndeterminate ? null : (
-            <div className={cls("bar")} style={{ "--pct": `${percentage}%` }}>
+            <div
+              className={cls("bar")}
+              style={{
+                "--pct":
+                  typeof percentage === "number" ? `${percentage}%` : undefined,
+              }}
+            >
               <div className={cls("bar-stop")} />
             </div>
           )
@@ -44,7 +62,10 @@ export const LinearProgress = forwardRef<HTMLDivElement, ProgressProps>(
 LinearProgress.displayName = "LinearProgress";
 
 export const CircularProgress = forwardRef<HTMLDivElement, ProgressProps>(
-  ({ color = "gold", className, isHidden = false, ...props }, ref) => {
+  (
+    { color = "gold", className, isHidden = false, style, thickness, ...props },
+    ref,
+  ) => {
     return (
       <ProgressBar
         ref={mergeRefs(ref, (ref) => {
@@ -61,6 +82,10 @@ export const CircularProgress = forwardRef<HTMLDivElement, ProgressProps>(
           },
           extra: className,
         })}
+        style={{
+          ...style,
+          "--progress-thickness": thickness,
+        }}
       >
         {({ percentage = 0, isIndeterminate }) =>
           isIndeterminate ? null : (

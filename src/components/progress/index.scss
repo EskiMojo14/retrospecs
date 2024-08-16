@@ -41,7 +41,7 @@
         width: calc((100% - var(--pct, 0%)) - var(--progress-thickness));
         height: var(--progress-thickness);
         max-height: 100%;
-        border-radius: var(--border-radius-full);
+        border-radius: inherit;
         background-color: var(--progress-track-color);
         transition: width var(--determinate-duration) ease;
         @include util.rtl-box(margin, auto);
@@ -52,7 +52,7 @@
         height: var(--progress-thickness);
         width: var(--pct, 0%);
         max-height: 100%;
-        border-radius: var(--border-radius-full);
+        border-radius: inherit;
         background-color: var(--progress-indicator-color);
         transition: width var(--determinate-duration) ease;
       }
@@ -62,7 +62,7 @@
         max-height: 100%;
         width: var(--progress-thickness);
         background-color: var(--progress-indicator-color);
-        border-radius: var(--border-radius-full);
+        border-radius: inherit;
         bottom: 0;
         right: 0;
       }
