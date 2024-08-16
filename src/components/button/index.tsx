@@ -36,6 +36,7 @@ import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import "./index.scss";
+import { CircularProgress, ProgressProps } from "../progress";
 
 export interface ButtonProps extends SlotProps {
   variant?: ButtonVariant;
@@ -275,3 +276,31 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps<{}>>(
 };
 
 ButtonGroup.displayName = "ButtonGroup";
+
+export interface LoadingButtonProps
+  extends Pick<ProgressProps, "isIndeterminate"> {
+  loadingValue?: number;
+}
+
+export const LoadingButton = createGenericComponent<
+  typeof Button,
+  LoadingButtonProps,
+  { children: ReactNode; isDisabled?: boolean }
+>(
+  "LoadingButton",
+  Button,
+  ({ isIndeterminate, loadingValue, as: As, ...props }, ref) => {
+    const isLoading = isIndeterminate || loadingValue !== undefined;
+    return (
+      <As {...props} isDisabled={isLoading} ref={ref}>
+        {renderGenericPropChild(props, (children) =>
+          isLoading ? (
+            <CircularProgress value={loadingValue} {...{ isIndeterminate }} />
+          ) : (
+            children
+          ),
+        )}
+      </As>
+    );
+  },
+);

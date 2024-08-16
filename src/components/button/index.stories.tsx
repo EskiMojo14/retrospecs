@@ -1,11 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Symbol } from "~/components/symbol";
 import { buttonColors, buttonVariants } from "./constants";
-import type { ButtonGroupProps, ToggleButtonProps } from ".";
-import { Button, ButtonGroup, LinkButton, ToggleButton } from ".";
+import type {
+  ButtonGroupProps,
+  LoadingButtonProps,
+  ToggleButtonProps,
+} from ".";
+import {
+  Button,
+  ButtonGroup,
+  LinkButton,
+  LoadingButton,
+  ToggleButton,
+} from ".";
 
 interface StoryProps
   extends ComponentPropsWithoutRef<typeof Button>,
@@ -207,4 +217,33 @@ export const Group: Story = {
       'Whether to use loud backgrounds or not. "Low volume" tones it down a little.',
   },
   render: (args) => <GroupComponent {...args} />,
+};
+
+function LoadingDemo(args: StoryProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    },
+    [],
+  );
+  return (
+    <LoadingButton
+      {...args}
+      isIndeterminate={isLoading}
+      onPress={() => {
+        setIsLoading(true);
+        timeoutRef.current = setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+      }}
+    />
+  );
+}
+
+export const Loading: Story = {
+  render: (args) => <LoadingDemo {...args} />,
 };

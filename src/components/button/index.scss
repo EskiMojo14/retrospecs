@@ -124,6 +124,18 @@
     position: relative;
     vertical-align: middle;
   }
+  .progress {
+    --progress-color-rgb: var(--button-text-rgb);
+    --circular-progress-size: 24px;
+    @at-root .button {
+      &--filled,
+      &--elevated {
+        .progress {
+          --progress-color-rgb: var(--button-filled-text-rgb);
+        }
+      }
+    }
+  }
 }
 
 .button-group {
