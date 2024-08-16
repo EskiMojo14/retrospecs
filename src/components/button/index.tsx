@@ -280,6 +280,7 @@ ButtonGroup.displayName = "ButtonGroup";
 export interface LoadingButtonProps
   extends Pick<ProgressProps, "isIndeterminate"> {
   loadingValue?: number;
+  isDisabled?: boolean;
 }
 
 export const LoadingButton = createGenericComponent<
@@ -289,10 +290,12 @@ export const LoadingButton = createGenericComponent<
 >(
   "LoadingButton",
   Button,
-  ({ isIndeterminate, loadingValue, as: As, ...props }, ref) => {
+  ({ isIndeterminate, loadingValue, isDisabled, as: As, ...props }, ref) => {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const isLoading = isIndeterminate || loadingValue !== undefined;
     return (
-      <As {...props} isDisabled={isLoading} ref={ref}>
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      <As {...props} isDisabled={isDisabled || isLoading} ref={ref}>
         {renderGenericPropChild(props, (children) =>
           isLoading ? (
             <CircularProgress value={loadingValue} {...{ isIndeterminate }} />
