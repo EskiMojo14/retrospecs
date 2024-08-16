@@ -15,7 +15,9 @@ import { deleteInvite, getInvitesByOrgId, selectAllInvites } from ".";
 import styles from "./pending.module.scss";
 
 function InviteRow({ invite }: { invite: InviteWithInviter }) {
-  const { mutate: revokeInvite } = useMutation(useOptionsCreator(deleteInvite));
+  const { mutate: revokeInvite, isPending } = useMutation(
+    useOptionsCreator(deleteInvite),
+  );
   return (
     <ListItem textValue={invite.email}>
       <ListItemText
@@ -41,6 +43,7 @@ function InviteRow({ invite }: { invite: InviteWithInviter }) {
         confirmButtonProps={{
           color: "red",
           children: "Revoke",
+          isIndeterminate: isPending,
         }}
         onConfirm={(close) => {
           revokeInvite(invite, {

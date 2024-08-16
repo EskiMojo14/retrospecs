@@ -41,10 +41,10 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
     ...useOptionsCreator(getOrgMembers, orgId),
     select: (members) => selectOrgMemberById(members, id),
   });
-  const { mutate: updateMember } = useMutation(
+  const { mutate: updateMember, isPending: updatePending } = useMutation(
     useOptionsCreator(updateOrgMember),
   );
-  const { mutate: deleteMember } = useMutation(
+  const { mutate: deleteMember, isPending: deletePending } = useMutation(
     useOptionsCreator(deleteOrgMember),
   );
   const userPermissions = useUserPermissions(orgId, id);
@@ -93,16 +93,30 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
             }
             confirmButtonProps={
               member.role === "admin"
-                ? { children: "Demote", color: "red" }
-                : { children: "Promote", color: "green" }
+                ? {
+                    children: "Demote",
+                    color: "red",
+                    isIndeterminate: updatePending,
+                  }
+                : {
+                    children: "Promote",
+                    color: "green",
+                    isIndeterminate: updatePending,
+                  }
             }
             onConfirm={(close) => {
-              updateMember({
-                org_id: orgId,
-                user_id: userId,
-                role: member.role === "admin" ? "member" : "admin",
-              });
-              close();
+              updateMember(
+                {
+                  org_id: orgId,
+                  user_id: userId,
+                  role: member.role === "admin" ? "member" : "admin",
+                },
+                {
+                  onSuccess() {
+                    close();
+                  },
+                },
+              );
             }}
           />
           <ConfirmationDialog
@@ -122,9 +136,20 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
                 <b>{member.profile.display_name}</b> from the organisation?
               </>
             }
-            confirmButtonProps={{ children: "Remove", color: "red" }}
-            onConfirm={() => {
-              deleteMember({ org_id: orgId, user_id: userId });
+            confirmButtonProps={{
+              children: "Remove",
+              color: "red",
+              isIndeterminate: deletePending,
+            }}
+            onConfirm={(close) => {
+              deleteMember(
+                { org_id: orgId, user_id: userId },
+                {
+                  onSuccess() {
+                    close();
+                  },
+                },
+              );
             }}
           />
         </Toolbar>

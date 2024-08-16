@@ -81,7 +81,7 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
                 });
               }}
               confirmButtonProps={{
-                isDisabled: isPending,
+                isIndeterminate: isPending,
                 color: "red",
               }}
             />

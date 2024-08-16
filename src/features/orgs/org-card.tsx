@@ -92,7 +92,7 @@ export function OrgCard({ orgId }: OrgCardProps) {
                   });
                 }}
                 confirmButtonProps={{
-                  isDisabled: isPending,
+                  isIndeterminate: isPending,
                   color: "red",
                 }}
               />

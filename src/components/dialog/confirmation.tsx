@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { ButtonProps as AriaButtonProps } from "react-aria-components";
-import type { ButtonProps } from "~/components/button";
-import { Button } from "~/components/button";
+import type { ButtonProps, LoadingButtonProps } from "~/components/button";
+import { Button, LoadingButton } from "~/components/button";
 import { Toolbar } from "~/components/toolbar";
 import { Heading, Typography } from "~/components/typography";
 import type { Overwrite } from "~/util/types";
@@ -13,8 +13,11 @@ export interface ConfirmationDialogProps extends Omit<DialogProps, "children"> {
   description: ReactNode;
   onConfirm: (close: () => void) => void;
   onCancel?: () => void;
-  confirmButtonProps?: Overwrite<AriaButtonProps, ButtonProps>;
-  cancelButtonProps?: Overwrite<AriaButtonProps, ButtonProps>;
+  confirmButtonProps?: Omit<
+    Overwrite<Overwrite<AriaButtonProps, ButtonProps>, LoadingButtonProps>,
+    "onPress"
+  >;
+  cancelButtonProps?: Omit<Overwrite<AriaButtonProps, ButtonProps>, "onPress">;
   children?: ReactNode;
 }
 
@@ -40,24 +43,24 @@ export function ConfirmationDialog({
           </DialogContent>
           <Toolbar slot="actions">
             <Button
+              variant="outlined"
+              {...cancelButtonProps}
               onPress={() => {
                 onCancel?.();
                 close();
               }}
-              variant="outlined"
-              {...cancelButtonProps}
             >
               {cancelButtonProps?.children ?? "Cancel"}
             </Button>
-            <Button
+            <LoadingButton
+              variant="elevated"
+              {...confirmButtonProps}
               onPress={() => {
                 onConfirm(close);
               }}
-              variant="elevated"
-              {...confirmButtonProps}
             >
               {confirmButtonProps?.children ?? "Confirm"}
-            </Button>
+            </LoadingButton>
           </Toolbar>
         </>
       )}

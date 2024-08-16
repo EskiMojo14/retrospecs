@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Avatar } from "~/components/avatar";
+import { LoadingButton } from "~/components/button";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { IconButton } from "~/components/icon-button";
 import { ListItem, ListItemText } from "~/components/list";
@@ -9,7 +10,6 @@ import { Toolbar } from "~/components/toolbar";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import DeclineInviteIcon from "~/icons/decline-invite";
-import type { PostgrestErrorWithMeta } from "~/util/supabase-query";
 import type { InviteWithInviter } from ".";
 import { acceptInvite, deleteInvite } from ".";
 import styles from "./invite.module.scss";
@@ -28,10 +28,10 @@ export function InviteEntry({ invite }: InviteEntryProps) {
   const session = useSession();
   const inviter = invite.inviter ?? emptyInviter;
 
-  const { mutate: acceptInviteFn } = useMutation(
+  const { mutate: acceptInviteFn, isPending: acceptPending } = useMutation(
     useOptionsCreator(acceptInvite),
   );
-  const { mutateAsync: deleteInviteFn } = useMutation(
+  const { mutate: deleteInviteFn, isPending: declinePending } = useMutation(
     useOptionsCreator(deleteInvite),
   );
 
@@ -49,6 +49,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
       />
       <Toolbar align="end">
         <IconButton
+          as={LoadingButton}
           tooltip="Accept"
           variant="filled"
           color="green"
@@ -59,6 +60,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
               user_id: session.user.id,
             });
           }}
+          isIndeterminate={acceptPending}
         >
           <Symbol>mark_email_read</Symbol>
         </IconButton>
@@ -82,28 +84,31 @@ export function InviteEntry({ invite }: InviteEntryProps) {
           confirmButtonProps={{
             children: "Decline",
             color: "red",
+            isIndeterminate: declinePending,
           }}
           onConfirm={(close) => {
-            deleteInviteFn(invite)
-              .then(() => {
+            deleteInviteFn(invite, {
+              onError(error) {
+                toastQueue.add({
+                  type: "error",
+                  title: "Failed to decline invite",
+                  description: error.message,
+                });
+              },
+              onSuccess() {
+                close();
                 toastQueue.add(
                   {
                     type: "success",
                     title: "Invite declined",
+                    description: `The invite to ${invite.org_name} has been declined.`,
                   },
                   {
                     timeout: 5000,
                   },
                 );
-              })
-              .catch((e: unknown) => {
-                toastQueue.add({
-                  type: "error",
-                  title: "Failed to decline invite",
-                  description: (e as PostgrestErrorWithMeta).message,
-                });
-              });
-            close();
+              },
+            });
           }}
         />
       </Toolbar>
