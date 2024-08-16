@@ -128,8 +128,8 @@
     --progress-color-rgb: var(--button-text-rgb);
     --circular-progress-size: 24px;
     @at-root .button {
-      &--filled,
-      &--elevated {
+      &.button--filled,
+      &.button--elevated {
         .progress {
           --progress-color-rgb: var(--button-filled-text-rgb);
         }
