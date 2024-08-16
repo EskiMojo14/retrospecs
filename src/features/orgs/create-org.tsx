@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
 import { minLength, object, pipe, string } from "valibot";
-import { Button } from "~/components/button";
+import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
@@ -80,15 +80,15 @@ export function CreateOrg({
             <Button onPress={close} variant="outlined">
               Cancel
             </Button>
-            <Button
+            <LoadingButton
               type="submit"
               form="create-org-form"
               variant="elevated"
-              isDisabled={isPending}
+              isIndeterminate={isPending}
               color={isError ? "red" : undefined}
             >
               Create
-            </Button>
+            </LoadingButton>
           </Toolbar>
         </>
       )}

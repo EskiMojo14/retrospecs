@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { useRef } from "react";
 import { Form } from "react-aria-components";
 import { nonEmpty, object, pipe, string } from "valibot";
-import { Button } from "~/components/button";
+import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
@@ -83,15 +83,15 @@ export function CreateInvite({
             <Button onPress={close} variant="outlined">
               Cancel
             </Button>
-            <Button
+            <LoadingButton
               form="invite-member-form"
               type="submit"
               color="green"
               variant="elevated"
-              isDisabled={isPending}
+              isIndeterminate={isPending}
             >
               Invite
-            </Button>
+            </LoadingButton>
           </Toolbar>
         </>
       )}
