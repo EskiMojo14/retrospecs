@@ -16,6 +16,7 @@ const meta = {
     color: "gold",
     isHidden: false,
     "aria-label": "Demo progress bar",
+    thickness: 4,
   },
 } satisfies Meta<ProgressProps>;
 
@@ -27,16 +28,17 @@ export const DeterminateLinear: Story = {
   render: (args) => <LinearProgress {...args} />,
   args: {
     value: 50,
-    thickness: 4,
     style: { width: "50vw" },
   },
 };
 
 export const IndeterminateLinear: Story = {
   render: (args) => <LinearProgress {...args} />,
+  argTypes: {
+    value: { table: { disable: true } },
+  },
   args: {
     isIndeterminate: true,
-    thickness: 4,
     style: { width: "50vw" },
   },
 };
@@ -45,14 +47,15 @@ export const DeterminateCircular: Story = {
   render: (args) => <CircularProgress {...args} />,
   args: {
     value: 50,
-    thickness: 10,
   },
 };
 
 export const IndeterminateCircular: Story = {
+  argTypes: {
+    value: { table: { disable: true } },
+  },
   render: (args) => <CircularProgress {...args} />,
   args: {
     isIndeterminate: true,
-    thickness: 10,
   },
 };

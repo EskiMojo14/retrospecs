@@ -84,11 +84,27 @@ export const CircularProgress = forwardRef<HTMLDivElement, ProgressProps>(
         })}
         style={{
           ...style,
-          "--progress-thickness": thickness,
+          "--progress-thickness":
+            typeof thickness === "number" ? `${thickness}px` : undefined,
+          "--progress-thickness-pct":
+            typeof thickness === "number" ? (thickness / 40) * 100 : undefined,
         }}
       >
         {({ percentage = 0, isIndeterminate }) =>
-          isIndeterminate ? null : (
+          isIndeterminate ? (
+            <div className={cls("spinner")}>
+              <div className={cls("left")}>
+                <svg viewBox="0 0 4800 4800">
+                  <circle pathLength={100} />
+                </svg>
+              </div>
+              <div className={cls("right")}>
+                <svg viewBox="0 0 4800 4800">
+                  <circle pathLength={100} />
+                </svg>
+              </div>
+            </div>
+          ) : (
             <svg
               viewBox="0 0 4800 4800"
               style={{
