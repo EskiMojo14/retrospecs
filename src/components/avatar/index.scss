@@ -39,11 +39,11 @@ $sizes: (
 
   background-color: var(--shade-900);
   color: var(--shade-100);
-  --outline-color: var(--shade-900);
+  --outline-color: var(--shade-500);
   @include theme.dark {
     color: var(--shade-900);
     background-color: var(--shade-100);
-    --outline-color: var(--shade-100);
+    --outline-color: var(--shade-300);
   }
 
   &--funky {
