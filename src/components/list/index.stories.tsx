@@ -5,7 +5,7 @@ import { useReducer } from "react";
 import type { Selection } from "react-aria-components";
 import { Form, Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
-import { Button } from "~/components/button";
+import { LoadingButton } from "~/components/button";
 import { Checkbox } from "~/components/checkbox";
 import { Divider } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
@@ -18,6 +18,7 @@ import { Symbol } from "~/components/symbol";
 import { Heading } from "~/components/typography";
 import { List, ListItem, ListItemText } from ".";
 import styles from "./story.module.scss";
+import { enableMapSet } from "immer";
 
 interface StoryProps {
   isDisabled: boolean;
@@ -272,10 +273,14 @@ const todoAdapter = createEntityAdapter<Todo>();
 
 const { selectAll: selectAllTodos } = todoAdapter.getSelectors();
 
+enableMapSet();
+
 const todoSlice = createSlice({
   name: "todos",
   initialState: todoAdapter.getInitialState({
     completed: new Set<string>() as Selection,
+    addLoading: false,
+    deleteLoading: new Set<string>(),
   }),
   reducers: {
     todoAdded: {
@@ -285,16 +290,29 @@ const todoSlice = createSlice({
           text,
         } satisfies Todo,
       }),
-      reducer: todoAdapter.addOne,
+      reducer: (state, action: PayloadAction<Todo>) => {
+        todoAdapter.addOne(state, action.payload);
+        state.addLoading = false;
+      },
     },
-    todoRemoved: todoAdapter.removeOne,
+    todoRemoved: (state, action: PayloadAction<string>) => {
+      todoAdapter.removeOne(state, action.payload);
+      state.deleteLoading.delete(action.payload);
+    },
     selectionChanged: (state, action: PayloadAction<Selection>) => {
       state.completed = action.payload;
+    },
+    startAddLoading: (state) => {
+      state.addLoading = true;
+    },
+    startDeleteLoading: (state, action: PayloadAction<string>) => {
+      state.deleteLoading.add(action.payload);
     },
   },
 });
 
-const { todoAdded, todoRemoved } = todoSlice.actions;
+const { todoAdded, todoRemoved, startAddLoading, startDeleteLoading } =
+  todoSlice.actions;
 
 function TodoListFn() {
   const [todos, dispatch] = useReducer(todoSlice.reducer, 0, () =>
@@ -329,16 +347,22 @@ function TodoListFn() {
           )}
           aria-labelledby="todo-list-header"
           className={styles.list}
+          dependencies={[todos.deleteLoading]}
         >
           {({ id, text }) => (
             <ListItem textValue={text} id={id}>
               <Checkbox slot="selection" />
               <ListItemText headline={text} />
               <IconButton
+                as={LoadingButton}
                 tooltip="Delete"
                 onPress={() => {
-                  dispatch(todoRemoved(id));
+                  dispatch(startDeleteLoading(id));
+                  setTimeout(() => {
+                    dispatch(todoRemoved(id));
+                  }, 1000);
                 }}
+                isIndeterminate={todos.deleteLoading.has(id)}
               >
                 <Symbol>delete</Symbol>
               </IconButton>
@@ -360,17 +384,24 @@ function TodoListFn() {
             const form = e.currentTarget;
             e.preventDefault();
             const text = new FormData(form).get("text") as string;
-            dispatch(todoAdded(text));
+            dispatch(startAddLoading(true));
+            setTimeout(() => {
+              dispatch(todoAdded(text));
+            }, 1000);
             form.reset();
           }}
           className={styles.form}
           aria-labelledby="add-todo-title"
         >
           <TextField label="Text" name="text" isRequired />
-          <Button variant="elevated" type="submit">
+          <LoadingButton
+            variant="elevated"
+            type="submit"
+            isIndeterminate={todos.addLoading}
+          >
             <Symbol>add</Symbol>
             Add
-          </Button>
+          </LoadingButton>
         </Form>
       </section>
     </section>
