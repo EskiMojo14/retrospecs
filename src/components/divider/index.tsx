@@ -29,10 +29,3 @@ export const Divider = forwardRef<object, DividerProps>(
 );
 
 Divider.displayName = "Divider";
-
-export const DividerFragment = ({
-  children,
-}: {
-  id: Key;
-  children: ReactNode;
-}) => <Fragment>{children}</Fragment>;

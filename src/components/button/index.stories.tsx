@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import upperFirst from "lodash/upperFirst";
 import type { ComponentPropsWithoutRef, ComponentType } from "react";
 import { useEffect, useRef, useState } from "react";
+import { IdFragment } from "~/components/fragment";
 import { Symbol } from "~/components/symbol";
+import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { buttonColors, buttonVariants } from "./constants";
-import type {
-  ButtonGroupProps,
-  LoadingButtonProps,
-  ToggleButtonProps,
-} from ".";
+import type { ButtonGroupProps, ToggleButtonProps } from ".";
 import {
   Button,
   ButtonGroup,
@@ -217,6 +216,66 @@ export const Group: Story = {
       'Whether to use loud backgrounds or not. "Low volume" tones it down a little.',
   },
   render: (args) => <GroupComponent {...args} />,
+};
+
+const alignOptions = {
+  left: "format_align_left",
+  center: "format_align_center",
+  right: "format_align_right",
+  justify: "format_align_justify",
+};
+
+const alignEntries = Object.entries(alignOptions);
+
+function AlignDemo({ isDisabled, color, orientation, variant }: StoryProps) {
+  const [align, setAlign] = useState<keyof typeof alignOptions>("left");
+
+  return (
+    <ButtonGroup
+      {...{
+        isDisabled,
+        color,
+        variant,
+        orientation,
+      }}
+      id="align-group"
+      items={alignEntries}
+      dependencies={[align]}
+      label="Align"
+    >
+      {([key, icon]) => (
+        <IdFragment id={key}>
+          <TooltipTrigger>
+            <ToggleButton
+              key={key}
+              id={key}
+              isSelected={align === key}
+              onChange={() => {
+                setAlign(key as keyof typeof alignOptions);
+              }}
+            >
+              <Symbol>{icon}</Symbol>
+            </ToggleButton>
+            <Tooltip>{upperFirst(key)}</Tooltip>
+          </TooltipTrigger>
+        </IdFragment>
+      )}
+    </ButtonGroup>
+  );
+}
+
+export const AlignGroup: Story = {
+  argTypes: {
+    orientation: {
+      control: "inline-radio",
+      options: ["horizontal", "vertical"],
+    },
+  },
+  args: {
+    orientation: "horizontal",
+    variant: "outlined",
+  },
+  render: (args) => <AlignDemo {...args} />,
 };
 
 function LoadingDemo(args: StoryProps) {

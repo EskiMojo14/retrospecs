@@ -2,8 +2,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Avatar } from "~/components/avatar";
 import { Card } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
-import { Divider, DividerFragment } from "~/components/divider";
+import { Divider } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
+import { IdFragment } from "~/components/fragment";
 import { IconButton } from "~/components/icon-button";
 import { List, ListItem, ListItemText } from "~/components/list";
 import { Switch } from "~/components/switch";
@@ -186,10 +187,10 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
           )}
         >
           {memberIds.map((id) => (
-            <DividerFragment key={id} id={id}>
+            <IdFragment key={id} id={id}>
               <MemberRow id={id} orgId={orgId} />
               <Divider variant="inset" />
-            </DividerFragment>
+            </IdFragment>
           ))}
         </List>
       </Card>

@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { Collection, Section } from "react-aria-components";
 import type { DividerProps } from "~/components/divider";
-import { Divider, DividerFragment } from "~/components/divider";
+import { Divider } from "~/components/divider";
+import { IdFragment } from "~/components/fragment";
 import { Header } from "~/components/typography";
 import type { MenuItemTextProps, MenuItemProps } from ".";
 import { Menu, MenuItem, MenuItemText } from ".";
@@ -48,17 +49,17 @@ export function renderMenuItem(item: MenuItem): JSX.Element {
   switch (item.type) {
     case "section":
       return (
-        <DividerFragment id={item.id}>
+        <IdFragment id={item.id}>
           <Section>
             <Header variant="subtitle2">{item.header}</Header>
             <Collection items={item.children}>{renderMenuItem}</Collection>
           </Section>
           {divider}
-        </DividerFragment>
+        </IdFragment>
       );
     case "submenu":
       return (
-        <DividerFragment id={item.id}>
+        <IdFragment id={item.id}>
           <Menu
             variant={item.variant}
             items={item.children}
@@ -76,19 +77,19 @@ export function renderMenuItem(item: MenuItem): JSX.Element {
             {renderMenuItem}
           </Menu>
           {divider}
-        </DividerFragment>
+        </IdFragment>
       );
     default: {
       const { leading, trailing, label, description, ...itemProps } = item;
       return (
-        <DividerFragment id={item.id}>
+        <IdFragment id={item.id}>
           <MenuItem {...itemProps}>
             {leading}
             <MenuItemText label={label} description={description} />
             {trailing}
           </MenuItem>
           {divider}
-        </DividerFragment>
+        </IdFragment>
       );
     }
   }

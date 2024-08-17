@@ -7,8 +7,9 @@ import { Form, Text } from "react-aria-components";
 import { Avatar } from "~/components/avatar";
 import { Button } from "~/components/button";
 import { Checkbox } from "~/components/checkbox";
-import { Divider, DividerFragment } from "~/components/divider";
+import { Divider } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
+import { IdFragment } from "~/components/fragment";
 import { IconButton } from "~/components/icon-button";
 import { Image } from "~/components/image";
 import { TextField } from "~/components/input/text-field";
@@ -125,14 +126,14 @@ export const OneLine: Story = {
       dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline }) => (
-        <DividerFragment id={headline}>
+        <IdFragment id={headline}>
           <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText headline={headline} />
             <Trailing trailing={trailing} />
           </ListItem>
           {divider !== "none" && <Divider variant={divider} />}
-        </DividerFragment>
+        </IdFragment>
       )}
     </List>
   ),
@@ -159,14 +160,14 @@ export const TwoLine: Story = {
       dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline, supporting }) => (
-        <DividerFragment id={headline}>
+        <IdFragment id={headline}>
           <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText headline={headline} supporting={supporting} />
             <Trailing trailing={trailing} />
           </ListItem>
           {divider !== "none" && <Divider variant={divider} />}
-        </DividerFragment>
+        </IdFragment>
       )}
     </List>
   ),
@@ -202,14 +203,14 @@ export const ThreeLine: Story = {
       dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline, supporting }) => (
-        <DividerFragment id={headline}>
+        <IdFragment id={headline}>
           <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText headline={headline} supporting={supporting} />
             <Trailing trailing={trailing} />
           </ListItem>
           {divider !== "none" && <Divider variant={divider} />}
-        </DividerFragment>
+        </IdFragment>
       )}
     </List>
   ),
@@ -244,7 +245,7 @@ export const ThreeLineWithOverline: Story = {
       dependencies={[leading, trailing, isDisabled, divider]}
     >
       {({ headline, supporting, overline }) => (
-        <DividerFragment id={headline}>
+        <IdFragment id={headline}>
           <ListItem isDisabled={isDisabled} textValue={headline}>
             <Leading leading={leading} />
             <ListItemText
@@ -255,7 +256,7 @@ export const ThreeLineWithOverline: Story = {
             <Trailing trailing={trailing} />
           </ListItem>
           {divider !== "none" && <Divider variant={divider} />}
-        </DividerFragment>
+        </IdFragment>
       )}
     </List>
   ),
