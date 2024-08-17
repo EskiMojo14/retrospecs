@@ -15,10 +15,10 @@
   );
   --determinate-duration: 250ms;
   --progress-thickness: 4px;
+  margin: 4px;
   @include theme.dark {
     --progress-color-rgb: var(--shade-300-rgb);
   }
-  margin: 4px;
   &--linear {
     min-width: 80px;
     @include util.rtl {
