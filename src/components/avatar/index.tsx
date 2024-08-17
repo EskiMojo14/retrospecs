@@ -68,8 +68,8 @@ export const Avatar = createGenericComponent<
       {...rest}
       ref={ref}
       className={cls({
-        modifiers: [size, color, font],
-        extra: className,
+        modifiers: [size, font],
+        extra: [className ?? "", "color-" + color],
       })}
     >
       {typeof children === "function"

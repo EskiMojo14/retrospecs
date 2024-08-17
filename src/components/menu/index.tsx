@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import type { ContextType, ReactNode } from "react";
-import { forwardRef } from "react";
+import { createContext, forwardRef, useMemo } from "react";
 import type {
   MenuProps as AriaMenuProps,
   MenuItemProps as AriaMenuItemProps,
@@ -13,11 +13,14 @@ import {
   Text,
   MenuTrigger,
   SubmenuTrigger,
+  ContextValue,
+  useContextProps,
 } from "react-aria-components";
 import type { PopoverProps } from "~/components/popover";
 import { Popover } from "~/components/popover";
 import { Symbol, SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
+import type { Color } from "~/theme/colors";
 import { bemHelper, renderPropsChild } from "~/util";
 import type { DistributiveOmit } from "~/util/types";
 import "./index.scss";
@@ -38,30 +41,45 @@ export type MenuProps<T extends object> = AriaMenuProps<T> &
   MenuTriggerProps & {
     variant?: "one-line" | "two-line";
     popoverProps?: DistributiveOmit<PopoverProps, "children">;
+    color?: Color;
   };
+
+type MenuContextValue = ContextValue<
+  Omit<MenuProps<any>, "trigger" | "triggerProps" | "isSubmenu">,
+  HTMLElement
+>;
+
+export const MenuContext = createContext<MenuContextValue>(null);
 
 const cls = bemHelper("menu");
 
-export const Menu = forwardRef<HTMLDivElement, MenuProps<any>>(
-  (
-    {
-      variant = "one-line",
-      children,
-      className,
-      isSubMenu,
-      trigger,
-      triggerProps,
-      popoverProps,
-      ...props
-    },
-    ref,
-  ) => {
-    const popover = (
+export const Menu = forwardRef<HTMLDivElement, MenuProps<any>>((props, ref) => {
+  [props, ref] = useContextProps(props, ref as never, MenuContext) as [
+    typeof props,
+    typeof ref,
+  ];
+  const {
+    children,
+    className,
+    variant = "one-line",
+    color = "gold",
+    popoverProps,
+    trigger,
+    triggerProps,
+    isSubMenu,
+  } = props;
+  const contextValue = useMemo<MenuContextValue>(() => ({ color }), [color]);
+  const popover = (
+    <MenuContext.Provider value={contextValue}>
       <Popover
         offset={0}
         containerPadding={variant === "two-line" ? 64 : 56}
         {...popoverProps}
-        className={clsx("menu-popover", popoverProps?.className)}
+        className={clsx(
+          "menu-popover",
+          "color-" + color,
+          popoverProps?.className,
+        )}
       >
         <AriaMenu
           {...props}
@@ -76,20 +94,20 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps<any>>(
           {children}
         </AriaMenu>
       </Popover>
-    );
-    return isSubMenu ? (
-      <SubmenuTrigger {...triggerProps}>
-        {trigger}
-        {popover}
-      </SubmenuTrigger>
-    ) : (
-      <MenuTrigger {...triggerProps}>
-        {trigger}
-        {popover}
-      </MenuTrigger>
-    );
-  },
-) as (<T extends object>(props: MenuProps<T>) => JSX.Element) & {
+    </MenuContext.Provider>
+  );
+  return isSubMenu ? (
+    <SubmenuTrigger {...triggerProps}>
+      {trigger}
+      {popover}
+    </SubmenuTrigger>
+  ) : (
+    <MenuTrigger {...triggerProps}>
+      {trigger}
+      {popover}
+    </MenuTrigger>
+  );
+}) as (<T extends object>(props: MenuProps<T>) => JSX.Element) & {
   displayName?: string;
 };
 

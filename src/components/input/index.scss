@@ -6,16 +6,16 @@
 @use "~/util";
 
 .input-group {
-  --border-color: var(--gold-500);
-  --hover-border-color: var(--gold-300);
-  --focus-border-color: var(--gold-200);
+  --border-color: var(--shade-500);
+  --hover-border-color: var(--shade-300);
+  --focus-border-color: var(--shade-200);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   @include theme.dark {
-    --border-color: var(--gold-300);
-    --hover-border-color: var(--gold-200);
-    --focus-border-color: var(--gold-100);
+    --border-color: var(--shade-300);
+    --hover-border-color: var(--shade-200);
+    --focus-border-color: var(--shade-100);
   }
   &__input-container {
     display: flex;
@@ -118,9 +118,9 @@
     }
   }
   &__item {
-    --selected-background-rgb: var(--gold-500-rgb);
+    --selected-background-rgb: var(--shade-500-rgb);
     --background-alpha: 0;
-    --selected-text-rgb: var(--gold-900-rgb);
+    --selected-text-rgb: var(--shade-900-rgb);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -132,8 +132,8 @@
     );
     transition: background-color 200ms;
     @include theme.dark {
-      --selected-background-rgb: var(--gold-300-rgb);
-      --selected-text-rgb: var(--gold-100-rgb);
+      --selected-background-rgb: var(--shade-300-rgb);
+      --selected-text-rgb: var(--shade-100-rgb);
     }
     .input-group__icon {
       @include util.rtl-box(margin, -0.5rem);

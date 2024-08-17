@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { ButtonColor } from "~/components/button/constants";
+import type { Color } from "~/theme/colors";
 import type { AtLeastOneKey } from "~/util/types";
 
 export const toastTypes = [
@@ -33,10 +33,10 @@ export const toastSymbols: Record<ToastType, string> = {
   default: "campaign",
 };
 
-export const toastButtonColor: Record<ToastType, ButtonColor | undefined> = {
+export const typeColors: Record<ToastType, Color> = {
   success: "green",
   info: "blue",
   warning: "orange",
   error: "red",
-  default: undefined,
+  default: "gold",
 };

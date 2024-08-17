@@ -25,6 +25,8 @@ import {
   withNewDefault,
 } from "~/components/generic";
 import type { FormGroupProps } from "~/components/input/text-field";
+import type { ProgressProps } from "~/components/progress";
+import { CircularProgress } from "~/components/progress";
 import { MergeProvider } from "~/components/provider";
 import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
@@ -36,7 +38,6 @@ import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import "./index.scss";
-import { CircularProgress, ProgressProps } from "../progress";
 
 export interface ButtonProps extends SlotProps {
   variant?: ButtonVariant;
@@ -96,9 +97,8 @@ export const Button = createGenericComponent<
       className={cls({
         modifiers: {
           [variant]: true,
-          [color]: true,
         },
-        extra: className,
+        extra: [className ?? "", "color-" + color],
       })}
     >
       {renderGenericPropChild(rest, (children) => (

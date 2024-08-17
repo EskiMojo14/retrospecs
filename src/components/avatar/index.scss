@@ -37,6 +37,15 @@ $sizes: (
   line-height: 1;
   flex-shrink: 0;
 
+  background-color: var(--shade-900);
+  color: var(--shade-100);
+  --outline-color: var(--shade-900);
+  @include theme.dark {
+    color: var(--shade-900);
+    background-color: var(--shade-100);
+    --outline-color: var(--shade-100);
+  }
+
   &--funky {
     font-family: "Super Dream", Raleway, sans-serif;
   }
@@ -49,18 +58,6 @@ $sizes: (
         map.get($values, typography),
         $no-defaults: true
       );
-    }
-  }
-  @each $color in palette.$colors {
-    &--#{$color} {
-      background-color: var(--#{$color}-900);
-      color: var(--#{$color}-100);
-      --outline-color: var(--#{$color}-900);
-      @include theme.dark {
-        color: var(--#{$color}-900);
-        background-color: var(--#{$color}-100);
-        --outline-color: var(--#{$color}-100);
-      }
     }
   }
 

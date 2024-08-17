@@ -18,9 +18,9 @@
     }
   }
   &__item {
-    --selected-background-rgb: var(--gold-500-rgb);
+    --selected-background-rgb: var(--shade-500-rgb);
     --background-alpha: 0;
-    --selected-text-rgb: var(--gold-900-rgb);
+    --selected-text-rgb: var(--shade-900-rgb);
     height: 48px;
     display: flex;
     align-items: center;
@@ -32,8 +32,8 @@
     );
     transition: background-color 200ms;
     @include theme.dark {
-      --selected-background-rgb: var(--gold-300-rgb);
-      --selected-text-rgb: var(--gold-100-rgb);
+      --selected-background-rgb: var(--shade-300-rgb);
+      --selected-text-rgb: var(--shade-100-rgb);
     }
     &:focus-visible {
       outline: none;

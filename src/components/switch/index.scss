@@ -2,7 +2,6 @@
 @use "~/theme/typography";
 @use "~/theme";
 @use "~/util";
-@use "./variables";
 
 .switch {
   display: flex;
@@ -11,6 +10,20 @@
   line-height: 1;
   transition: opacity 200ms;
   @include typography.style("body2");
+
+  --unselected-fill-rgb: var(--shade-500-rgb);
+  --unselected-outline-rgb: var(--shade-800-rgb);
+  --unselected-outline-focus-rgb: var(--shade-900-rgb);
+  --unselected-handle-rgb: var(--shade-800-rgb);
+  --unselected-handle-focus-rgb: var(--shade-900-rgb);
+  --unselected-icon-rgb: var(--shade-100-rgb);
+
+  --selected-fill-rgb: var(--shade-500-rgb);
+  --selected-outline-rgb: var(--shade-500-rgb);
+  --selected-outline-focus-rgb: var(--shade-500-rgb);
+  --selected-handle-rgb: var(--shade-50-rgb);
+  --selected-handle-focus-rgb: var(--shade-100-rgb);
+  --selected-icon-rgb: var(--shade-900-rgb);
 
   --switch-track-color: color-mix(
     in srgb,
@@ -23,21 +36,20 @@
   --switch-handle-focused-color: rgb(var(--unselected-handle-focus-rgb));
   --switch-icon-color: rgb(var(--unselected-icon-rgb));
 
-  @each $color, $map in variables.$color-map {
-    &--#{$color} {
-      @each $state, $state-map in map.get($map, "light") {
-        @each $var, $value in $state-map {
-          --#{$state}-#{$var}-rgb: var(--#{$color}-#{$value}-rgb);
-        }
-      }
-      @include theme.dark {
-        @each $state, $state-map in map.get($map, "dark") {
-          @each $var, $value in $state-map {
-            --#{$state}-#{$var}-rgb: var(--#{$color}-#{$value}-rgb);
-          }
-        }
-      }
-    }
+  @include theme.dark {
+    --unselected-fill-rgb: var(--shade-300-rgb);
+    --unselected-outline-rgb: var(--shade-300-rgb);
+    --unselected-outline-focus-rgb: var(--shade-200-rgb);
+    --unselected-handle-rgb: var(--shade-300-rgb);
+    --unselected-handle-focus-rgb: var(--shade-200-rgb);
+    --unselected-icon-rgb: var(--shade-800-rgb);
+
+    --selected-fill-rgb: var(--shade-800-rgb);
+    --selected-outline-rgb: var(--shade-800-rgb);
+    --selected-outline-focus-rgb: var(--shade-800-rgb);
+    --selected-handle-rgb: var(--shade-300-rgb);
+    --selected-handle-focus-rgb: var(--shade-200-rgb);
+    --selected-icon-rgb: var(--shade-900-rgb);
   }
 
   @include theme.focus-ring;

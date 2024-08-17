@@ -32,8 +32,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
       {...props}
       ref={ref}
       className={cls({
-        modifiers: [color],
-        extra: className,
+        extra: [className ?? "", "color-" + color],
       })}
     >
       {renderPropsChild(children, (children, renderProps) => {

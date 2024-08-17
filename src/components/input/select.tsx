@@ -27,6 +27,7 @@ import { bemHelper, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import { inputGroupCls } from ".";
 import "./index.scss";
+import { Color } from "~/theme/colors";
 
 interface MySelectProps<T extends object>
   extends Omit<SelectProps<T>, "children" | "className"> {
@@ -43,6 +44,7 @@ interface MySelectProps<T extends object>
     item: SelectValueRenderProps<T> & { defaultChildren?: ReactNode },
   ) => React.ReactNode;
   icon?: ReactNode;
+  color?: Color;
 }
 
 const cls = bemHelper("select");
@@ -63,13 +65,14 @@ export function Select<T extends object>({
   className,
   icon,
   renderSelected,
+  color = "gold",
   ...props
 }: MySelectProps<T>) {
   return (
     <AriaSelect
       {...props}
       className={inputGroupCls({
-        extra: cls({ extra: className }),
+        extra: cls({ extra: [className ?? "", "color-" + color] }),
       })}
     >
       {label && (
@@ -119,7 +122,13 @@ export function Select<T extends object>({
       >
         {errorMessage}
       </Typography>
-      <Popover offset={0} className={cls("popover")}>
+      <Popover
+        offset={0}
+        className={cls({
+          element: "popover",
+          extra: "color-" + color,
+        })}
+      >
         <ListBox items={items} className={cls("listbox")}>
           {children}
         </ListBox>

@@ -4,14 +4,15 @@
 @use "~/theme/elevation";
 @use "~/theme/layout";
 @use "~/util";
-@use "./mixins";
 @use "./variables";
 
 .button {
   --button-radius: var(--border-radius-full);
-  @each $token in map.keys(map.get(variables.$default-shades, "light")) {
-    --button-#{$token}: rgb(var(--button-#{$token}-rgb));
-  }
+  @include theme.rgb-var("button-text", "shade-500");
+  @include theme.rgb-var("button-outline", "shade-500");
+  @include theme.rgb-var("button-fill", "shade-900");
+  @include theme.rgb-var("button-filled-text", "shade-50");
+  @include theme.rgb-var("button-filled-outline", "shade-50");
   --outline-color: var(--button-outline);
   color: var(--button-text);
   text-wrap: nowrap;
@@ -31,8 +32,25 @@
   position: relative;
   @include typography.style("button");
 
-  @include mixins.colors;
-  &--inherit {
+  @include theme.dark {
+    --button-text-rgb: var(--shade-300-rgb);
+    --button-outline-rgb: var(--shade-300-rgb);
+    --button-fill-rgb: var(--shade-200-rgb);
+    --button-filled-text-rgb: var(--shade-900-rgb);
+    --button-filled-outline-rgb: var(--shade-900-rgb);
+  }
+
+  @include theme.light {
+    &.color-green,
+    &.color-amber,
+    &.color-orange,
+    &.color-blue {
+      --button-text-rgb: var(--shade-600-rgb);
+      --button-outline-rgb: var(--shade-600-rgb);
+    }
+  }
+
+  &.color-inherit {
     --button-text-rgb: var(--text-rgb);
     --button-outline-rgb: var(--text-rgb);
     --button-fill-rgb: var(--surface-rgb);

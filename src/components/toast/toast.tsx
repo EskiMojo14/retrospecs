@@ -10,7 +10,7 @@ import { Symbol } from "~/components/symbol";
 import { Heading, Typography } from "~/components/typography";
 import { bemHelper } from "~/util";
 import type { Toast } from "./constants";
-import { toastButtonColor, toastSymbols } from "./constants";
+import { typeColors, toastSymbols } from "./constants";
 
 interface ToastProps extends AriaToastProps<Toast> {
   state: ToastState<Toast>;
@@ -32,11 +32,12 @@ export function Toast({ state, ...props }: ToastProps) {
     },
     timeout,
   } = props.toast;
+  const color = typeColors[type];
   const buttonProps = useMemo<ButtonProps>(
     () => ({
-      color: toastButtonColor[type],
+      color,
     }),
-    [type],
+    [color],
   );
   const actions = useMemo<ReactNode>(() => {
     if (!actionsProp) {
@@ -60,6 +61,7 @@ export function Toast({ state, ...props }: ToastProps) {
           [type]: true,
           "has-timeout": !!timeout,
         },
+        extra: "color-" + color,
       })}
       style={{
         "--timeout": timeout && `${timeout}ms`,

@@ -31,9 +31,8 @@ export const LinearProgress = forwardRef<HTMLDivElement, ProgressProps>(
         className={cls({
           modifier: {
             linear: true,
-            [color]: true,
           },
-          extra: className,
+          extra: [className ?? "", "color-" + color],
         })}
         style={{
           ...style,
@@ -78,9 +77,8 @@ export const CircularProgress = forwardRef<HTMLDivElement, ProgressProps>(
         className={cls({
           modifier: {
             circular: true,
-            [color]: true,
           },
-          extra: className,
+          extra: [className ?? "", "color-" + color],
         })}
         style={{
           ...style,

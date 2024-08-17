@@ -21,6 +21,7 @@ import { Provider } from "~/components/provider";
 import { SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
+import type { Color } from "~/theme/colors";
 import { bemHelper } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { EventMap } from ".";
@@ -44,6 +45,7 @@ export interface TextFieldProps
     FormGroupProps {
   className?: string;
   textarea?: boolean;
+  color?: Color;
 }
 
 const cls = bemHelper("text-field");
@@ -74,6 +76,7 @@ export const TextField = forwardRef<
       icon,
       action,
       onAction,
+      color = "gold",
       ...props
     },
     ref,
@@ -95,7 +98,7 @@ export const TextField = forwardRef<
       <AriaTextField
         {...props}
         className={inputGroupCls({
-          extra: cls({ extra: className }),
+          extra: cls({ extra: [className ?? "", "color-" + color] }),
         })}
       >
         <Typography

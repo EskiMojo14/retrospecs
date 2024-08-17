@@ -3,6 +3,7 @@ import { fn } from "@storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
+import { colors } from "~/theme/colors";
 import { TextField } from "./text-field";
 
 interface StoryProps
@@ -26,6 +27,12 @@ const meta = {
       }
     />
   ),
+  argTypes: {
+    color: {
+      control: "select",
+      options: colors,
+    },
+  },
   args: {
     onChange: fn(),
     onAction: fn(),
@@ -35,6 +42,7 @@ const meta = {
     action: true,
     label: "Label",
     description: "Description",
+    color: "gold",
   },
 } satisfies Meta<StoryProps>;
 

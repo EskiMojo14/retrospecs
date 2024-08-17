@@ -1,6 +1,17 @@
 @use "sass:map";
 @use "sass:meta";
 @use "@material/ripple";
+@use "~/util";
+
+@mixin rgb-var($name, $color) {
+  --#{$name}-rgb: var(--#{$color}-rgb);
+  --#{$name}: rgb(var(--#{$name}-rgb));
+}
+
+@mixin color-var($name, $color) {
+  --#{$name}-rgb: #{util.get-rgb($color)};
+  --#{$name}: rgb(var(--#{$name}-rgb));
+}
 
 @mixin dark {
   [data-theme="dark"] &,
@@ -10,6 +21,19 @@
   [data-theme="system"] &,
   &[data-theme="system"] {
     @media (prefers-color-scheme: dark) {
+      @content;
+    }
+  }
+}
+
+@mixin light {
+  [data-theme="light"] &,
+  &[data-theme="light"] {
+    @content;
+  }
+  [data-theme="system"] &,
+  &[data-theme="system"] {
+    @media (prefers-color-scheme: light) {
       @content;
     }
   }

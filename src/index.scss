@@ -19,16 +19,6 @@
     url("/assets/fonts/Super\ Dream.ttf") format("truetype");
 }
 
-@mixin rgb-var($name, $color) {
-  --#{$name}-rgb: var(--#{$color}-rgb);
-  --#{$name}: rgb(var(--#{$name}-rgb));
-}
-
-@mixin color-var($name, $color) {
-  --#{$name}-rgb: #{util.get-rgb($color)};
-  --#{$name}: rgb(var(--#{$name}-rgb));
-}
-
 :root {
   --focus-ring-color: var(--blue-400);
   --outline-width: 2px;
@@ -39,12 +29,12 @@
 
   @each $color, $stops in palette.$palette {
     @each $stop, $value in $stops {
-      @include color-var(#{$color}-#{$stop}, $value);
+      @include theme.color-var(#{$color}-#{$stop}, $value);
     }
   }
 
   @each $color, $value in palette.$standards {
-    @include color-var(#{$color}, $value);
+    @include theme.color-var(#{$color}, $value);
   }
 
   @each $name, $weight in map.get(typography.$weights, "light") {
@@ -63,9 +53,9 @@
     }
   }
 
-  @include rgb-var("background", "sand");
-  @include rgb-var("surface", "white");
-  @include rgb-var("text", "black");
+  @include theme.rgb-var("background", "sand");
+  @include theme.rgb-var("surface", "white");
+  @include theme.rgb-var("text", "black");
 
   --selection-color: var(--gold-500);
   --selection-text-color: var(--white);
@@ -86,9 +76,9 @@
   @each $style, $props in typography.$type-scale {
     --typography-#{$style}-font-weight: #{map.get($props, "font-weight")};
   }
-  @include rgb-var("background", "brown-900");
-  @include rgb-var("surface", "brown-800");
-  @include rgb-var("text", "white");
+  @include theme.rgb-var("background", "brown-900");
+  @include theme.rgb-var("surface", "brown-800");
+  @include theme.rgb-var("text", "white");
 
   --selection-color: var(--gold-300);
   --selection-text-color: var(--black);
@@ -104,5 +94,13 @@ body {
   ::selection {
     background-color: var(--selection-color);
     color: var(--selection-text-color);
+  }
+}
+
+@each $color, $shades in palette.$palette {
+  .color-#{$color} {
+    @each $shade, $value in $shades {
+      @include theme.rgb-var("shade-#{$shade}", "#{$color}-#{$shade}");
+    }
   }
 }

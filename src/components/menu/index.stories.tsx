@@ -6,24 +6,24 @@ import { Divider } from "~/components/divider";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Header } from "~/components/typography";
+import { colors } from "~/theme/colors";
 import type { MenuItem as TMenuItem } from "./render";
 import { renderMenuItem } from "./render";
 import type { MenuProps } from ".";
 import { Menu, MenuItem, MenuItemText } from ".";
 
-interface StoryProps {
-  variant: "one-line" | "two-line";
-  selectionMode: MenuProps<{}>["selectionMode"];
-}
+type StoryProps = Pick<MenuProps<{}>, "variant" | "selectionMode" | "color">;
 
 const meta = {
   title: "Components/Menu",
   argTypes: {
     variant: {
-      control: {
-        type: "select",
-      },
+      control: "select",
       options: ["one-line", "two-line"],
+    },
+    color: {
+      control: "select",
+      options: colors,
     },
   },
   args: {
@@ -170,7 +170,7 @@ export const Dynamic: Story = {
   ),
 };
 
-function SelectDemo({ selectionMode }: StoryProps) {
+function SelectDemo({ selectionMode, color }: StoryProps) {
   const [selected, setSelected] = useState<Selection>(new Set());
   return (
     <Menu
@@ -192,7 +192,7 @@ function SelectDemo({ selectionMode }: StoryProps) {
           leading: <Symbol slot="leading">home</Symbol>,
         },
       ]}
-      selectionMode={selectionMode}
+      {...{ selectionMode, color }}
       selectedKeys={selected}
       onSelectionChange={setSelected}
     >

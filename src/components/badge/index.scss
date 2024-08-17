@@ -8,15 +8,11 @@
   display: inline-flex;
   vertical-align: middle;
   flex-shrink: 0;
-  @each $color in palette.$colors {
-    &--#{$color} {
-      --badge-color: var(--#{$color}-700);
-      --badge-text: var(--#{$color}-50);
-      @include theme.dark {
-        --badge-color: var(--#{$color}-200);
-        --badge-text: var(--#{$color}-900);
-      }
-    }
+  --badge-color: var(--shade-700);
+  --badge-text: var(--shade-50);
+  @include theme.dark {
+    --badge-color: var(--shade-200);
+    --badge-text: var(--shade-900);
   }
   &--overlap-circle {
     .badge__badge {

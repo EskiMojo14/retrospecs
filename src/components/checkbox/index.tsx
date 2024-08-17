@@ -1,23 +1,25 @@
 import { forwardRef } from "react";
 import type { CheckboxProps as AriaCheckboxProps } from "react-aria-components";
 import { Checkbox as AriaCheckbox } from "react-aria-components";
+import type { Color } from "~/theme/colors";
 import { bemHelper, renderPropsChild } from "~/util";
 import "./index.scss";
 
 export interface CheckboxProps extends Omit<AriaCheckboxProps, "className"> {
   className?: string;
+  color?: Color;
 }
 
 const containerCls = bemHelper("checkbox-container");
 const cls = bemHelper("checkbox");
 
 export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
-  ({ children, className, ...props }, ref) => (
+  ({ children, className, color = "gold", ...props }, ref) => (
     <AriaCheckbox
       {...props}
       ref={ref}
       className={containerCls({
-        extra: className,
+        extra: [className ?? "", "color-" + color],
       })}
     >
       {renderPropsChild(children, (children, { isIndeterminate }) => (

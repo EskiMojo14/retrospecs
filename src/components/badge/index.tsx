@@ -68,12 +68,11 @@ export const Badge = createGenericComponent<
         {...props}
         className={cls({
           modifiers: {
-            [color]: true,
             [variant]: true,
             ["overlap-" + overlap]: true,
             collapsed,
           },
-          extra: className,
+          extra: [className ?? "", "color-" + color],
         })}
       >
         {children}

@@ -4,6 +4,7 @@ import lowerCase from "lodash/lowerCase";
 import upperFirst from "lodash/upperFirst";
 import type { ComponentPropsWithoutRef } from "react";
 import { Symbol } from "~/components/symbol";
+import { colors } from "~/theme/colors";
 import { Select, SelectItem } from "./select";
 
 interface StoryProps
@@ -52,10 +53,12 @@ const meta = {
   ),
   argTypes: {
     icon: {
-      control: {
-        type: "select",
-      },
+      control: "select",
       options: [false, true, "dynamic"],
+    },
+    color: {
+      control: "select",
+      options: colors,
     },
   },
   args: {
@@ -64,6 +67,7 @@ const meta = {
     icon: true,
     label: "Mood",
     description: "How do you feel?",
+    color: "gold",
   },
 } satisfies Meta<StoryProps>;
 

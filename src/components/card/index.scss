@@ -1,13 +1,12 @@
 @use "~/theme";
 @use "~/theme/elevation";
-@use "./mixins";
 
 $hover-time: 0.2s;
 
 .card {
-  --card-outer: #{rgb(var(--card-outer-rgb))};
-  --card-mid: #{rgb(var(--card-mid-rgb))};
-  --card-bg: #{rgb(var(--card-bg-rgb))};
+  --card-outer: var(--shade-700);
+  --card-mid: var(--shade-300);
+  --card-bg: var(--shade-100);
 
   --card-radius: var(--border-radius-medium);
   display: flex;
@@ -17,7 +16,11 @@ $hover-time: 0.2s;
   transition:
     background-color $hover-time,
     box-shadow $hover-time;
-  @include mixins.colors;
+  @include theme.dark {
+    --card-outer: var(--shade-300);
+    --card-mid: var(--shade-500);
+    --card-bg: var(--shade-900);
+  }
   &::before {
     content: "";
     position: absolute;

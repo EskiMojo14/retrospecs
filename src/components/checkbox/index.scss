@@ -2,11 +2,11 @@
 @use "~/theme/typography";
 
 .checkbox-container {
-  --selected-color: var(--gold-500);
-  --selected-color-pressed: var(--gold-300);
-  --checkmark-color: var(--gold-50);
-  --border-color: var(--gold-900);
-  --border-color-pressed: var(--gold-500);
+  --selected-color: var(--shade-500);
+  --selected-color-pressed: var(--shade-300);
+  --checkmark-color: var(--shade-50);
+  --border-color: var(--shade-900);
+  --border-color-pressed: var(--shade-500);
 
   display: flex;
   align-items: center;
@@ -17,11 +17,11 @@
   @include typography.style("body2");
 
   @include theme.dark {
-    --selected-color: var(--gold-300);
-    --selected-color-pressed: var(--gold-200);
+    --selected-color: var(--shade-300);
+    --selected-color-pressed: var(--shade-200);
     --checkmark-color: var(--black);
-    --border-color: var(--gold-500);
-    --border-color-pressed: var(--gold-300);
+    --border-color: var(--shade-500);
+    --border-color-pressed: var(--shade-300);
   }
 
   .checkbox {

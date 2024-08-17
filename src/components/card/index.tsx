@@ -49,10 +49,9 @@ export const Card = createGenericComponent<
       {...props}
       className={cls({
         modifiers: {
-          [color]: true,
           [variant]: true,
         },
-        extra: className,
+        extra: [className ?? "", "color-" + color],
       })}
     >
       <div className={cls("bg")} />

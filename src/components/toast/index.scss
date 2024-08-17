@@ -1,20 +1,18 @@
 @use "sass:map";
-@use "~/components/button/mixins" as button-mixins;
 @use "~/theme";
 @use "~/theme/animation";
 @use "~/theme/elevation";
 @use "~/theme/layout";
 @use "~/theme/typography";
 @use "~/util";
-@use "./variables";
 
 .toast {
+  @include theme.rgb-var("background", "shade-900");
+  @include theme.rgb-var("text", "shade-50");
   display: flex;
   align-items: center;
   max-width: 560px;
   border-radius: var(--border-radius-x-small);
-  --background: rgb(var(--background-rgb));
-  --text: rgb(var(--text-rgb));
   background-color: var(--background);
   color: var(--text);
   padding: 0 8px;
@@ -25,6 +23,10 @@
   @include layout.breakpoint("phone", "only") {
     max-width: none;
     width: calc(100vw - 32px);
+  }
+  @include theme.dark {
+    --background-rgb: var(--shade-50-rgb);
+    --text-rgb: var(--shade-900-rgb);
   }
   &-region {
     position: fixed;
@@ -38,22 +40,6 @@
     @include util.rtl-position("left", 0);
     &:focus-visible {
       outline: none;
-    }
-  }
-  @each $type, $color in variables.$type-colors {
-    &--#{$type} {
-      --background-rgb: var(
-        --#{$color}-#{variables.get-shade($color, background)}-rgb
-      );
-      --text-rgb: var(--#{$color}-#{variables.get-shade($color, text)}-rgb);
-      @include theme.dark {
-        --background-rgb: var(
-          --#{$color}-#{variables.get-shade($color, background, true)}-rgb
-        );
-        --text-rgb: var(
-          --#{$color}-#{variables.get-shade($color, text, true)}-rgb
-        );
-      }
     }
   }
   &--has-timeout {
@@ -131,10 +117,21 @@
     @include util.rtl-box("margin", 0, -8px);
   }
   .button {
-    @include button-mixins.colors(
-      variables.$button-default-shades,
-      variables.$button-shade-overrides
-    );
+    @include theme.light {
+      --button-text-rgb: var(--shade-50-rgb);
+      --button-outline-rgb: var(--shade-50-rgb);
+      --button-fill-rgb: var(--shade-800-rgb);
+      --button-filled-text-rgb: var(--shade-50-rgb);
+      --button-filled-outline-rgb: var(--shade-50-rgb);
+    }
+
+    @include theme.dark {
+      --button-text-rgb: var(--shade-900-rgb);
+      --button-outline-rgb: var(--shade-900-rgb);
+      --button-fill-rgb: var(--shade-200-rgb);
+      --button-filled-text-rgb: var(--shade-900-rgb);
+      --button-filled-outline-rgb: var(--shade-900-rgb);
+    }
   }
 }
 

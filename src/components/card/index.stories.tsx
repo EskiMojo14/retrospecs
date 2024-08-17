@@ -22,7 +22,7 @@ const meta: Meta<ComponentPropsWithoutRef<typeof Card> & StoryArgs> = {
   argTypes: {
     color: {
       control: "select",
-      options: [undefined, ...colors],
+      options: colors,
     },
     variant: {
       control: "select",
@@ -83,5 +83,7 @@ export const Default: Story = {
     onPrimaryAction: fn(),
     onActionButton: fn(),
     onActionIcon: fn(),
+    color: "gold",
+    variant: "filled",
   },
 };
