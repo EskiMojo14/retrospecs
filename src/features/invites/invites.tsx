@@ -52,6 +52,7 @@ export function Invites({ isOpen }: { isOpen?: boolean }) {
                 size="small"
               />
             )}
+            nonInteractive
           >
             {(invite) => (
               <IdFragment id={invite.org_id}>

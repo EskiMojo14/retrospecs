@@ -124,6 +124,12 @@
     --ripple: var(--text);
     --selected-text-rgb: var(--shade-900-rgb);
     position: relative;
+    color: typography.emphasis("text", "high");
+    background-color: rgba(
+      var(--selected-background-rgb),
+      var(--background-alpha)
+    );
+    transition: background-color 200ms;
     @include theme.ripple(var(--ripple), " .select__item-ripple");
     @include theme.ripple-selected(
       $surface: " .select__item-ripple",
@@ -135,12 +141,6 @@
       gap: 0.5rem;
       padding: 0.5rem 1rem;
     }
-    color: typography.emphasis("text", "high");
-    background-color: rgba(
-      var(--selected-background-rgb),
-      var(--background-alpha)
-    );
-    transition: background-color 200ms;
     @include theme.dark {
       --selected-text-rgb: var(--shade-100-rgb);
     }

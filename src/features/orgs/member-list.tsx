@@ -185,6 +185,7 @@ export function MemberList({ orgId, memberIds }: MemberListProps) {
               description="Invite members to collaborate on your projects."
             />
           )}
+          nonInteractive
         >
           {memberIds.map((id) => (
             <IdFragment key={id} id={id}>
