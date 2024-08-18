@@ -14,29 +14,32 @@ import {
 } from "react-aria-components";
 import { SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
-import { bemHelper, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import "./index.scss";
+import { useRipple } from "~/hooks/use-ripple";
+import { Color } from "~/theme/colors";
 
 const cls = bemHelper("list");
 
-export interface ListProps<T> extends Omit<GridListProps<T>, "className"> {
+export interface ListProps<T>
+  extends Omit<GridListProps<T>, "className">,
+    Pick<ListItemProps<any>, "nonInteractive" | "color"> {
   variant: "one-line" | "two-line" | "three-line";
-  nonInteractive?: boolean;
   className?: string;
 }
 
 type ListItemContextValue = ContextValue<
-  Pick<ListItemProps<any>, "nonInteractive">,
+  Pick<ListItemProps<any>, "nonInteractive" | "color">,
   HTMLElement
 >;
 
 export const ListItemContext = createContext<ListItemContextValue>(null);
 
 export const List = forwardRef<HTMLDivElement, ListProps<any>>(
-  ({ variant, nonInteractive, className, ...props }, ref) => {
+  ({ variant, nonInteractive, className, color, ...props }, ref) => {
     const listItemContextValue = useMemo<ListItemContextValue>(
-      () => ({ nonInteractive }),
-      [nonInteractive],
+      () => ({ nonInteractive, ...(color && { color }) }),
+      [nonInteractive, color],
     );
     return (
       <ListItemContext.Provider value={listItemContextValue}>
@@ -59,6 +62,7 @@ export interface ListItemProps<T>
   extends Omit<GridListItemProps<T>, "className"> {
   nonInteractive?: boolean;
   className?: string;
+  color?: Color;
 }
 
 const symbolContextValue: ContextType<typeof SymbolContext> = {
@@ -74,22 +78,33 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps<any>>(
       typeof props,
       typeof ref,
     ];
-    const { nonInteractive, className, children, ...rest } = props;
+    const {
+      nonInteractive,
+      className,
+      children,
+      color = "gold",
+      ...rest
+    } = props;
+    const { rootRef, surfaceRef } = useRipple({
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      disabled: props.isDisabled || nonInteractive,
+    });
     return (
       <GridListItem
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
         {...rest}
         className={cls({
           element: "item",
           modifiers: {
             "non-interactive": !!nonInteractive,
           },
-          extra: className,
+          extra: [className ?? "", "color-" + color],
         })}
       >
         {renderPropsChild(children, (children) => (
           <SymbolContext.Provider value={symbolContextValue}>
-            {children}
+            <div ref={surfaceRef} className={cls("item-ripple")} />
+            <div className={cls("item-content")}>{children}</div>
           </SymbolContext.Provider>
         ))}
       </GridListItem>

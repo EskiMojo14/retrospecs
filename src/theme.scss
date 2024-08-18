@@ -97,6 +97,7 @@ $state-opacities: (
 }
 
 @mixin ripple($ripple-color, $surface: "") {
+  position: relative;
   &[data-hovered]#{$surface}::before {
     opacity: states-opacity("hover");
   }

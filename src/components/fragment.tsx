@@ -7,6 +7,6 @@ export const IdFragment = ({
   key,
 }: {
   id: Key;
-  key: Key;
+  key?: Key;
   children: ReactNode;
 }) => <Fragment key={key}>{children}</Fragment>;

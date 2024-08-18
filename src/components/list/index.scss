@@ -32,12 +32,34 @@ $variants: (
     }
   }
   &__item {
-    height: var(--list-height);
-    padding: var(--list-padding-y) 16px;
-    display: flex;
-    align-items: var(--list-align);
-    gap: 16px;
     transition: opacity 0.2s;
+    &:focus {
+      outline: none;
+    }
+
+    position: relative;
+    --ripple: var(--text);
+    @include theme.ripple(
+      var(--ripple),
+      ":not(.list__item--non-interactive) .list__item-ripple"
+    );
+    @include theme.ripple-selected(
+      var(--ripple),
+      ":not(.list__item--non-interactive) .list__item-ripple"
+    );
+    &-content {
+      height: var(--list-height);
+      padding: var(--list-padding-y) 16px;
+      display: flex;
+      align-items: var(--list-align);
+      gap: 16px;
+    }
+    &[data-selected] {
+      --ripple: var(--shade-500);
+      @include theme.dark {
+        --ripple: var(--shade-300);
+      }
+    }
     @include theme.inner-focus-ring;
     &[data-disabled] {
       pointer-events: none;
