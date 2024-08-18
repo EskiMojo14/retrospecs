@@ -17,12 +17,13 @@ import { TextField } from "~/components/input/text-field";
 import { Switch } from "~/components/switch";
 import { Symbol } from "~/components/symbol";
 import { Heading } from "~/components/typography";
-import type { ListProps } from ".";
+import type { ListItemProps, ListProps } from ".";
 import { List, ListItem, ListItemText } from ".";
 import styles from "./story.module.scss";
 
 interface StoryProps
-  extends Pick<ListProps<any>, "isDisabled" | "nonInteractive"> {
+  extends Pick<ListProps<any>, "nonInteractive">,
+    Pick<ListItemProps<any>, "isDisabled"> {
   leading?:
     | "avatar"
     | "icon"
@@ -115,7 +116,7 @@ type Story = StoryObj<StoryProps>;
 const oneLineItems = [{ headline: "Headline" }, { headline: "Headline 2" }];
 
 export const OneLine: Story = {
-  render: ({ leading, trailing, divider, ...props }) => (
+  render: ({ leading, trailing, divider, isDisabled, ...props }) => (
     <List
       variant="one-line"
       items={oneLineItems}
@@ -126,12 +127,12 @@ export const OneLine: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, divider]}
+      dependencies={[leading, trailing, divider, isDisabled]}
       {...props}
     >
       {({ headline }) => (
         <IdFragment id={headline}>
-          <ListItem textValue={headline}>
+          <ListItem textValue={headline} isDisabled={isDisabled}>
             <Leading leading={leading} />
             <ListItemText headline={headline} />
             <Trailing trailing={trailing} />
@@ -150,7 +151,7 @@ const twoLineItems = [
 ];
 
 export const TwoLine: Story = {
-  render: ({ leading, trailing, divider, ...props }) => (
+  render: ({ leading, trailing, divider, isDisabled, ...props }) => (
     <List
       variant="two-line"
       items={twoLineItems}
@@ -161,12 +162,12 @@ export const TwoLine: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, divider]}
+      dependencies={[leading, trailing, divider, isDisabled]}
       {...props}
     >
       {({ headline, supporting }) => (
         <IdFragment id={headline}>
-          <ListItem textValue={headline}>
+          <ListItem textValue={headline} isDisabled={isDisabled}>
             <Leading leading={leading} />
             <ListItemText headline={headline} supporting={supporting} />
             <Trailing trailing={trailing} />
@@ -194,7 +195,7 @@ const threeLineItems = [
 ];
 
 export const ThreeLine: Story = {
-  render: ({ leading, trailing, divider, ...props }) => (
+  render: ({ leading, trailing, divider, isDisabled, ...props }) => (
     <List
       variant="three-line"
       items={threeLineItems}
@@ -205,12 +206,12 @@ export const ThreeLine: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, divider]}
+      dependencies={[leading, trailing, divider, isDisabled]}
       {...props}
     >
       {({ headline, supporting }) => (
         <IdFragment id={headline}>
-          <ListItem textValue={headline}>
+          <ListItem textValue={headline} isDisabled={isDisabled}>
             <Leading leading={leading} />
             <ListItemText headline={headline} supporting={supporting} />
             <Trailing trailing={trailing} />
@@ -237,7 +238,7 @@ const threeLineItemsWithOverline = [
 ];
 
 export const ThreeLineWithOverline: Story = {
-  render: ({ leading, trailing, divider, ...props }) => (
+  render: ({ leading, trailing, divider, isDisabled, ...props }) => (
     <List
       variant="three-line"
       items={threeLineItemsWithOverline}
@@ -248,12 +249,12 @@ export const ThreeLineWithOverline: Story = {
       selectionMode={
         leading === "checkbox" || trailing === "checkbox" ? "single" : undefined
       }
-      dependencies={[leading, trailing, divider]}
+      dependencies={[leading, trailing, divider, isDisabled]}
       {...props}
     >
       {({ headline, supporting, overline }) => (
         <IdFragment id={headline}>
-          <ListItem textValue={headline}>
+          <ListItem textValue={headline} isDisabled={isDisabled}>
             <Leading leading={leading} />
             <ListItemText
               headline={headline}

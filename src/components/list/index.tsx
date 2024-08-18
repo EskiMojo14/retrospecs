@@ -14,10 +14,10 @@ import {
 } from "react-aria-components";
 import { SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
+import { useRipple } from "~/hooks/use-ripple";
+import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import "./index.scss";
-import { useRipple } from "~/hooks/use-ripple";
-import { Color } from "~/theme/colors";
 
 const cls = bemHelper("list");
 
