@@ -11,13 +11,6 @@
   transition: opacity 200ms;
   @include typography.style("body2");
 
-  --unselected-fill-rgb: var(--shade-500-rgb);
-  --unselected-outline-rgb: var(--shade-800-rgb);
-  --unselected-outline-focus-rgb: var(--shade-900-rgb);
-  --unselected-handle-rgb: var(--shade-800-rgb);
-  --unselected-handle-focus-rgb: var(--shade-900-rgb);
-  --unselected-icon-rgb: var(--shade-100-rgb);
-
   --selected-fill-rgb: var(--shade-500-rgb);
   --selected-outline-rgb: var(--shade-500-rgb);
   --selected-outline-focus-rgb: var(--shade-500-rgb);
@@ -25,25 +18,18 @@
   --selected-handle-focus-rgb: var(--shade-100-rgb);
   --selected-icon-rgb: var(--shade-900-rgb);
 
-  --switch-track-color: color-mix(
-    in srgb,
-    rgb(var(--unselected-fill-rgb)),
-    var(--surface) 50%
-  );
-  --switch-track-border-color: rgb(var(--unselected-outline-rgb));
-  --switch-track-focused-border-color: rgb(var(--unselected-outline-focus-rgb));
-  --switch-handle-color: rgb(var(--unselected-handle-rgb));
-  --switch-handle-focused-color: rgb(var(--unselected-handle-focus-rgb));
-  --switch-icon-color: rgb(var(--unselected-icon-rgb));
+  --switch-track-color: #{typography.emphasis("text", "disabled")};
+  --switch-track-border-color: #{typography.emphasis("text", "medium")};
+  --switch-track-focused-border-color: #{typography.emphasis("text", "high")};
+  --switch-handle-color: #{typography.emphasis("text", "medium")};
+  --switch-handle-focused-color: #{typography.emphasis("text", "high")};
+  --switch-icon-color: var(--background);
+
+  --ripple: var(--text);
+
+  @include theme.ripple(var(--ripple), " .switch__ripple");
 
   @include theme.dark {
-    --unselected-fill-rgb: var(--shade-300-rgb);
-    --unselected-outline-rgb: var(--shade-300-rgb);
-    --unselected-outline-focus-rgb: var(--shade-200-rgb);
-    --unselected-handle-rgb: var(--shade-300-rgb);
-    --unselected-handle-focus-rgb: var(--shade-200-rgb);
-    --unselected-icon-rgb: var(--shade-800-rgb);
-
     --selected-fill-rgb: var(--shade-800-rgb);
     --selected-outline-rgb: var(--shade-800-rgb);
     --selected-outline-focus-rgb: var(--shade-800-rgb);
@@ -51,8 +37,6 @@
     --selected-handle-focus-rgb: var(--shade-200-rgb);
     --selected-icon-rgb: var(--shade-900-rgb);
   }
-
-  @include theme.focus-ring;
 
   &__track {
     position: relative;
@@ -69,7 +53,6 @@
   }
 
   &__handle {
-    position: absolute;
     height: 16px;
     width: 16px;
     display: flex;
@@ -82,17 +65,39 @@
     transition:
       height 200ms,
       width 200ms,
-      left 200ms,
-      right 200ms,
       background-color 200ms,
       color 200ms;
-    @include util.rtl-position(left, 4px);
-    &--has-icon {
-      width: 24px;
-      height: 24px;
-      color: var(--switch-icon-color);
-      @include util.rtl-position(left, 2px);
+    &-container {
+      position: absolute;
+      transition:
+        left 200ms,
+        right 200ms;
+      @include util.rtl-position(left, 4px);
+      &--has-icon {
+        @include util.rtl-position(left, 2px);
+        .switch__handle {
+          width: 24px;
+          height: 24px;
+          color: var(--switch-icon-color);
+        }
+      }
     }
+  }
+
+  &__ripple-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    translate: -50% -50%;
+  }
+
+  &__icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &[data-selected] {
@@ -102,10 +107,19 @@
     --switch-handle-color: rgb(var(--selected-handle-rgb));
     --switch-handle-focused-color: rgb(var(--selected-handle-focus-rgb));
     --switch-icon-color: rgb(var(--selected-icon-rgb));
+
+    --ripple: var(--shade-500);
+
+    @include theme.dark {
+      --ripple: var(--shade-300);
+    }
+
     .switch__handle {
       height: 24px;
       width: 24px;
-      @include util.rtl-position(left, 22px);
+      &-container {
+        @include util.rtl-position(left, 22px);
+      }
     }
   }
 
@@ -120,10 +134,12 @@
     .switch__handle {
       height: 28px;
       width: 28px;
-      @include util.rtl-position(left, 0);
+      &-container {
+        @include util.rtl-position(left, 0);
+      }
     }
     &[data-selected] {
-      .switch__handle {
+      .switch__handle-container {
         @include util.rtl-position(left, 20px);
       }
     }

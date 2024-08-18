@@ -5,26 +5,28 @@
   --selected-color: var(--shade-500);
   --selected-color-pressed: var(--shade-300);
   --checkmark-color: var(--shade-50);
-  --border-color: var(--shade-900);
-  --border-color-pressed: var(--shade-500);
+  --border-color: #{typography.emphasis("text", "medium")};
+  --border-color-pressed: #{typography.emphasis("text", "high")};
+
+  --ripple: var(--text);
 
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   line-height: 1;
   transition: opacity 200ms;
 
   @include typography.style("body2");
 
+  @include theme.ripple(var(--ripple), " .checkbox__ripple");
+
   @include theme.dark {
     --selected-color: var(--shade-300);
     --selected-color-pressed: var(--shade-200);
     --checkmark-color: var(--black);
-    --border-color: var(--shade-500);
-    --border-color-pressed: var(--shade-300);
   }
 
   .checkbox {
+    position: relative;
     width: 18px;
     height: 18px;
     border: 2px solid var(--border-color);
@@ -33,30 +35,37 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--border-radius-xx-small);
-  }
 
-  .checkbox__checkmark {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: var(--checkmark-color);
-    stroke-width: 2.75px;
-    stroke-dasharray: 22px;
-    stroke-dashoffset: 66;
-    transition: all 200ms;
+    &__target {
+      width: 40px;
+      height: 40px;
+      margin: 4px;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__checkmark {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: var(--checkmark-color);
+      stroke-width: 2.75px;
+      stroke-dasharray: 22px;
+      stroke-dashoffset: 66;
+      transition: all 200ms;
+    }
   }
 
   &[data-pressed] .checkbox {
     border-color: var(--border-color-pressed);
   }
 
-  &[data-focus-visible] .checkbox {
-    outline: var(--outline-width) solid var(--focus-ring-color);
-    outline-offset: var(--outline-width);
-  }
-
   &[data-selected],
   &[data-indeterminate] {
+    --ripple: var(--selected-color);
     .checkbox {
       border-color: var(--selected-color);
       background: var(--selected-color);

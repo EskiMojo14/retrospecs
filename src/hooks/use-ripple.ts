@@ -20,7 +20,7 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
         surfaceRef.classList.add(className);
       },
       browserSupportsCssVars: () => util.supportsCssVariables(window),
-      computeBoundingRect: () => rootRef.getBoundingClientRect(),
+      computeBoundingRect: () => surfaceRef.getBoundingClientRect(),
       containsEventTarget: (target) => rootRef.contains(target as Node | null),
       deregisterDocumentInteractionHandler: (evtType, handler) => {
         document.documentElement.removeEventListener(evtType, handler);
@@ -81,5 +81,6 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
     surfaceRef: mergeRefs(setSurfaceRef, (r) => {
       if (r) foundation?.layout();
     }),
+    foundation,
   };
 }
