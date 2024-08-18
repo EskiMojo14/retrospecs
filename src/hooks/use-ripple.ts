@@ -1,14 +1,6 @@
 import type { MDCRippleCapableSurface } from "@material/ripple";
 import { MDCRippleFoundation, util } from "@material/ripple";
-import type { PressEvent, PressEvents, FocusEvents } from "@react-types/shared";
-import type { RefAttributes } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { mergeRefs } from "~/util";
-
-interface RootProps
-  extends FocusEvents,
-    PressEvents,
-    RefAttributes<HTMLElement> {}
 
 function useGetProps<T>(props: T) {
   const propsRef = useRef<T>(props);
@@ -56,6 +48,14 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
       updateCssVariable: (varName, value) => {
         surfaceRef.style.setProperty(varName, value);
       },
+      registerInteractionHandler: (evtType, handler) => {
+        rootRef.addEventListener(evtType, handler, {
+          passive: true,
+        });
+      },
+      deregisterInteractionHandler: (evtType, handler) => {
+        rootRef.removeEventListener(evtType, handler);
+      },
     });
     return foundation;
   }, [rootRef, surfaceRef, getProps]);
@@ -64,63 +64,19 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
     if (!foundation) return;
     foundation.init();
 
+    foundation.layout();
+
     return () => {
       foundation.destroy();
     };
   }, [foundation]);
-
-  const activateRipple = useCallback(
-    (e: PressEvent) => {
-      // react-aria-components very kindly already calculates x and y based on the target
-      // however, MDC does the same
-      // so we need to reverse engineer the original mouse event coordinates
-
-      const { scrollX, scrollY } = window;
-      const { left, top } =
-        rootRef?.getBoundingClientRect() ?? DOMRect.fromRect({});
-      const documentX = scrollX + left;
-      const documentY = scrollY + top;
-      const { x, y } = e;
-      const pageX = x + documentX;
-      const pageY = y + documentY;
-      foundation?.activate({
-        type: "mousedown",
-        target: e.target,
-        pageX,
-        pageY,
-      } as never);
-    },
-    [foundation, rootRef],
-  );
 
   useEffect(() => {
     foundation?.setUnbounded(config.unbounded ?? false);
   }, [foundation, config.unbounded]);
 
   return {
-    /** Props to attach to the interactive element */
-    rootProps: {
-      ref: mergeRefs(setRootRef, () => {
-        foundation?.layout();
-      }),
-      onFocus() {
-        foundation?.handleFocus();
-      },
-      onBlur() {
-        foundation?.handleBlur();
-      },
-      onPressStart(e) {
-        activateRipple(e);
-      },
-      onPressEnd() {
-        foundation?.deactivate();
-      },
-    } satisfies RootProps,
-    /** Props to attach to the ripple surface */
-    surfaceProps: {
-      ref: mergeRefs<HTMLElement>(setSurfaceRef, () => {
-        foundation?.layout();
-      }),
-    },
+    rootRef: setRootRef,
+    surfaceRef: setSurfaceRef,
   };
 }

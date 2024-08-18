@@ -78,7 +78,7 @@ export const Button = createGenericComponent<
     ref as never,
     ButtonContext,
   ) as [typeof props, typeof ref];
-  const { surfaceProps, rootProps } = useRipple({
+  const { surfaceRef, rootRef } = useRipple({
     disabled: props.isDisabled,
     unbounded,
   });
@@ -87,9 +87,8 @@ export const Button = createGenericComponent<
     color = "gold",
     className,
     as: As,
-    ref: rootRef,
     ...rest
-  } = mergeProps(props, rootProps);
+  } = props;
   return (
     <As
       {...rest}
@@ -105,7 +104,7 @@ export const Button = createGenericComponent<
         <MergeProvider context={SymbolContext} value={buttonSymbolSlots}>
           <div
             className={cls("ripple", { unbounded: !!unbounded })}
-            {...surfaceProps}
+            ref={surfaceRef}
           />
           <div className={cls("content")}>{children}</div>
         </MergeProvider>

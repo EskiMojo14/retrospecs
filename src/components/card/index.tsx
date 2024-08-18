@@ -1,4 +1,3 @@
-import { mergeProps } from "@react-aria/utils";
 import { clsx } from "clsx";
 import type { ContextType, ReactNode } from "react";
 import { useMemo } from "react";
@@ -78,32 +77,23 @@ export const CardSection = createGenericComponent<
   <As ref={ref} {...props} className={cls("section", undefined, className)} />
 ));
 
-type RootProps = ReturnType<typeof useRipple>["rootProps"];
-
 interface CardPrimaryActionProps extends CardSectionProps {
   isDisabled?: boolean;
 }
 
-interface CardPrimaryActionPassedProps
-  extends CardSectionPassedProps,
-    RootProps {}
-
 export const CardPrimaryAction = createGenericComponent<
   typeof AriaButton,
   CardPrimaryActionProps,
-  CardPrimaryActionPassedProps
+  CardSectionPassedProps
 >("CardPrimaryAction", AriaButton, ({ children, className, ...props }, ref) => {
-  const {
-    rootProps: { ref: rootRef, ...rootProps },
-    surfaceProps,
-  } = useRipple({ disabled: props.isDisabled });
+  const { rootRef, surfaceRef } = useRipple({ disabled: props.isDisabled });
   return (
     <CardSection
-      {...(mergeProps(props, rootProps) as any)}
+      {...props}
       ref={mergeRefs(ref, rootRef as never)}
       className={clsx("card__section--primary-action", className)}
     >
-      <span {...surfaceProps} className={cls("section-ripple")} />
+      <span ref={surfaceRef} className={cls("section-ripple")} />
       {children}
     </CardSection>
   );
