@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import type { ContextType, ReactNode } from "react";
+import type { ContextType, ReactNode, RefCallback } from "react";
 import { useMemo } from "react";
 import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
 import type { ButtonProps } from "~/components/button";
@@ -81,10 +81,14 @@ interface CardPrimaryActionProps extends CardSectionProps {
   isDisabled?: boolean;
 }
 
+interface CardPrimaryActionPassedProps extends CardSectionPassedProps {
+  ref: RefCallback<HTMLElement>;
+}
+
 export const CardPrimaryAction = createGenericComponent<
   typeof AriaButton,
   CardPrimaryActionProps,
-  CardSectionPassedProps
+  CardPrimaryActionPassedProps
 >("CardPrimaryAction", AriaButton, ({ children, className, ...props }, ref) => {
   const { rootRef, surfaceRef } = useRipple({ disabled: props.isDisabled });
   return (

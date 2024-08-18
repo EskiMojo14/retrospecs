@@ -15,15 +15,17 @@ import {
   SubmenuTrigger,
   ContextValue,
   useContextProps,
+  useSlottedContext,
 } from "react-aria-components";
 import type { PopoverProps } from "~/components/popover";
 import { Popover } from "~/components/popover";
 import { Symbol, SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
 import type { Color } from "~/theme/colors";
-import { bemHelper, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { DistributiveOmit } from "~/util/types";
 import "./index.scss";
+import { useRipple } from "~/hooks/use-ripple";
 
 type MenuTriggerProps =
   | {
@@ -136,28 +138,34 @@ export interface MenuItemProps<T extends object>
 }
 
 export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps<any>>(
-  ({ children, className, ...props }, ref) => (
-    <AriaMenuItem
-      {...props}
-      ref={ref}
-      className={cls({
-        element: "item",
-        extra: className,
-      })}
-    >
-      {renderPropsChild(children, (children, { isSelected, hasSubmenu }) => (
-        <SymbolContext.Provider value={symbolContextValue}>
-          {isSelected && <Symbol slot="check">check</Symbol>}
-          {children}
-          {hasSubmenu && (
-            <Symbol slot="submenu" flipRtl>
-              chevron_right
-            </Symbol>
-          )}
-        </SymbolContext.Provider>
-      ))}
-    </AriaMenuItem>
-  ),
+  ({ children, className, ...props }, ref) => {
+    const { surfaceRef, rootRef } = useRipple({ disabled: props.isDisabled });
+    return (
+      <AriaMenuItem
+        {...props}
+        ref={mergeRefs(ref, rootRef)}
+        className={cls({
+          element: "item",
+          extra: className,
+        })}
+      >
+        {renderPropsChild(children, (children, { isSelected, hasSubmenu }) => (
+          <SymbolContext.Provider value={symbolContextValue}>
+            <div ref={surfaceRef} className={cls("item-ripple")} />
+            <div className={cls("item-content")}>
+              {isSelected && <Symbol slot="check">check</Symbol>}
+              {children}
+              {hasSubmenu && (
+                <Symbol slot="submenu" flipRtl>
+                  chevron_right
+                </Symbol>
+              )}
+            </div>
+          </SymbolContext.Provider>
+        ))}
+      </AriaMenuItem>
+    );
+  },
 ) as (<T extends object>(props: MenuItemProps<T>) => JSX.Element) & {
   displayName?: string;
 };

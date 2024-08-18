@@ -13,27 +13,28 @@
     padding: 0;
   }
   &--two-line {
-    .menu__item {
+    .menu__item-content {
       height: 64px;
     }
   }
   &__item {
-    --selected-background-rgb: var(--shade-500-rgb);
-    --background-alpha: 0;
+    --ripple: var(--text);
     --selected-text-rgb: var(--shade-900-rgb);
-    height: 48px;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-    gap: 12px;
-    background-color: rgba(
-      var(--selected-background-rgb),
-      var(--background-alpha)
+    position: relative;
+    @include theme.ripple(var(--ripple), " .menu__item-ripple");
+    @include theme.ripple-selected(
+      $surface: " .menu__item-ripple",
+      $ripple-color: var(--ripple)
     );
-    transition: background-color 200ms;
+    &-content {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 12px;
+      height: 48px;
+    }
     @include theme.dark {
-      --selected-background-rgb: var(--shade-300-rgb);
-      --selected-text-rgb: var(--shade-100-rgb);
+      --selected-text-rgb: var(--shade-50-rgb);
     }
     &:focus-visible {
       outline: none;
@@ -43,28 +44,9 @@
         display: none;
       }
     }
-    &[data-hovered] {
-      --background-alpha: #{theme.states-opacity("hover")};
-    }
-    &[data-focused] {
-      --background-alpha: #{theme.states-opacity("focus")};
-    }
-    &[data-pressed] {
-      --background-alpha: #{theme.states-opacity("press")};
-    }
     &[data-selected] {
-      $selected-opacity: theme.states-opacity("selected");
-      --background-alpha: #{$selected-opacity};
       --text-rgb: var(--selected-text-rgb);
-      &[data-hovered] {
-        --background-alpha: #{theme.states-opacity("hover", $selected-opacity)};
-      }
-      &[data-focused] {
-        --background-alpha: #{theme.states-opacity("focus", $selected-opacity)};
-      }
-      &[data-pressed] {
-        --background-alpha: #{theme.states-opacity("press", $selected-opacity)};
-      }
+      --ripple: var(--shade-500);
       .menu__item-icon--leading {
         display: none;
       }

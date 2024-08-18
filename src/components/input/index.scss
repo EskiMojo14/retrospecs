@@ -104,8 +104,11 @@
     line-height: 1;
     gap: 0.5rem;
     color: inherit;
-    .select__ripple {
+    .select__item-ripple {
       display: none;
+    }
+    .select__item-content {
+      display: contents;
     }
   }
   &__popover {
@@ -118,13 +121,20 @@
     }
   }
   &__item {
-    --selected-background-rgb: var(--shade-500-rgb);
-    --background-alpha: 0;
+    --ripple: var(--text);
     --selected-text-rgb: var(--shade-900-rgb);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    position: relative;
+    @include theme.ripple(var(--ripple), " .select__item-ripple");
+    @include theme.ripple-selected(
+      $surface: " .select__item-ripple",
+      $ripple-color: var(--ripple)
+    );
+    &-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
     color: typography.emphasis("text", "high");
     background-color: rgba(
       var(--selected-background-rgb),
@@ -132,7 +142,6 @@
     );
     transition: background-color 200ms;
     @include theme.dark {
-      --selected-background-rgb: var(--shade-300-rgb);
       --selected-text-rgb: var(--shade-100-rgb);
     }
     .input-group__icon {
@@ -148,18 +157,8 @@
       --background-alpha: #{theme.states-opacity("press")};
     }
     &[data-selected] {
-      $selected-opacity: theme.states-opacity("selected");
-      --background-alpha: #{$selected-opacity};
       --text-rgb: var(--selected-text-rgb);
-      &[data-hovered] {
-        --background-alpha: #{theme.states-opacity("hover", $selected-opacity)};
-      }
-      &[data-focused] {
-        --background-alpha: #{theme.states-opacity("focus", $selected-opacity)};
-      }
-      &[data-pressed] {
-        --background-alpha: #{theme.states-opacity("press", $selected-opacity)};
-      }
+      --ripple: var(--shade-500);
     }
     &:focus {
       outline: none;

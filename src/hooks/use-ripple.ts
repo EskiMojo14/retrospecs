@@ -1,6 +1,7 @@
 import type { MDCRippleCapableSurface } from "@material/ripple";
 import { MDCRippleFoundation, util } from "@material/ripple";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { mergeRefs } from "~/util";
 
 function useGetProps<T>(props: T) {
   const propsRef = useRef<T>(props);
@@ -64,8 +65,6 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
     if (!foundation) return;
     foundation.init();
 
-    foundation.layout();
-
     return () => {
       foundation.destroy();
     };
@@ -76,7 +75,11 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
   }, [foundation, config.unbounded]);
 
   return {
-    rootRef: setRootRef,
-    surfaceRef: setSurfaceRef,
+    rootRef: mergeRefs(setRootRef, (r) => {
+      if (r) foundation?.layout();
+    }),
+    surfaceRef: mergeRefs(setSurfaceRef, (r) => {
+      if (r) foundation?.layout();
+    }),
   };
 }

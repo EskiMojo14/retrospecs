@@ -23,11 +23,12 @@ import type { SymbolProps } from "~/components/symbol";
 import { Symbol, SymbolContext } from "~/components/symbol";
 import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
+import { useRipple } from "~/hooks/use-ripple";
+import type { Color } from "~/theme/colors";
 import { bemHelper, renderPropsChild } from "~/util";
 import type { Overwrite } from "~/util/types";
 import { inputGroupCls } from ".";
 import "./index.scss";
-import { Color } from "~/theme/colors";
 
 interface MySelectProps<T extends object>
   extends Omit<SelectProps<T>, "children" | "className"> {
@@ -157,9 +158,11 @@ export function SelectItem<T extends object>({
   className,
   ...props
 }: Omit<ListBoxItemProps<T>, "className"> & { className?: string }) {
+  const { surfaceRef, rootRef } = useRipple({ disabled: props.isDisabled });
   return (
     <ListBoxItem
       {...props}
+      ref={rootRef as never}
       className={cls({
         element: "item",
         extra: className,
@@ -167,7 +170,8 @@ export function SelectItem<T extends object>({
     >
       {renderPropsChild(children, (children, { isSelected }) => (
         <SymbolContext.Provider value={symbolContextStates[`${isSelected}`]}>
-          {children}
+          <div ref={surfaceRef} className={cls("item-ripple")} />
+          <div className={cls("item-content")}>{children}</div>
         </SymbolContext.Provider>
       ))}
     </ListBoxItem>

@@ -1,6 +1,6 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
-import type { ReactNode } from "react";
+import type { ReactNode, RefCallback } from "react";
 import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {
   ToggleButtonProps as AriaToggleButtonProps,
@@ -70,6 +70,7 @@ export const Button = createGenericComponent<
   {
     className: string;
     children: ReactNode;
+    ref: RefCallback<HTMLElement>;
   }
 >("Button", AriaButton, (props, ref) => {
   let unbounded;

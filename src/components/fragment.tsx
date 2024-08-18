@@ -3,10 +3,10 @@ import { Fragment } from "react";
 import type { Key } from "react-aria-components";
 
 export const IdFragment = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  id: _id,
-  ...props
+  children,
+  key,
 }: {
   id: Key;
+  key: Key;
   children: ReactNode;
-}) => <Fragment {...props} />;
+}) => <Fragment key={key}>{children}</Fragment>;
