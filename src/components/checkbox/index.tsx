@@ -1,4 +1,4 @@
-import type { RefCallback } from "react";
+import type { ContextType, ReactNode, RefCallback } from "react";
 import { createContext, forwardRef, useMemo } from "react";
 import type {
   CheckboxProps as AriaCheckboxProps,
@@ -12,9 +12,11 @@ import {
   Text,
   FieldError,
   useContextProps,
+  DEFAULT_SLOT,
 } from "react-aria-components";
 import type { FormGroupProps } from "~/components/input/text-field";
 import { listCls } from "~/components/list";
+import { SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
@@ -176,14 +178,36 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
 
 CheckboxGroup.displayName = "CheckboxGroup";
 
-export const CheckboxItem = forwardRef<HTMLLabelElement, CheckboxProps>(
+const symbolContextValue: Record<
+  `${boolean}`,
+  ContextType<typeof SymbolContext>
+> = {
+  false: {
+    slots: {
+      [DEFAULT_SLOT]: {},
+      icon: { className: listCls("icon"), transition: true },
+    },
+  },
+  true: {
+    slots: {
+      [DEFAULT_SLOT]: {},
+      icon: { className: listCls("icon"), fill: true, transition: true },
+    },
+  },
+};
+
+interface CheckboxItemProps extends CheckboxProps {
+  icon?: ReactNode;
+}
+
+export const CheckboxItem = forwardRef<HTMLLabelElement, CheckboxItemProps>(
   (props, ref) => {
     [props, ref] = useContextProps(
       props,
       ref as never,
       CheckboxGroupContext,
     ) as [typeof props, typeof ref];
-    const { color = "gold", className, children, ...rest } = props;
+    const { color = "gold", className, children, icon, ...rest } = props;
     const checkboxRipple = useRipple({
       disabled: props.isDisabled,
       unbounded: true,
@@ -191,6 +215,7 @@ export const CheckboxItem = forwardRef<HTMLLabelElement, CheckboxProps>(
     const itemRipple = useRipple({
       disabled: props.isDisabled,
     });
+
     return (
       <AriaCheckbox
         {...rest}
@@ -200,20 +225,35 @@ export const CheckboxItem = forwardRef<HTMLLabelElement, CheckboxProps>(
           extra: ["color-" + color, className ?? "", groupCls("item")],
         })}
       >
-        {renderPropsChild(children, (children, { isIndeterminate }) => (
-          <>
-            <div ref={itemRipple.surfaceRef} className={cls("item-ripple")} />
-            <div className={listCls("item-content")}>
-              <div ref={checkboxRipple.rootRef}>
-                <CheckboxTarget
-                  isIndeterminate={isIndeterminate}
-                  rippleRef={checkboxRipple.surfaceRef}
-                />
+        {renderPropsChild(
+          children,
+          (children, { isIndeterminate, isSelected }) => (
+            <SymbolContext.Provider
+              value={symbolContextValue[`${isSelected || isIndeterminate}`]}
+            >
+              <div ref={itemRipple.surfaceRef} className={cls("item-ripple")} />
+              <div className={listCls("item-content")}>
+                {icon ?? (
+                  <div ref={checkboxRipple.rootRef}>
+                    <CheckboxTarget
+                      isIndeterminate={isIndeterminate}
+                      rippleRef={checkboxRipple.surfaceRef}
+                    />
+                  </div>
+                )}
+                {children}
+                {icon != null && (
+                  <div ref={checkboxRipple.rootRef}>
+                    <CheckboxTarget
+                      isIndeterminate={isIndeterminate}
+                      rippleRef={checkboxRipple.surfaceRef}
+                    />
+                  </div>
+                )}
               </div>
-              {children}
-            </div>
-          </>
-        ))}
+            </SymbolContext.Provider>
+          ),
+        )}
       </AriaCheckbox>
     );
   },
