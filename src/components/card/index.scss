@@ -64,10 +64,9 @@ $hover-time: 0.2s;
     padding: 4px 16px;
     border: none;
     &--primary-action {
-      position: relative;
-      overflow: hidden;
       background-color: unset;
       color: unset;
+      @include theme.ripple(var(--text), " .card__section-ripple");
       @at-root button#{&} {
         appearance: none;
         &:focus {
@@ -93,7 +92,6 @@ $hover-time: 0.2s;
         margin: -6px 0;
       }
     }
-    @include theme.ripple(var(--text), " .card__section-ripple");
     &-ripple {
       top: 0;
       left: 0;

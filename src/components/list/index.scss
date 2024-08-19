@@ -33,10 +33,6 @@ $variants: (
   }
   &__item {
     transition: opacity 0.2s;
-    &:focus {
-      outline: none;
-    }
-
     position: relative;
     --ripple: var(--text);
     @include theme.ripple(
@@ -47,6 +43,9 @@ $variants: (
       var(--ripple),
       ":not(.list__item--non-interactive) .list__item-ripple"
     );
+    &:focus {
+      outline: none;
+    }
     &-content {
       height: var(--list-height);
       padding: var(--list-padding-y) 16px;
