@@ -1,4 +1,5 @@
 @use "~/theme/elevation";
+@use "~/theme/layout";
 @use "~/util";
 
 .sheet {
@@ -9,6 +10,10 @@
     bottom: 0;
     min-width: 256px;
     max-width: 400px;
+    @include layout.breakpoint("phone", "only") {
+      min-width: calc(100% - 64px);
+      max-width: calc(100% - 64px);
+    }
     @include elevation.shadow(8);
     &.sheet--attach-end {
       border-radius: var(--border-radius-large) 0 0 var(--border-radius-large);
