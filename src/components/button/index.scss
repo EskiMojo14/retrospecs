@@ -32,6 +32,12 @@
   position: relative;
   @include typography.style("button");
 
+  @include theme.ripple(var(--button-text), " .button__ripple");
+  @include theme.ripple-selected(
+    $surface: " .button__ripple",
+    $ripple-color: var(--button-text)
+  );
+
   @include theme.dark {
     --button-text-rgb: var(--shade-300-rgb);
     --button-outline-rgb: var(--shade-300-rgb);
@@ -57,11 +63,13 @@
     --button-filled-text-rgb: var(--text-rgb);
     --button-filled-outline-rgb: var(--text-rgb);
   }
-  @include theme.focus-ring;
 
   @at-root button#{&} {
     appearance: none;
     border: none;
+    &:focus {
+      outline: none;
+    }
   }
   @at-root a#{&} {
     text-decoration: none;
@@ -110,11 +118,6 @@
       @include elevation.shadow(0);
     }
   }
-  @include theme.ripple(var(--button-text), " .button__ripple");
-  @include theme.ripple-selected(
-    $surface: " .button__ripple",
-    $ripple-color: var(--button-text)
-  );
   &[data-selected] {
     font-weight: var(--typography-weight-black);
     &.button--elevated {
