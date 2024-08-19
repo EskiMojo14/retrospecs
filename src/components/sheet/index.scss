@@ -17,7 +17,7 @@
     @include elevation.shadow(8);
     &.sheet--attach-end {
       border-radius: var(--border-radius-large) 0 0 var(--border-radius-large);
-      @include util.rtl-position("right", 0);
+      @include util.reflexive-position("right", 0);
       &[data-entering] {
         animation: slide-left 250ms ease-in;
       }
@@ -36,7 +36,7 @@
     }
     &.sheet--attach-start {
       border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0;
-      @include util.rtl-position("left", 0);
+      @include util.reflexive-position("left", 0);
       &[data-entering] {
         animation: slide-right 250ms ease-in;
       }
@@ -101,11 +101,11 @@
       .icon-button {
         &:first-child {
           margin: -8px;
-          @include util.rtl-box("margin", -8px, 0);
+          @include util.reflexive-box("margin", -8px, 0);
         }
         &:last-child {
           margin: -8px;
-          @include util.rtl-box("margin", 0, -8px);
+          @include util.reflexive-box("margin", 0, -8px);
         }
       }
     }

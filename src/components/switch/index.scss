@@ -72,9 +72,9 @@
       transition:
         left 200ms,
         right 200ms;
-      @include util.rtl-position(left, 4px);
+      @include util.reflexive-position(left, 4px);
       &--has-icon {
-        @include util.rtl-position(left, 2px);
+        @include util.reflexive-position(left, 2px);
         .switch__handle {
           width: 24px;
           height: 24px;
@@ -118,7 +118,7 @@
       height: 24px;
       width: 24px;
       &-container {
-        @include util.rtl-position(left, 22px);
+        @include util.reflexive-position(left, 22px);
       }
     }
   }
@@ -135,12 +135,12 @@
       height: 28px;
       width: 28px;
       &-container {
-        @include util.rtl-position(left, 0);
+        @include util.reflexive-position(left, 0);
       }
     }
     &[data-selected] {
       .switch__handle-container {
-        @include util.rtl-position(left, 20px);
+        @include util.reflexive-position(left, 20px);
       }
     }
   }

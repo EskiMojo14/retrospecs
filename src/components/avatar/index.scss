@@ -78,7 +78,7 @@ $sizes: (
   }
   &--spacing-medium {
     .avatar {
-      @include util.rtl-box("margin", -8px);
+      @include util.reflexive-box("margin", -8px);
       &:last-child {
         margin: 0;
       }
@@ -86,7 +86,7 @@ $sizes: (
   }
   &--spacing-small {
     .avatar {
-      @include util.rtl-box("margin", -16px);
+      @include util.reflexive-box("margin", -16px);
       &:last-child {
         margin: 0;
       }

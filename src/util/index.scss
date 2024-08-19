@@ -25,7 +25,7 @@ $base-size: 16px;
   }
 }
 
-@mixin rtl-box($prop, $start, $end: 0) {
+@mixin reflexive-box($prop, $start, $end: 0) {
   & {
     #{$prop}-left: $start;
     #{$prop}-right: $end;
@@ -36,7 +36,7 @@ $base-size: 16px;
   }
 }
 
-@mixin rtl-position($prop, $start, $end: unset) {
+@mixin reflexive-position($prop, $start, $end: unset) {
   $opposite: if($prop == "right", "left", "right");
   & {
     #{$prop}: $start;

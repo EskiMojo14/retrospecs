@@ -70,15 +70,15 @@ $variants: (
       @include typography.style("headline5");
     }
     .icon-button:last-child {
-      @include util.rtl-box("margin", 0, -12px);
+      @include util.reflexive-box("margin", 0, -12px);
     }
     .checkbox-container:first-child .checkbox__target,
     .checkbox__target:first-child {
-      @include util.rtl-box("margin", -8px);
+      @include util.reflexive-box("margin", -8px);
     }
     .checkbox-container:last-child .checkbox__target,
     .checkbox__target:last-child {
-      @include util.rtl-box("margin", 0, -8px);
+      @include util.reflexive-box("margin", 0, -8px);
     }
   }
   &__item-text {
@@ -118,7 +118,7 @@ $variants: (
     width: auto;
     &--sixteen-nine {
       height: 64px;
-      @include util.rtl-box("margin", -16px);
+      @include util.reflexive-box("margin", -16px);
     }
   }
   &__icon {

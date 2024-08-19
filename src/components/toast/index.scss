@@ -37,7 +37,7 @@
     align-items: flex-start;
     gap: 16px;
     width: auto;
-    @include util.rtl-position("left", 0);
+    @include util.reflexive-position("left", 0);
     &:focus-visible {
       outline: none;
     }
@@ -76,7 +76,7 @@
         bottom: 0;
         background-color: var(--text);
         border-radius: var(--border-radius-full);
-        @include util.rtl-position("right", 0);
+        @include util.reflexive-position("right", 0);
       }
     }
     &:hover .toast__progress::after {
@@ -114,7 +114,7 @@
     margin: 0;
   }
   &__close {
-    @include util.rtl-box("margin", 0, -8px);
+    @include util.reflexive-box("margin", 0, -8px);
   }
   .button {
     @include theme.light {

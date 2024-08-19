@@ -56,7 +56,7 @@
       flex-shrink: 0;
       &--trailing,
       &--submenu {
-        @include util.rtl-box(margin, auto);
+        @include util.reflexive-box(margin, auto);
       }
     }
     &-text {

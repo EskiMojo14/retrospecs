@@ -36,7 +36,7 @@
     position: fixed;
     bottom: 16px;
     transform-origin: bottom right;
-    @include util.rtl-position(right, 16px);
+    @include util.reflexive-position(right, 16px);
     @include util.rtl {
       transform-origin: bottom left;
     }

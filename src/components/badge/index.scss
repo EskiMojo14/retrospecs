@@ -17,7 +17,7 @@
   &--overlap-circle {
     .badge__badge {
       top: 14%;
-      @include util.rtl-position(right, 14%);
+      @include util.reflexive-position(right, 14%);
     }
   }
   &--dot {
@@ -50,7 +50,7 @@
     transform: scale(1) translate(50%, -50%);
     transform-origin: 100% 0%;
     top: 0;
-    @include util.rtl-position(right, 0);
+    @include util.reflexive-position(right, 0);
     @include util.rtl {
       transform: scale(1) translate(-50%, -50%);
     }

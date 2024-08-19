@@ -41,7 +41,7 @@
         border-radius: inherit;
         background-color: var(--progress-track-color);
         transition: width var(--determinate-duration) ease;
-        @include util.rtl-box(margin, auto);
+        @include util.reflexive-box(margin, auto);
       }
       &::after {
         content: "";
