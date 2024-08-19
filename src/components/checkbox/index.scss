@@ -2,6 +2,21 @@
 @use "~/theme/typography";
 
 .checkbox-container {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  transition: opacity 200ms;
+
+  @include typography.style("body2");
+}
+
+.checkbox-group__item {
+  @include typography.style("subtitle1");
+  @include theme.ripple(var(--text), " .checkbox__item-ripple");
+}
+
+.checkbox-container,
+.checkbox-group__item {
   --selected-color: var(--shade-500);
   --selected-color-pressed: var(--shade-300);
   --checkmark-color: var(--shade-50);
@@ -9,13 +24,6 @@
   --border-color-pressed: #{typography.emphasis("text", "high")};
 
   --ripple: var(--text);
-
-  display: flex;
-  align-items: center;
-  line-height: 1;
-  transition: opacity 200ms;
-
-  @include typography.style("body2");
 
   @include theme.ripple(var(--ripple), " .checkbox__ripple");
 
@@ -89,6 +97,26 @@
   }
 
   &[data-disabled] {
-    opacity: 0.5;
+    opacity: var(--typography-emphasis-disabled);
+  }
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  &__error-message {
+    font-weight: var(--typography-weight-semi-bold);
+    color: var(--red-700);
+    @include theme.dark {
+      color: var(--red-200);
+    }
+  }
+  &__description {
+    white-space: pre-wrap;
+    color: typography.emphasis("text", "medium");
+    @include theme.dark {
+      color: typography.emphasis("text", "medium");
+    }
   }
 }

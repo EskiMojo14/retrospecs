@@ -72,6 +72,14 @@ $variants: (
     .icon-button:last-child {
       @include util.rtl-box("margin", 0, -12px);
     }
+    .checkbox-container:first-child .checkbox__target,
+    .checkbox__target:first-child {
+      @include util.rtl-box("margin", -8px);
+    }
+    .checkbox-container:last-child .checkbox__target,
+    .checkbox__target:last-child {
+      @include util.rtl-box("margin", 0, -8px);
+    }
   }
   &__item-text {
     display: flex;

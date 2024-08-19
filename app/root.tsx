@@ -16,6 +16,7 @@ import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
 import { useDehydratedState } from "use-dehydrated-state";
 import { ForeEauFore } from "~/404";
+import { BreakpointDisplay } from "~/components/grid";
 import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
@@ -31,7 +32,6 @@ import type { UserConfig } from "~/features/user_config";
 import { getUserConfig } from "~/features/user_config";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import "~/index.scss";
-import { BreakpointDisplay } from "~/components/grid";
 
 declare module "react-aria-components" {
   interface RouterConfig {

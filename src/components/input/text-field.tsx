@@ -35,9 +35,6 @@ export interface FormGroupProps {
   descriptionProps?: Overwrite<TextProps, Partial<TypographyProps>>;
   errorMessage?: ReactNode | ((validation: ValidationResult) => ReactNode);
   errorMessageProps?: Overwrite<FieldErrorProps, Partial<TypographyProps>>;
-  icon?: ReactNode;
-  action?: ReactNode;
-  onAction?: (event: PressEvent) => void;
 }
 
 export interface TextFieldProps
@@ -46,6 +43,9 @@ export interface TextFieldProps
   className?: string;
   textarea?: boolean;
   color?: Color;
+  icon?: ReactNode;
+  action?: ReactNode;
+  onAction?: (event: PressEvent) => void;
 }
 
 const cls = bemHelper("text-field");

@@ -19,12 +19,16 @@ import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import "./index.scss";
 
+export type ListVariant = "one-line" | "two-line" | "three-line";
+
 const cls = bemHelper("list");
+
+export { cls as listCls };
 
 export interface ListProps<T>
   extends Omit<GridListProps<T>, "className">,
     Pick<ListItemProps<any>, "nonInteractive" | "color"> {
-  variant: "one-line" | "two-line" | "three-line";
+  variant: ListVariant;
   className?: string;
 }
 
@@ -98,7 +102,7 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps<any>>(
           modifiers: {
             "non-interactive": !!nonInteractive,
           },
-          extra: [className ?? "", "color-" + color],
+          extra: ["color-" + color, className ?? ""],
         })}
       >
         {renderPropsChild(children, (children) => (
