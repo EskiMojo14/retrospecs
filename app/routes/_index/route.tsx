@@ -3,18 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import { ExtendedFab } from "~/components/button/fab";
 import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
-import {
-  ensureAuthenticated,
-  ensureCurrentUserPermissions,
-} from "~/db/auth.server";
+import { ensureAuthenticated } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import { useSession } from "~/db/provider";
 import { NavBar } from "~/features/nav-bar";
-import { getOrgMemberCount, getOrgs, selectOrgIds } from "~/features/orgs";
-import { getTeamCountByOrg } from "~/features/teams";
+import { getOrgs, selectAllOrgs, selectOrgIds } from "~/features/orgs";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { CreateOrg } from "./create-org";
 import { OrgGrid } from "./org-grid";
+import { prefetchOrgCardData } from "./org-grid.server";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Organisations" },
@@ -29,11 +26,7 @@ export const loader = createHydratingLoader(
     const user = await ensureAuthenticated(context);
     const orgs = await queryClient.ensureQueryData(getOrgs(context, user.id));
     await Promise.all(
-      selectOrgIds(orgs).flatMap((orgId) => [
-        queryClient.prefetchQuery(getOrgMemberCount(context, orgId)),
-        queryClient.prefetchQuery(getTeamCountByOrg(context, orgId)),
-        ensureCurrentUserPermissions(context, orgId, "getOrgs"),
-      ]),
+      selectAllOrgs(orgs).map((org) => prefetchOrgCardData(org, context)),
     );
     return {
       orgs,

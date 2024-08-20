@@ -9,6 +9,8 @@ import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
+import { getDisplayName } from "~/features/profiles";
+import { getSprintCountForTeam } from "~/features/sprints";
 import {
   deleteTeam,
   getTeamMemberCount,
@@ -19,14 +21,14 @@ import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { pluralize } from "~/util";
 import { Permission } from "~/util/permissions";
-import styles from "./team-card.module.scss";
+import styles from "./team-grid.module.scss";
 
 export interface TeamCardProps {
   orgId: number;
   teamId: number;
 }
 
-export function TeamCard({ orgId, teamId }: TeamCardProps) {
+function TeamCard({ orgId, teamId }: TeamCardProps) {
   const { data: team } = useQuery({
     ...useOptionsCreator(getTeamsByOrg, orgId),
     select: (data) => selectTeamById(data, teamId),
@@ -34,21 +36,35 @@ export function TeamCard({ orgId, teamId }: TeamCardProps) {
   const { data: memberCount = 0 } = useQuery(
     useOptionsCreator(getTeamMemberCount, teamId),
   );
+  const { data: sprintCount = 0 } = useQuery(
+    useOptionsCreator(getSprintCountForTeam, teamId),
+  );
+  const { data: creator } = useQuery(
+    useOptionsCreator(getDisplayName, team?.created_by),
+  );
   const { mutate: deleteTeamFn, isPending } = useMutation(
     useOptionsCreator(deleteTeam),
   );
   const permissions = useCurrentUserPermissions(orgId);
   if (!team) return null;
   return (
-    <Card as={GridCell} span={6} className={styles.teamCard}>
+    <Card as={GridCell} span={4} className={styles.teamCard}>
       <CardPrimaryAction
         as={Link}
         href={`/orgs/${orgId}/teams/${teamId}`}
         className={styles.primaryAction}
       >
+        <Typography variant="overline" className={styles.sprintCount}>
+          {pluralize`${sprintCount} ${[sprintCount, "sprint"]}`}
+        </Typography>
         <Typography variant="headline6" className={styles.title}>
           {team.name}
         </Typography>
+        {creator && (
+          <Typography variant="subtitle2" className={styles.creator}>
+            Created by {creator}
+          </Typography>
+        )}
       </CardPrimaryAction>
       <Divider />
       <CardActions>

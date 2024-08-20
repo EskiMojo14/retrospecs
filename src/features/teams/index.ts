@@ -26,6 +26,13 @@ export const {
   selectTotal: selectTotalTeams,
 } = teamAdapter.getSelectors();
 
+export const getTeam = supabaseQueryOptions(({ supabase }, id: Team["id"]) => ({
+  queryKey: ["team", id],
+  queryFn: supabaseFn(() =>
+    supabase.from("teams").select().eq("id", id).single(),
+  ),
+}));
+
 export const getTeamsByOrg = supabaseQueryOptions(
   ({ supabase }, orgId: Org["id"]) => ({
     queryKey: ["teams", orgId],
@@ -89,7 +96,7 @@ export const updateTeam = supabaseMutationOptions(
       const prevTeams = queryClient.getQueryData(queryKey);
       return { prevTeam: prevTeams && selectTeamById(prevTeams, id) };
     },
-    async onSuccess(_: null, { org_id, name: newName }, { prevTeam }) {
+    async onSuccess(_: null, { org_id, name: newName, id }, { prevTeam }) {
       const name = newName ?? prevTeam?.name;
       toastQueue.add(
         {
@@ -101,9 +108,14 @@ export const updateTeam = supabaseMutationOptions(
           timeout: 5000,
         },
       );
-      await queryClient.invalidateQueries({
-        queryKey: ["teams", org_id],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["teams", org_id],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["team", id],
+        }),
+      ]);
     },
     onError(error) {
       toastQueue.add({
@@ -125,7 +137,7 @@ export const deleteTeam = supabaseMutationOptions(
       const prevTeams = queryClient.getQueryData(queryKey);
       return { prevTeam: prevTeams && selectTeamById(prevTeams, id) };
     },
-    async onSuccess(_: null, _id, { prevTeam }) {
+    async onSuccess(_: null, id, { prevTeam }) {
       toastQueue.add(
         {
           type: "success",
@@ -136,9 +148,14 @@ export const deleteTeam = supabaseMutationOptions(
           timeout: 5000,
         },
       );
-      await queryClient.invalidateQueries({
-        queryKey: ["teams"],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["teams"],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["team", id],
+        }),
+      ]);
     },
     onError(error) {
       toastQueue.add({

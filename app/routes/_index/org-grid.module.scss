@@ -19,18 +19,19 @@
     }
   }
   .title,
-  .date,
+  .owner,
   .teamCount {
     margin: 0;
   }
-  .date,
+  .owner,
   .teamCount {
-    color: typography.emphasis("card-text", "medium");
+    color: typography.emphasis("text", "medium");
   }
   .teamCount {
     margin-bottom: 0.125rem;
   }
   .title {
+    color: typography.emphasis("text", "high");
     margin-bottom: 0.25rem;
   }
 }

@@ -10,8 +10,8 @@ import { toastQueue } from "~/components/toast";
 import { Toolbar } from "~/components/toolbar";
 import { useSupabase } from "~/db/provider";
 import { Logo } from "~/features/logo";
-import styles from "./route.module.scss";
 import SvgGithub from "~/icons/github";
+import styles from "./route.module.scss";
 
 export const meta: MetaFunction = () => [{ title: "RetroSpecs - Sign in" }];
 

@@ -8,15 +8,12 @@ import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import { NavBar } from "~/features/nav-bar";
 import { getOrg } from "~/features/orgs";
-import { getSprintCountForTeam } from "~/features/sprints";
-import {
-  getTeamMemberCount,
-  getTeamsByOrg,
-  selectTeamIds,
-} from "~/features/teams";
+import { getTeamsByOrg, selectAllTeams, selectTeamIds } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { promiseOwnProperties } from "~/util/ponyfills";
 import { CreateTeam } from "./create-team";
-import { TeamGrid } from "./team-card";
+import { TeamGrid } from "./team-grid";
+import { prefetchTeamCardData } from "./team-grid.server";
 
 export const meta: MetaFunction<any> = ({
   data,
@@ -39,14 +36,15 @@ export const loader = createHydratingLoader(
     const teams = await queryClient.ensureQueryData(
       getTeamsByOrg(context, orgId),
     );
-    const [org] = await Promise.all([
-      queryClient.ensureQueryData(getOrg(context, orgId)),
-      ensureCurrentUserPermissions(context, orgId, "getOrg"),
-      ...selectTeamIds(teams).flatMap((teamId) => [
-        queryClient.prefetchQuery(getTeamMemberCount(context, teamId)),
-        queryClient.prefetchQuery(getSprintCountForTeam(context, teamId)),
-      ]),
-    ]);
+    const { org } = await promiseOwnProperties({
+      org: queryClient.ensureQueryData(getOrg(context, orgId)),
+      orgPerms: ensureCurrentUserPermissions(context, orgId),
+      teamCardData: Promise.all(
+        selectAllTeams(teams).map((team) =>
+          prefetchTeamCardData(team, context),
+        ),
+      ),
+    });
     return {
       org,
       teams,

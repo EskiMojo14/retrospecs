@@ -6,6 +6,7 @@ import type {
   MenuItemProps as AriaMenuItemProps,
   MenuTriggerProps as AriaMenuTriggerProps,
   SubmenuTriggerProps,
+  ContextValue,
 } from "react-aria-components";
 import {
   Menu as AriaMenu,
@@ -13,19 +14,17 @@ import {
   Text,
   MenuTrigger,
   SubmenuTrigger,
-  ContextValue,
   useContextProps,
-  useSlottedContext,
 } from "react-aria-components";
 import type { PopoverProps } from "~/components/popover";
 import { Popover } from "~/components/popover";
 import { Symbol, SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
+import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
 import type { DistributiveOmit } from "~/util/types";
 import "./index.scss";
-import { useRipple } from "~/hooks/use-ripple";
 
 type MenuTriggerProps =
   | {

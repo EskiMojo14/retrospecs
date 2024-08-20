@@ -26,7 +26,7 @@ type LastOf<T> =
     ? R
     : never;
 
-type Push<T extends any[], V> = [...T, V];
+type Push<T extends Array<any>, V> = [...T, V];
 
 export type TuplifyUnion<
   T,
@@ -47,3 +47,5 @@ export type OneOf<
 export type DistributiveOmit<T, K extends keyof any> = T extends any
   ? Omit<T, K>
   : never;
+
+export type Nullish<T> = T | null | undefined;

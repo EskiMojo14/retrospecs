@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
-import { forwardRef, Fragment } from "react";
-import type { Key, SeparatorProps } from "react-aria-components";
+import { forwardRef } from "react";
+import type { SeparatorProps } from "react-aria-components";
 import { Separator } from "react-aria-components";
 import { bemHelper } from "~/util";
 import "./index.scss";

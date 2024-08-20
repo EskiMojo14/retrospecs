@@ -17,6 +17,7 @@ import {
   getOrgs,
   selectOrgById,
 } from "~/features/orgs";
+import { getDisplayName } from "~/features/profiles";
 import { getTeamCountByOrg } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissionsGetOrgs } from "~/hooks/use-user-permissions";
@@ -41,6 +42,9 @@ function OrgCard({ orgId }: OrgCardProps) {
   const { data: teamCount = 0 } = useQuery(
     useOptionsCreator(getTeamCountByOrg, orgId),
   );
+  const { data: owner } = useQuery(
+    useOptionsCreator(getDisplayName, org?.owner_id),
+  );
   const permissions = useCurrentUserPermissionsGetOrgs(orgId);
   const { mutate: deleteOrgFn, isPending } = useMutation(
     useOptionsCreator(deleteOrg),
@@ -59,6 +63,11 @@ function OrgCard({ orgId }: OrgCardProps) {
         <Typography variant="headline6" className={styles.title}>
           {org.name}
         </Typography>
+        {owner && (
+          <Typography variant="subtitle2" className={styles.owner}>
+            Owned by {owner}
+          </Typography>
+        )}
       </CardPrimaryAction>
       <Divider />
       <CardActions>

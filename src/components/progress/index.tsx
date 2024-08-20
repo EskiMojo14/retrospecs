@@ -72,7 +72,6 @@ export const CircularProgress = forwardRef<HTMLDivElement, ProgressProps>(
           ref.ariaHidden = isHidden.toString();
         })}
         {...props}
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         data-hidden={isHidden || undefined}
         className={cls({
           modifier: {

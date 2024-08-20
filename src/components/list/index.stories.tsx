@@ -391,7 +391,7 @@ function TodoListFn() {
             const form = e.currentTarget;
             e.preventDefault();
             const text = new FormData(form).get("text") as string;
-            dispatch(startAddLoading(true));
+            dispatch(startAddLoading());
             setTimeout(() => {
               dispatch(todoAdded(text));
             }, 1000);

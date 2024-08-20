@@ -17,14 +17,20 @@
       text-transform: none;
     }
   }
+  .sprintCount,
   .title,
-  .date {
+  .creator {
     margin: 0;
   }
-  .date {
-    color: typography.emphasis("card-text", "medium");
+  .sprintCount,
+  .creator {
+    color: typography.emphasis("text", "medium");
+  }
+  .sprintCount {
+    margin-bottom: 0.125rem;
   }
   .title {
+    color: typography.emphasis("text", "high");
     margin-bottom: 0.25rem;
   }
 }

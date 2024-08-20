@@ -34,6 +34,7 @@ module.exports = {
     ],
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-floating-promises": [
       "error",
       {

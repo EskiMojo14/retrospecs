@@ -7,7 +7,7 @@ import {
   supabaseMutationOptions,
   supabaseQueryOptions,
 } from "~/util/supabase-query";
-import type { PickRequired } from "~/util/types";
+import type { Nullish, PickRequired } from "~/util/types";
 
 export type Profile = Tables<"profiles">;
 
@@ -16,8 +16,25 @@ export const profileAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.display_name.localeCompare(b.display_name),
 });
 
+export const getDisplayName = supabaseQueryOptions(
+  ({ supabase }, id: Nullish<string>) => ({
+    queryKey: ["display_name", id],
+    queryFn: id
+      ? supabaseFn(
+          () =>
+            supabase
+              .from("profiles")
+              .select("display_name")
+              .eq("user_id", id)
+              .single(),
+          ({ display_name }) => display_name,
+        )
+      : skipToken,
+  }),
+);
+
 export const getProfile = supabaseQueryOptions(
-  ({ supabase }, id: string | undefined) => ({
+  ({ supabase }, id: Nullish<string>) => ({
     queryKey: ["profile", id],
     queryFn: id
       ? supabaseFn(() =>
