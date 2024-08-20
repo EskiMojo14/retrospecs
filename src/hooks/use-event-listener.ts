@@ -1,3 +1,4 @@
+import type { RefObject } from "react";
 import { useEffect } from "react";
 import { useDevDebugValue } from "./use-dev-debug-value";
 import { useShallowStableValue } from "./use-shallow-stable";
@@ -32,7 +33,7 @@ export function useEventListener<
   T extends EventTarget,
   EventName extends EventTypes<T>,
 >(
-  target: React.RefObject<T> | T | (() => T),
+  target: RefObject<T> | T | (() => T),
   type: EventName,
   callback: (event: EventForType<T, EventName>) => void,
   config: UseEventListenerConfig = {},

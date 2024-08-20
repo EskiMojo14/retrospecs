@@ -1,4 +1,5 @@
 import throttle from "lodash/throttle";
+import type { RefObject } from "react";
 import { useMemo, useRef } from "react";
 import type { Compute, OneOf } from "~/util/types";
 import type { UseEventListenerConfig } from "./use-event-listener";
@@ -16,7 +17,7 @@ type ScrollTarget = Compute<
 >;
 
 export function useScrollDirection(
-  target: React.RefObject<ScrollTarget> | ScrollTarget | (() => ScrollTarget),
+  target: RefObject<ScrollTarget> | ScrollTarget | (() => ScrollTarget),
   onScroll: (direction: "up" | "down") => void,
   config: UseScrollDirectionConfig = {},
 ) {

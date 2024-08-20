@@ -47,7 +47,7 @@ interface GenericComponentInternal<
 }
 
 export interface GenericComponent<
-  DefaultComponent extends React.ElementType<PassedProps>,
+  DefaultComponent extends ElementType<PassedProps>,
   ReceivedProps extends {},
   PassedProps extends {} = {},
 > extends GenericComponentInternal<

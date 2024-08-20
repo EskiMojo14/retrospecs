@@ -40,10 +40,10 @@ interface MySelectProps<T extends object>
   errorMessage?: ReactNode | ((validation: ValidationResult) => ReactNode);
   errorMessageProps?: Overwrite<FieldErrorProps, Partial<TypographyProps>>;
   items?: Iterable<T>;
-  children: React.ReactNode | ((item: T) => React.ReactNode);
+  children: ReactNode | ((item: T) => ReactNode);
   renderSelected?: (
     item: SelectValueRenderProps<T> & { defaultChildren?: ReactNode },
-  ) => React.ReactNode;
+  ) => ReactNode;
   icon?: ReactNode;
   color?: Color;
 }

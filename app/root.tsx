@@ -12,6 +12,7 @@ import {
 } from "@remix-run/react";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import type { ReactNode } from "react";
 import { RouterProvider } from "react-aria-components";
 import type { NavigateOptions } from "react-router-dom";
 import { useDehydratedState } from "use-dehydrated-state";
@@ -76,7 +77,7 @@ export const loader = createHydratingLoader<{
   },
 );
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children: ReactNode }) {
   const { lang = "en", config } =
     useRouteLoaderData<typeof loader>("root") ?? {};
   const navigate = useNavigate();
