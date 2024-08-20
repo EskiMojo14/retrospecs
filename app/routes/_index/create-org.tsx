@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { useRef } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { minLength, object, pipe, string } from "valibot";
+import { nonEmpty, object, pipe, string } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -12,12 +12,12 @@ import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import type { TablesInsert } from "~/db/supabase";
+import { addOrg } from "~/features/orgs";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import { addOrg } from "../../../src/features/orgs";
 
 const createOrgSchema = object({
-  name: pipe(string(), minLength(1)),
+  name: pipe(string(), nonEmpty()),
 }) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
 
 export function CreateOrg({

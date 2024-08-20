@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRef, type FormEvent } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { minLength, number, object, pipe, string } from "valibot";
+import { nonEmpty, number, object, pipe, string } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -21,7 +21,7 @@ export interface CreateTeamProps extends Omit<DialogProps, "children"> {
 }
 
 const createTeamSchema = object({
-  name: pipe(string(), minLength(1)),
+  name: pipe(string(), nonEmpty()),
   org_id: number(),
   created_by: string(),
 }) satisfies BaseSchema<any, TablesInsert<"teams">, any>;
