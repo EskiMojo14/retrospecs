@@ -4,6 +4,7 @@ import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider } from "~/components/divider";
+import { withNewDefault } from "~/components/generic";
 import { Grid, GridCell } from "~/components/grid";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
@@ -48,7 +49,15 @@ function TeamCard({ orgId, teamId }: TeamCardProps) {
   const permissions = useCurrentUserPermissions(orgId);
   if (!team) return null;
   return (
-    <Card as={GridCell} span={4} className={styles.teamCard}>
+    <Card
+      as={GridCell}
+      span="half"
+      breakpoints={{
+        phone: { span: "full" },
+        "tablet-s": { span: "full" },
+      }}
+      className={styles.teamCard}
+    >
       <CardPrimaryAction
         as={Link}
         href={`/orgs/${orgId}/teams/${teamId}`}
@@ -113,9 +122,19 @@ interface TeamGridProps {
   teamIds: Array<number>;
 }
 
+const H5GridCell = withNewDefault("H5GridCell", GridCell, "h5");
+
 export function TeamGrid({ orgId, teamIds }: TeamGridProps) {
   return (
-    <Grid>
+    <Grid as="section">
+      <Typography
+        variant="headline5"
+        as={H5GridCell}
+        span="full"
+        className={styles.heading}
+      >
+        Teams ({teamIds.length})
+      </Typography>
       {teamIds.map((teamId) => (
         <TeamCard key={teamId} orgId={orgId} teamId={teamId} />
       ))}

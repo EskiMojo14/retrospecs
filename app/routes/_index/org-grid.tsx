@@ -4,6 +4,7 @@ import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider } from "~/components/divider";
+import { withNewDefault } from "~/components/generic";
 import { Grid, GridCell } from "~/components/grid";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
@@ -51,7 +52,15 @@ function OrgCard({ orgId }: OrgCardProps) {
   );
   if (!org) return null;
   return (
-    <Card as={GridCell} span={6} className={styles.orgCard}>
+    <Card
+      as={GridCell}
+      span="half"
+      breakpoints={{
+        phone: { span: "full" },
+        "tablet-s": { span: "full" },
+      }}
+      className={styles.orgCard}
+    >
       <CardPrimaryAction
         as={Link}
         href={`/orgs/${orgId}`}
@@ -118,9 +127,19 @@ function OrgCard({ orgId }: OrgCardProps) {
   );
 }
 
+const H5GridCell = withNewDefault("H5GridCell", GridCell, "h5");
+
 export function OrgGrid({ orgIds }: { orgIds: Array<number> }) {
   return (
-    <Grid>
+    <Grid as="section">
+      <Typography
+        as={H5GridCell}
+        span="full"
+        variant="headline5"
+        className={styles.heading}
+      >
+        Organisations ({orgIds.length})
+      </Typography>
       {orgIds.map((orgId) => (
         <OrgCard key={orgId} orgId={orgId} />
       ))}
