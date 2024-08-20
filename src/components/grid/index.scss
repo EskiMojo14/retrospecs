@@ -1,3 +1,4 @@
+@use "sass:math";
 @use "sass:map";
 @use "sass:meta";
 @use "~/theme/layout";
@@ -28,6 +29,16 @@
       @include layout.breakpoint($breakpoint, "only") {
         grid-column-start: var(--start-#{$breakpoint}, var(--start, auto));
         grid-column-end: span var(--span-#{$breakpoint}, var(--span, 1));
+        &--span-full,
+        &.grid__cell--span-full-#{$breakpoint} {
+          grid-column-end: span
+            map.get(layout.$breakpoints, $breakpoint, columns);
+        }
+        &--span-half,
+        &.grid__cell--span-half-#{$breakpoint} {
+          grid-column-end: span
+            math.div(map.get(layout.$breakpoints, $breakpoint, columns), 2);
+        }
       }
     }
   }

@@ -54,13 +54,13 @@ export const GridRow = createGenericComponent<
 export interface GridCellProps {
   className?: string;
   start?: number;
-  span?: number;
+  span?: number | "full" | "half";
   breakpoints?: Partial<
     Record<
       Breakpoint,
       {
         start?: number;
-        span?: number;
+        span?: number | "full" | "half";
       }
     >
   >;
@@ -74,28 +74,37 @@ export const GridCell = createGenericComponent<
   "GridCell",
   "div",
   ({ as: As, className, span, start, breakpoints, ...props }, ref) => {
-    const breakpointVars = useMemo(
-      () =>
-        Object.fromEntries(
-          Object.entries(breakpoints ?? {}).flatMap(([key, value]) => [
-            ["--start-" + key, value.start],
-            ["--span-" + key, value.span],
-          ]),
-        ),
-      [breakpoints],
-    );
+    const { vars, classNames } = useMemo(() => {
+      const classNames = [];
+      const vars: Record<string, string | number | undefined> = {};
+      for (const [bp, { span, start }] of Object.entries(breakpoints ?? {})) {
+        if (start) vars[`--start-${bp}`] = start;
+        if (span) {
+          if (span === "full" || span === "half") {
+            classNames.push(`span-${span}-${bp}`);
+          } else {
+            vars[`--span-${bp}`] = span;
+          }
+        }
+      }
+      return { vars, classNames };
+    }, [breakpoints]);
     return (
       <As
         {...props}
         ref={ref}
         className={cls({
           element: "cell",
+          modifiers: [
+            typeof span === "string" ? "span-" + span : "",
+            ...classNames,
+          ],
           extra: className,
         })}
         style={{
           "--start": start,
-          "--span": span,
-          ...breakpointVars,
+          "--span": typeof span === "number" ? span : undefined,
+          ...vars,
         }}
       />
     );
