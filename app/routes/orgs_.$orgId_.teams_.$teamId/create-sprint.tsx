@@ -18,6 +18,8 @@ import {
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
+import { Divider } from "~/components/divider";
+import { IdFragment } from "~/components/fragment";
 import { Select, SelectItem } from "~/components/input/select";
 import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
@@ -113,11 +115,23 @@ export function CreateSprint({
               defaultSelectedKey={sprints[0]?.value ?? ""}
               items={[{ name: "None", value: "" }, ...sprints]}
             >
-              {(item) => (
-                <SelectItem id={item.value} textValue={item.name}>
-                  {item.name}
-                </SelectItem>
-              )}
+              {(item) => {
+                if (item.value === "") {
+                  return (
+                    <IdFragment id={item.value}>
+                      <SelectItem id={item.value} textValue={item.name}>
+                        {item.name}
+                      </SelectItem>
+                      <Divider />
+                    </IdFragment>
+                  );
+                }
+                return (
+                  <SelectItem id={item.value} textValue={item.name}>
+                    {item.name}
+                  </SelectItem>
+                );
+              }}
             </Select>
           </DialogContent>
           <Toolbar slot="actions">
