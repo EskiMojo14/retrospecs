@@ -41,7 +41,7 @@ export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
     <Dialog
       {...props}
       triggerProps={mergeProps(triggerProps, {
-        onOpenChange: (isOpen: boolean) => {
+        onOpenChange(isOpen: boolean) {
           if (!isOpen) {
             formRef.current?.reset();
             reset();

@@ -145,7 +145,7 @@ export const makeAsyncDisposable = <T extends AsyncUnsubscribable>(
 export const sortByCreatedAt = (
   a: { created_at: string },
   b: { created_at: string },
-) => a.created_at.localeCompare(b.created_at);
+) => b.created_at.localeCompare(a.created_at);
 
 type PluraliseTuple = [count: number, singular: string, plural?: string];
 

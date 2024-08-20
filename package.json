@@ -17,8 +17,9 @@
   "dependencies": {
     "@material/ripple": "^14.0.0",
     "@material/top-app-bar": "^14.0.0",
-    "@react-aria/toast": "3.0.0-beta.12",
-    "@react-stately/toast": "3.0.0-beta.4",
+    "@react-aria/toast": "3.0.0-beta.15",
+    "@react-aria/utils": "^3.25.2",
+    "@react-stately/toast": "3.0.0-beta.5",
     "@reduxjs/toolkit": "^2.2.7",
     "@remix-run/node": "^2.10.3",
     "@remix-run/react": "^2.10.3",
