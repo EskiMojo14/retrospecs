@@ -115,8 +115,5 @@
   &__description {
     white-space: pre-wrap;
     color: typography.emphasis("text", "medium");
-    @include theme.dark {
-      color: typography.emphasis("text", "medium");
-    }
   }
 }
