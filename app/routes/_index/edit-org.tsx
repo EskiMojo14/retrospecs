@@ -1,52 +1,46 @@
 import { mergeProps } from "@react-aria/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { FormEvent } from "react";
 import { useRef } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { minLength, object, pipe, string } from "valibot";
+import { minLength, number, object, pipe, string } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
-import type { TablesInsert } from "~/db/supabase";
+import { useSession } from "~/db/provider";
+import type { TablesUpdate } from "~/db/supabase";
+import { getOrgs, selectOrgById, updateOrg } from "~/features/orgs";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import { addOrg } from ".";
 
-const createOrgSchema = object({
+export interface EditOrgProps extends Omit<DialogProps, "children"> {
+  orgId: number;
+}
+
+const editSchema = object({
+  id: number(),
   name: pipe(string(), minLength(1)),
-}) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
+}) satisfies BaseSchema<any, TablesUpdate<"orgs">, any>;
 
-export function CreateOrg({
-  triggerProps,
-  ...props
-}: Omit<DialogProps, "children">) {
+export function EditOrg({ triggerProps, orgId, ...props }: EditOrgProps) {
   const formRef = useRef<HTMLFormElement>(null);
+  const session = useSession();
+  const { data: org } = useQuery({
+    ...useOptionsCreator(getOrgs, session?.user.id),
+    select: (orgs) => selectOrgById(orgs, orgId),
+  });
   const {
-    mutate: addOrgFn,
+    mutate: editOrg,
     isError,
     isPending,
     reset: resetMutation,
-  } = useMutation(useOptionsCreator(addOrg));
-  const [errors, validateOrg, resetValidation] = useFormSchema(createOrgSchema);
-  const handleSubmit = (
-    event: FormEvent<HTMLFormElement>,
-    close: () => void,
-  ) => {
-    event.preventDefault();
-    const unparsedData = new FormData(event.currentTarget);
-    const parsedData = validateOrg(Object.fromEntries(unparsedData));
-    if (parsedData.success) {
-      addOrgFn(parsedData.output, {
-        onSuccess() {
-          close();
-        },
-      });
-    }
-  };
+  } = useMutation(useOptionsCreator(updateOrg));
+  const [errors, validateOrg, resetValidation] = useFormSchema(editSchema);
+  if (!org) return null;
   return (
     <Dialog
       {...props}
@@ -63,18 +57,34 @@ export function CreateOrg({
       {({ close }) => (
         <>
           <Heading variant="headline6" slot="title">
-            Create organisation
+            Edit organisation
           </Heading>
           <DialogContent
             as={Form}
             ref={formRef}
-            id="create-org-form"
-            onSubmit={(e: FormEvent<HTMLFormElement>) => {
-              handleSubmit(e, close);
+            id="edit-org-form"
+            onSubmit={(event: FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              const parsedData = validateOrg({
+                ...Object.fromEntries(new FormData(event.currentTarget)),
+                id: orgId,
+              });
+              if (parsedData.success) {
+                editOrg(parsedData.output, {
+                  onSuccess() {
+                    close();
+                  },
+                });
+              }
             }}
             validationErrors={errors?.validationErrors}
           >
-            <TextField label="Name" name="name" isRequired />
+            <TextField
+              label="Name"
+              name="name"
+              defaultValue={org.name}
+              isRequired
+            />
           </DialogContent>
           <Toolbar slot="actions">
             <Button onPress={close} variant="outlined">
@@ -82,12 +92,12 @@ export function CreateOrg({
             </Button>
             <LoadingButton
               type="submit"
-              form="create-org-form"
+              form="edit-org-form"
               variant="elevated"
               isIndeterminate={isPending}
               color={isError ? "red" : undefined}
             >
-              Create
+              Save
             </LoadingButton>
           </Toolbar>
         </>

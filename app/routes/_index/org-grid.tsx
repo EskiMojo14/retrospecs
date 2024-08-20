@@ -10,21 +10,26 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useSession } from "~/db/provider";
+import type { Org } from "~/features/orgs";
+import {
+  deleteOrg,
+  getOrgMemberCount,
+  getOrgs,
+  selectOrgById,
+} from "~/features/orgs";
 import { getTeamCountByOrg } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissionsGetOrgs } from "~/hooks/use-user-permissions";
 import { pluralize } from "~/util";
 import { Permission } from "~/util/permissions";
 import { EditOrg } from "./edit-org";
-import type { Org } from ".";
-import { deleteOrg, getOrgMemberCount, getOrgs, selectOrgById } from ".";
-import styles from "./org-card.module.scss";
+import styles from "./org-grid.module.scss";
 
 interface OrgCardProps {
   orgId: Org["id"];
 }
 
-export function OrgCard({ orgId }: OrgCardProps) {
+function OrgCard({ orgId }: OrgCardProps) {
   const session = useSession();
   const { data: org } = useQuery({
     ...useOptionsCreator(getOrgs, session?.user.id),

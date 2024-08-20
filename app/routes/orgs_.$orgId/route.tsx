@@ -14,9 +14,9 @@ import {
   getTeamsByOrg,
   selectTeamIds,
 } from "~/features/teams";
-import { CreateTeam } from "~/features/teams/create-team";
-import { TeamGrid } from "~/features/teams/team-card";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { CreateTeam } from "./create-team";
+import { TeamGrid } from "./team-card";
 
 export const meta: MetaFunction<any> = ({
   data,

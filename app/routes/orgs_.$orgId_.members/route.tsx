@@ -11,15 +11,15 @@ import {
 } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import { getInvitesByOrgId } from "~/features/invites";
-import { CreateInvite } from "~/features/invites/create-invite";
-import { PendingInvites } from "~/features/invites/pending";
 import { NavBar } from "~/features/nav-bar";
 import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
-import { MemberList } from "~/features/orgs/member-list";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
+import { CreateInvite } from "./create-invite";
+import { MemberList } from "./member-list";
+import { PendingInvites } from "./pending";
 
 export const meta: MetaFunction<any> = ({
   data,

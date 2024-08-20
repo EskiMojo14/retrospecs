@@ -1,42 +1,52 @@
 import { mergeProps } from "@react-aria/utils";
 import { useMutation } from "@tanstack/react-query";
-import { useRef, type FormEvent } from "react";
+import type { FormEvent } from "react";
+import { useRef } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { minLength, number, object, pipe, string } from "valibot";
+import { minLength, object, pipe, string } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
 import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
-import { useSession } from "~/db/provider";
 import type { TablesInsert } from "~/db/supabase";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
-import { addTeam } from ".";
+import { addOrg } from "../../../src/features/orgs";
 
-export interface CreateTeamProps extends Omit<DialogProps, "children"> {
-  orgId: number;
-}
-
-const createTeamSchema = object({
+const createOrgSchema = object({
   name: pipe(string(), minLength(1)),
-  org_id: number(),
-  created_by: string(),
-}) satisfies BaseSchema<any, TablesInsert<"teams">, any>;
+}) satisfies BaseSchema<any, TablesInsert<"orgs">, any>;
 
-export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
+export function CreateOrg({
+  triggerProps,
+  ...props
+}: Omit<DialogProps, "children">) {
   const formRef = useRef<HTMLFormElement>(null);
-  const session = useSession();
   const {
-    mutate: addTeamFn,
+    mutate: addOrgFn,
     isError,
     isPending,
-    reset,
-  } = useMutation(useOptionsCreator(addTeam));
-  const [errors, validateTeam, resetValidation] =
-    useFormSchema(createTeamSchema);
+    reset: resetMutation,
+  } = useMutation(useOptionsCreator(addOrg));
+  const [errors, validateOrg, resetValidation] = useFormSchema(createOrgSchema);
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>,
+    close: () => void,
+  ) => {
+    event.preventDefault();
+    const unparsedData = new FormData(event.currentTarget);
+    const parsedData = validateOrg(Object.fromEntries(unparsedData));
+    if (parsedData.success) {
+      addOrgFn(parsedData.output, {
+        onSuccess() {
+          close();
+        },
+      });
+    }
+  };
   return (
     <Dialog
       {...props}
@@ -44,7 +54,7 @@ export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
         onOpenChange: (isOpen: boolean) => {
           if (!isOpen) {
             formRef.current?.reset();
-            reset();
+            resetMutation();
             resetValidation();
           }
         },
@@ -53,24 +63,14 @@ export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
       {({ close }) => (
         <>
           <Heading variant="headline6" slot="title">
-            Create team
+            Create organisation
           </Heading>
           <DialogContent
             as={Form}
-            id="create-team-form"
-            onSubmit={(event: FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              const unparsedData = new FormData(event.currentTarget);
-              const parsedData = validateTeam({
-                ...Object.fromEntries(unparsedData),
-                org_id: orgId,
-                created_by: session?.user.id,
-              });
-              if (parsedData.success) {
-                addTeamFn(parsedData.output, {
-                  onSuccess: close,
-                });
-              }
+            ref={formRef}
+            id="create-org-form"
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
+              handleSubmit(e, close);
             }}
             validationErrors={errors?.validationErrors}
           >
@@ -82,7 +82,7 @@ export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
             </Button>
             <LoadingButton
               type="submit"
-              form="create-team-form"
+              form="create-org-form"
               variant="elevated"
               isIndeterminate={isPending}
               color={isError ? "red" : undefined}

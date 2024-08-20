@@ -9,10 +9,14 @@ import { List, ListItem, ListItemText } from "~/components/list";
 import { Symbol } from "~/components/symbol";
 import { toastQueue } from "~/components/toast";
 import { Heading } from "~/components/typography";
+import type { InviteWithInviter } from "~/features/invites";
+import {
+  deleteInvite,
+  getInvitesByOrgId,
+  selectAllInvites,
+} from "~/features/invites";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import SvgDeclineInvite from "~/icons/decline-invite";
-import type { InviteWithInviter } from ".";
-import { deleteInvite, getInvitesByOrgId, selectAllInvites } from ".";
 import styles from "./pending.module.scss";
 
 function InviteRow({ invite }: { invite: InviteWithInviter }) {

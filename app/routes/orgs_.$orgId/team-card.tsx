@@ -9,16 +9,16 @@ import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
-import { useOptionsCreator } from "~/hooks/use-options-creator";
-import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
-import { pluralize } from "~/util";
-import { Permission } from "~/util/permissions";
 import {
   deleteTeam,
   getTeamMemberCount,
   getTeamsByOrg,
   selectTeamById,
-} from ".";
+} from "~/features/teams";
+import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
+import { pluralize } from "~/util";
+import { Permission } from "~/util/permissions";
 import styles from "./team-card.module.scss";
 
 export interface TeamCardProps {

@@ -12,18 +12,18 @@ import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import { useSession } from "~/db/provider";
+import {
+  deleteOrgMember,
+  getOrgMembers,
+  selectOrgMemberById,
+  updateOrgMember,
+} from "~/features/orgs";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import {
   useCurrentUserPermissions,
   useUserPermissions,
 } from "~/hooks/use-user-permissions";
 import { Permission } from "~/util/permissions";
-import {
-  deleteOrgMember,
-  getOrgMembers,
-  selectOrgMemberById,
-  updateOrgMember,
-} from ".";
 import styles from "./member-list.module.scss";
 
 export interface MemberRowProps {
