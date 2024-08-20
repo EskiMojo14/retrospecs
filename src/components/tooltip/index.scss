@@ -22,24 +22,13 @@
   &[data-entering] {
     animation:
       tooltip-enter 120ms ease-in,
-      tooltip-fade 120ms;
+      fade-in 120ms;
+    @include animation.spring-in("tooltip-enter", 120ms);
   }
   &[data-exiting] {
     animation:
-      tooltip-exit 120ms ease-out forwards,
-      tooltip-fade 120ms reverse;
+      shrink-back 120ms ease-out forwards,
+      fade-in 120ms reverse;
   }
   @include mixins.placement-origins;
-}
-
-@keyframes tooltip-enter {
-  @include animation.spring-in;
-}
-
-@keyframes tooltip-fade {
-  @include animation.fade-in;
-}
-
-@keyframes tooltip-exit {
-  @include animation.shrink-back;
 }

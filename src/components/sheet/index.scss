@@ -18,6 +18,15 @@
     &.sheet--attach-end {
       border-radius: var(--border-radius-large) 0 0 var(--border-radius-large);
       @include util.reflexive-position("right", 0);
+
+      @keyframes slide-left {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
       &[data-entering] {
         animation: slide-left 250ms ease-in;
       }
@@ -37,6 +46,15 @@
     &.sheet--attach-start {
       border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0;
       @include util.reflexive-position("left", 0);
+
+      @keyframes slide-right {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
       &[data-entering] {
         animation: slide-right 250ms ease-in;
       }
@@ -68,6 +86,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @keyframes overlay-fade {
+      from {
+        background-color: rgba(var(--overlay-rgb), 0);
+      }
+      to {
+        background-color: rgba(var(--overlay-rgb), var(--background-alpha));
+      }
+    }
+
     &[data-entering] {
       animation: overlay-fade 250ms;
     }
@@ -120,32 +148,5 @@
     height: 80px;
     padding: 24px;
     padding-top: 16px;
-  }
-}
-
-@keyframes overlay-fade {
-  from {
-    background-color: rgba(var(--overlay-rgb), 0);
-  }
-  to {
-    background-color: rgba(var(--overlay-rgb), var(--background-alpha));
-  }
-}
-
-@keyframes slide-left {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-right {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
   }
 }

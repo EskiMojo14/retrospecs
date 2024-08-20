@@ -68,6 +68,15 @@
         background-color: var(--text);
         animation: timeout-progress var(--timeout) linear forwards;
         border-radius: var(--border-radius-full);
+
+        @keyframes timeout-progress {
+          from {
+            width: 100%;
+          }
+          to {
+            width: 0;
+          }
+        }
       }
       &-stop {
         height: 4px;
@@ -85,17 +94,42 @@
   }
   &[data-animation="entering"] {
     animation: toast-slide-in 300ms;
+    @keyframes toast-slide-in {
+      from {
+        transform: translateY(calc(100% + 16px));
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
   }
   &[data-animation="exiting"] {
     animation: toast-slide-out 300ms;
+    @keyframes toast-slide-out {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(calc(-100% - 16px));
+      }
+    }
     @include util.rtl {
       animation-name: toast-slide-out-rtl;
+      @keyframes toast-slide-out-rtl {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(calc(100% + 16px));
+        }
+      }
     }
   }
   &[data-animation="queued"] {
     animation:
-      toast-appear 300ms,
+      fade-in 300ms,
       toast-appear-size 300ms;
+    @include animation.spring-in("toast-appear-size", 300ms);
   }
   &__icon {
     padding: 8px;
@@ -132,54 +166,5 @@
       --button-filled-text-rgb: var(--shade-900-rgb);
       --button-filled-outline-rgb: var(--shade-900-rgb);
     }
-  }
-}
-
-@keyframes toast-slide-in {
-  from {
-    transform: translateY(calc(100% + 16px));
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes toast-slide-out {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(-100% - 16px));
-  }
-}
-
-@keyframes toast-slide-out-rtl {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(100% + 16px));
-  }
-}
-
-@keyframes toast-appear {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes toast-appear-size {
-  @include animation.spring-in;
-}
-
-@keyframes timeout-progress {
-  from {
-    width: 100%;
-  }
-  to {
-    width: 0;
   }
 }

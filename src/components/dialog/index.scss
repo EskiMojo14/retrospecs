@@ -23,6 +23,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @keyframes overlay-fade {
+      from {
+        background-color: rgba(var(--overlay-rgb), 0);
+      }
+      to {
+        background-color: rgba(var(--overlay-rgb), var(--background-alpha));
+      }
+    }
+
     &[data-entering] {
       animation: overlay-fade 300ms;
     }
@@ -44,13 +54,14 @@
     }
     &[data-entering] {
       animation:
-        dialog-fade 300ms,
-        dialog-enter 150ms ease-in;
+        fade-in 300ms,
+        dialog-enter 150ms ease-in forwards;
+      @include animation.spring-in("dialog-enter", 150ms);
     }
     &[data-exiting] {
       animation:
-        dialog-fade 300ms reverse,
-        dialog-exit 150ms ease-out forwards;
+        fade-in 300ms reverse,
+        shrink-back 150ms ease-out forwards;
     }
   }
   [slot="title"] {
@@ -72,25 +83,4 @@
   .button--outlined {
     background-color: rgba(var(--surface-rgb), 0.75);
   }
-}
-
-@keyframes overlay-fade {
-  from {
-    background-color: rgba(var(--overlay-rgb), 0);
-  }
-  to {
-    background-color: rgba(var(--overlay-rgb), var(--background-alpha));
-  }
-}
-
-@keyframes dialog-enter {
-  @include animation.spring-in;
-}
-
-@keyframes dialog-fade {
-  @include animation.fade-in;
-}
-
-@keyframes dialog-exit {
-  @include animation.shrink-back;
 }
