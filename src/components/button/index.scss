@@ -74,7 +74,7 @@
   @at-root a#{&} {
     text-decoration: none;
   }
-  &:focus:not([data-focus-visible]) {
+  &:focus {
     outline: none;
   }
 
