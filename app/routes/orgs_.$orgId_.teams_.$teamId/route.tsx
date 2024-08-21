@@ -9,6 +9,9 @@ import { getOrg } from "~/features/orgs";
 import { getSprintsForTeam, selectSprintIds } from "~/features/sprints";
 import { getTeam } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
+import { ensureNumber } from "~/util";
+import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import { CreateSprint } from "./create-sprint";
 
@@ -26,14 +29,10 @@ export const meta = ({
 
 export const loader = createHydratingLoader(
   async ({ params, context, context: { queryClient } }) => {
-    const orgId = Number(params.orgId);
-    if (Number.isNaN(orgId)) {
-      throw new Error("Invalid orgId");
-    }
-    const teamId = Number(params.teamId);
-    if (Number.isNaN(teamId)) {
-      throw new Error("Invalid teamId");
-    }
+    const orgId = ensureNumber(params.orgId, "Invalid orgId");
+
+    const teamId = ensureNumber(params.teamId, "Invalid teamId");
+
     const { org, team, sprints } = await promiseOwnProperties({
       org: queryClient.ensureQueryData(getOrg(context, orgId)),
       team: queryClient.ensureQueryData(getTeam(context, teamId)),
@@ -67,6 +66,7 @@ export default function Sprints() {
     initialData: loaderData.sprints,
     select: selectSprintIds,
   });
+  const permission = useCurrentUserPermissions(orgId);
 
   return (
     <Layout
@@ -79,19 +79,21 @@ export default function Sprints() {
         { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
       ]}
     >
-      <CreateSprint
-        trigger={
-          <ExtendedFab
-            aria-label="Create sprint"
-            color="green"
-            placement="corner"
-          >
-            <Symbol slot="leading">add</Symbol>
-            Create
-          </ExtendedFab>
-        }
-        teamId={teamId}
-      />
+      {permission >= Permission.Admin && (
+        <CreateSprint
+          trigger={
+            <ExtendedFab
+              aria-label="Create sprint"
+              color="green"
+              placement="corner"
+            >
+              <Symbol slot="leading">add</Symbol>
+              Create
+            </ExtendedFab>
+          }
+          teamId={teamId}
+        />
+      )}
     </Layout>
   );
 }

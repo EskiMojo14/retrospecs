@@ -176,3 +176,11 @@ export const pluralize = (
 
 export const repeatArray = <T>(array: Array<T>, count: number) =>
   Array<Array<T>>(count).fill(array).flat();
+
+export const ensureNumber = (value: unknown, message?: string): number => {
+  const number = Number(value);
+  if (Number.isNaN(number)) {
+    throw new Error(message ?? `Invalid number: ${value}`);
+  }
+  return number;
+};

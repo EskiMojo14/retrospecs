@@ -16,8 +16,8 @@ type CustomLoaderArgs = Overwrite<
 >;
 
 export const createLoader =
-  <T extends object | null>(
-    loader: (args: CustomLoaderArgs) => MaybePromise<T>,
+  <T extends MaybePromise<object | null>>(
+    loader: (args: CustomLoaderArgs) => T,
   ) =>
   ({ context: originalContext, ...args }: LoaderArgs) => {
     const context = getLoadContext(args.request);
@@ -28,10 +28,10 @@ type WithDehydratedState<T> = (T extends null ? object : Awaited<T>) & {
   dehydratedState: DehydratedState;
 };
 
-export const createHydratingLoader = <T extends object | null>(
+export const createHydratingLoader = <T extends MaybePromise<object | null>>(
   loader: (args: CustomLoaderArgs) => MaybePromise<T>,
 ) =>
-  createLoader<WithDehydratedState<T>>(async (args) => {
+  createLoader(async (args) => {
     const { queryClient } = args.context;
     return {
       ...(await loader(args)),

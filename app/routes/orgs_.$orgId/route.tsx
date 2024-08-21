@@ -9,6 +9,9 @@ import { Layout } from "~/features/layout";
 import { getOrg } from "~/features/orgs";
 import { getTeamsByOrg, selectAllTeams, selectTeamIds } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
+import { ensureNumber } from "~/util";
+import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import { CreateTeam } from "./create-team";
 import { TeamGrid } from "./team-grid";
@@ -28,10 +31,8 @@ export const meta: MetaFunction<any> = ({
 
 export const loader = createHydratingLoader(
   async ({ context, context: { queryClient }, params }) => {
-    const orgId = Number(params.orgId);
-    if (Number.isNaN(orgId)) {
-      throw new Error("Invalid orgId");
-    }
+    const orgId = ensureNumber(params.orgId, "Invalid orgId");
+
     const teams = await queryClient.ensureQueryData(
       getTeamsByOrg(context, orgId),
     );
@@ -64,6 +65,7 @@ export default function Org() {
     initialData: loaderData.teams,
     select: selectTeamIds,
   });
+  const permission = useCurrentUserPermissions(orgId);
   return (
     <Layout
       breadcrumbs={[
@@ -72,19 +74,21 @@ export default function Org() {
       ]}
     >
       <TeamGrid orgId={orgId} teamIds={teamIds} />
-      <CreateTeam
-        trigger={
-          <ExtendedFab
-            color="green"
-            aria-label="Create team"
-            placement="corner"
-          >
-            <Symbol slot="leading">add</Symbol>
-            Create
-          </ExtendedFab>
-        }
-        orgId={orgId}
-      />
+      {permission >= Permission.Admin && (
+        <CreateTeam
+          trigger={
+            <ExtendedFab
+              color="green"
+              aria-label="Create team"
+              placement="corner"
+            >
+              <Symbol slot="leading">add</Symbol>
+              Create
+            </ExtendedFab>
+          }
+          orgId={orgId}
+        />
+      )}
     </Layout>
   );
 }

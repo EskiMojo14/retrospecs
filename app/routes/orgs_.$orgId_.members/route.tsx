@@ -14,6 +14,7 @@ import { Layout } from "~/features/layout";
 import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
+import { ensureNumber } from "~/util";
 import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import { CreateInvite } from "./create-invite";
@@ -32,10 +33,7 @@ export const meta: MetaFunction<any> = ({
 
 export const loader = createHydratingLoader(
   async ({ params, context, context: { queryClient } }) => {
-    const orgId = Number(params.orgId);
-    if (Number.isNaN(orgId)) {
-      throw new Error("Invalid orgId");
-    }
+    const orgId = ensureNumber(params.orgId, "Invalid orgId");
 
     const orgMembers = await queryClient.ensureQueryData(
       getOrgMembers(context, orgId),
@@ -88,19 +86,21 @@ export default function OrgMembers() {
         <MemberList orgId={orgId} memberIds={memberIds} />
         {permissions >= Permission.Admin && <PendingInvites orgId={orgId} />}
       </Grid>
-      <CreateInvite
-        orgId={orgId}
-        trigger={
-          <ExtendedFab
-            placement="corner"
-            color="green"
-            aria-label="Invite Member"
-          >
-            <Symbol slot="leading">group_add</Symbol>
-            Invite
-          </ExtendedFab>
-        }
-      />
+      {permissions >= Permission.Admin && (
+        <CreateInvite
+          orgId={orgId}
+          trigger={
+            <ExtendedFab
+              placement="corner"
+              color="green"
+              aria-label="Invite Member"
+            >
+              <Symbol slot="leading">group_add</Symbol>
+              Invite
+            </ExtendedFab>
+          }
+        />
+      )}
     </Layout>
   );
 }
