@@ -1,5 +1,5 @@
-import type { HTMLAttributes } from "react";
-import { forwardRef } from "react";
+import type { HTMLAttributes, ReactNode, TimeHTMLAttributes } from "react";
+import { forwardRef, useSyncExternalStore } from "react";
 import type { HeadingProps as AriaHeadingProps } from "react-aria-components";
 import {
   Heading as AriaHeading,
@@ -7,7 +7,7 @@ import {
 } from "react-aria-components";
 import { createGenericComponent } from "~/components/generic";
 import { bemHelper } from "~/util";
-import type { Overwrite } from "~/util/types";
+import type { Overwrite, PickRequired } from "~/util/types";
 import type { HeadingVariant, TypographyVariant } from "./constants";
 import { levelMapping, variantMapping } from "./constants";
 import "./index.scss";
@@ -72,3 +72,28 @@ export const Header = forwardRef<HTMLElement, HeaderProps>((props, ref) => (
 ));
 
 Header.displayName = "Header";
+
+type TimeProps = Overwrite<
+  PickRequired<TimeHTMLAttributes<HTMLTimeElement>, "dateTime">,
+  { children: (date: Date) => ReactNode }
+>;
+
+const emptySubscribe = () => () => {};
+
+export const Time = forwardRef<HTMLTimeElement, TimeProps>(
+  ({ dateTime, children, ...rest }, ref) => {
+    const dateObj = new Date(dateTime);
+    const date = useSyncExternalStore(
+      emptySubscribe,
+      () => children(dateObj),
+      () => dateObj.toISOString(),
+    );
+    return (
+      <time ref={ref} dateTime={dateTime} {...rest}>
+        {date}
+      </time>
+    );
+  },
+);
+
+Time.displayName = "Time";

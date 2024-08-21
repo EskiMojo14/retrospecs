@@ -8,7 +8,7 @@ import { IconButton } from "~/components/icon-button";
 import { List, ListItem, ListItemText } from "~/components/list";
 import { Symbol } from "~/components/symbol";
 import { toastQueue } from "~/components/toast";
-import { Heading } from "~/components/typography";
+import { Heading, Time } from "~/components/typography";
 import type { InviteWithInviter } from "~/features/invites";
 import {
   deleteInvite,
@@ -26,7 +26,16 @@ function InviteRow({ invite }: { invite: InviteWithInviter }) {
   return (
     <ListItem textValue={invite.email}>
       <ListItemText
-        overline={`Created ${new Date(invite.created_at).toLocaleDateString()}`}
+        overline={
+          <>
+            Created{" "}
+            <Time dateTime={invite.created_at}>
+              {(date) =>
+                date.toLocaleDateString(undefined, { dateStyle: "medium" })
+              }
+            </Time>
+          </>
+        }
         headline={invite.email}
         supporting={`Invited by ${invite.inviter?.display_name ?? "Unknown"}`}
       />

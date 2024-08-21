@@ -13,6 +13,7 @@ import DeclineInviteIcon from "~/icons/decline-invite";
 import type { InviteWithInviter } from ".";
 import { acceptInvite, deleteInvite } from ".";
 import styles from "./invite.module.scss";
+import { Time } from "~/components/typography";
 
 interface InviteEntryProps {
   invite: InviteWithInviter;
@@ -43,7 +44,13 @@ export function InviteEntry({ invite }: InviteEntryProps) {
         color={inviter.color}
       />
       <ListItemText
-        overline={new Date(invite.created_at).toLocaleDateString()}
+        overline={
+          <Time dateTime={invite.created_at}>
+            {(date) =>
+              date.toLocaleDateString(undefined, { dateStyle: "medium" })
+            }
+          </Time>
+        }
         headline={invite.org_name}
         supporting={`Invited by ${inviter.display_name}`}
       />
