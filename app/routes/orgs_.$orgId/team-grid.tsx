@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Link } from "react-aria-components";
+import { GridList, GridListItem, Link } from "react-aria-components";
 import { LinkButton } from "~/components/button";
 import { Card, CardActions, CardPrimaryAction } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider } from "~/components/divider";
 import { withNewDefault } from "~/components/generic";
-import { Grid, GridCell } from "~/components/grid";
+import { Grid, GridCell, GridInner } from "~/components/grid";
 import { IconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { Toolbar } from "~/components/toolbar";
@@ -26,10 +26,12 @@ import styles from "./team-grid.module.scss";
 
 export interface TeamCardProps {
   orgId: number;
-  teamId: number;
+  id: number;
 }
 
-function TeamCard({ orgId, teamId }: TeamCardProps) {
+const GridCellItem = withNewDefault("GridCellItem", GridCell, GridListItem);
+
+function TeamCard({ orgId, id: teamId }: TeamCardProps) {
   const { data: team } = useQuery({
     ...useOptionsCreator(getTeamsByOrg, orgId),
     select: (data) => selectTeamById(data, teamId),
@@ -50,7 +52,8 @@ function TeamCard({ orgId, teamId }: TeamCardProps) {
   if (!team) return null;
   return (
     <Card
-      as={GridCell}
+      as={GridCellItem}
+      textValue={team.name}
       span="half"
       breakpoints={{
         phone: { span: "full" },
@@ -127,17 +130,22 @@ const H5GridCell = withNewDefault("H5GridCell", GridCell, "h5");
 export function TeamGrid({ orgId, teamIds }: TeamGridProps) {
   return (
     <Grid as="section">
-      <Typography
-        variant="headline5"
-        as={H5GridCell}
-        span="full"
-        className={styles.heading}
-      >
-        Teams ({teamIds.length})
-      </Typography>
-      {teamIds.map((teamId) => (
-        <TeamCard key={teamId} orgId={orgId} teamId={teamId} />
-      ))}
+      <GridInner>
+        <Typography
+          variant="headline5"
+          as={H5GridCell}
+          span="full"
+          className={styles.heading}
+          id="teams-list-heading"
+        >
+          Teams ({teamIds.length})
+        </Typography>
+      </GridInner>
+      <GridInner as={GridList} aria-labelledby="teams-list-heading">
+        {teamIds.map((teamId) => (
+          <TeamCard key={teamId} orgId={orgId} id={teamId} />
+        ))}
+      </GridInner>
     </Grid>
   );
 }

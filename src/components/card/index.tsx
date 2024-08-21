@@ -1,11 +1,15 @@
 import { clsx } from "clsx";
 import type { ContextType, ReactNode, RefCallback } from "react";
 import { useMemo } from "react";
-import { Button as AriaButton, DEFAULT_SLOT } from "react-aria-components";
+import {
+  Button as AriaButton,
+  ButtonContext as AriaButtonContext,
+  DEFAULT_SLOT,
+} from "react-aria-components";
 import type { ButtonProps } from "~/components/button";
 import { ButtonContext } from "~/components/button";
 import { createGenericComponent } from "~/components/generic";
-import { Provider } from "~/components/provider";
+import { MergeProvider, Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
@@ -115,6 +119,8 @@ interface CardActionsProps
   extends CardSectionProps,
     Pick<ButtonProps, "color"> {}
 
+const ariaButtonContextValue = { slots: { [DEFAULT_SLOT]: {}, action: {} } };
+
 export const CardActions = createGenericComponent<
   "section",
   CardActionsProps,
@@ -144,7 +150,12 @@ export const CardActions = createGenericComponent<
             [ButtonContext, buttonContextValue],
           ]}
         >
-          {children}
+          <MergeProvider
+            context={AriaButtonContext}
+            value={ariaButtonContextValue}
+          >
+            {children}
+          </MergeProvider>
         </Provider>
       </CardSection>
     );

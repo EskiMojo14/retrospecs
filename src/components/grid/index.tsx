@@ -19,7 +19,7 @@ export const Grid = createGenericComponent<
   { className: string; children: ReactNode; style: CSSProperties }
 >("Grid", "div", ({ as: As, className, children, gutter, ...props }, ref) => {
   const firstEl = Children.toArray(children)[0];
-  const needsRow = !isValidElement(firstEl) || firstEl.type !== GridRow;
+  const needsInner = !isValidElement(firstEl) || firstEl.type !== GridInner;
   return (
     <As
       {...props}
@@ -31,21 +31,21 @@ export const Grid = createGenericComponent<
         "--gutter": gutter ? `${gutter}px` : undefined,
       }}
     >
-      {needsRow ? <GridRow>{children}</GridRow> : children}
+      {needsInner ? <GridInner>{children}</GridInner> : children}
     </As>
   );
 });
 
-export const GridRow = createGenericComponent<
+export const GridInner = createGenericComponent<
   "div",
   { className?: string },
   { className: string }
->("GridRow", "div", ({ as: As, className, ...props }, ref) => (
+>("GridInner", "div", ({ as: As, className, ...props }, ref) => (
   <As
     {...props}
     ref={ref}
     className={cls({
-      element: "row",
+      element: "inner",
       extra: className,
     })}
   />

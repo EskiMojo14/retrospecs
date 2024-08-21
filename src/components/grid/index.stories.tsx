@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Grid, GridRow, GridCell, BreakpointDisplay } from ".";
+import { Grid, GridInner, GridCell, BreakpointDisplay } from ".";
 import styles from "./story.module.scss";
 
 const meta = {
@@ -45,21 +45,21 @@ export const Standard: Story = {
 export const SubGrids: Story = {
   render: (args) => (
     <Grid {...args}>
-      <GridRow>
+      <GridInner>
         <GridCell span={6} className={styles.cell}>
           1
         </GridCell>
         <GridCell span={6} className={styles.cell}>
-          <GridRow>
+          <GridInner>
             <GridCell span={6} className={styles.cell}>
               a
             </GridCell>
             <GridCell span={6} className={styles.cell}>
               b
             </GridCell>
-          </GridRow>
+          </GridInner>
         </GridCell>
-      </GridRow>
+      </GridInner>
       <BreakpointDisplay />
     </Grid>
   ),

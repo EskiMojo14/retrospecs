@@ -50,6 +50,10 @@
   }
 }
 
+@function focus-ring-transition($duration: 0.15s) {
+  @return outline $duration, outline-offset $duration;
+}
+
 @mixin focus-ring {
   &[data-focus-visible] {
     z-index: 9999;

@@ -15,7 +15,9 @@ $hover-time: 0.2s;
   position: relative;
   transition:
     background-color $hover-time,
-    box-shadow $hover-time;
+    box-shadow $hover-time,
+    theme.focus-ring-transition();
+  @include theme.focus-ring;
   @include theme.dark {
     --card-outer: var(--shade-300);
     --card-mid: var(--shade-500);
