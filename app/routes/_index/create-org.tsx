@@ -37,8 +37,9 @@ export function CreateOrg({
     close: () => void,
   ) => {
     event.preventDefault();
-    const unparsedData = new FormData(event.currentTarget);
-    const parsedData = validateOrg(Object.fromEntries(unparsedData));
+    const parsedData = validateOrg(
+      Object.fromEntries(new FormData(event.currentTarget)),
+    );
     if (parsedData.success) {
       addOrgFn(parsedData.output, {
         onSuccess() {

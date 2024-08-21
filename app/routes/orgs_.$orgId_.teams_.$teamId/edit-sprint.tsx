@@ -9,9 +9,9 @@ import {
   null_,
   number,
   object,
-  optional,
   pipe,
   string,
+  transform,
   union,
 } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
@@ -23,43 +23,58 @@ import { Select, SelectItem } from "~/components/input/select";
 import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
-import type { TablesInsert } from "~/db/supabase";
+import type { TablesUpdate } from "~/db/supabase";
 import {
-  addSprint,
+  getPreviousTeamSprints,
   getSprintsForTeam,
   selectAllSprints,
+  selectSprintById,
+  updateSprint,
 } from "~/features/sprints";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { coerceNumber } from "~/util/valibot";
 
-const createSprintSchema = object({
+const editSprintSchema = object({
   name: pipe(string(), nonEmpty()),
-  team_id: number(),
-  follows_id: optional(union([number(), null_()])),
-}) satisfies BaseSchema<any, TablesInsert<"sprints">, any>;
+  team_id: coerceNumber,
+  id: coerceNumber,
+  follows_id: pipe(
+    string(),
+    // special case - empty string means no follows
+    transform((v) => (v === "" ? null : parseInt(v))),
+    union([number(), null_()]),
+  ),
+}) satisfies BaseSchema<any, TablesUpdate<"sprints">, any>;
 
-export interface CreateSprintProps extends Omit<DialogProps, "children"> {
+export interface EditSprintProps extends Omit<DialogProps, "children"> {
   teamId: number;
+  sprintId: number;
 }
 
-export function CreateSprint({
+export function EditSprint({
   teamId,
+  sprintId,
   triggerProps,
   ...props
-}: CreateSprintProps) {
+}: EditSprintProps) {
   const formRef = useRef<HTMLFormElement>(null);
-  const { data: sprints = [] } = useQuery({
+  const { data: sprint } = useQuery({
     ...useOptionsCreator(getSprintsForTeam, teamId),
+    select: (sprints) => selectSprintById(sprints, sprintId),
+  });
+  const { data: sprints = [] } = useQuery({
+    ...useOptionsCreator(getPreviousTeamSprints, teamId, sprint),
     select: selectAllSprints,
   });
   const {
-    mutate: addSprintFn,
+    mutate: updateSprintFn,
     isError,
     isPending,
     reset,
-  } = useMutation(useOptionsCreator(addSprint));
+  } = useMutation(useOptionsCreator(updateSprint));
   const [errors, validateSprint, resetValidation] =
-    useFormSchema(createSprintSchema);
+    useFormSchema(editSprintSchema);
   return (
     <Dialog
       {...props}
@@ -81,33 +96,34 @@ export function CreateSprint({
           <DialogContent
             as={Form}
             ref={formRef}
-            id="create-sprint-form"
+            id="edit-sprint-form"
             onSubmit={(e: FormEvent<HTMLFormElement>) => {
               e.preventDefault();
               const unparsed = new FormData(e.currentTarget);
-              const followsId = unparsed.get("follows_id");
-              const parsed = validateSprint({
-                ...Object.fromEntries(unparsed.entries()),
-                follows_id:
-                  typeof followsId === "string" && followsId
-                    ? parseInt(followsId)
-                    : null,
-                team_id: teamId,
-              });
+              const parsed = validateSprint(
+                Object.fromEntries(unparsed.entries()),
+              );
               if (parsed.success) {
-                addSprintFn(parsed.output, {
+                updateSprintFn(parsed.output, {
                   onSuccess: close,
                 });
               }
             }}
             validationErrors={errors?.validationErrors}
           >
-            <TextField label="Name" name="name" isRequired />
+            <input type="hidden" name="team_id" value={teamId} />
+            <input type="hidden" name="id" value={sprintId} />
+            <TextField
+              label="Name"
+              name="name"
+              defaultValue={sprint?.name}
+              isRequired
+            />
             <Select
               label="Follows"
               description="Carry over actions from a previous sprint"
               name="follows_id"
-              defaultSelectedKey={sprints[0]?.id ?? ""}
+              defaultSelectedKey={sprint?.follows_id ?? ""}
               items={[{ name: "None", id: "" }, ...sprints]}
             >
               {(item) => {
@@ -135,12 +151,12 @@ export function CreateSprint({
             </Button>
             <LoadingButton
               type="submit"
-              form="create-sprint-form"
+              form="edit-sprint-form"
               variant="elevated"
               isIndeterminate={isPending}
               color={isError ? "red" : undefined}
             >
-              Create
+              Update
             </LoadingButton>
           </Toolbar>
         </>

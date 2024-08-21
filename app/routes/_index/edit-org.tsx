@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { useRef } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { minLength, number, object, pipe, string } from "valibot";
+import { minLength, object, pipe, string } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -16,13 +16,14 @@ import type { TablesUpdate } from "~/db/supabase";
 import { getOrgs, selectOrgById, updateOrg } from "~/features/orgs";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { coerceNumber } from "~/util/valibot";
 
 export interface EditOrgProps extends Omit<DialogProps, "children"> {
   orgId: number;
 }
 
 const editSchema = object({
-  id: number(),
+  id: coerceNumber,
   name: pipe(string(), minLength(1)),
 }) satisfies BaseSchema<any, TablesUpdate<"orgs">, any>;
 
@@ -65,10 +66,9 @@ export function EditOrg({ triggerProps, orgId, ...props }: EditOrgProps) {
             id="edit-org-form"
             onSubmit={(event: FormEvent<HTMLFormElement>) => {
               event.preventDefault();
-              const parsedData = validateOrg({
-                ...Object.fromEntries(new FormData(event.currentTarget)),
-                id: orgId,
-              });
+              const parsedData = validateOrg(
+                Object.fromEntries(new FormData(event.currentTarget)),
+              );
               if (parsedData.success) {
                 editOrg(parsedData.output, {
                   onSuccess() {
@@ -79,6 +79,7 @@ export function EditOrg({ triggerProps, orgId, ...props }: EditOrgProps) {
             }}
             validationErrors={errors?.validationErrors}
           >
+            <input type="hidden" name="id" value={orgId} />
             <TextField
               label="Name"
               name="name"

@@ -13,6 +13,7 @@ import { Heading } from "~/components/typography";
 import { addInvite } from "~/features/invites";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { coerceNumber } from "~/util/valibot";
 
 export interface CreateInviteProps extends Omit<DialogProps, "children"> {
   orgId: number;
@@ -20,6 +21,7 @@ export interface CreateInviteProps extends Omit<DialogProps, "children"> {
 
 const addMemberFormSchema = object({
   email: pipe(string(), nonEmpty("Please enter your email.")),
+  org_id: coerceNumber,
 });
 
 export function CreateInvite({
@@ -62,21 +64,16 @@ export function CreateInvite({
               const parsedData = validateInvite(
                 Object.fromEntries(new FormData(event.currentTarget)),
               );
-              if (!parsedData.success) {
-                return;
-              }
-              const { email } = parsedData.output;
-              createInvite(
-                { email, org_id: orgId },
-                {
-                  onSuccess() {
-                    close();
-                  },
+              if (!parsedData.success) return;
+              createInvite(parsedData.output, {
+                onSuccess() {
+                  close();
                 },
-              );
+              });
             }}
             validationErrors={errors?.validationErrors}
           >
+            <input type="hidden" name="org_id" value={orgId} />
             <TextField label="Email" name="email" type="email" isRequired />
           </DialogContent>
           <Toolbar slot="actions">

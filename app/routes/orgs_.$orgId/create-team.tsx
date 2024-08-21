@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRef, type FormEvent } from "react";
 import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
-import { nonEmpty, number, object, pipe, string } from "valibot";
+import { nonEmpty, object, pipe, string } from "valibot";
 import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
 import { Dialog, DialogContent } from "~/components/dialog";
@@ -15,6 +15,7 @@ import type { TablesInsert } from "~/db/supabase";
 import { addTeam } from "~/features/teams";
 import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { coerceNumber } from "~/util/valibot";
 
 export interface CreateTeamProps extends Omit<DialogProps, "children"> {
   orgId: number;
@@ -22,7 +23,7 @@ export interface CreateTeamProps extends Omit<DialogProps, "children"> {
 
 const createTeamSchema = object({
   name: pipe(string(), nonEmpty()),
-  org_id: number(),
+  org_id: coerceNumber,
   created_by: string(),
 }) satisfies BaseSchema<any, TablesInsert<"teams">, any>;
 
@@ -63,7 +64,6 @@ export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
               const unparsedData = new FormData(event.currentTarget);
               const parsedData = validateTeam({
                 ...Object.fromEntries(unparsedData),
-                org_id: orgId,
                 created_by: session?.user.id,
               });
               if (parsedData.success) {
@@ -74,6 +74,7 @@ export function CreateTeam({ orgId, triggerProps, ...props }: CreateTeamProps) {
             }}
             validationErrors={errors?.validationErrors}
           >
+            <input type="hidden" name="org_id" value={orgId} />
             <TextField label="Name" name="name" isRequired />
           </DialogContent>
           <Toolbar slot="actions">

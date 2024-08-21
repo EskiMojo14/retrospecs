@@ -16,6 +16,7 @@ import {
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { Permission } from "~/util/permissions";
+import { EditSprint } from "./edit-sprint";
 import styles from "./sprint-list.module.scss";
 
 interface SprintItem {
@@ -50,9 +51,14 @@ function SprintListItem({ orgId, teamId, id: sprintId }: SprintItem) {
         />
         {permission >= Permission.Admin && (
           <Toolbar align="end" className={styles.toolbar}>
-            <IconButton variant="outlined" tooltip="Edit">
-              <Symbol>edit</Symbol>
-            </IconButton>
+            <EditSprint
+              {...{ teamId, sprintId }}
+              trigger={
+                <IconButton variant="outlined" tooltip="Edit">
+                  <Symbol>edit</Symbol>
+                </IconButton>
+              }
+            />
             <ConfirmationDialog
               trigger={
                 <IconButton color="red" variant="outlined" tooltip="Delete">

@@ -1,4 +1,5 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import { skipToken } from "@tanstack/react-query";
 import { makeRealtimeHandler } from "~/db/realtime";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import { sortByCreatedAt } from "~/util";
@@ -30,6 +31,28 @@ export const getSprintsForTeam = supabaseQueryOptions(
       () => supabase.from("sprints").select().eq("team_id", teamId),
       (sprints) => sprintAdapter.getInitialState(undefined, sprints),
     ),
+  }),
+);
+
+export const getPreviousTeamSprints = supabaseQueryOptions(
+  (
+    { supabase },
+    teamId: number,
+    sprint: Pick<Sprint, "created_at" | "id"> | undefined,
+  ) => ({
+    queryKey: ["sprints", teamId, "previous", sprint?.id],
+    queryFn: sprint
+      ? supabaseFn(
+          () =>
+            supabase
+              .from("sprints")
+              .select()
+              .eq("team_id", teamId)
+              .neq("id", sprint.id)
+              .lt("created_at", sprint.created_at),
+          (sprints) => sprintAdapter.getInitialState(undefined, sprints),
+        )
+      : skipToken,
   }),
 );
 
@@ -80,11 +103,17 @@ export const updateSprint = supabaseMutationOptions(
     ),
     async onSuccess(
       _: null,
-      { id }: PickRequired<TablesUpdate<"sprints">, "id">,
+      { id, team_id }: PickRequired<TablesUpdate<"sprints">, "id">,
     ) {
-      await queryClient.invalidateQueries({
-        queryKey: ["sprint", id],
-      });
+      await Promise.all([
+        team_id &&
+          queryClient.invalidateQueries({
+            queryKey: ["sprints", team_id],
+          }),
+        queryClient.invalidateQueries({
+          queryKey: ["sprint", id],
+        }),
+      ]);
     },
   }),
 );
