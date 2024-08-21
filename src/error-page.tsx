@@ -1,5 +1,6 @@
 import { EmptyState } from "~/components/empty";
 import { Symbol } from "~/components/symbol";
+import { Typography } from "./components/typography";
 import styles from "./error-page.module.scss";
 
 export interface ErrorPageProps {
@@ -16,7 +17,11 @@ export function ErrorPage({ status, message }: ErrorPageProps) {
         description="Sorry, an unexpected error has occurred."
         size="x-large"
       />
-      {message && <pre className={styles.error}>{message}</pre>}
+      {message && (
+        <Typography variant="body2" as="pre" className={styles.error}>
+          {message}
+        </Typography>
+      )}
     </main>
   );
 }

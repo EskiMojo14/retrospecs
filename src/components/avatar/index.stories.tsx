@@ -75,7 +75,7 @@ const examples: Array<{ name: string; color: Color; src?: string }> = [
   { name: "Harry", color: "green" },
 ];
 
-function LikeButton({ children, ...props }: StoryProps) {
+function LikeButton(props: StoryProps) {
   const [liked, setLiked] = useState(false);
   const likedBy = liked ? examples : examples.slice(1);
   return (
@@ -97,11 +97,7 @@ function LikeButton({ children, ...props }: StoryProps) {
           </Button>
           <Popover placement="bottom" className={styles.popover}>
             <Dialog className={styles.dialog}>
-              <Heading
-                variant="subtitle1"
-                slot="title"
-                className={styles.title}
-              >
+              <Heading variant="subtitle1" slot="title">
                 Reactions
               </Heading>
               <List variant="one-line" items={likedBy} className={styles.list}>

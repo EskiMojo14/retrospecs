@@ -7,12 +7,14 @@ import {
 } from "react-aria-components";
 import { createGenericComponent } from "~/components/generic";
 import { bemHelper } from "~/util";
+import type { Overwrite } from "~/util/types";
 import type { HeadingVariant, TypographyVariant } from "./constants";
 import { levelMapping, variantMapping } from "./constants";
 import "./index.scss";
 
 export interface TypographyProps {
   variant: TypographyVariant;
+  noMargin?: boolean;
   className?: string;
 }
 
@@ -27,18 +29,25 @@ export const Typography = createGenericComponent<
 >(
   "Typography",
   { getComponent: ({ variant }) => variantMapping[variant] },
-  ({ variant, className, as: As, ...props }, ref) => (
+  ({ variant, noMargin = true, className, as: As, ...props }, ref) => (
     <As
       ref={ref}
       {...props}
-      className={cls({ modifier: variant, extra: className })}
+      className={cls({
+        modifier: {
+          "no-margin": noMargin,
+          [variant]: true,
+        },
+        extra: className,
+      })}
     />
   ),
 );
 
-interface HeadingProps extends AriaHeadingProps {
-  variant: HeadingVariant;
-}
+type HeadingProps = Overwrite<
+  AriaHeadingProps,
+  Overwrite<TypographyProps, { variant: HeadingVariant }>
+>;
 
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
   (props, ref) => (
@@ -53,9 +62,10 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 
 Heading.displayName = "Heading";
 
-interface HeaderProps extends HTMLAttributes<HTMLElement> {
-  variant: HeadingVariant;
-}
+type HeaderProps = Overwrite<
+  HTMLAttributes<HTMLElement>,
+  Overwrite<TypographyProps, { variant: HeadingVariant }>
+>;
 
 export const Header = forwardRef<HTMLElement, HeaderProps>((props, ref) => (
   <Typography ref={ref} as={AriaHeader} {...props} />

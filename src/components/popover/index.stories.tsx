@@ -15,7 +15,7 @@ const meta = {
       </IconButton>
       <Popover {...args}>
         <Dialog className={styles.dialog}>
-          <Heading variant="subtitle1" slot="title" className={styles.title}>
+          <Heading variant="subtitle1" slot="title">
             Help
           </Heading>
           <Typography variant="body2" className={styles.content}>

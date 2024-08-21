@@ -82,9 +82,7 @@ export function PreferencesDialog() {
           <DialogContent>
             {profile && (
               <section className={styles.section}>
-                <Heading variant="subtitle1" className={styles.sectionTitle}>
-                  Profile
-                </Heading>
+                <Heading variant="subtitle1">Profile</Heading>
                 <div className={styles.profile}>
                   <Avatar
                     src={profile.avatar_url}
@@ -138,9 +136,7 @@ export function PreferencesDialog() {
               </section>
             )}
             <section className={styles.section}>
-              <Heading variant="subtitle1" className={styles.sectionTitle}>
-                Appearance
-              </Heading>
+              <Heading variant="subtitle1">Appearance</Heading>
               <ButtonGroup
                 id="theme-group"
                 label="Theme"

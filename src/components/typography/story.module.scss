@@ -21,7 +21,6 @@
       :global {
         .typography--overline {
           color: typography.emphasis("text", "medium");
-          margin: 0;
         }
         .typography--headline2 {
           color: typography.emphasis("text", "high");
@@ -33,7 +32,6 @@
         }
         .typography--body2 {
           color: typography.emphasis("text", "high");
-          margin: 0;
         }
         img {
           margin-top: 1rem;
@@ -46,9 +44,6 @@
     }
     &.all {
       justify-content: space-evenly;
-      > * {
-        margin: 0;
-      }
     }
   }
 }

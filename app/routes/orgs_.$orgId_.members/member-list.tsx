@@ -167,11 +167,7 @@ export interface MemberListProps {
 export function MemberList({ orgId, memberIds }: MemberListProps) {
   return (
     <section className={styles.memberListContainer}>
-      <Heading
-        variant="headline5"
-        className={styles.title}
-        id="member-list-title"
-      >
+      <Heading variant="headline5" id="member-list-title">
         Members ({memberIds.length})
       </Heading>
       <Card variant="raised" className={styles.memberListCard}>

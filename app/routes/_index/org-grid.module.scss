@@ -18,11 +18,6 @@
       text-transform: none;
     }
   }
-  .title,
-  .owner,
-  .teamCount {
-    margin: 0;
-  }
   .owner,
   .teamCount {
     color: typography.emphasis("text", "medium");
@@ -37,6 +32,5 @@
 }
 
 .heading {
-  margin: 0;
   display: flex;
 }

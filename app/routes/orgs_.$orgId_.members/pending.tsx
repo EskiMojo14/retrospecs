@@ -90,11 +90,7 @@ export function PendingInvites({ orgId }: PendingInvitesProps) {
   });
   return (
     <section className={styles.pendingContainer}>
-      <Heading
-        variant="headline5"
-        className={styles.title}
-        id="pending-invite-title"
-      >
+      <Heading variant="headline5" id="pending-invite-title">
         Pending invites ({invites.length})
       </Heading>
       <Card variant="raised" className={styles.pendingCard}>

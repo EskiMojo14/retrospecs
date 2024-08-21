@@ -8,18 +8,15 @@
   padding: 16px;
   text-align: center;
   &__icon {
-    margin: 0;
     margin-bottom: 0.5rem;
     color: typography.emphasis("text", "high");
   }
   &__title {
-    margin: 0;
     margin-bottom: 0.75rem;
     color: typography.emphasis("text", "high");
     white-space: pre-wrap;
   }
   &__description {
-    margin: 0;
     color: typography.emphasis("text", "medium");
     white-space: pre-wrap;
   }

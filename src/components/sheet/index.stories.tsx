@@ -28,7 +28,7 @@ const meta = {
             <section>
               <Heading
                 variant="subtitle2"
-                style={{ margin: 0, padding: "0 24px" }}
+                style={{ padding: "0 24px" }}
                 id="label-title"
               >
                 Labels

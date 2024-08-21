@@ -66,17 +66,16 @@
       flex: 1 1 auto;
       min-width: 0;
       .typography {
-        margin: 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-      .typography--body1 {
-        color: typography.emphasis("text", "high");
-      }
-      .typography--caption,
-      .typography--subtitle1 {
-        color: typography.emphasis("text", "medium");
+        &--body1 {
+          color: typography.emphasis("text", "high");
+        }
+        &--caption,
+        &--subtitle1 {
+          color: typography.emphasis("text", "medium");
+        }
       }
     }
     kbd {

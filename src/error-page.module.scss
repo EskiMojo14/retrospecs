@@ -7,11 +7,11 @@
   align-items: center;
   height: 100vh;
   .error {
+    font-family: monospace;
     background-color: var(--surface);
     color: var(--red-700);
     padding: 1rem;
     border-radius: var(--border-radius-medium);
-    margin: 0;
     max-width: 50vw;
     text-wrap: wrap;
     @include theme.dark {

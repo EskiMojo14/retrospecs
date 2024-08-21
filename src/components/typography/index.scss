@@ -11,4 +11,7 @@
       @include typography.style($style, $no-defaults: true);
     }
   }
+  &--no-margin {
+    margin: 0;
+  }
 }

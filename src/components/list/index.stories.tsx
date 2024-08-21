@@ -379,11 +379,7 @@ function TodoListFn() {
       </section>
       <Divider variant="middle" />
       <section className={styles.section}>
-        <Heading
-          variant="subtitle1"
-          className={styles.heading}
-          id="add-todo-title"
-        >
+        <Heading variant="subtitle1" id="add-todo-title">
           Add todo
         </Heading>
         <Form
