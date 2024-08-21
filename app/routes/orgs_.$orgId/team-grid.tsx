@@ -125,21 +125,15 @@ interface TeamGridProps {
   teamIds: Array<number>;
 }
 
-const H5GridCell = withNewDefault("H5GridCell", GridCell, "h5");
-
 export function TeamGrid({ orgId, teamIds }: TeamGridProps) {
   return (
     <Grid as="section">
       <GridInner>
-        <Typography
-          variant="headline5"
-          as={H5GridCell}
-          span="full"
-          className={styles.heading}
-          id="teams-list-heading"
-        >
-          Teams ({teamIds.length})
-        </Typography>
+        <GridCell as="header" span="full">
+          <Typography variant="headline5" id="teams-list-heading">
+            Teams ({teamIds.length})
+          </Typography>
+        </GridCell>
       </GridInner>
       <GridInner as={GridList} aria-labelledby="teams-list-heading">
         {teamIds.map((teamId) => (

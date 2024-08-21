@@ -14,6 +14,7 @@ import { ensureNumber } from "~/util";
 import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import { CreateSprint } from "./create-sprint";
+import { SprintList } from "./sprint-list";
 
 export const meta = ({
   data,
@@ -79,6 +80,7 @@ export default function Sprints() {
         { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
       ]}
     >
+      <SprintList teamId={teamId} sprintIds={sprintIds} />
       {permission >= Permission.Admin && (
         <CreateSprint
           trigger={

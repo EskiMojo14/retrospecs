@@ -130,21 +130,15 @@ function OrgCard({ id: orgId }: OrgCardProps) {
   );
 }
 
-const H5GridCell = withNewDefault("H5GridCell", GridCell, "h5");
-
 export function OrgGrid({ orgIds }: { orgIds: Array<number> }) {
   return (
     <Grid as="section">
       <GridInner>
-        <Typography
-          as={H5GridCell}
-          span="full"
-          variant="headline5"
-          className={styles.heading}
-          id="org-grid-heading"
-        >
-          Organisations ({orgIds.length})
-        </Typography>
+        <GridCell as="header" span="full">
+          <Typography variant="headline5" id="org-grid-heading">
+            Organisations ({orgIds.length})
+          </Typography>
+        </GridCell>
       </GridInner>
       <GridInner as={GridList} aria-labelledby="org-grid-heading">
         {orgIds.map((orgId) => (
