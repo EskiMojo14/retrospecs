@@ -1,11 +1,10 @@
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { ExtendedFab } from "~/components/button/fab";
-import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
-import { NavBar } from "~/features/nav-bar";
+import { Layout } from "~/features/layout";
 import { getOrg } from "~/features/orgs";
 import { getSprintsForTeam, selectSprintIds } from "~/features/sprints";
 import { getTeam } from "~/features/teams";
@@ -70,32 +69,29 @@ export default function Sprints() {
   });
 
   return (
-    <main>
-      <LineBackground opacity={0.5}>
-        <NavBar
-          breadcrumbs={[
-            { label: "Organisations", href: "/" },
-            {
-              label: org.name,
-              href: `/orgs/${orgId}`,
-            },
-            { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
-          ]}
-        />
-        <CreateSprint
-          trigger={
-            <ExtendedFab
-              aria-label="Create sprint"
-              color="green"
-              placement="corner"
-            >
-              <Symbol slot="leading">add</Symbol>
-              Create
-            </ExtendedFab>
-          }
-          teamId={teamId}
-        />
-      </LineBackground>
-    </main>
+    <Layout
+      breadcrumbs={[
+        { label: "Organisations", href: "/" },
+        {
+          label: org.name,
+          href: `/orgs/${orgId}`,
+        },
+        { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
+      ]}
+    >
+      <CreateSprint
+        trigger={
+          <ExtendedFab
+            aria-label="Create sprint"
+            color="green"
+            placement="corner"
+          >
+            <Symbol slot="leading">add</Symbol>
+            Create
+          </ExtendedFab>
+        }
+        teamId={teamId}
+      />
+    </Layout>
   );
 }

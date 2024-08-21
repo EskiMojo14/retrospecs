@@ -3,7 +3,6 @@ import { useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { ExtendedFab } from "~/components/button/fab";
 import { Grid } from "~/components/grid";
-import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import {
   ensureCurrentUserPermissions,
@@ -11,7 +10,7 @@ import {
 } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import { getInvitesByOrgId } from "~/features/invites";
-import { NavBar } from "~/features/nav-bar";
+import { Layout } from "~/features/layout";
 import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
@@ -78,33 +77,30 @@ export default function OrgMembers() {
     useCurrentUserPermissions(orgId),
   ) as Permission;
   return (
-    <main>
-      <LineBackground opacity={0.5}>
-        <NavBar
-          breadcrumbs={[
-            { label: "Organisations", href: "/" },
-            { label: loaderData.org.name, href: `/orgs/${orgId}` },
-            { label: "Members", href: `/orgs/${orgId}/members` },
-          ]}
-        />
-        <Grid>
-          <MemberList orgId={orgId} memberIds={memberIds} />
-          {permissions >= Permission.Admin && <PendingInvites orgId={orgId} />}
-        </Grid>
-        <CreateInvite
-          orgId={orgId}
-          trigger={
-            <ExtendedFab
-              placement="corner"
-              color="green"
-              aria-label="Invite Member"
-            >
-              <Symbol slot="leading">group_add</Symbol>
-              Invite
-            </ExtendedFab>
-          }
-        />
-      </LineBackground>
-    </main>
+    <Layout
+      breadcrumbs={[
+        { label: "Organisations", href: "/" },
+        { label: loaderData.org.name, href: `/orgs/${orgId}` },
+        { label: "Members", href: `/orgs/${orgId}/members` },
+      ]}
+    >
+      <Grid>
+        <MemberList orgId={orgId} memberIds={memberIds} />
+        {permissions >= Permission.Admin && <PendingInvites orgId={orgId} />}
+      </Grid>
+      <CreateInvite
+        orgId={orgId}
+        trigger={
+          <ExtendedFab
+            placement="corner"
+            color="green"
+            aria-label="Invite Member"
+          >
+            <Symbol slot="leading">group_add</Symbol>
+            Invite
+          </ExtendedFab>
+        }
+      />
+    </Layout>
   );
 }

@@ -2,11 +2,10 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { ExtendedFab } from "~/components/button/fab";
-import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
-import { NavBar } from "~/features/nav-bar";
+import { Layout } from "~/features/layout";
 import { getOrg } from "~/features/orgs";
 import { getTeamsByOrg, selectAllTeams, selectTeamIds } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
@@ -66,29 +65,26 @@ export default function Org() {
     select: selectTeamIds,
   });
   return (
-    <main>
-      <LineBackground opacity={0.5}>
-        <NavBar
-          breadcrumbs={[
-            { label: "Organisations", href: "/" },
-            { label: org.name, href: `/orgs/${orgId}` },
-          ]}
-        />
-        <TeamGrid orgId={orgId} teamIds={teamIds} />
-        <CreateTeam
-          trigger={
-            <ExtendedFab
-              color="green"
-              aria-label="Create team"
-              placement="corner"
-            >
-              <Symbol slot="leading">add</Symbol>
-              Create
-            </ExtendedFab>
-          }
-          orgId={orgId}
-        />
-      </LineBackground>
-    </main>
+    <Layout
+      breadcrumbs={[
+        { label: "Organisations", href: "/" },
+        { label: org.name, href: `/orgs/${orgId}` },
+      ]}
+    >
+      <TeamGrid orgId={orgId} teamIds={teamIds} />
+      <CreateTeam
+        trigger={
+          <ExtendedFab
+            color="green"
+            aria-label="Create team"
+            placement="corner"
+          >
+            <Symbol slot="leading">add</Symbol>
+            Create
+          </ExtendedFab>
+        }
+        orgId={orgId}
+      />
+    </Layout>
   );
 }

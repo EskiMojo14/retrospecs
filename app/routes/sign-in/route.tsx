@@ -12,6 +12,7 @@ import { useSupabase } from "~/db/provider";
 import { Logo } from "~/features/logo";
 import SvgGithub from "~/icons/github";
 import styles from "./route.module.scss";
+import { Footer } from "~/features/footer";
 
 export const meta: MetaFunction = () => [{ title: "RetroSpecs - Sign in" }];
 
@@ -100,6 +101,7 @@ export default function SignIn() {
           Sign in with GitHub
         </Button>
       </Form>
+      <Footer />
     </LineBackground>
   );
 }

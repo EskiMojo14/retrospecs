@@ -1,12 +1,11 @@
 import { useLoaderData, type MetaFunction } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { ExtendedFab } from "~/components/button/fab";
-import { LineBackground } from "~/components/line-background";
 import { Symbol } from "~/components/symbol";
 import { ensureAuthenticated } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import { useSession } from "~/db/provider";
-import { NavBar } from "~/features/nav-bar";
+import { Layout } from "~/features/layout";
 import { getOrgs, selectAllOrgs, selectOrgIds } from "~/features/orgs";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { CreateOrg } from "./create-org";
@@ -44,23 +43,20 @@ export default function Orgs() {
   });
 
   return (
-    <main>
-      <LineBackground opacity={0.5}>
-        <NavBar breadcrumbs={[{ label: "Organisations", href: "/" }]} />
-        <OrgGrid orgIds={orgIds} />
-        <CreateOrg
-          trigger={
-            <ExtendedFab
-              color="green"
-              aria-label="Create organisation"
-              placement="corner"
-            >
-              <Symbol slot="leading">add</Symbol>
-              Create
-            </ExtendedFab>
-          }
-        />
-      </LineBackground>
-    </main>
+    <Layout breadcrumbs={[{ label: "Organisations", href: "/" }]}>
+      <OrgGrid orgIds={orgIds} />
+      <CreateOrg
+        trigger={
+          <ExtendedFab
+            color="green"
+            aria-label="Create organisation"
+            placement="corner"
+          >
+            <Symbol slot="leading">add</Symbol>
+            Create
+          </ExtendedFab>
+        }
+      />
+    </Layout>
   );
 }

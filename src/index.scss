@@ -90,10 +90,16 @@ body {
   background-color: var(--background);
   color: var(--text);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   @include typography.defaults;
   ::selection {
     background-color: var(--selection-color);
     color: var(--selection-text-color);
+  }
+  main {
+    flex: 1;
+    position: relative;
   }
 }
 
