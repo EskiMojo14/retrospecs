@@ -32,9 +32,12 @@ $variants: (
     }
   }
   &__item {
-    transition: opacity 0.2s;
+    transition:
+      opacity 0.2s,
+      background-color 0.2s;
     position: relative;
-    --ripple: var(--text);
+    --ripple-rgb: var(--text-rgb);
+    --ripple: rgb(var(--ripple-rgb));
     @include theme.ripple(
       var(--ripple),
       ":not(.list__item--non-interactive) .list__item-ripple"
@@ -43,6 +46,11 @@ $variants: (
       var(--ripple),
       ":not(.list__item--non-interactive) .list__item-ripple"
     );
+    &--non-interactive {
+      &[data-focus-visible] {
+        background-color: rgba(var(--text-rgb), theme.states-opacity("focus"));
+      }
+    }
     &:focus {
       outline: none;
     }
@@ -54,12 +62,12 @@ $variants: (
       gap: 16px;
     }
     &[data-selected] {
-      --ripple: var(--shade-500);
+      --ripple-rgb: var(--shade-500-rgb);
       @include theme.dark {
-        --ripple: var(--shade-300);
+        --ripple-rgb: var(--shade-300-rgb);
       }
     }
-    @include theme.inner-focus-ring;
+    //@include theme.inner-focus-ring;
     &[data-disabled] {
       pointer-events: none;
       opacity: map.get(typography.$emphasis-map, disabled);

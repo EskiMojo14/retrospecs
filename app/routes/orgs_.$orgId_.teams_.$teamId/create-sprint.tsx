@@ -43,10 +43,6 @@ export interface CreateSprintProps extends Omit<DialogProps, "children"> {
   teamId: number;
 }
 
-const selectSprintOptions = createSelector([selectAllSprints], (sprints) =>
-  sprints.map(({ id, name }) => ({ value: id, name })),
-);
-
 export function CreateSprint({
   teamId,
   triggerProps,
@@ -55,7 +51,7 @@ export function CreateSprint({
   const formRef = useRef<HTMLFormElement>(null);
   const { data: sprints = [] } = useQuery({
     ...useOptionsCreator(getSprintsForTeam, teamId),
-    select: selectSprintOptions,
+    select: selectAllSprints,
   });
   const {
     mutate: addSprintFn,
@@ -112,14 +108,14 @@ export function CreateSprint({
               label="Follows"
               description="Carry over actions from a previous sprint"
               name="follows_id"
-              defaultSelectedKey={sprints[0]?.value ?? ""}
-              items={[{ name: "None", value: "" }, ...sprints]}
+              defaultSelectedKey={sprints[0]?.id ?? ""}
+              items={[{ name: "None", id: "" }, ...sprints]}
             >
               {(item) => {
-                if (item.value === "") {
+                if (item.id === "") {
                   return (
-                    <IdFragment id={item.value}>
-                      <SelectItem id={item.value} textValue={item.name}>
+                    <IdFragment id={item.id}>
+                      <SelectItem id={item.id} textValue={item.name}>
                         {item.name}
                       </SelectItem>
                       <Divider />
@@ -127,7 +123,7 @@ export function CreateSprint({
                   );
                 }
                 return (
-                  <SelectItem id={item.value} textValue={item.name}>
+                  <SelectItem id={item.id} textValue={item.name}>
                     {item.name}
                   </SelectItem>
                 );

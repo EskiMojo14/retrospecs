@@ -80,7 +80,7 @@ export default function Sprints() {
         { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
       ]}
     >
-      <SprintList teamId={teamId} sprintIds={sprintIds} />
+      <SprintList {...{ sprintIds, teamId, orgId }} />
       {permission >= Permission.Admin && (
         <CreateSprint
           trigger={
