@@ -123,7 +123,7 @@ export const sprintRealtime = makeRealtimeHandler("sprints", (context) => {
       );
       queryClient.setQueryData(
         getSprintById(context, payload.new.id).queryKey,
-        () => payload.new,
+        payload.new,
       );
     },
     delete(payload) {

@@ -87,16 +87,6 @@ export const actionRealtime = makeRealtimeHandler("actions", (context) => {
           actionAdapter.addOne(draft, payload.new),
       );
     },
-    update(payload) {
-      queryClient.setQueryData(
-        getActionsBySprint(context, payload.new.sprint_id).queryKey,
-        (draft = actionAdapter.getInitialState()) =>
-          actionAdapter.updateOne(draft, {
-            id: payload.old.id ?? payload.new.id,
-            changes: payload.new,
-          }),
-      );
-    },
     delete(payload) {
       const sprintId = payload.old.sprint_id;
       const actionId = payload.old.id;

@@ -193,14 +193,14 @@ export const deleteReaction = supabaseMutationOptions(
 const _feedbackRealtime = makeRealtimeHandler("feedback", (context) => {
   const { queryClient } = context;
   return {
-    insert: (payload) => {
+    insert(payload) {
       queryClient.setQueryData(
         getFeedbackBySprint(context, payload.new.sprint_id).queryKey,
         (draft = feedbackAdapter.getInitialState()) =>
           feedbackAdapter.addOne(draft, payload.new),
       );
     },
-    update: (payload) => {
+    update(payload) {
       queryClient.setQueryData(
         getFeedbackBySprint(context, payload.new.sprint_id).queryKey,
         (draft = feedbackAdapter.getInitialState()) =>
@@ -210,7 +210,7 @@ const _feedbackRealtime = makeRealtimeHandler("feedback", (context) => {
           }),
       );
     },
-    delete: (payload) => {
+    delete(payload) {
       const sprintId = payload.old.sprint_id;
       const feedbackId = payload.old.id;
       if (typeof sprintId === "undefined" || typeof feedbackId === "undefined")
@@ -227,14 +227,24 @@ const _feedbackRealtime = makeRealtimeHandler("feedback", (context) => {
 const reactionRealtime = makeRealtimeHandler("reactions", (context) => {
   const { queryClient } = context;
   return {
-    insert: (payload) => {
+    insert(payload) {
       queryClient.setQueryData(
         getReactionsByFeedback(context, payload.new.feedback_id).queryKey,
         (draft = reactionAdapter.getInitialState()) =>
           reactionAdapter.addOne(draft, payload.new),
       );
     },
-    delete: (payload) => {
+    update(payload) {
+      queryClient.setQueryData(
+        getReactionsByFeedback(context, payload.new.feedback_id).queryKey,
+        (draft = reactionAdapter.getInitialState()) =>
+          reactionAdapter.updateOne(draft, {
+            id: selectReactionId(payload.new),
+            changes: payload.new,
+          }),
+      );
+    },
+    delete(payload) {
       const { user_id, feedback_id, reaction } = payload.old;
       if (
         typeof reaction === "undefined" ||
