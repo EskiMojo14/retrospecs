@@ -49,3 +49,7 @@ export type DistributiveOmit<T, K extends keyof any> = T extends any
   : never;
 
 export type Nullish<T> = T | null | undefined;
+
+export type KeysMatchingValue<T, V> = {
+  [K in keyof T]: T[K] extends V ? K : never;
+}[keyof T];

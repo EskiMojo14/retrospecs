@@ -3,7 +3,7 @@ import { skipToken } from "@tanstack/react-query";
 import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert } from "~/db/supabase";
 import type { Profile } from "~/features/profiles";
-import { sortByCreatedAt } from "~/util";
+import { sortByKey } from "~/util";
 import {
   supabaseFn,
   supabaseMutationOptions,
@@ -21,7 +21,7 @@ export interface InviteWithInviter extends Omit<Invite, "user_id"> {
 
 export const inviteAdapter = createEntityAdapter({
   selectId: (invite: InviteWithInviter) => invite.email,
-  sortComparer: sortByCreatedAt,
+  sortComparer: sortByKey("created_at"),
 });
 
 export const {

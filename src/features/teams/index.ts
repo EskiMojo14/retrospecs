@@ -3,7 +3,7 @@ import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Org } from "~/features/orgs";
 import type { Profile } from "~/features/profiles";
-import { sortByCreatedAt } from "~/util";
+import { sortByKey, sortByName } from "~/util";
 import {
   compoundKey,
   supabaseFn,
@@ -15,7 +15,7 @@ import type { PickRequired } from "~/util/types";
 export type Team = Tables<"teams">;
 
 export const teamAdapter = createEntityAdapter<Team>({
-  sortComparer: sortByCreatedAt,
+  sortComparer: sortByName,
 });
 
 export const {
@@ -177,7 +177,7 @@ const selectTeamMemberId = compoundKey<TeamMember>()("team_id", "user_id");
 
 const teamMemberAdapter = createEntityAdapter<TeamMemberWithProfile, string>({
   selectId: selectTeamMemberId,
-  sortComparer: sortByCreatedAt,
+  sortComparer: sortByKey("created_at"),
 });
 
 export const {

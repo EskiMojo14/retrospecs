@@ -3,7 +3,7 @@ import { skipToken } from "@tanstack/react-query";
 import { toastQueue } from "~/components/toast";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
 import type { Profile } from "~/features/profiles";
-import { sortByCreatedAt } from "~/util";
+import { sortByName } from "~/util";
 import {
   compoundKey,
   supabaseFn,
@@ -15,7 +15,7 @@ import type { PickRequired } from "~/util/types";
 export type Org = Tables<"orgs">;
 
 export const orgAdapter = createEntityAdapter<Org>({
-  sortComparer: sortByCreatedAt,
+  sortComparer: sortByName,
 });
 
 export const {

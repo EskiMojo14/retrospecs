@@ -2,6 +2,7 @@ import { mergeProps } from "@react-aria/utils";
 import type { ForwardedRef, ReactNode, RefCallback } from "react";
 import type { ContextValue } from "react-aria-components";
 import BEMHelper from "react-bem-helper";
+import type { KeysMatchingValue } from "./types";
 
 export function assert(
   condition: unknown,
@@ -142,10 +143,19 @@ export const makeAsyncDisposable = <T extends AsyncUnsubscribable>(
     },
   });
 
-export const sortByCreatedAt = (
-  a: { created_at: string },
-  b: { created_at: string },
-) => b.created_at.localeCompare(a.created_at);
+export const sortByKey = <T>(
+  key: KeysMatchingValue<T, string>,
+  { order, ...options }: Intl.CollatorOptions & { order?: "asc" | "desc" } = {},
+) => {
+  const collator = new Intl.Collator(undefined, options);
+  const direction = order === "desc" ? -1 : 1;
+  return (a: T, b: T) =>
+    direction * collator.compare(a[key] as string, b[key] as string);
+};
+
+export const sortByName = sortByKey<{ name: string }>("name", {
+  sensitivity: "base",
+});
 
 type PluraliseTuple = [count: number, singular: string, plural?: string];
 

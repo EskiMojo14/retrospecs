@@ -1,7 +1,7 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { makeRealtimeHandler } from "~/db/realtime";
 import type { Tables, TablesInsert, TablesUpdate } from "~/db/supabase";
-import { sortByCreatedAt } from "~/util";
+import { sortByKey } from "~/util";
 import {
   supabaseFn,
   supabaseMutationOptions,
@@ -12,7 +12,7 @@ import type { PickRequired } from "~/util/types";
 export type Sprint = Tables<"sprints">;
 
 const sprintAdapter = createEntityAdapter<Sprint>({
-  sortComparer: sortByCreatedAt,
+  sortComparer: sortByKey("created_at", { order: "desc" }),
 });
 
 export const {
