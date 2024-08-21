@@ -49,7 +49,7 @@ function SprintListItem({ orgId, teamId, id: sprintId }: SprintItem) {
           }
         />
         {permission >= Permission.Admin && (
-          <Toolbar align="end">
+          <Toolbar align="end" className={styles.toolbar}>
             <IconButton variant="outlined" tooltip="Edit">
               <Symbol>edit</Symbol>
             </IconButton>
