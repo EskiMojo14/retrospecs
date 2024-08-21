@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode, TimeHTMLAttributes } from "react";
-import { forwardRef, useSyncExternalStore } from "react";
+import { forwardRef, useMemo, useSyncExternalStore } from "react";
 import type { HeadingProps as AriaHeadingProps } from "react-aria-components";
 import {
   Heading as AriaHeading,
@@ -82,7 +82,7 @@ const emptySubscribe = () => () => {};
 
 export const Time = forwardRef<HTMLTimeElement, TimeProps>(
   ({ dateTime, children, ...rest }, ref) => {
-    const dateObj = new Date(dateTime);
+    const dateObj = useMemo(() => new Date(dateTime), [dateTime]);
     const date = useSyncExternalStore(
       emptySubscribe,
       () => children(dateObj),
