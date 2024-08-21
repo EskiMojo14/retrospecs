@@ -1,10 +1,11 @@
 import type { HTMLAttributes, ReactNode, TimeHTMLAttributes } from "react";
-import { forwardRef, useMemo, useSyncExternalStore } from "react";
+import { forwardRef, useMemo } from "react";
 import type { HeadingProps as AriaHeadingProps } from "react-aria-components";
 import {
   Heading as AriaHeading,
   Header as AriaHeader,
 } from "react-aria-components";
+import { ClientOnly } from "remix-utils/client-only";
 import { createGenericComponent } from "~/components/generic";
 import { bemHelper } from "~/util";
 import type { Overwrite, PickRequired } from "~/util/types";
@@ -78,19 +79,12 @@ type TimeProps = Overwrite<
   { children: (date: Date) => ReactNode }
 >;
 
-const emptySubscribe = () => () => {};
-
 export const Time = forwardRef<HTMLTimeElement, TimeProps>(
   ({ dateTime, children, ...rest }, ref) => {
     const dateObj = useMemo(() => new Date(dateTime), [dateTime]);
-    const date = useSyncExternalStore(
-      emptySubscribe,
-      () => children(dateObj),
-      () => dateObj.toISOString(),
-    );
     return (
       <time ref={ref} dateTime={dateTime} {...rest}>
-        {date}
+        <ClientOnly fallback={dateTime}>{() => children(dateObj)}</ClientOnly>
       </time>
     );
   },
