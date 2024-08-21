@@ -1,4 +1,5 @@
 import { mergeProps } from "@react-aria/utils";
+import { createSelector } from "@reduxjs/toolkit";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { FormEvent } from "react";
 import { useRef } from "react";
@@ -24,8 +25,8 @@ import { TextField } from "~/components/input/text-field";
 import { Toolbar } from "~/components/toolbar";
 import { Heading } from "~/components/typography";
 import type { TablesUpdate } from "~/db/supabase";
+import type { Sprint } from "~/features/sprints";
 import {
-  getPreviousTeamSprints,
   getSprintsForTeam,
   selectAllSprints,
   selectSprintById,
@@ -47,6 +48,19 @@ const editSprintSchema = object({
   ),
 }) satisfies BaseSchema<any, TablesUpdate<"sprints">, any>;
 
+const selectPreviousSprints = createSelector(
+  [
+    selectAllSprints,
+    (_: unknown, sprint: Pick<Sprint, "created_at" | "id"> | undefined) =>
+      sprint,
+  ],
+  (sprints, sprint) =>
+    sprint &&
+    sprints.filter(
+      (s) => s.created_at <= sprint.created_at && s.id !== sprint.id,
+    ),
+);
+
 export interface EditSprintProps extends Omit<DialogProps, "children"> {
   teamId: number;
   sprintId: number;
@@ -64,8 +78,8 @@ export function EditSprint({
     select: (sprints) => selectSprintById(sprints, sprintId),
   });
   const { data: sprints = [] } = useQuery({
-    ...useOptionsCreator(getPreviousTeamSprints, teamId, sprint),
-    select: selectAllSprints,
+    ...useOptionsCreator(getSprintsForTeam, teamId),
+    select: (sprints) => selectPreviousSprints(sprints, sprint),
   });
   const {
     mutate: updateSprintFn,
