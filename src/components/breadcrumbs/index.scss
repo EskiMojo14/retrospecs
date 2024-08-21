@@ -16,7 +16,7 @@
   @include util.ellipsis;
   @include typography.style("body2");
   &__icon {
-    color: typography.emphasis("text-color", "medium");
+    color: typography.emphasis("text", "medium");
   }
   &:last-child {
     .breadcrumb__icon {
@@ -29,11 +29,12 @@
     &[data-hovered] {
       text-decoration: underline;
     }
-    &[data-disabled]:not([data-current]) {
-      color: typography.emphasis("text-color", "medium");
+    &[data-disabled] {
+      color: typography.emphasis("text", "disabled");
     }
     &[data-current] {
       font-weight: var(--typography-weight-bold);
+      color: typography.emphasis("text", "high");
     }
   }
 }

@@ -4,8 +4,8 @@ import { Breadcrumbs, Breadcrumb } from ".";
 
 const meta = {
   title: "Components/Breadcrumbs",
-  render: () => (
-    <Breadcrumbs>
+  render: (args) => (
+    <Breadcrumbs {...args}>
       <Breadcrumb>
         <Link href="/">Home</Link>
       </Breadcrumb>
@@ -24,5 +24,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: { isDisabled: false },
 };
