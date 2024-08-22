@@ -1,12 +1,6 @@
 @use "~/theme/typography";
 @use "~/theme/layout";
 
-.list {
-  background-color: rgba(var(--surface-rgb), 0.5);
-  border-radius: var(--border-radius-medium);
-  border: 1px solid typography.emphasis("text", "divider");
-}
-
 .toolbar {
   flex-grow: 0;
 }
@@ -23,6 +17,20 @@
     margin-top: var(--header-shadow-height);
     background-color: rgba(var(--surface-rgb), 0.5);
     border-bottom: 1px solid typography.emphasis("text", "divider");
+    :global {
+      .card {
+        display: contents;
+        &::before {
+          content: none;
+        }
+        &__bg {
+          display: none;
+        }
+        &__section {
+          padding: 0;
+        }
+      }
+    }
   }
   .container {
     padding-top: var(--gutter, 16px);

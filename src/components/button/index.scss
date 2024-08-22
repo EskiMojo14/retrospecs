@@ -58,10 +58,17 @@
 
   &.color-inherit {
     --button-text-rgb: var(--text-rgb);
+    --button-text: #{typography.emphasis("button-text", "high")};
     --button-outline-rgb: var(--text-rgb);
+    --button-outline: #{typography.emphasis("button-outline", "high")};
     --button-fill-rgb: var(--surface-rgb);
     --button-filled-text-rgb: var(--text-rgb);
+    --button-filled-text: #{typography.emphasis("button-filled-text", "high")};
     --button-filled-outline-rgb: var(--text-rgb);
+    --button-filled-outline: #{typography.emphasis(
+        "button-filled-outline",
+        "high"
+      )};
   }
 
   @at-root button#{&} {

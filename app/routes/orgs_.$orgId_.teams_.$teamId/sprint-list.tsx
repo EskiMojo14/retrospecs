@@ -18,6 +18,7 @@ import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { Permission } from "~/util/permissions";
 import { EditSprint } from "./edit-sprint";
 import styles from "./sprint-list.module.scss";
+import { Card, CardSection } from "~/components/card";
 
 interface SprintItem {
   orgId: number;
@@ -54,7 +55,7 @@ function SprintListItem({ orgId, teamId, id: sprintId }: SprintItem) {
             <EditSprint
               {...{ teamId, sprintId }}
               trigger={
-                <IconButton variant="outlined" tooltip="Edit">
+                <IconButton color="inherit" variant="outlined" tooltip="Edit">
                   <Symbol>edit</Symbol>
                 </IconButton>
               }
@@ -118,26 +119,29 @@ export function SprintList({ orgId, teamId, sprintIds }: SprintListProps) {
           >
             Sprints ({sprintIds.length})
           </Typography>
-          <List
-            nonInteractive
-            variant="two-line"
-            aria-labelledby="sprint-list-title"
-            renderEmptyState={() => (
-              <EmptyState
-                title="No sprints"
-                description="Create a sprint to get started"
-              />
-            )}
-            className={styles.list}
-          >
-            {sprintIds.map((sprintId) => (
-              <SprintListItem
-                key={sprintId}
-                {...{ orgId, teamId }}
-                id={sprintId}
-              />
-            ))}
-          </List>
+          <Card>
+            <CardSection>
+              <List
+                nonInteractive
+                variant="two-line"
+                aria-labelledby="sprint-list-title"
+                renderEmptyState={() => (
+                  <EmptyState
+                    title="No sprints"
+                    description="Create a sprint to get started"
+                  />
+                )}
+              >
+                {sprintIds.map((sprintId) => (
+                  <SprintListItem
+                    key={sprintId}
+                    {...{ orgId, teamId }}
+                    id={sprintId}
+                  />
+                ))}
+              </List>
+            </CardSection>
+          </Card>
         </GridCell>
       </GridInner>
     </Grid>
