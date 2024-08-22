@@ -3,7 +3,7 @@
 }
 
 @function solid($n) {
-  @return $n * 1px $n * 1px var(--solid-shadow, rgba(var(--shadow-rgb), 0.5));
+  @return $n * 1px $n * 1px var(--solid-shadow, rgba(var(--shadow-rgb), 0.25));
 }
 
 @mixin shadow($n) {
