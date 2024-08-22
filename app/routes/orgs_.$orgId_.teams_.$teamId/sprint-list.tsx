@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Card, CardSection } from "~/components/card";
 import { ConfirmationDialog } from "~/components/dialog/confirmation";
 import { Divider } from "~/components/divider";
 import { EmptyState } from "~/components/empty";
@@ -18,7 +19,6 @@ import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { Permission } from "~/util/permissions";
 import { EditSprint } from "./edit-sprint";
 import styles from "./sprint-list.module.scss";
-import { Card, CardSection } from "~/components/card";
 
 interface SprintItem {
   orgId: number;
@@ -38,7 +38,10 @@ function SprintListItem({ orgId, teamId, id: sprintId }: SprintItem) {
   if (!sprint) return null;
   return (
     <>
-      <ListItem textValue={sprint.name}>
+      <ListItem
+        textValue={sprint.name}
+        href={`/orgs/${orgId}/teams/${teamId}/sprints/${sprintId}`}
+      >
         <Symbol slot="icon">view_kanban</Symbol>
         <ListItemText
           headline={sprint.name}
@@ -122,7 +125,6 @@ export function SprintList({ orgId, teamId, sprintIds }: SprintListProps) {
           <Card>
             <CardSection>
               <List
-                nonInteractive
                 variant="two-line"
                 aria-labelledby="sprint-list-title"
                 renderEmptyState={() => (
