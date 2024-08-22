@@ -88,16 +88,14 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
     <AppBar ref={navBarRef} className={styles.navBar}>
       <AppBarRow className={styles.mainRow}>
         <Toolbar as="nav" slot="nav" aria-label="Breadcrumbs">
-          <Logo />
-          {
-            <Breadcrumbs items={breadcrumbs}>
-              {({ href, label, id = href }) => (
-                <Breadcrumb id={id}>
-                  <Link href={href}>{label}</Link>
-                </Breadcrumb>
-              )}
-            </Breadcrumbs>
-          }
+          <Logo href="/" />
+          <Breadcrumbs items={breadcrumbs}>
+            {({ href, label, id = href }) => (
+              <Breadcrumb id={id}>
+                <Link href={href}>{label}</Link>
+              </Breadcrumb>
+            )}
+          </Breadcrumbs>
         </Toolbar>
         <Toolbar slot="actions">
           {actions}

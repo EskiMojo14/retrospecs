@@ -43,7 +43,7 @@ export default function Orgs() {
   });
 
   return (
-    <Layout breadcrumbs={[{ label: "Organisations", href: "/" }]}>
+    <Layout>
       <OrgGrid orgIds={orgIds} />
       <CreateOrg
         trigger={

@@ -51,7 +51,6 @@ export default function TeamMembers() {
   return (
     <Layout
       breadcrumbs={[
-        { label: "Organisations", href: "/" },
         { label: org.name, href: `/orgs/${orgId}` },
         { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
         { label: "Members", href: `/orgs/${orgId}/teams/${teamId}/members` },

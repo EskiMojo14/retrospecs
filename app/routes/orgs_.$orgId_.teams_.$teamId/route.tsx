@@ -75,7 +75,6 @@ export default function Sprints() {
   return (
     <Layout
       breadcrumbs={[
-        { label: "Organisations", href: "/" },
         {
           label: org.name,
           href: `/orgs/${orgId}`,

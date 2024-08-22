@@ -82,7 +82,6 @@ export default function OrgMembers() {
   return (
     <Layout
       breadcrumbs={[
-        { label: "Organisations", href: "/" },
         { label: loaderData.org.name, href: `/orgs/${orgId}` },
         { label: "Members", href: `/orgs/${orgId}/members` },
       ]}

@@ -17,6 +17,7 @@
     }
   }
   &:global(.link) {
+    text-decoration: none;
     &:focus-visible:not([data-focus-visible]) {
       outline: none;
     }

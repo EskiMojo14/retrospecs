@@ -72,12 +72,7 @@ export default function Org() {
   });
   const permission = useCurrentUserPermissions(orgId);
   return (
-    <Layout
-      breadcrumbs={[
-        { label: "Organisations", href: "/" },
-        { label: org.name, href: `/orgs/${orgId}` },
-      ]}
-    >
+    <Layout breadcrumbs={[{ label: org.name, href: `/orgs/${orgId}` }]}>
       <TeamGrid orgId={orgId} teamIds={teamIds} />
       {permission >= Permission.Admin && (
         <CreateTeam
