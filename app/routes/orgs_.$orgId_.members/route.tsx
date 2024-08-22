@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
+import { object, parse } from "valibot";
 import { ExtendedFab } from "~/components/button/fab";
 import { Grid } from "~/components/grid";
 import { Symbol } from "~/components/symbol";
@@ -13,10 +14,11 @@ import { getInvitesByOrgId } from "~/features/invites";
 import { Layout } from "~/features/layout";
 import { getOrg, getOrgMembers, selectOrgMemberIds } from "~/features/orgs";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { useParsedParams } from "~/hooks/use-parsed-params";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
-import { ensureNumber } from "~/util";
 import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
+import { coerceNumber } from "~/util/valibot";
 import { CreateInvite } from "./create-invite";
 import { MemberList } from "./member-list";
 import { PendingInvites } from "./pending";
@@ -31,9 +33,13 @@ export const meta: MetaFunction<any> = ({
   },
 ];
 
+const paramsSchema = object({
+  orgId: coerceNumber("Invalid orgId"),
+});
+
 export const loader = createHydratingLoader(
   async ({ params, context, context: { queryClient } }) => {
-    const orgId = ensureNumber(params.orgId, "Invalid orgId");
+    const { orgId } = parse(paramsSchema, params);
 
     const orgMembers = await queryClient.ensureQueryData(
       getOrgMembers(context, orgId),
@@ -62,8 +68,7 @@ export const loader = createHydratingLoader(
 );
 
 export default function OrgMembers() {
-  const params = useParams();
-  const orgId = Number(params.orgId);
+  const { orgId } = useParsedParams(paramsSchema);
   const loaderData = useLoaderData<typeof loader>();
   const { data: memberIds } = useQuery({
     ...useOptionsCreator(getOrgMembers, orgId),

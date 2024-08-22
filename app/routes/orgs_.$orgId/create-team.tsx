@@ -23,7 +23,7 @@ export interface CreateTeamProps extends Omit<DialogProps, "children"> {
 
 const createTeamSchema = object({
   name: pipe(string(), nonEmpty()),
-  org_id: coerceNumber,
+  org_id: coerceNumber(),
   created_by: string(),
 }) satisfies BaseSchema<any, TablesInsert<"teams">, any>;
 

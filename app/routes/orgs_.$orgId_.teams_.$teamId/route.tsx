@@ -1,5 +1,6 @@
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
+import { object, parse } from "valibot";
 import { ExtendedFab } from "~/components/button/fab";
 import { Symbol } from "~/components/symbol";
 import { ensureCurrentUserPermissions } from "~/db/auth.server";
@@ -9,10 +10,11 @@ import { getOrg } from "~/features/orgs";
 import { getSprintsForTeam, selectSprintIds } from "~/features/sprints";
 import { getTeam } from "~/features/teams";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
+import { useParsedParams } from "~/hooks/use-parsed-params";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
-import { ensureNumber } from "~/util";
 import { Permission } from "~/util/permissions";
 import { promiseOwnProperties } from "~/util/ponyfills";
+import { coerceNumber } from "~/util/valibot";
 import { CreateSprint } from "./create-sprint";
 import { SprintList } from "./sprint-list";
 
@@ -28,11 +30,14 @@ export const meta = ({
   },
 ];
 
+const paramsSchema = object({
+  orgId: coerceNumber("Invalid orgId"),
+  teamId: coerceNumber("Invalid teamId"),
+});
+
 export const loader = createHydratingLoader(
   async ({ params, context, context: { queryClient } }) => {
-    const orgId = ensureNumber(params.orgId, "Invalid orgId");
-
-    const teamId = ensureNumber(params.teamId, "Invalid teamId");
+    const { orgId, teamId } = parse(paramsSchema, params);
 
     const { org, team, sprints } = await promiseOwnProperties({
       org: queryClient.ensureQueryData(getOrg(context, orgId)),
@@ -50,9 +55,7 @@ export const loader = createHydratingLoader(
 );
 
 export default function Sprints() {
-  const params = useParams();
-  const orgId = Number(params.orgId);
-  const teamId = Number(params.teamId);
+  const { orgId, teamId } = useParsedParams(paramsSchema);
   const loaderData = useLoaderData<Awaited<ReturnType<typeof loader>>>();
   const { data: org } = useQuery({
     ...useOptionsCreator(getOrg, orgId),

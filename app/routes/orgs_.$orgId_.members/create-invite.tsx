@@ -21,7 +21,7 @@ export interface CreateInviteProps extends Omit<DialogProps, "children"> {
 
 const addMemberFormSchema = object({
   email: pipe(string(), nonEmpty("Please enter your email.")),
-  org_id: coerceNumber,
+  org_id: coerceNumber(),
 });
 
 export function CreateInvite({

@@ -38,8 +38,8 @@ import { coerceNumber } from "~/util/valibot";
 
 const editSprintSchema = object({
   name: pipe(string(), nonEmpty()),
-  team_id: coerceNumber,
-  id: coerceNumber,
+  team_id: coerceNumber(),
+  id: coerceNumber(),
   follows_id: pipe(
     string(),
     // special case - empty string means no follows

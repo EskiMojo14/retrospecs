@@ -23,7 +23,7 @@ export interface EditOrgProps extends Omit<DialogProps, "children"> {
 }
 
 const editSchema = object({
-  id: coerceNumber,
+  id: coerceNumber(),
   name: pipe(string(), minLength(1)),
 }) satisfies BaseSchema<any, TablesUpdate<"orgs">, any>;
 
