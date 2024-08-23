@@ -75,7 +75,7 @@ export const Symbol = createGenericComponent<
       style={{
         ...style,
         fontSize: `${size}px`,
-        "--fill": fill ? 1 : 0,
+        "--fill": typeof fill === "boolean" ? (fill ? 1 : 0) : undefined,
         "--wght": weight,
         "--grad": grade && clamp(grade, -25, 200),
         "--opsz": clamp(opticalSize, 20, 48),

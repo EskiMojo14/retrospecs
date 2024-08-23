@@ -1,0 +1,62 @@
+@use "~/theme/typography";
+@use "~/theme";
+
+.tabs {
+  &__list {
+    display: flex;
+  }
+  &__tab {
+    position: relative;
+    flex: 1 1 0px;
+    width: 0;
+    height: 48px;
+    @include typography.style("subtitle1");
+    transition:
+      font-weight 200ms,
+      opacity 200ms;
+    @include theme.ripple(var(--text), " .tabs__tab-ripple");
+    &:focus {
+      outline: none;
+    }
+    &--with-icon {
+      height: 64px;
+    }
+    .tabs__list--inline-icons &--with-icon {
+      height: 48px;
+    }
+    &[data-hovered] {
+      font-weight: var(--typography-weight-semi-bold);
+      .symbol {
+        --wght: 500;
+      }
+    }
+    &[data-selected] {
+      font-weight: var(--typography-weight-extra-bold);
+      color: var(--shade-500);
+      @include theme.dark {
+        color: var(--shade-300);
+      }
+      .symbol {
+        --wght: 700;
+        --fill: 1;
+      }
+    }
+    &[data-disabled] {
+      opacity: 0.5;
+    }
+  }
+  &__tab-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .tabs__list--inline-icons & {
+      flex-direction: row;
+      gap: 8px;
+    }
+  }
+  &__panel {
+  }
+}
