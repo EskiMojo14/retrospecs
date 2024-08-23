@@ -156,6 +156,11 @@
     position: relative;
     vertical-align: middle;
   }
+  &--loading {
+    &[data-disabled] {
+      opacity: 1;
+    }
+  }
   .progress {
     --progress-color-rgb: var(--button-text-rgb);
     --circular-progress-size: 24px;
@@ -165,6 +170,13 @@
         .progress {
           --progress-color-rgb: var(--button-filled-text-rgb);
         }
+      }
+    }
+    &--cassette {
+      margin: 2px -14px;
+      .progress__cassette {
+        height: variables.$min-height - 4px;
+        border-radius: var(--button-radius);
       }
     }
   }

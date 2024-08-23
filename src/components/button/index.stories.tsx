@@ -7,7 +7,11 @@ import { IdFragment } from "~/components/fragment";
 import { Symbol } from "~/components/symbol";
 import { Tooltip, TooltipTrigger } from "~/components/tooltip";
 import { buttonColors, buttonVariants } from "./constants";
-import type { ButtonGroupProps, ToggleButtonProps } from ".";
+import type {
+  ButtonGroupProps,
+  LoadingButtonProps,
+  ToggleButtonProps,
+} from ".";
 import {
   Button,
   ButtonGroup,
@@ -19,7 +23,8 @@ import {
 interface StoryProps
   extends ComponentPropsWithoutRef<typeof Button>,
     Pick<ToggleButtonProps, "onChange">,
-    Pick<ButtonGroupProps<object>, "orientation" | "label" | "description"> {
+    Pick<ButtonGroupProps<object>, "orientation" | "label" | "description">,
+    Pick<LoadingButtonProps, "progressVariant" | "isIndeterminate"> {
   icon?: "leading" | "trailing";
 }
 
@@ -292,6 +297,7 @@ function LoadingDemo(args: StoryProps) {
   return (
     <LoadingButton
       {...args}
+      progressLabel="Loading button"
       isIndeterminate={isLoading}
       onPress={() => {
         setIsLoading(true);
@@ -305,4 +311,13 @@ function LoadingDemo(args: StoryProps) {
 
 export const Loading: Story = {
   render: (args) => <LoadingDemo {...args} />,
+  argTypes: {
+    progressVariant: {
+      control: "inline-radio",
+      options: ["cassette", "circular"],
+    },
+  },
+  args: {
+    progressVariant: "cassette",
+  },
 };

@@ -1,5 +1,6 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
+import { clsx } from "clsx";
 import type { ReactNode, RefCallback } from "react";
 import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {
@@ -26,7 +27,7 @@ import {
 } from "~/components/generic";
 import type { FormGroupProps } from "~/components/input/text-field";
 import type { ProgressProps } from "~/components/progress";
-import { CircularProgress } from "~/components/progress";
+import { CassetteProgress, CircularProgress } from "~/components/progress";
 import { MergeProvider } from "~/components/provider";
 import type { SymbolProps } from "~/components/symbol";
 import { SymbolContext } from "~/components/symbol";
@@ -256,26 +257,57 @@ ButtonGroup.displayName = "ButtonGroup";
 
 export interface LoadingButtonProps
   extends Pick<ProgressProps, "isIndeterminate"> {
+  progressLabel?: string;
   loadingValue?: number;
   isDisabled?: boolean;
+  className?: string;
+  progressVariant?: "cassette" | "circular";
 }
 
 export const LoadingButton = createGenericComponent<
   typeof Button,
   LoadingButtonProps,
-  { children: ReactNode; isDisabled?: boolean }
+  { children: ReactNode; className: string; isDisabled?: boolean }
 >(
   "LoadingButton",
   Button,
-  ({ isIndeterminate, loadingValue, isDisabled, as: As, ...props }, ref) => {
+  (
+    {
+      isIndeterminate,
+      loadingValue,
+      isDisabled,
+      as: As,
+      className,
+      progressLabel,
+      progressVariant = "cassette",
+      ...props
+    },
+    ref,
+  ) => {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const isLoading = isIndeterminate || loadingValue !== undefined;
+    const Progress =
+      progressVariant === "circular" ? CircularProgress : CassetteProgress;
     return (
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      <As {...props} isDisabled={isDisabled || isLoading} ref={ref}>
+      <As
+        {...props}
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        isDisabled={isDisabled || isLoading}
+        ref={ref}
+        className={cls({
+          modifiers: {
+            loading: isLoading,
+          },
+          extra: className,
+        })}
+      >
         {renderGenericPropChild(props, (children) =>
           isLoading ? (
-            <CircularProgress value={loadingValue} {...{ isIndeterminate }} />
+            <Progress
+              value={loadingValue}
+              aria-label={progressLabel}
+              {...{ isIndeterminate }}
+            />
           ) : (
             children
           ),
