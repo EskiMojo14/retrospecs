@@ -34,7 +34,7 @@ import { Toolbar } from "~/components/toolbar";
 import { Typography } from "~/components/typography";
 import { useEventListener } from "~/hooks/use-event-listener";
 import { useRipple } from "~/hooks/use-ripple";
-import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonColor, ButtonVariant } from "./constants";
 import "./index.scss";
@@ -118,22 +118,8 @@ export const LinkButton = withNewDefault("LinkButton", Button, Link);
 
 export type ToggleButtonProps = Overwrite<AriaToggleButtonProps, ButtonProps>;
 
-const stateSymbolContexts: {
-  [K in boolean as `${K}`]: SymbolProps & { fill: K };
-} = {
-  false: {
-    transition: true,
-    fill: false,
-  },
-  true: {
-    transition: true,
-    fill: true,
-    weight: 600,
-  },
-};
-
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
-  ({ children, ...props }, ref) => {
+  (props, ref) => {
     const innerRef = useRef<HTMLButtonElement>(null);
     useEventListener(
       innerRef,
@@ -153,16 +139,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
             }
           },
         })}
-      >
-        {renderPropsChild(children, (children, { isSelected }) => (
-          <MergeProvider
-            context={SymbolContext}
-            value={stateSymbolContexts[`${isSelected}`]}
-          >
-            {children}
-          </MergeProvider>
-        ))}
-      </Button>
+      />
     );
   },
 );

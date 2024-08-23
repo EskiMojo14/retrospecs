@@ -139,6 +139,10 @@
         @include elevation.shadow(0);
       }
     }
+    .symbol {
+      --fill: 1;
+      --wght: 600;
+    }
   }
   &__content {
     position: relative;

@@ -1,5 +1,6 @@
 @use "~/theme";
 @use "~/theme/typography";
+@use "~/util";
 
 .checkbox-container {
   display: flex;
@@ -87,6 +88,10 @@
     .checkbox__checkmark {
       stroke-dashoffset: 44;
     }
+    .symbol {
+      --fill: 1;
+      --wght: 600;
+    }
   }
 
   &[data-indeterminate] {
@@ -115,5 +120,11 @@
   &__description {
     white-space: pre-wrap;
     color: typography.emphasis("text", "medium");
+  }
+}
+
+.checkbox__item-container {
+  &--end {
+    @include util.reflexive-box("margin", auto);
   }
 }

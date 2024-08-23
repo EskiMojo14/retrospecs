@@ -55,7 +55,6 @@ const meta = {
     grade: undefined,
     opticalSize: undefined,
     size: 24,
-    transition: false,
     flipRtl: false,
     dir: "ltr",
   },

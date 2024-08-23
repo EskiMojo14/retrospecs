@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { Divider } from "~/components/divider";
 import { Symbol } from "~/components/symbol";
 import type { Color } from "~/theme/colors";
 import { colors } from "~/theme/colors";
@@ -35,6 +36,7 @@ const meta = {
           Explore
         </Tab>
       </TabList>
+      <Divider variant="middle" />
       <TabPanel id="flights">
         Arma virumque cano, Troiae qui primus ab oris.
       </TabPanel>

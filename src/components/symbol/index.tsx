@@ -20,8 +20,6 @@ export interface SymbolProps extends SlotProps {
 
   /** defaults to 24 */
   size?: number;
-  /** Set to `true` to use the default duration, or set a custom duration. */
-  transition?: boolean | string;
   /** Whether the icon should be flipped vertically in RTL */
   flipRtl?: boolean;
 }
@@ -56,7 +54,6 @@ export const Symbol = createGenericComponent<
     style,
     children,
     className,
-    transition,
     flipRtl,
     ...rest
   } = props;
@@ -67,7 +64,6 @@ export const Symbol = createGenericComponent<
       {...rest}
       className={cls({
         modifiers: {
-          transition: !!transition,
           "flip-rtl": !!flipRtl,
         },
         extra: ["material-symbols-sharp", className ?? ""],
@@ -79,8 +75,6 @@ export const Symbol = createGenericComponent<
         "--wght": weight,
         "--grad": grade && clamp(grade, -25, 200),
         "--opsz": clamp(opticalSize, 20, 48),
-        "--transition-duration":
-          typeof transition === "string" ? transition : undefined,
       }}
     >
       {children}

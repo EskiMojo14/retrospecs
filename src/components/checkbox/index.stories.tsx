@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { Symbol } from "~/components/symbol";
 import { colors } from "~/theme/colors";
 import { Checkbox, CheckboxGroup, CheckboxItem } from ".";
 
@@ -48,6 +49,27 @@ export const Group: Story = {
       <CheckboxItem value="football">Football</CheckboxItem>
       <CheckboxItem value="rugby">Rugby</CheckboxItem>
       <CheckboxItem value="cricket">Cricket</CheckboxItem>
+    </CheckboxGroup>
+  ),
+};
+
+export const GroupWithIcons: Story = {
+  render: ({ color, isDisabled }) => (
+    <CheckboxGroup
+      color={color}
+      isDisabled={isDisabled}
+      label="Favorite sports"
+      description="Select all that apply"
+    >
+      <CheckboxItem value="football" icon={<Symbol>sports_soccer</Symbol>}>
+        Football
+      </CheckboxItem>
+      <CheckboxItem value="rugby" icon={<Symbol>sports_rugby</Symbol>}>
+        Rugby
+      </CheckboxItem>
+      <CheckboxItem value="cricket" icon={<Symbol>sports_cricket</Symbol>}>
+        Cricket
+      </CheckboxItem>
     </CheckboxGroup>
   ),
 };

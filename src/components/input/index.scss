@@ -144,7 +144,8 @@
     @include theme.dark {
       --selected-text-rgb: var(--shade-100-rgb);
     }
-    .input-group__icon {
+    .symbol {
+      --transition-duration: 50ms;
       @include util.reflexive-box(margin, -0.5rem);
     }
     &[data-hovered] {
@@ -159,6 +160,9 @@
     &[data-selected] {
       --text-rgb: var(--selected-text-rgb);
       --ripple: var(--shade-500);
+      .symbol {
+        --fill: 1;
+      }
     }
     &:focus {
       outline: none;

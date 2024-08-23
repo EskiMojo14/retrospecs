@@ -1,4 +1,4 @@
-import type { ContextType, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { createContext, forwardRef, useMemo, useState } from "react";
 import type {
   TabListProps as AriaTabListProps,
@@ -15,7 +15,6 @@ import {
   TabPanel as AriaTabPanel,
   useContextProps,
 } from "react-aria-components";
-import { SymbolContext } from "~/components/symbol";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
@@ -76,10 +75,6 @@ export const TabList = forwardRef<HTMLDivElement, TabListProps<{}>>(
 
 TabList.displayName = "TabList";
 
-const symbolContextValue: ContextType<typeof SymbolContext> = {
-  transition: true,
-};
-
 export interface TabProps extends Omit<AriaTabProps, "className"> {
   className?: string;
   icon?: ReactNode | ((props: TabRenderProps) => ReactNode);
@@ -115,13 +110,13 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
       }}
     >
       {renderPropsChild(children, (children, renderProps) => (
-        <SymbolContext.Provider value={symbolContextValue}>
+        <>
           <div ref={surfaceRef} className={cls("tab-ripple")} />
           <div className={cls("tab-content")}>
             {typeof icon === "function" ? icon(renderProps) : icon}
             {children}
           </div>
-        </SymbolContext.Provider>
+        </>
       ))}
     </AriaTab>
   );
