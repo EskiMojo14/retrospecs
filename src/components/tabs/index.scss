@@ -6,6 +6,7 @@
     display: flex;
   }
   &__tab {
+    border-radius: var(--border-radius-full);
     position: relative;
     flex: 1 1 0px;
     width: 0;
@@ -42,23 +43,42 @@
         --wght: 700;
         --fill: 1;
       }
+      &::before {
+        --border-width: var(--outline-width);
+        --border-alpha: 1;
+      }
     }
     &[data-disabled] {
       opacity: 0.5;
     }
+    &::before {
+      content: "";
+      position: absolute;
+      border-radius: inherit;
+      inset: var(--outline-width);
+      --border-width: 0;
+      --border-color-rgb: var(--shade-500-rgb);
+      --border-alpha: 0;
+      border: var(--border-width) solid
+        rgba(var(--border-color-rgb), var(--border-alpha));
+      transition: border 200ms;
+      @include theme.dark {
+        --border-color-rgb: var(--shade-300-rgb);
+      }
+    }
   }
   &__tab-content {
+    position: relative;
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 4px 8px;
     .tabs__list--inline-icons & {
       flex-direction: row;
       gap: 8px;
     }
-  }
-  &__panel {
   }
 }

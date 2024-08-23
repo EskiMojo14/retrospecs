@@ -48,13 +48,13 @@
 }
 
 .tabs {
-  background-color: var(--gold-50);
+  background-color: var(--surface);
   margin: 0 8px;
   border-radius: var(--border-radius-full);
   @include elevation.shadow(4);
   overflow: hidden;
   :global {
-    .tabs__tab {
+    .tabs __tab {
       border-radius: var(--border-radius-full);
       @include theme.ripple-selected(var(--ripple), " .tabs__tab-ripple");
       &[data-selected] {
