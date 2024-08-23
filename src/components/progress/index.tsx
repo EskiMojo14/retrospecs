@@ -2,6 +2,8 @@ import type { CSSProperties } from "react";
 import { forwardRef } from "react";
 import type { ProgressBarProps } from "react-aria-components";
 import { ProgressBar } from "react-aria-components";
+import { Symbol } from "~/components/symbol";
+import SvgCassetteSpokes from "~/icons/cassette-spokes";
 import type { Color } from "~/theme/colors";
 import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
@@ -120,3 +122,45 @@ export const CircularProgress = forwardRef<HTMLDivElement, ProgressProps>(
 );
 
 CircularProgress.displayName = "CircularProgress";
+
+export const CassetteProgress = forwardRef<
+  HTMLDivElement,
+  Omit<ProgressProps, "thickness">
+>(({ className, color = "gold", isHidden, ...props }, ref) => {
+  return (
+    <ProgressBar
+      ref={ref}
+      {...props}
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      data-hidden={isHidden || undefined}
+      className={cls({
+        modifier: {
+          cassette: true,
+        },
+        extra: [className ?? "", "color-" + color],
+      })}
+    >
+      {({ percentage }) => (
+        <div
+          className={cls("cassette")}
+          style={{
+            "--pct": percentage,
+          }}
+        >
+          <div className={cls("wheel")}>
+            <Symbol>
+              <SvgCassetteSpokes />
+            </Symbol>
+          </div>
+          <div className={cls("wheel")}>
+            <Symbol>
+              <SvgCassetteSpokes />
+            </Symbol>
+          </div>
+        </div>
+      )}
+    </ProgressBar>
+  );
+});
+
+CassetteProgress.displayName = "CassetteProgress";

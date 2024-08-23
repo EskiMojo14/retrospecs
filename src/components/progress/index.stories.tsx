@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { colors } from "~/theme/colors";
 import type { ProgressProps } from ".";
-import { CircularProgress, LinearProgress } from ".";
+import { CassetteProgress, CircularProgress, LinearProgress } from ".";
 
 const meta = {
   title: "Components/Progress",
@@ -55,6 +55,27 @@ export const IndeterminateCircular: Story = {
     value: { table: { disable: true } },
   },
   render: (args) => <CircularProgress {...args} />,
+  args: {
+    isIndeterminate: true,
+  },
+};
+
+export const DeterminateCassette: Story = {
+  argTypes: {
+    thickness: { table: { disable: true } },
+  },
+  render: (args) => <CassetteProgress {...args} />,
+  args: {
+    value: 50,
+  },
+};
+
+export const IndeterminateCassette: Story = {
+  argTypes: {
+    value: { table: { disable: true } },
+    thickness: { table: { disable: true } },
+  },
+  render: (args) => <CassetteProgress {...args} />,
   args: {
     isIndeterminate: true,
   },
