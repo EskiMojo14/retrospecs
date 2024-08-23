@@ -3,6 +3,7 @@
 @use "~/util";
 
 .navBar {
+  margin-bottom: var(--header-shadow-height);
   top: max(var(--top), calc(var(--app-bar-height) * -1));
   @include layout.breakpoint("desktop", "above") {
     top: 0;

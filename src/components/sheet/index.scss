@@ -3,13 +3,15 @@
 @use "~/util";
 
 .sheet {
+  background-color: var(--surface);
+  min-width: 256px;
+  max-width: 400px;
+  &--standard {
+  }
   &--modal {
-    background-color: var(--surface);
     position: fixed;
     top: 0;
     bottom: 0;
-    min-width: 256px;
-    max-width: 400px;
     @include elevation.shadow(8);
     @include layout.breakpoint("phone", "only") {
       min-width: calc(100% - 64px);

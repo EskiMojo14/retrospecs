@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { object, parse } from "valibot";
 import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
+import type { Category } from "~/features/feedback";
 import { Footer } from "~/features/footer";
 import { NavBar } from "~/features/nav-bar";
 import { getOrg } from "~/features/orgs";
@@ -12,6 +13,8 @@ import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useParsedParams } from "~/hooks/use-parsed-params";
 import { promiseOwnProperties } from "~/util/ponyfills";
 import { coerceNumber } from "~/util/valibot";
+import { ActionList } from "./actions-list";
+import { FeedbackList } from "./feedback-list";
 
 export const meta: MetaFunction = () => [
   { title: "RetroSpecs - Sprint" },
@@ -67,7 +70,18 @@ export default function Sprints() {
           },
         ]}
       />
-      <main></main>
+      <main
+        style={{
+          display: "flex",
+        }}
+      >
+        {(["good", "improvement", "neutral"] satisfies Array<Category>).map(
+          (category) => (
+            <FeedbackList key={category} {...{ category }} />
+          ),
+        )}
+        <ActionList />
+      </main>
       <Footer />
     </>
   );
