@@ -14,7 +14,9 @@
     transition:
       font-weight 200ms,
       opacity 200ms;
-    @include theme.ripple(var(--text), " .tabs__tab-ripple");
+    color: typography.emphasis("text", "high");
+    --ripple: var(--text);
+    @include theme.ripple(var(--ripple), " .tabs__tab-ripple");
     &:focus {
       outline: none;
     }

@@ -1,4 +1,5 @@
 @use "~/theme";
+@use "~/theme/elevation";
 
 .list {
   position: relative;
@@ -43,5 +44,26 @@
 @include theme.dark-root {
   &[data-groove="heavy"] .list {
     background-image: url("/assets/bg_dark.svg");
+  }
+}
+
+.tabs {
+  background-color: var(--gold-50);
+  margin: 0 8px;
+  border-radius: var(--border-radius-full);
+  @include elevation.shadow(4);
+  overflow: hidden;
+  :global {
+    .tabs__tab {
+      border-radius: var(--border-radius-full);
+      @include theme.ripple-selected(var(--ripple), " .tabs__tab-ripple");
+      &[data-selected] {
+        --ripple-rgb: var(--gold-500-rgb);
+        --ripple: rgb(var(--ripple-rgb));
+        @include theme.dark {
+          --ripple-rgb: var(--gold-300-rgb);
+        }
+      }
+    }
   }
 }
