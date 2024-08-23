@@ -20,7 +20,7 @@
     margin-right: 16px;
     width: calc(100% - 32px);
   }
-  &[data-orientation="vertical"] {
+  &[aria-orientation="vertical"] {
     width: 1px;
     height: 100%;
     margin: 0 8px;
