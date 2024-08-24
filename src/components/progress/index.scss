@@ -384,13 +384,13 @@
           animation: cassette-spin $indeterminate-duration infinite ease-in-out;
           @keyframes cassette-spin {
             from {
-              transform: rotate(0);
-            }
-            50% {
               transform: rotate($increment * 100);
             }
-            to {
+            50% {
               transform: rotate(0);
+            }
+            to {
+              transform: rotate($increment * 100);
             }
           }
         }
