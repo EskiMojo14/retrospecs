@@ -177,6 +177,9 @@
       .progress__cassette {
         height: variables.$min-height - 4px;
         border-radius: var(--button-radius);
+        &::before {
+          height: 2px;
+        }
       }
     }
   }
