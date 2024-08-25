@@ -22,6 +22,7 @@ import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { useCurrentUserPermissions } from "~/hooks/use-user-permissions";
 import { pluralize } from "~/util";
 import { Permission } from "~/util/permissions";
+import { EditTeam } from "./edit-team";
 import styles from "./team-grid.module.scss";
 
 export interface TeamCardProps {
@@ -92,9 +93,14 @@ function TeamCard({ orgId, id: teamId }: TeamCardProps) {
         </Toolbar>
         {permissions >= Permission.Admin && (
           <Toolbar slot="icons">
-            <IconButton tooltip="Edit" slot="action">
-              <Symbol>edit</Symbol>
-            </IconButton>
+            <EditTeam
+              trigger={
+                <IconButton tooltip="Edit" slot="action">
+                  <Symbol>edit</Symbol>
+                </IconButton>
+              }
+              {...{ orgId, teamId }}
+            />
             <ConfirmationDialog
               trigger={
                 <IconButton tooltip="Delete" slot="action">
