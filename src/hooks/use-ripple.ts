@@ -16,16 +16,16 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
   const foundation = useMemo(() => {
     if (!rootRef || !surfaceRef) return;
     const foundation = new MDCRippleFoundation({
-      addClass: (className) => {
+      addClass(className) {
         surfaceRef.classList.add(className);
       },
       browserSupportsCssVars: () => util.supportsCssVariables(window),
       computeBoundingRect: () => surfaceRef.getBoundingClientRect(),
       containsEventTarget: (target) => rootRef.contains(target as Node | null),
-      deregisterDocumentInteractionHandler: (evtType, handler) => {
+      deregisterDocumentInteractionHandler(evtType, handler) {
         document.documentElement.removeEventListener(evtType, handler);
       },
-      deregisterResizeHandler: (handler) => {
+      deregisterResizeHandler(handler) {
         window.removeEventListener("resize", handler);
       },
       getWindowPageOffset: () => ({
@@ -34,27 +34,27 @@ export function useRipple(config: Omit<MDCRippleCapableSurface, "root">) {
       }),
       isSurfaceActive: () => rootRef.matches(":active"),
       isSurfaceDisabled: () => !!getProps().disabled,
-      removeClass: (className) => {
+      removeClass(className) {
         surfaceRef.classList.remove(className);
       },
       isUnbounded: () => !!getProps().unbounded,
-      registerDocumentInteractionHandler: (evtType, handler) => {
+      registerDocumentInteractionHandler(evtType, handler) {
         document.documentElement.addEventListener(evtType, handler, {
           passive: true,
         });
       },
-      registerResizeHandler: (handler) => {
+      registerResizeHandler(handler) {
         window.addEventListener("resize", handler);
       },
-      updateCssVariable: (varName, value) => {
+      updateCssVariable(varName, value) {
         surfaceRef.style.setProperty(varName, value);
       },
-      registerInteractionHandler: (evtType, handler) => {
+      registerInteractionHandler(evtType, handler) {
         rootRef.addEventListener(evtType, handler, {
           passive: true,
         });
       },
-      deregisterInteractionHandler: (evtType, handler) => {
+      deregisterInteractionHandler(evtType, handler) {
         rootRef.removeEventListener(evtType, handler);
       },
     });

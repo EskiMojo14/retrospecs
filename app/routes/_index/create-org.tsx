@@ -17,7 +17,7 @@ export function CreateOrg(props: Omit<DialogProps, "children">) {
     mutate: addOrgFn,
     isError,
     isPending,
-    reset: resetMutation,
+    reset,
   } = useMutation(useOptionsCreator(addOrg));
   return (
     <FormDialog
@@ -38,7 +38,7 @@ export function CreateOrg(props: Omit<DialogProps, "children">) {
         isIndeterminate: isPending,
         color: isError ? "red" : undefined,
       }}
-      onReset={resetMutation}
+      onReset={reset}
     >
       <TextField label="Name" name="name" isRequired />
     </FormDialog>

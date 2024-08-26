@@ -29,7 +29,7 @@ export function EditOrg({ orgId, ...props }: EditOrgProps) {
     mutate: editOrg,
     isError,
     isPending,
-    reset: resetMutation,
+    reset,
   } = useMutation(useOptionsCreator(updateOrg));
   if (!org) return null;
   return (
@@ -51,7 +51,7 @@ export function EditOrg({ orgId, ...props }: EditOrgProps) {
         isIndeterminate: isPending,
         color: isError ? "red" : undefined,
       }}
-      onReset={resetMutation}
+      onReset={reset}
     >
       <input type="hidden" name="id" value={orgId} />
       <TextField label="Name" name="name" defaultValue={org.name} isRequired />

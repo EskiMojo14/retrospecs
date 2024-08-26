@@ -12,6 +12,7 @@ import { useFormSchema } from "~/hooks/use-form-schema";
 import type { Overwrite } from "~/util/types";
 import type { DialogProps } from ".";
 import { Dialog, DialogContent } from ".";
+import styles from "./form.module.scss";
 
 export interface FormDialogProps<T extends BaseSchema<any, any, any>>
   extends Omit<DialogProps, "children"> {
@@ -20,7 +21,7 @@ export interface FormDialogProps<T extends BaseSchema<any, any, any>>
   formId: string;
   onSubmit: (values: InferOutput<T>, close: () => void) => void;
   onCancel?: () => void;
-  onReset?: () => void;
+  onReset?: (reason: "reset" | "close") => void;
   submitButtonProps: Omit<
     Overwrite<Overwrite<AriaButtonProps, ButtonProps>, LoadingButtonProps>,
     "onPress"
@@ -44,15 +45,18 @@ export const FormDialog = <T extends BaseSchema<any, any, any>>({
 }: FormDialogProps<T>) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, validate, resetErrors] = useFormSchema(schema);
+  const handleReset = ((reason) => {
+    formRef.current?.reset();
+    resetErrors();
+    onReset?.(reason);
+  }) satisfies FormDialogProps<any>["onReset"];
   return (
     <Dialog
       {...props}
       triggerProps={mergeProps(triggerProps, {
         onOpenChange(isOpen: boolean) {
           if (!isOpen) {
-            formRef.current?.reset();
-            resetErrors();
-            onReset?.();
+            handleReset("close");
           }
         },
       })}
@@ -72,7 +76,6 @@ export const FormDialog = <T extends BaseSchema<any, any, any>>({
               const result = validate(
                 Object.fromEntries(new FormData(event.currentTarget)),
               );
-              console.log(result);
               if (!result.success) return;
               onSubmit(result.output, close);
             }}
@@ -80,6 +83,15 @@ export const FormDialog = <T extends BaseSchema<any, any, any>>({
             {children}
           </DialogContent>
           <Toolbar slot="actions">
+            <Button
+              variant="outlined"
+              onPress={() => {
+                handleReset("reset");
+              }}
+            >
+              Reset
+            </Button>
+            <div className={styles.spacer} />
             <Button
               variant="outlined"
               {...cancelButtonProps}
@@ -96,7 +108,7 @@ export const FormDialog = <T extends BaseSchema<any, any, any>>({
               form={formId}
               type="submit"
             >
-              {submitButtonProps?.children ?? "Submit"}
+              {submitButtonProps.children ?? "Submit"}
             </LoadingButton>
           </Toolbar>
         </>

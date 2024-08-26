@@ -21,20 +21,20 @@ function useNavBarScroll() {
     let foundation: MDCTopAppBarFoundation | null = null;
     if (!navBarRef) return foundation;
     foundation = new MDCTopAppBarFoundation({
-      addClass: (className) => {
+      addClass(className) {
         navBarRef.classList.add(className);
       },
-      removeClass: (className) => {
+      removeClass(className) {
         navBarRef.classList.remove(className);
       },
       hasClass: (className) => navBarRef.classList.contains(className),
-      setStyle: (property, value) => {
+      setStyle(property, value) {
         navBarRef.style.setProperty(
           property === "top" ? "--top" : property,
           value,
         );
       },
-      getTopAppBarHeight: () => {
+      getTopAppBarHeight() {
         const height = navBarRef.clientHeight;
         navBarRef.style.setProperty("--app-bar-height", `${height}px`);
         return height;
