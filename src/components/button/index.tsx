@@ -1,6 +1,5 @@
 import type { CollectionProps } from "@react-aria/collections";
 import { mergeProps } from "@react-aria/utils";
-import { clsx } from "clsx";
 import type { ReactNode, RefCallback } from "react";
 import { createContext, forwardRef, useCallback, useMemo, useRef } from "react";
 import type {

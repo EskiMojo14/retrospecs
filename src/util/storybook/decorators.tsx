@@ -1,9 +1,5 @@
-import type { QueryClient } from "@tanstack/react-query";
-import { QueryClientProvider } from "@tanstack/react-query";
 import type { ComponentType, DependencyList, EffectCallback } from "react";
 import { useEffect } from "react";
-import type { AppSupabaseClient } from "~/db";
-import { OriginalSupabaseProvider, SessionProvider } from "~/db/provider";
 
 type Decorator<
   ArgsConstraint extends {} = {},
@@ -12,26 +8,6 @@ type Decorator<
   Story: ComponentType<Omit<TArgs, StoryProps>>,
   context: { args: TArgs },
 ) => JSX.Element;
-
-export const createSupabaseDecorator =
-  (supabase: AppSupabaseClient): Decorator =>
-  // eslint-disable-next-line react/display-name
-  (Story, { args }) => (
-    <OriginalSupabaseProvider supabase={supabase}>
-      <SessionProvider>
-        <Story {...args} />
-      </SessionProvider>
-    </OriginalSupabaseProvider>
-  );
-
-export const createQueryClientDecorator =
-  (queryClient: QueryClient): Decorator =>
-  // eslint-disable-next-line react/display-name
-  (Story, { args }) => (
-    <QueryClientProvider client={queryClient}>
-      <Story {...args} />
-    </QueryClientProvider>
-  );
 
 function Effect({
   children,

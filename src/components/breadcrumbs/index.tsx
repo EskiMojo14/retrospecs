@@ -9,7 +9,7 @@ import {
   Breadcrumb as AriaBreadcrumb,
 } from "react-aria-components";
 import { Symbol } from "~/components/symbol";
-import { bemHelper } from "~/util";
+import { bemHelper, renderPropsChild } from "~/util";
 import "./index.scss";
 
 export const Breadcrumbs = forwardRef<HTMLOListElement, BreadcrumbsProps<any>>(
@@ -39,10 +39,14 @@ export const Breadcrumb = forwardRef<HTMLLIElement, BreadcrumbProps>(
         extra: className,
       })}
     >
-      {children}
-      <Symbol flipRtl className={cls("icon")}>
-        chevron_right
-      </Symbol>
+      {renderPropsChild(children, (children) => (
+        <>
+          {children}
+          <Symbol flipRtl className={cls("icon")}>
+            chevron_right
+          </Symbol>
+        </>
+      ))}
     </AriaBreadcrumb>
   ),
 );
