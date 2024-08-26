@@ -119,7 +119,7 @@ function OrgCard({ id: orgId }: OrgCardProps) {
                 }}
                 confirmButtonProps={{
                   children: "Delete",
-                  progressLabel: "Deleting",
+                  progressLabel: "Deleting organisation",
                   isIndeterminate: isPending,
                   color: "red",
                 }}

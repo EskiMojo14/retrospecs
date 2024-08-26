@@ -98,8 +98,7 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
           </Breadcrumbs>
         </Toolbar>
         <Toolbar slot="actions">
-          {actions}
-          <Invites />
+          {actions ?? <Invites />}
           <ConfirmationDialog
             trigger={
               <IconButton slot="action" tooltip="Sign out">
@@ -110,7 +109,6 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
             description="Are you sure you want to sign out?"
             confirmButtonProps={{
               children: "Sign out",
-              progressLabel: "Signing out",
               color: "red",
             }}
             onConfirm={() => {

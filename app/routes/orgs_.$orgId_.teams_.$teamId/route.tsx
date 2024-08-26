@@ -2,6 +2,7 @@ import { useLoaderData } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { object, parse } from "valibot";
 import { ExtendedFab } from "~/components/button/fab";
+import { LinkIconButton } from "~/components/icon-button";
 import { Symbol } from "~/components/symbol";
 import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
@@ -81,6 +82,15 @@ export default function Sprints() {
         },
         { label: team.name, href: `/orgs/${orgId}/teams/${teamId}` },
       ]}
+      actions={
+        <LinkIconButton
+          href={`/orgs/${orgId}/teams/${teamId}/members`}
+          tooltip="Members"
+          slot="action"
+        >
+          <Symbol>people</Symbol>
+        </LinkIconButton>
+      }
     >
       <SprintList {...{ sprintIds, teamId, orgId }} />
       {permission >= Permission.Admin && (
