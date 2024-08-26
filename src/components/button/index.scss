@@ -33,10 +33,7 @@
   @include typography.style("button");
 
   @include theme.ripple(var(--button-text), " .button__ripple");
-  @include theme.ripple-selected(
-    $surface: " .button__ripple",
-    $ripple-color: var(--button-text)
-  );
+  @include theme.ripple-selected(var(--button-text), " .button__ripple");
 
   @include theme.dark {
     --button-text-rgb: var(--shade-300-rgb);
@@ -176,10 +173,8 @@
       margin: 2px -14px;
       .progress__cassette {
         height: variables.$min-height - 4px;
+        border: none;
         border-radius: var(--button-radius);
-        &::before {
-          height: 2px;
-        }
       }
     }
   }

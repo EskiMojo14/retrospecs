@@ -263,10 +263,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 12px;
-        height: 48px;
+        gap: 24px;
+        height: 36px;
         width: 96px;
-        border-radius: var(--border-radius-medium);
+        border-radius: var(--border-radius-full);
         overflow: hidden;
         border: 2px solid var(--progress-indicator-color);
         position: relative;
@@ -276,7 +276,7 @@
           top: 0;
           left: 50%;
           transform: translateX(-50%);
-          width: 56px;
+          width: 36px;
           height: 4px;
           background-color: var(--progress-indicator-color);
           border-radius: 0 0 var(--border-radius-full) var(--border-radius-full);
