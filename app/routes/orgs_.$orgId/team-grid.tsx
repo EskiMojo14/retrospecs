@@ -115,6 +115,8 @@ function TeamCard({ orgId, id: teamId }: TeamCardProps) {
                 });
               }}
               confirmButtonProps={{
+                children: "Delete",
+                progressLabel: "Deleting team",
                 isIndeterminate: isPending,
                 color: "red",
               }}

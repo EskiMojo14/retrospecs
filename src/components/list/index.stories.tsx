@@ -363,6 +363,7 @@ function TodoListFn() {
               <IconButton
                 as={LoadingButton}
                 tooltip="Delete"
+                progressLabel="Deleting todo"
                 onPress={() => {
                   dispatch(startDeleteLoading(id));
                   setTimeout(() => {
@@ -401,6 +402,7 @@ function TodoListFn() {
             variant="elevated"
             type="submit"
             isIndeterminate={todos.addLoading}
+            progressLabel="Adding todo"
           >
             <Symbol>add</Symbol>
             Add

@@ -110,6 +110,7 @@ export function NavBar({ breadcrumbs = [], actions }: NavBarProps) {
             description="Are you sure you want to sign out?"
             confirmButtonProps={{
               children: "Sign out",
+              progressLabel: "Signing out",
               color: "red",
             }}
             onConfirm={() => {

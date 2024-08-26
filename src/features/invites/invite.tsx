@@ -7,13 +7,13 @@ import { ListItem, ListItemText } from "~/components/list";
 import { Symbol } from "~/components/symbol";
 import { toastQueue } from "~/components/toast";
 import { Toolbar } from "~/components/toolbar";
+import { Time } from "~/components/typography";
 import { useSession } from "~/db/provider";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import DeclineInviteIcon from "~/icons/decline-invite";
 import type { InviteWithInviter } from ".";
 import { acceptInvite, deleteInvite } from ".";
 import styles from "./invite.module.scss";
-import { Time } from "~/components/typography";
 
 interface InviteEntryProps {
   invite: InviteWithInviter;
@@ -58,6 +58,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
         <IconButton
           as={LoadingButton}
           tooltip="Accept"
+          progressLabel="Accepting invite"
           variant="filled"
           color="green"
           onPress={() => {

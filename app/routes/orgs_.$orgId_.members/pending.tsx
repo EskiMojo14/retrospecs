@@ -57,6 +57,7 @@ function InviteRow({ invite }: { invite: InviteWithInviter }) {
         confirmButtonProps={{
           color: "red",
           children: "Revoke",
+          progressLabel: "Revoking invite",
           isIndeterminate: isPending,
         }}
         onConfirm={(close) => {

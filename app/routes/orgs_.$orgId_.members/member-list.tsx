@@ -36,7 +36,7 @@ const permissionLabels: Partial<Record<Permission, string>> = {
   [Permission.Admin]: "Admin",
 };
 
-export function MemberRow({ id, orgId }: MemberRowProps) {
+function MemberRow({ id, orgId }: MemberRowProps) {
   const session = useSession();
   const { data: member } = useQuery({
     ...useOptionsCreator(getOrgMembers, orgId),
@@ -96,11 +96,13 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
               member.role === "admin"
                 ? {
                     children: "Demote",
+                    progressLabel: "Demoting member",
                     color: "red",
                     isIndeterminate: updatePending,
                   }
                 : {
                     children: "Promote",
+                    progressLabel: "Promoting member",
                     color: "green",
                     isIndeterminate: updatePending,
                   }
@@ -139,6 +141,7 @@ export function MemberRow({ id, orgId }: MemberRowProps) {
             }
             confirmButtonProps={{
               children: "Remove",
+              progressLabel: "Removing member",
               color: "red",
               isIndeterminate: deletePending,
             }}

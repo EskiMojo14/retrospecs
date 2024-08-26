@@ -1,18 +1,11 @@
-import { mergeProps } from "@react-aria/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRef, type FormEvent } from "react";
-import { Form } from "react-aria-components";
 import type { BaseSchema } from "valibot";
 import { nonEmpty, object, pipe, string } from "valibot";
-import { Button, LoadingButton } from "~/components/button";
 import type { DialogProps } from "~/components/dialog";
-import { Dialog, DialogContent } from "~/components/dialog";
+import { FormDialog } from "~/components/dialog/form";
 import { TextField } from "~/components/input/text-field";
-import { Toolbar } from "~/components/toolbar";
-import { Heading } from "~/components/typography";
 import type { TablesUpdate } from "~/db/supabase";
 import { getTeamsByOrg, selectTeamById, updateTeam } from "~/features/teams";
-import { useFormSchema } from "~/hooks/use-form-schema";
 import { useOptionsCreator } from "~/hooks/use-options-creator";
 import { coerceNumber } from "~/util/valibot";
 
@@ -27,13 +20,7 @@ const editTeamSchema = object({
   id: coerceNumber(),
 }) satisfies BaseSchema<any, TablesUpdate<"teams">, any>;
 
-export function EditTeam({
-  orgId,
-  teamId,
-  triggerProps,
-  ...props
-}: EditTeamProps) {
-  const formRef = useRef<HTMLFormElement>(null);
+export function EditTeam({ orgId, teamId, ...props }: EditTeamProps) {
   const { data: team } = useQuery({
     ...useOptionsCreator(getTeamsByOrg, orgId),
     select: (teams) => selectTeamById(teams, teamId),
@@ -44,65 +31,33 @@ export function EditTeam({
     isPending,
     reset,
   } = useMutation(useOptionsCreator(updateTeam));
-  const [errors, validateTeam, resetValidation] = useFormSchema(editTeamSchema);
   return (
-    <Dialog
+    <FormDialog
       {...props}
-      triggerProps={mergeProps(triggerProps, {
-        onOpenChange(isOpen: boolean) {
-          if (!isOpen) {
-            formRef.current?.reset();
-            reset();
-            resetValidation();
-          }
-        },
-      })}
+      title="Edit team"
+      formId="edit-team-form"
+      schema={editTeamSchema}
+      onSubmit={(output, close) => {
+        addTeamFn(output, {
+          onSuccess: close,
+        });
+      }}
+      submitButtonProps={{
+        children: "Update",
+        progressLabel: "Updating team",
+        isIndeterminate: isPending,
+        color: isError ? "red" : undefined,
+      }}
+      onReset={reset}
     >
-      {({ close }) => (
-        <>
-          <Heading variant="headline6" slot="title">
-            Edit team
-          </Heading>
-          <DialogContent
-            as={Form}
-            id="edit-team-form"
-            onSubmit={(event: FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              const unparsedData = new FormData(event.currentTarget);
-              const parsedData = validateTeam(Object.fromEntries(unparsedData));
-              if (parsedData.success) {
-                addTeamFn(parsedData.output, {
-                  onSuccess: close,
-                });
-              }
-            }}
-            validationErrors={errors?.validationErrors}
-          >
-            <input type="hidden" name="org_id" value={orgId} />
-            <input type="hidden" name="id" value={teamId} />
-            <TextField
-              label="Name"
-              name="name"
-              defaultValue={team?.name}
-              isRequired
-            />
-          </DialogContent>
-          <Toolbar slot="actions">
-            <Button onPress={close} variant="outlined">
-              Cancel
-            </Button>
-            <LoadingButton
-              type="submit"
-              form="edit-team-form"
-              variant="elevated"
-              isIndeterminate={isPending}
-              color={isError ? "red" : undefined}
-            >
-              Update
-            </LoadingButton>
-          </Toolbar>
-        </>
-      )}
-    </Dialog>
+      <input type="hidden" name="org_id" value={orgId} />
+      <input type="hidden" name="id" value={teamId} />
+      <TextField
+        label="Name"
+        name="name"
+        defaultValue={team?.name}
+        isRequired
+      />
+    </FormDialog>
   );
 }

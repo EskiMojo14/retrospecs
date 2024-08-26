@@ -79,6 +79,7 @@ function SprintListItem({ orgId, teamId, id: sprintId }: SprintItem) {
               confirmButtonProps={{
                 color: "red",
                 children: "Delete",
+                progressLabel: "Deleting sprint",
                 isIndeterminate: isPending,
               }}
               onConfirm={(close) => {

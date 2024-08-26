@@ -13,7 +13,7 @@ export interface ConfirmationDialogProps extends Omit<DialogProps, "children"> {
   description: ReactNode;
   onConfirm: (close: () => void) => void;
   onCancel?: () => void;
-  confirmButtonProps?: Omit<
+  confirmButtonProps: Omit<
     Overwrite<Overwrite<AriaButtonProps, ButtonProps>, LoadingButtonProps>,
     "onPress"
   >;
@@ -38,7 +38,7 @@ export function ConfirmationDialog({
           <Heading variant="headline6" slot="title">
             {title}
           </Heading>
-          <DialogContent slot="content">
+          <DialogContent>
             {children ?? <Typography variant="body2">{description}</Typography>}
           </DialogContent>
           <Toolbar slot="actions">
@@ -59,7 +59,7 @@ export function ConfirmationDialog({
                 onConfirm(close);
               }}
             >
-              {confirmButtonProps?.children ?? "Confirm"}
+              {confirmButtonProps.children ?? "Confirm"}
             </LoadingButton>
           </Toolbar>
         </>
