@@ -12,12 +12,13 @@ import {
   HeadingContext,
   ModalOverlay,
   Modal,
+  composeRenderProps,
 } from "react-aria-components";
 import { createGenericComponent } from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
 import { MergeProvider, Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
-import { bemHelper, renderPropsChild } from "~/util";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 export interface ModalSideSheetProps
@@ -102,7 +103,7 @@ export const ModalSideSheet = ({
               extra: className,
             })}
           >
-            {renderPropsChild(children, (children) => (
+            {composeRenderProps(children, (children) => (
               <Provider
                 values={[
                   [ToolbarContext, toolbarContextValue],

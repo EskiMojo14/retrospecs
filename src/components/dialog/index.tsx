@@ -11,12 +11,13 @@ import {
   DEFAULT_SLOT,
   Modal,
   ModalOverlay,
+  composeRenderProps,
 } from "react-aria-components";
 import { createGenericComponent } from "~/components/generic";
 import { LineBackground } from "~/components/line-background";
 import { Provider } from "~/components/provider";
 import { ToolbarContext } from "~/components/toolbar";
-import { bemHelper, renderPropsChild } from "~/util";
+import { bemHelper } from "~/util";
 import "./index.scss";
 
 export interface DialogProps
@@ -72,7 +73,7 @@ export const Dialog = ({
       >
         <LineBackground opacity={0.3}>
           <AriaDialog {...props} className={cls({ extra: className })}>
-            {renderPropsChild(children, (children) => (
+            {composeRenderProps(children, (children) => (
               <Provider values={[[ToolbarContext, toolbarContextValue]]}>
                 {children}
               </Provider>

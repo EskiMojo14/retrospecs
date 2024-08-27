@@ -4,11 +4,14 @@ import type {
   SwitchProps as AriaSwitchProps,
   SwitchRenderProps,
 } from "react-aria-components";
-import { Switch as AriaSwitch } from "react-aria-components";
+import {
+  Switch as AriaSwitch,
+  composeRenderProps,
+} from "react-aria-components";
 import { Symbol, SymbolContext } from "~/components/symbol";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
-import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
 
 export interface SwitchProps extends Omit<AriaSwitchProps, "className"> {
@@ -41,7 +44,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
           extra: [className ?? "", "color-" + color],
         })}
       >
-        {renderPropsChild(children, (children, renderProps) => {
+        {composeRenderProps(children, (children, renderProps) => {
           const currentIcon =
             typeof icon === "function" ? icon(renderProps) : icon;
           return (

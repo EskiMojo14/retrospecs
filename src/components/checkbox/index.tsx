@@ -12,13 +12,14 @@ import {
   Text,
   FieldError,
   useContextProps,
+  composeRenderProps,
 } from "react-aria-components";
 import type { FormGroupProps } from "~/components/input/text-field";
 import { listCls } from "~/components/list";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
-import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
 import "~/components/list/index.scss";
 
@@ -65,7 +66,7 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(
           extra: [className ?? "", "color-" + color],
         })}
       >
-        {renderPropsChild(children, (children, { isIndeterminate }) => (
+        {composeRenderProps(children, (children, { isIndeterminate }) => (
           <>
             <CheckboxTarget
               isIndeterminate={isIndeterminate}
@@ -128,7 +129,7 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
           extra: className,
         })}
       >
-        {renderPropsChild(children, (children) => (
+        {composeRenderProps(children, (children) => (
           <CheckboxGroupContext.Provider value={checkboxGroupContextValue}>
             <Typography
               as={Label}
@@ -205,7 +206,7 @@ export const CheckboxItem = forwardRef<HTMLLabelElement, CheckboxItemProps>(
           extra: ["color-" + color, className ?? "", groupCls("item")],
         })}
       >
-        {renderPropsChild(children, (children, { isIndeterminate }) => (
+        {composeRenderProps(children, (children, { isIndeterminate }) => (
           <>
             <div ref={itemRipple.surfaceRef} className={cls("item-ripple")} />
             <div className={listCls("item-content")}>

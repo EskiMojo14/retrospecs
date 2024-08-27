@@ -14,10 +14,11 @@ import {
   Tab as AriaTab,
   TabPanel as AriaTabPanel,
   useContextProps,
+  composeRenderProps,
 } from "react-aria-components";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
-import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
 
 const cls = bemHelper("tabs");
@@ -119,7 +120,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
         });
       }}
     >
-      {renderPropsChild(children, (children, renderProps) => (
+      {composeRenderProps(children, (children, renderProps) => (
         <>
           <div ref={surfaceRef} className={cls("tab-ripple")} />
           <div className={cls("tab-content")}>

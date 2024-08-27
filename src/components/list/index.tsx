@@ -11,12 +11,13 @@ import {
   GridListItem,
   useContextProps,
   Text,
+  composeRenderProps,
 } from "react-aria-components";
 import { SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
-import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs } from "~/util";
 import "./index.scss";
 
 export type ListVariant = "one-line" | "two-line" | "three-line";
@@ -105,7 +106,7 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps<any>>(
           extra: ["color-" + color, className ?? ""],
         })}
       >
-        {renderPropsChild(children, (children) => (
+        {composeRenderProps(children, (children) => (
           <SymbolContext.Provider value={symbolContextValue}>
             <div ref={surfaceRef} className={cls("item-ripple")} />
             <div className={cls("item-content")}>{children}</div>

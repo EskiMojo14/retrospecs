@@ -1,10 +1,12 @@
 import { clsx } from "clsx";
 import { forwardRef } from "react";
 import type { PopoverProps as AriaPopoverProps } from "react-aria-components";
-import { Popover as AriaPopover } from "react-aria-components";
+import {
+  Popover as AriaPopover,
+  composeRenderProps,
+} from "react-aria-components";
 import type { LineBackgroundProps } from "~/components/line-background";
 import { LineBackground } from "~/components/line-background";
-import { renderPropsChild } from "~/util";
 import type { Compute, OneOf } from "~/util/types";
 import "./index.scss";
 
@@ -14,7 +16,7 @@ type BackgroundProps = OneOf<
       backgroundProps?: LineBackgroundProps;
     }
   | {
-      withBg?: false;
+      withBg: false;
     }
 >;
 
@@ -33,7 +35,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       ref={ref}
       className={clsx("popover", className)}
     >
-      {renderPropsChild(children, (children) =>
+      {composeRenderProps(children, (children) =>
         withBg ? (
           <LineBackground opacity={0.3} {...backgroundProps}>
             {children}

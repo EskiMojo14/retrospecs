@@ -8,6 +8,7 @@ import type {
   ComponentRef,
 } from "react";
 import { forwardRef } from "react";
+import { composeRenderProps } from "react-aria-components";
 import type { Overwrite } from "~/util/types";
 
 const propSymbol = Symbol("prop");
@@ -126,8 +127,7 @@ export const renderGenericPropChild = <RenderProps,>(
   if (typeof children === "function") {
     // whatever made the children thinks it's fine to pass a function
     // so we'll do the same
-    return ((renderProps: RenderProps) =>
-      render(children(renderProps), renderProps)) as never;
+    return composeRenderProps(children, render) as never;
   }
   return render(children);
 };

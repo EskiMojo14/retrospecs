@@ -1,12 +1,15 @@
 import type { TooltipTriggerProps } from "@react-types/tooltip";
 import type { ContextType } from "react";
 import { forwardRef } from "react";
-import type { ButtonProps as AriaButtonProps } from "react-aria-components";
+import {
+  composeRenderProps,
+  type ButtonProps as AriaButtonProps,
+} from "react-aria-components";
 import { MergeProvider } from "~/components/provider";
 import { SymbolContext } from "~/components/symbol";
 import type { TooltipProps } from "~/components/tooltip";
 import { Tooltip, TooltipTrigger } from "~/components/tooltip";
-import { bemHelper, renderPropsChild } from "~/util";
+import { bemHelper } from "~/util";
 import type { Overwrite } from "~/util/types";
 import type { ButtonProps } from ".";
 import { Button } from ".";
@@ -58,7 +61,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
           extra: className,
         })}
       >
-        {renderPropsChild(children, (children) => (
+        {composeRenderProps(children, (children) => (
           <MergeProvider
             context={SymbolContext}
             value={size === "large" ? largeFabSymbolContextValue : null}
@@ -96,7 +99,7 @@ export const ExtendedFab = forwardRef<
       extra: className,
     })}
   >
-    {renderPropsChild(children, (children) => (
+    {composeRenderProps(children, (children) => (
       <MergeProvider context={SymbolContext} value={extendedSymbolContextValue}>
         {children}
       </MergeProvider>

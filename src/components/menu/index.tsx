@@ -15,6 +15,7 @@ import {
   MenuTrigger,
   SubmenuTrigger,
   useContextProps,
+  composeRenderProps,
 } from "react-aria-components";
 import type { PopoverProps } from "~/components/popover";
 import { Popover } from "~/components/popover";
@@ -22,7 +23,7 @@ import { Symbol, SymbolContext } from "~/components/symbol";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
-import { bemHelper, mergeRefs, renderPropsChild } from "~/util";
+import { bemHelper, mergeRefs } from "~/util";
 import type { DistributiveOmit } from "~/util/types";
 import "./index.scss";
 
@@ -148,20 +149,23 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps<any>>(
           extra: className,
         })}
       >
-        {renderPropsChild(children, (children, { isSelected, hasSubmenu }) => (
-          <SymbolContext.Provider value={symbolContextValue}>
-            <div ref={surfaceRef} className={cls("item-ripple")} />
-            <div className={cls("item-content")}>
-              {isSelected && <Symbol slot="check">check</Symbol>}
-              {children}
-              {hasSubmenu && (
-                <Symbol slot="submenu" flipRtl>
-                  chevron_right
-                </Symbol>
-              )}
-            </div>
-          </SymbolContext.Provider>
-        ))}
+        {composeRenderProps(
+          children,
+          (children, { isSelected, hasSubmenu }) => (
+            <SymbolContext.Provider value={symbolContextValue}>
+              <div ref={surfaceRef} className={cls("item-ripple")} />
+              <div className={cls("item-content")}>
+                {isSelected && <Symbol slot="check">check</Symbol>}
+                {children}
+                {hasSubmenu && (
+                  <Symbol slot="submenu" flipRtl>
+                    chevron_right
+                  </Symbol>
+                )}
+              </div>
+            </SymbolContext.Provider>
+          ),
+        )}
       </AriaMenuItem>
     );
   },

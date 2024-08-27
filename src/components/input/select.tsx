@@ -17,6 +17,7 @@ import {
   ListBoxItem,
   FieldError,
   Text,
+  composeRenderProps,
 } from "react-aria-components";
 import { Popover } from "~/components/popover";
 import { Symbol, SymbolContext } from "~/components/symbol";
@@ -24,7 +25,7 @@ import type { TypographyProps } from "~/components/typography";
 import { Typography } from "~/components/typography";
 import { useRipple } from "~/hooks/use-ripple";
 import type { Color } from "~/theme/colors";
-import { bemHelper, renderPropsChild } from "~/util";
+import { bemHelper } from "~/util";
 import type { Overwrite } from "~/util/types";
 import { inputGroupCls } from ".";
 import "./index.scss";
@@ -152,7 +153,7 @@ export function SelectItem<T extends object>({
         extra: className,
       })}
     >
-      {renderPropsChild(children, (children) => (
+      {composeRenderProps(children, (children) => (
         <>
           <div ref={surfaceRef} className={cls("item-ripple")} />
           <div className={cls("item-content")}>{children}</div>
