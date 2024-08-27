@@ -362,6 +362,7 @@ function TodoListFn() {
               <ListItemText headline={text} />
               <IconButton
                 as={LoadingButton}
+                progressVariant="circular"
                 tooltip="Delete"
                 progressLabel="Deleting todo"
                 onPress={() => {

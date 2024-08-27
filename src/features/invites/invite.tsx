@@ -57,6 +57,7 @@ export function InviteEntry({ invite }: InviteEntryProps) {
       <Toolbar align="end">
         <IconButton
           as={LoadingButton}
+          progressVariant="circular"
           tooltip="Accept"
           progressLabel="Accepting invite"
           variant="filled"
