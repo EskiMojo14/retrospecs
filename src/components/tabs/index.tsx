@@ -45,13 +45,14 @@ export interface TabListProps<T extends object>
   className?: string;
   inlineIcons?: boolean;
   color?: Color;
+  variant?: "filled" | "outlined";
 }
 
 export const TabList = forwardRef<HTMLDivElement, TabListProps<{}>>(
-  ({ className, inlineIcons, color, ...props }, ref) => {
+  ({ className, inlineIcons, color, variant, ...props }, ref) => {
     const tabContextValue = useMemo(
-      () => ({ ...(color && { color }) }),
-      [color],
+      () => ({ ...(color && { color }), ...(variant && { variant }) }),
+      [color, variant],
     );
     return (
       <TabContext.Provider value={tabContextValue}>
@@ -79,6 +80,7 @@ export interface TabProps extends Omit<AriaTabProps, "className"> {
   className?: string;
   icon?: ReactNode | ((props: TabRenderProps) => ReactNode);
   color?: Color;
+  variant?: "filled" | "outlined";
 }
 
 export const TabContext =
@@ -89,7 +91,14 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
     typeof props,
     typeof ref,
   ];
-  const { className, icon, children, color = "gold", ...rest } = props;
+  const {
+    className,
+    icon,
+    children,
+    color = "gold",
+    variant = "filled",
+    ...rest
+  } = props;
   const [isDisabled, setDisabled] = useState(props.isDisabled);
   const { rootRef, surfaceRef } = useRipple({
     disabled: isDisabled,
@@ -104,6 +113,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
           element: "tab",
           modifiers: {
             "with-icon": !!icon,
+            [variant]: true,
           },
           extra: [className ?? "", "color-" + color],
         });

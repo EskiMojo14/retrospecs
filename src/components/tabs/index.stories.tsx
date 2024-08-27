@@ -10,11 +10,12 @@ interface StoryProps {
   icons: boolean | "inline";
   keyboardActivation: "manual" | "automatic";
   color: Color;
+  variant: "filled" | "outlined";
 }
 
 const meta = {
   title: "Components/Tabs",
-  render: ({ icons, color, ...props }) => (
+  render: ({ icons, color, variant, ...props }) => (
     <Tabs
       {...props}
       style={{
@@ -23,7 +24,7 @@ const meta = {
     >
       <TabList
         inlineIcons={icons === "inline"}
-        {...{ color }}
+        {...{ color, variant }}
         aria-label="Tab options"
       >
         <Tab id="flights" icon={icons && <Symbol>flight</Symbol>}>
@@ -57,12 +58,17 @@ const meta = {
       control: "select",
       options: colors,
     },
+    variant: {
+      control: "inline-radio",
+      options: ["filled", "outlined"],
+    },
   },
   args: {
     isDisabled: false,
     icons: true,
     keyboardActivation: "automatic",
     color: "gold",
+    variant: "filled",
   },
 } satisfies Meta<StoryProps>;
 

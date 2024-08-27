@@ -12,7 +12,7 @@ export function ActionList() {
           <Heading variant="headline6">Actions</Heading>
         </header>
         <Tabs>
-          <TabList inlineIcons className={styles.tabs}>
+          <TabList variant="outlined" inlineIcons className={styles.tabs}>
             <Tab id="previous" icon={<Symbol>history</Symbol>}>
               Carried forward
             </Tab>
