@@ -1,6 +1,9 @@
 import { useLoaderData, type MetaFunction } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { object, parse } from "valibot";
+import { Divider } from "~/components/divider";
+import { Symbol } from "~/components/symbol";
+import { Tab, TabList, Tabs } from "~/components/tabs";
 import { ensureCurrentUserPermissions } from "~/db/auth.server";
 import { createHydratingLoader } from "~/db/loader.server";
 import type { Category } from "~/features/feedback";
@@ -43,6 +46,33 @@ export const loader = createHydratingLoader(
   },
 );
 
+const categoryDisplay: Record<
+  Category | "actions",
+  {
+    icon: string;
+    title: string;
+  }
+> = {
+  good: {
+    icon: "reviews",
+    title: "Good",
+  },
+  improvement: {
+    icon: "chat_error",
+    title: "Poor",
+  },
+  neutral: {
+    icon: "chat_info",
+    title: "Neutral",
+  },
+  actions: {
+    icon: "task",
+    title: "Actions",
+  },
+};
+
+const displayEntries = Object.entries(categoryDisplay);
+
 export default function Sprints() {
   const { orgId, teamId, sprintId } = useParsedParams(paramsSchema);
   const loaderData = useLoaderData<Awaited<ReturnType<typeof loader>>>();
@@ -70,6 +100,16 @@ export default function Sprints() {
           },
         ]}
       />
+      <Tabs>
+        <TabList items={displayEntries}>
+          {([category, { icon, title }]) => (
+            <Tab id={category} icon={<Symbol>{icon}</Symbol>}>
+              {title}
+            </Tab>
+          )}
+        </TabList>
+      </Tabs>
+      <Divider />
       <main
         style={{
           display: "flex",
