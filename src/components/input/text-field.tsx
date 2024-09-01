@@ -40,6 +40,7 @@ export interface FormGroupProps {
 export interface TextFieldProps
   extends Omit<AriaTextFieldProps, "children" | "className">,
     FormGroupProps {
+  placeholder?: string;
   className?: string;
   textarea?: boolean;
   color?: Color;

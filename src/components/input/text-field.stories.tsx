@@ -43,6 +43,7 @@ const meta = {
     label: "Label",
     description: "Description",
     color: "gold",
+    placeholder: "Placeholder",
   },
 } satisfies Meta<StoryProps>;
 
