@@ -32,6 +32,7 @@ export const DeterminateLinear: Story = {
   },
 };
 
+/*
 export const IndeterminateLinear: Story = {
   render: (args) => <LinearProgress {...args} />,
   argTypes: {
@@ -42,6 +43,7 @@ export const IndeterminateLinear: Story = {
     style: { width: "50vw" },
   },
 };
+*/
 
 export const DeterminateCircular: Story = {
   render: (args) => <CircularProgress {...args} />,
