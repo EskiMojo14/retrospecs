@@ -107,7 +107,9 @@ $variants: (
       }
       &--caption {
         color: typography.emphasis("text", "medium");
-        .list--three-line .list__item-text--no-overline & {
+        @at-root .list--three-line
+            .list__item-text--no-overline
+            .typography--caption {
           @supports (-webkit-line-clamp: 2) {
             display: -webkit-box;
             -webkit-line-clamp: 2;
