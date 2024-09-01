@@ -113,6 +113,9 @@
     .select__item-content {
       display: contents;
     }
+    &[data-placeholder] {
+      color: typography.emphasis("text", "medium");
+    }
   }
   &__popover {
     min-width: var(--trigger-width);
