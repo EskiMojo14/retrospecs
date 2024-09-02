@@ -75,11 +75,3 @@ $base-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-@function get-shade-with-overrides($defaults, $overrides, $color, $keys...) {
-  @return if(
-    map.has-key($overrides, $color, $keys...),
-    map.get($overrides, $color, $keys...),
-    map.get($defaults, $keys...)
-  );
-}
