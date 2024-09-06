@@ -114,7 +114,7 @@ $emphasis-map: (
   @if not $no-defaults {
     @include defaults;
   }
-  @each $prop, $value in map.get($type-scale, $style) {
+  @each $prop in map.keys(map.get($type-scale, $style)) {
     #{$prop}: var(--typography-#{$style}-#{$prop});
   }
 }
