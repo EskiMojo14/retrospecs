@@ -39,7 +39,7 @@ export function useDeferredQueries<T extends Array<any>>(deferredQueries: {
         .then((data) => {
           if (ac.signal.aborted) return;
           console.log("Setting query data", queryKey, data);
-          queryClient.setQueryData(queryKey, data);
+          queryClient.setQueryData(queryKey, (cache = data) => cache);
         })
         .catch(() => {});
     }
