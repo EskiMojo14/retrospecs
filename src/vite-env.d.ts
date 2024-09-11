@@ -2,7 +2,6 @@
 /// <reference types="vite/client" />
 /// <reference types="node" />
 /// <reference types="@vercel/remix" />
-/// <reference types="@remix-run/react/future/single-fetch.d.ts" />
 /// <reference types="vite-plugin-svgr/client" />
 
 declare module "csstype" {

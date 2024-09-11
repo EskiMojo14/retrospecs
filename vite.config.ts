@@ -8,6 +8,12 @@ import { remixDevTools } from "remix-development-tools";
 
 const isStorybook = process.argv[1]?.includes("storybook");
 
+declare module "@remix-run/server-runtime" {
+  interface Future {
+    unstable_singleFetch: true;
+  }
+}
+
 export default defineConfig({
   plugins: [
     ...(!isStorybook

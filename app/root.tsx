@@ -9,8 +9,13 @@ import {
   useNavigate,
   useHref,
   useRouteLoaderData,
+  json,
 } from "@remix-run/react";
-import { HydrationBoundary } from "@tanstack/react-query";
+import {
+  dehydrate,
+  DehydratedState,
+  HydrationBoundary,
+} from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { ReactNode } from "react";
 import { RouterProvider } from "react-aria-components";
@@ -20,7 +25,7 @@ import { ForeEauFore } from "~/404";
 import { BreakpointDisplay } from "~/components/grid";
 import { GlobalToastRegion } from "~/components/toast/toast-region";
 import { ensureAuthenticated } from "~/db/auth.server";
-import { createHydratingLoader } from "~/db/loader.server";
+import { createLoader } from "~/db/loader.server";
 import {
   SupabaseProvider,
   QueryClientProvider,
@@ -42,38 +47,41 @@ declare module "react-aria-components" {
 
 const noAuthRoutes = ["/sign-in", "/auth/callback"];
 
-export const loader = createHydratingLoader<{
+type LoaderResponse = {
   lang: string;
   config?: UserConfig | null;
   profile?: Profile;
-}>(
-  async ({
-    request,
-    context,
-    context: { lang, headers, queryClient },
-    response,
-  }) => {
-    headers.forEach((value, key) => {
-      response.headers.append(key, value);
-    });
+  dehydratedState?: DehydratedState;
+};
 
+export const loader = createLoader(
+  async ({ request, context, context: { lang, headers, queryClient } }) => {
     const url = new URL(request.url);
     const isNoAuthRoute = noAuthRoutes.some(
       (pathname) => url.pathname === pathname,
     );
     if (isNoAuthRoute) {
-      return { lang };
+      return json<LoaderResponse>({
+        lang,
+        dehydratedState: dehydrate(queryClient),
+      });
     }
 
     const user = await ensureAuthenticated(context);
 
-    return {
-      lang,
-      ...(await promiseOwnProperties({
-        profile: queryClient.ensureQueryData(getProfile(context, user.id)),
-        config: queryClient.ensureQueryData(getUserConfig(context, user.id)),
-      })),
-    };
+    return json<LoaderResponse>(
+      {
+        lang,
+        ...(await promiseOwnProperties({
+          profile: queryClient.ensureQueryData(getProfile(context, user.id)),
+          config: queryClient.ensureQueryData(getUserConfig(context, user.id)),
+        })),
+        dehydratedState: dehydrate(queryClient),
+      },
+      {
+        headers,
+      },
+    );
   },
 );
 
