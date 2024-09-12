@@ -51,10 +51,12 @@ function useNavBarScroll() {
     window.addEventListener(
       "scroll",
       foundation.handleTargetScroll.bind(foundation),
+      { signal: ac.signal },
     );
     window.addEventListener(
       "resize",
       foundation.handleWindowResize.bind(foundation),
+      { signal: ac.signal },
     );
 
     foundation.init();
